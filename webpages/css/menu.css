@@ -1,0 +1,34 @@
+main {
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
+
+body {
+  background-color: teal;
+  margin: 0;
+  padding: 0;
+}
+
+#logo {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+#mainform {
+  text-align: center;
+}
+
+#mainform > ul {
+  list-style-type: none;
+}
+
+button {
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 25%;
+  padding: 10px;
+  margin: 10px;
+  font-size: 30px;
+}
