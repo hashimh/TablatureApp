@@ -1,16 +1,19 @@
 {
   "name": "webpages",
   "version": "1.0.0",
-  "description": "Tabify - Dissertation Project",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node server/server.js"
   },
-  "author": "UP815459",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "simple-google-openid": "^0.2.2"
-  }
+  },
+  "devDependencies": {}
 }
