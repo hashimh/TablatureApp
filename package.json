@@ -1,0 +1,14 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "Tabify - Dissertation Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "UP815459",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
