@@ -9,10 +9,6 @@ body {
   height: 100%;
 }
 
-
-
-
-
 #loginbox {
   display: inline-block;
   text-align: center;
@@ -24,10 +20,6 @@ body {
   width: 60vw;
   border-right: 10px solid black;
 }
-
-
-
-
 
 #infotext {
   margin-left: 5em;
