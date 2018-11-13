@@ -22,13 +22,23 @@ app.listen(PORT, () => {
 app.use(GoogleAuth('566769051678-k1mpvtssd5jin7p6bekdtv7g1r23qav4.apps.googleusercontent.com'));
 app.use('/api', GoogleAuth.guardMiddleware());
 
-app.get('/api/hello', hello);
+app.get('/api/login', login);
+app.get('/api/logout', logout);
 
-// SERVER FUNCTIONS //
+// -------------------------------------------------- //
+// ---------------- SERVER FUNCTIONS ---------------- //
+// -------------------------------------------------- //
 
-function hello(req, res) {
-  res.send('Hello ' + (req.user.displayName || 'anonymous') + '!');
+async function login (req, res) {
+  // Sends main.html once logged in.
+  res.sendFile('menu.html', {root: '../webpages'});
 }
+
+function logout (req, res) {
+  // Sends login page HTML on sign out
+  res.sendFile('login.html', {root: '../webpages'});
+}
+
 
 (function () {
   const CHECK_DELAY = 2000;
