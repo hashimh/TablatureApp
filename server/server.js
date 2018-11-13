@@ -1,15 +1,17 @@
 'use strict';
 
-const express     = require('express');
-const app         = express();
-const path        = require('path');
-const GoogleAuth  = require('simple-google-openid');
+const express = require('express');
+const app = express();
+const path = require('path');
+const GoogleAuth = require('simple-google-openid');
+
+const webpagesPath = path.join(__dirname, '../webpages');
 
 app.use('/', (req, res, next) => { console.log(new Date(), req.method, req.url); next(); });
-// app.use('/', express.static('../webpages'));
+app.use('/', express.static(webpagesPath));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/../webpages/login.html'));
+    res.sendFile(path.join(__dirname, '../webpages/' + 'login.html'));
 });
 
 const PORT = process.env.PORT || 8080;
