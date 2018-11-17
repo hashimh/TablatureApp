@@ -38,6 +38,13 @@ async function signOut() {
   localStorage.removeItem("id_token");
 }
 
+async function createTabBtn() {
+  // Call server function 'createTabBtn'
+  let apiLink = '/api/createTabBtn';
+  await getPage(apiLink);
+}
+
+
 // GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
 
 async function getPage(apiLink) {

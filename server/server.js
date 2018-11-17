@@ -24,21 +24,26 @@ app.use('/api', GoogleAuth.guardMiddleware());
 
 app.get('/api/login', login);
 app.get('/api/logout', logout);
+app.get('/api/createTabBtn', createTabBtn);
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
 
 async function login (req, res) {
-  // Sends main.html once logged in.
+  // Sends menu.html once logged in.
   res.sendFile('menu.html', {root: '../webpages'});
 }
 
 function logout (req, res) {
-  // Sends login page HTML on sign out
+  // Sends login page HTML on sign out.
   res.sendFile('login.html', {root: '../webpages'});
 }
 
+async function createTabBtn (req, res) {
+  // Sends main.html on button click.
+  res.sendFile('main.html', {root: '../webpages'});
+}
 
 (function () {
   const CHECK_DELAY = 2000;
