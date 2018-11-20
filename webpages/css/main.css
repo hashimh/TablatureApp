@@ -1,12 +1,9 @@
-main {
-  font-family: 'Open Sans', sans-serif;
-}
-
 body {
   background-color: teal;
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 main > div {
@@ -61,3 +58,26 @@ header {
   text-decoration: none;
   color: black;
 }
+
+/* ------------------------------------ */
+/* --------- MAIN GRID LAYOUT --------- */
+/* ------------------------------------ */
+
+.info { grid-area: info; }
+.fretboard { grid-area: fretboard; }
+.fretoptions { grid-area: fretoptions; }
+.tabbox { grid-area: tabbox; }
+
+.mainel {
+  display: grid;
+  grid-template-areas:
+    'info info info'
+    'fretboard fretboard fretoptions'
+    'tabbox tabbox fretoptions';
+  margin-top: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ------------------------------------- */
+/* ----------- DIV CSS CODE  ----------- */
+/* ------------------------------------- */
