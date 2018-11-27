@@ -15,75 +15,806 @@
 </header>
 
 <main class = "mainel">
+
   <div class="info">
     <h1>Create a Tab</h1>
     <p>Here is some information about what is going on down below...</p>
     <p>This will one day be filled up a bit, gonna have to do something about the width...</p>
   </div>
 
-  <div class = "fretboard">
-    <p>Fret board box, insert image of fret board/table with buttons?</p>
-    <div class = "instrument">
-      <table cellpadding = "0" border = "0" class="htmlfrettable">
-        <tbody>
-          <tr style="background-color: rgs(255, 255, 255);">
-            <td></td>
-            <td class="numnode">0</td>
-            <td class="numnode">1</td>
-            <td class="numnode">2</td>
-            <td class="numnode">3</td>
-            <td class="numnode">4</td>
-            <td class="numnode">5</td>
-            <td class="numnode">6</td>
-            <td class="numnode">7</td>
-            <td class="numnode">8</td>
-            <td class="numnode">9</td>
-            <td class="numnode">10</td>
-            <td class="numnode">11</td>
-            <td class="numnode">12</td>
-            <td class="numnode">13</td>
-            <td class="numnode">14</td>
-            <td class="numnode">15</td>
-            <td class="numnode">17</td>
-            <td class="numnode">18</td>
-            <td class="numnode">19</td>
-            <td class="numnode">20</td>
-            <td class="numnode">21</td>
-            <td class="numnode">22</td>
-            <td class="numnode">23</td>
-          </tr>
+  <div class = "fretboardBox">
 
-          <tr class="stringrow" id="1" style="display: table-row;">
-            <td class="tuningletter" pos="1">
-              <div id="stringnote1" pos="1" class="stringnote" onclick>E</div>
-            </td>
+    <div class = "fretboard">
 
-            <td class="frettable" border="0">
-              <div id="10" title="E" class="frettablediv" onclick>
-                <div id="note10" i="1" j="0" class="notediv showscale"></div>
-                <div id="notetitle10" class="notetitle"></div>
-              </div>
-            </td>
+        <!-- FIRST ROW OF THE FRET BOARD -->
+        <div class = "fretFirstRow">
+          <div class = "fretStringLegend">
+            <select class = "tuningDropdown" data-current = "E4">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option>E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option>A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option>C3</option>
+          <option>C#3</option>
+          <option>D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option>G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option selected = "selected">E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - first row -->
+        <div class = "fret" data-string = "0" data-fret = "0"></div>
+        <div class = "fret" data-string = "0" data-fret = "1"></div>
+        <div class = "fret" data-string = "0" data-fret = "2"></div>
+        <div class = "fret" data-string = "0" data-fret = "3"></div>
+        <div class = "fret" data-string = "0" data-fret = "4"></div>
+        <div class = "fret" data-string = "0" data-fret = "5"></div>
+        <div class = "fret" data-string = "0" data-fret = "6"></div>
+        <div class = "fret" data-string = "0" data-fret = "7"></div>
+        <div class = "fret" data-string = "0" data-fret = "8"></div>
+        <div class = "fret" data-string = "0" data-fret = "9"></div>
+        <div class = "fret" data-string = "0" data-fret = "10"></div>
+        <div class = "fret" data-string = "0" data-fret = "11"></div>
+        <div class = "fret" data-string = "0" data-fret = "12"></div>
+        <div class = "fret" data-string = "0" data-fret = "13"></div>
+        <div class = "fret" data-string = "0" data-fret = "14"></div>
+        <div class = "fret" data-string = "0" data-fret = "15"></div>
+        <div class = "fret" data-string = "0" data-fret = "16"></div>
+        <div class = "fret" data-string = "0" data-fret = "17"></div>
+        <div class = "fret" data-string = "0" data-fret = "18"></div>
+        <div class = "fret" data-string = "0" data-fret = "19"></div>
+        <div class = "fret" data-string = "0" data-fret = "20"></div>
+        <div class = "fret" data-string = "0" data-fret = "21"></div>
+        <div class = "fret" data-string = "0" data-fret = "22"></div>
+      </div>
 
-            <td class="frettable" border="0">
-              <div id="11" title="F" class="frettablediv" onclick>
-                <div id="note11" i="1" j="1" class="notediv showscale"></div>
-                <div id="notetitle11" class="notetitle"></div>
-              </div>
-            </td>
+      <div class = "fretMidRow">
+        <div class = "fretStringLegend">
+          <select class = "tuningDropdown" data-curent = "B3">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option>E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option>A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option selected = "selected">C3</option>
+          <option>C#3</option>
+          <option>D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option>G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option>E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - middle row -->
+        <div class = "fret" data-string = "1" data-fret = "0"></div>
+        <div class = "fret" data-string = "1" data-fret = "1"></div>
+        <div class = "fret" data-string = "1" data-fret = "2"></div>
+        <div class = "fret" data-string = "1" data-fret = "3"></div>
+        <div class = "fret" data-string = "1" data-fret = "4"></div>
+        <div class = "fret" data-string = "1" data-fret = "5"></div>
+        <div class = "fret" data-string = "1" data-fret = "6"></div>
+        <div class = "fret" data-string = "1" data-fret = "7"></div>
+        <div class = "fret" data-string = "1" data-fret = "8"></div>
+        <div class = "fret" data-string = "1" data-fret = "9"></div>
+        <div class = "fret" data-string = "1" data-fret = "10"></div>
+        <div class = "fret" data-string = "1" data-fret = "11"></div>
+        <div class = "fret" data-string = "1" data-fret = "12"></div>
+        <div class = "fret" data-string = "1" data-fret = "13"></div>
+        <div class = "fret" data-string = "1" data-fret = "14"></div>
+        <div class = "fret" data-string = "1" data-fret = "15"></div>
+        <div class = "fret" data-string = "1" data-fret = "16"></div>
+        <div class = "fret" data-string = "1" data-fret = "17"></div>
+        <div class = "fret" data-string = "1" data-fret = "18"></div>
+        <div class = "fret" data-string = "1" data-fret = "19"></div>
+        <div class = "fret" data-string = "1" data-fret = "20"></div>
+        <div class = "fret" data-string = "1" data-fret = "21"></div>
+        <div class = "fret" data-string = "1" data-fret = "22"></div>
+      </div>
 
-            <td class="frettable" border="0">
-              <div id="12" title="F#" class="frettablediv" onclick>
-                <div id="note12" i="1" j="2" class="notediv showscale"></div>
-                <div id="notetitle12" class="notetitle"></div>
-              </div>
-            </td>
+      <div class = "fretMidRow">
+        <div class = "fretStringLegend">
+          <select class = "tuningDropdown" data-curent = "G3">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option>E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option>A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option>C3</option>
+          <option>C#3</option>
+          <option>D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option selected = "selected">G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option>E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - middle row -->
+        <div class = "fret" data-string = "2" data-fret = "0"></div>
+        <div class = "fret" data-string = "2" data-fret = "1"></div>
+        <div class = "fret" data-string = "2" data-fret = "2"></div>
+        <div class = "fret" data-string = "2" data-fret = "3"></div>
+        <div class = "fret" data-string = "2" data-fret = "4"></div>
+        <div class = "fret" data-string = "2" data-fret = "5"></div>
+        <div class = "fret" data-string = "2" data-fret = "6"></div>
+        <div class = "fret" data-string = "2" data-fret = "7"></div>
+        <div class = "fret" data-string = "2" data-fret = "8"></div>
+        <div class = "fret" data-string = "2" data-fret = "9"></div>
+        <div class = "fret" data-string = "2" data-fret = "10"></div>
+        <div class = "fret" data-string = "2" data-fret = "11"></div>
+        <div class = "fret" data-string = "2" data-fret = "12"></div>
+        <div class = "fret" data-string = "2" data-fret = "13"></div>
+        <div class = "fret" data-string = "2" data-fret = "14"></div>
+        <div class = "fret" data-string = "2" data-fret = "15"></div>
+        <div class = "fret" data-string = "2" data-fret = "16"></div>
+        <div class = "fret" data-string = "2" data-fret = "17"></div>
+        <div class = "fret" data-string = "2" data-fret = "18"></div>
+        <div class = "fret" data-string = "2" data-fret = "19"></div>
+        <div class = "fret" data-string = "2" data-fret = "20"></div>
+        <div class = "fret" data-string = "2" data-fret = "21"></div>
+        <div class = "fret" data-string = "2" data-fret = "22"></div>
+      </div>
 
-          </tr>
+      <div class = "fretMidRow">
+        <div class = "fretStringLegend">
+          <select class = "tuningDropdown" data-curent = "D3">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option>E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option>A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option>C3</option>
+          <option>C#3</option>
+          <option selected = "selected">D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option>G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option>E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - middle row -->
+        <div class = "fret" data-string = "3" data-fret = "0"></div>
+        <div class = "fret" data-string = "3" data-fret = "1"></div>
+        <div class = "fret" data-string = "3" data-fret = "2"></div>
+        <div class = "fret" data-string = "3" data-fret = "3"></div>
+        <div class = "fret" data-string = "3" data-fret = "4"></div>
+        <div class = "fret" data-string = "3" data-fret = "5"></div>
+        <div class = "fret" data-string = "3" data-fret = "6"></div>
+        <div class = "fret" data-string = "3" data-fret = "7"></div>
+        <div class = "fret" data-string = "3" data-fret = "8"></div>
+        <div class = "fret" data-string = "3" data-fret = "9"></div>
+        <div class = "fret" data-string = "3" data-fret = "10"></div>
+        <div class = "fret" data-string = "3" data-fret = "11"></div>
+        <div class = "fret" data-string = "3" data-fret = "12"></div>
+        <div class = "fret" data-string = "3" data-fret = "13"></div>
+        <div class = "fret" data-string = "3" data-fret = "14"></div>
+        <div class = "fret" data-string = "3" data-fret = "15"></div>
+        <div class = "fret" data-string = "3" data-fret = "16"></div>
+        <div class = "fret" data-string = "3" data-fret = "17"></div>
+        <div class = "fret" data-string = "3" data-fret = "18"></div>
+        <div class = "fret" data-string = "3" data-fret = "19"></div>
+        <div class = "fret" data-string = "3" data-fret = "20"></div>
+        <div class = "fret" data-string = "3" data-fret = "21"></div>
+        <div class = "fret" data-string = "3" data-fret = "22"></div>
+      </div>
 
-        </tbody>
+      <div class = "fretMidRow">
+        <div class = "fretStringLegend">
+          <select class = "tuningDropdown" data-curent = "A2">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option>E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option selected = "selected">A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option>C3</option>
+          <option>C#3</option>
+          <option>D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option>G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option>E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - middle row -->
+        <div class = "fret" data-string = "4" data-fret = "0"></div>
+        <div class = "fret" data-string = "4" data-fret = "1"></div>
+        <div class = "fret" data-string = "4" data-fret = "2"></div>
+        <div class = "fret" data-string = "4" data-fret = "3"></div>
+        <div class = "fret" data-string = "4" data-fret = "4"></div>
+        <div class = "fret" data-string = "4" data-fret = "5"></div>
+        <div class = "fret" data-string = "4" data-fret = "6"></div>
+        <div class = "fret" data-string = "4" data-fret = "7"></div>
+        <div class = "fret" data-string = "4" data-fret = "8"></div>
+        <div class = "fret" data-string = "4" data-fret = "9"></div>
+        <div class = "fret" data-string = "4" data-fret = "10"></div>
+        <div class = "fret" data-string = "4" data-fret = "11"></div>
+        <div class = "fret" data-string = "4" data-fret = "12"></div>
+        <div class = "fret" data-string = "4" data-fret = "13"></div>
+        <div class = "fret" data-string = "4" data-fret = "14"></div>
+        <div class = "fret" data-string = "4" data-fret = "15"></div>
+        <div class = "fret" data-string = "4" data-fret = "16"></div>
+        <div class = "fret" data-string = "4" data-fret = "17"></div>
+        <div class = "fret" data-string = "4" data-fret = "18"></div>
+        <div class = "fret" data-string = "4" data-fret = "19"></div>
+        <div class = "fret" data-string = "4" data-fret = "20"></div>
+        <div class = "fret" data-string = "4" data-fret = "21"></div>
+        <div class = "fret" data-string = "4" data-fret = "22"></div>
+      </div>
 
-      </table>
+      <div class = "fretLastRow">
+        <div class = "fretStringLegend">
+          <select class = "tuningDropdown" data-curent = "E2">
+          <option>C0</option>
+          <option>C#0</option>
+          <option>D0</option>
+          <option>D#0</option>
+          <option>E0</option>
+          <option>F0</option>
+          <option>F#0</option>
+          <option>G0</option>
+          <option>G#0</option>
+          <option>A0</option>
+          <option>A#0</option>
+          <option>B0</option>
+          <option>C1</option>
+          <option>C#1</option>
+          <option>D1</option>
+          <option>D#1</option>
+          <option>E1</option>
+          <option>F1</option>
+          <option>F#1</option>
+          <option>G1</option>
+          <option>G#1</option>
+          <option>A1</option>
+          <option>A#1</option>
+          <option>B1</option>
+          <option>C2</option>
+          <option>C#2</option>
+          <option>D2</option>
+          <option>D#2</option>
+          <option selected = "selected">E2</option>
+          <option>F2</option>
+          <option>F#2</option>
+          <option>G2</option>
+          <option>G#2</option>
+          <option>A2</option>
+          <option>A#2</option>
+          <option>B2</option>
+          <option>C3</option>
+          <option>C#3</option>
+          <option>D3</option>
+          <option>D#3</option>
+          <option>E3</option>
+          <option>F3</option>
+          <option>F#3</option>
+          <option>G3</option>
+          <option>G#3</option>
+          <option>A3</option>
+          <option>A#3</option>
+          <option>B3</option>
+          <option>C4</option>
+          <option>C#4</option>
+          <option>D4</option>
+          <option>D#4</option>
+          <option>E4</option>
+          <option>F4</option>
+          <option>F#4</option>
+          <option>G4</option>
+          <option>G#4</option>
+          <option>A4</option>
+          <option>A#4</option>
+          <option>B4</option>
+          <option>C5</option>
+          <option>C#5</option>
+          <option>D5</option>
+          <option>D#5</option>
+          <option>E5</option>
+          <option>F5</option>
+          <option>F#5</option>
+          <option>G5</option>
+          <option>G#5</option>
+          <option>A5</option>
+          <option>A#5</option>
+          <option>B5</option>
+          <option>C6</option>
+          <option>C#6</option>
+          <option>D6</option>
+          <option>D#6</option>
+          <option>E6</option>
+          <option>F6</option>
+          <option>F#6</option>
+          <option>G6</option>
+          <option>G#6</option>
+          <option>A6</option>
+          <option>A#6</option>
+          <option>B6</option>
+          <option>C7</option>
+          <option>C#7</option>
+          <option>D7</option>
+          <option>D#7</option>
+          <option>E7</option>
+          <option>F7</option>
+          <option>F#7</option>
+          <option>G7</option>
+          <option>G#7</option>
+          <option>A7</option>
+          <option>A#7</option>
+          <option>B7</option>
+        </select>
+        </div>
+        <!-- Divs for all frets on the fretboard - last row -->
+        <div class = "fret" data-string = "5" data-fret = "0"></div>
+        <div class = "fret" data-string = "5" data-fret = "1"></div>
+        <div class = "fret" data-string = "5" data-fret = "2"></div>
+        <div class = "fret" data-string = "5" data-fret = "3"></div>
+        <div class = "fret" data-string = "5" data-fret = "4"></div>
+        <div class = "fret" data-string = "5" data-fret = "5"></div>
+        <div class = "fret" data-string = "5" data-fret = "6"></div>
+        <div class = "fret" data-string = "5" data-fret = "7"></div>
+        <div class = "fret" data-string = "5" data-fret = "8"></div>
+        <div class = "fret" data-string = "5" data-fret = "9"></div>
+        <div class = "fret" data-string = "5" data-fret = "10"></div>
+        <div class = "fret" data-string = "5" data-fret = "11"></div>
+        <div class = "fret" data-string = "5" data-fret = "12"></div>
+        <div class = "fret" data-string = "5" data-fret = "13"></div>
+        <div class = "fret" data-string = "5" data-fret = "14"></div>
+        <div class = "fret" data-string = "5" data-fret = "15"></div>
+        <div class = "fret" data-string = "5" data-fret = "16"></div>
+        <div class = "fret" data-string = "5" data-fret = "17"></div>
+        <div class = "fret" data-string = "5" data-fret = "18"></div>
+        <div class = "fret" data-string = "5" data-fret = "19"></div>
+        <div class = "fret" data-string = "5" data-fret = "20"></div>
+        <div class = "fret" data-string = "5" data-fret = "21"></div>
+        <div class = "fret" data-string = "5" data-fret = "22"></div>
+      </div>
+
+      <div class = "fretLegendRow">
+        <div class = "fretUnselectableLegend">&nbsp</div>
+        <div class = "fretUnselectableLegend">0</div>
+        <div class = "fretUnselectableLegend">1</div>
+        <div class = "fretUnselectableLegend">2</div>
+        <div class = "fretUnselectableLegend">3</div>
+        <div class = "fretUnselectableLegend">4</div>
+        <div class = "fretUnselectableLegend">5</div>
+        <div class = "fretUnselectableLegend">6</div>
+        <div class = "fretUnselectableLegend">7</div>
+        <div class = "fretUnselectableLegend">8</div>
+        <div class = "fretUnselectableLegend">9</div>
+        <div class = "fretUnselectableLegend">10</div>
+        <div class = "fretUnselectableLegend">11</div>
+        <div class = "fretUnselectableLegend">12</div>
+        <div class = "fretUnselectableLegend">13</div>
+        <div class = "fretUnselectableLegend">14</div>
+        <div class = "fretUnselectableLegend">15</div>
+        <div class = "fretUnselectableLegend">16</div>
+        <div class = "fretUnselectableLegend">17</div>
+        <div class = "fretUnselectableLegend">18</div>
+        <div class = "fretUnselectableLegend">19</div>
+        <div class = "fretUnselectableLegend">20</div>
+        <div class = "fretUnselectableLegend">21</div>
+        <div class = "fretUnselectableLegend">22</div>
+      </div>
 
     </div>
 
