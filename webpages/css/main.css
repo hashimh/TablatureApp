@@ -19,6 +19,7 @@ main > div {
 
 header {
   border: 8px solid black;
+  border-radius: 20px;
   background-color: gray;
   margin: 10px;
 }
@@ -86,24 +87,31 @@ header {
 div.fretboardBox {
   display: inline-block;
   height: 20vh;
+  padding: 10px;
 }
 
 div.fretboard {
   background-image: url(wood.jpg);
+  background-size: cover;
+  position: relative;
+  overflow: auto;
 }
 
 div.fret {
   display: table-cell;
   width: 4.2%;
+  min-width: 40px;
   margin: 0;
   padding: 0;
   /* border: 1em solid black; */
   border-width: thin;
+  border-right: 2px solid black;
 }
 
 div.fret:hover {
   background-color: sienna;
 }
+
 
 div.fretFirstRow {
   display: table-row;
