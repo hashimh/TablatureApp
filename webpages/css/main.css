@@ -166,3 +166,12 @@ div.taboptions {
 div.tabContent {
   margin-top: 10px;
 }
+
+div.stave {
+  background-color: white;
+}
+
+div.stave > p {
+  margin: 0;
+  white-space: pre;
+}
