@@ -67,6 +67,11 @@ async function populateMain() {
 
   // Funtion to insert default text into tab box
   fillTabBox();
+  fretBoard();
+
+  // Code for clicking a fret
+
+
 }
 
 async function fillTabBox() {
@@ -76,19 +81,42 @@ async function fillTabBox() {
   textAppend += "Stave 1: \n\n"
   textAppend += "E |-- \nB |-- \nG |-- \nD |-- \nA |-- \nE |--"
   textArea.value = textAppend;
-
   // when new stave clicked, need to do the same shit
 }
 
-async function fretClicked(elem) {
-  // add note to tab sheet
+async function fretBoard() {
+  let frets = document.getElementsByClassName("fret");
+
+  let fretClicked = function() {
+    let string = this.getAttribute("data-string");
+    let fret = this.getAttribute("data-fret");
+    console.log("fret clicked", "fret = " + fret, "string = " + string);
+
+    let textAppend = "";
+    let textArea = document.getElementById("tabOutput");
+    console.log("text area: ", textArea);
+
+    // must append fret to the tab sheet!!
+    if (string == 5) {
+      // add to low E
+    } else if (string == 4) {
+      // add to A
+    } else if (string == 3) {
+      // add to D
+    } else if (string == 2) {
+      // add to G
+    } else if (string == 1) {
+      // add to B
+    } else {
+      // add to high E
+    }
+
+  }
+
+  for (let i = 0; i < frets.length; i++) {
+    frets[i].addEventListener('click', fretClicked, false);
+  }
 }
-
-
-
-
-
-
 
 
 
