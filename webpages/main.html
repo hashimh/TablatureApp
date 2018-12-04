@@ -828,8 +828,24 @@
     </ul>
   </div>
 
-  <div class="tabbox">
-    <p>Tab Box</p>
+
+
+  <div class = "tabbox">
+
+    <div class = "taboptions">
+      <input type = "button" id = "newStave" value = "New Stave" title = "Add a new stave to the tab." name = "addStaveButton">
+      <input type = "button" id = "clearTab" value = "Clear Tab Sheet" title = "Clear all tablature below." name = "clearTabButton">
+      <label>Select Stave:</label>
+      <select id = "selectStave" name = "selectStave">
+        <option value = "0" selected>Stave 1</option>
+        <!-- MORE WILL BE ADDED AS STAVES CREATED -->
+      </select>
+    </div>
+
+    <div class = "tabContent">
+      <textarea name = "tabTextArea" rows = "16" cols = "100" class = "tabOutput" id = "tabOutput"></textarea>
+    </div>
+
   </div>
 
 </main>
