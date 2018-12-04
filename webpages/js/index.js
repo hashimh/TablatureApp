@@ -5,8 +5,10 @@ function onSignIn(googleUser) {
   console.log("sign in function called");
   let auth2 = gapi.auth2.getAuthInstance();
   localStorage.setItem("id_token",auth2.currentUser.get().getAuthResponse().id_token);
+  localStorage.setItem("googleUser",googleUser.getBasicProfile().getName());
   auth2.disconnect();
   // Once logged in, call function callServer().
+
   callServer(googleUser);
 }
 
@@ -18,6 +20,11 @@ async function callServer(googleUser) {
   console.log(googleUser);
 
   displayMenu(googleUser);
+
+  // ---------------------------------------------------------------
+  // NEED A FUNCTION TO ADD USER TO DATABASE IF NOT EXISTING ALREADY
+  // ---------------------------------------------------------------
+
 }
 
 async function displayMenu(googleUser) {
@@ -36,13 +43,53 @@ async function signOut() {
 
   // Removes ID Token from local storage, ensures Google account logs out properly.
   localStorage.removeItem("id_token");
+  localStorage.removeItem("googleUser");
 }
 
 async function createTabBtn() {
   // Call server function 'createTabBtn'
   let apiLink = '/api/createTabBtn';
   await getPage(apiLink);
+
+  populateMain();
 }
+
+// -----------------------------------------------------------------------------
+// ---------- CODE FOR MAIN.HTML -----------------------------------------------
+// -----------------------------------------------------------------------------
+
+async function populateMain() {
+  console.log("populating main...")
+
+  // Get name for heading
+  const el = document.getElementById('greeting');
+  el.textContent = " - Hello " + localStorage.getItem("googleUser");
+
+  // Funtion to insert default text into tab box
+  fillTabBox();
+}
+
+async function fillTabBox() {
+  // Key at the top of the box
+  let textAppend = "";
+  let textArea = document.getElementById("tabOutput");
+  textAppend += "Stave 1: \n\n"
+  textAppend += "E |-- \nB |-- \nG |-- \nD |-- \nA |-- \nE |--"
+  textArea.value = textAppend;
+
+  // when new stave clicked, need to do the same shit
+}
+
+async function fretClicked(elem) {
+  // add note to tab sheet
+}
+
+
+
+
+
+
+
 
 
 // GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
