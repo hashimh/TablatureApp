@@ -17,8 +17,6 @@ async function callServer(googleUser) {
   let apiLink = '/api/login';
   await getPage(apiLink);
 
-  console.log(googleUser);
-
   displayMenu(googleUser);
 
   // ---------------------------------------------------------------
@@ -78,8 +76,7 @@ async function fillTabBox() {
   // Key at the top of the box
   let textAppend = "";
   let textArea = document.getElementById("tabOutput");
-  textAppend += "Stave 1: \n\n"
-  textAppend += "E |-- \nB |-- \nG |-- \nD |-- \nA |-- \nE |--"
+  textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--"
   textArea.value = textAppend;
   // when new stave clicked, need to do the same shit
 }
@@ -90,26 +87,26 @@ async function fretBoard() {
   let fretClicked = function() {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
-    console.log("fret clicked", "fret = " + fret, "string = " + string);
 
-    let textAppend = "";
     let textArea = document.getElementById("tabOutput");
-    console.log("text area: ", textArea);
 
-    // must append fret to the tab sheet!!
-    if (string == 5) {
-      // add to low E
-    } else if (string == 4) {
-      // add to A
-    } else if (string == 3) {
-      // add to D
-    } else if (string == 2) {
-      // add to G
-    } else if (string == 1) {
-      // add to B
-    } else {
-      // add to high E
+    // Variable for line line number
+    let textAreaLines = textArea.value.split("\n");
+
+    // For each line in the textarea (line 0 to line 5)
+    // concatenate (+) either "--" or "stringnumber", depending on strng value
+    for (let i = 0; i < textAreaLines.length; i++) {
+      if (i != string) {
+        if (fret > 9) {
+          textAreaLines[i] += '----'
+        } else {
+          textAreaLines[i] += '---';
+        }
+      } else {
+        textAreaLines[i] += fret + '--';
+      }
     }
+    textArea.value = textAreaLines.join("\n");
 
   }
 

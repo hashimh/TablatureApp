@@ -92,7 +92,6 @@ div.fretboardBox {
 
 div.fretboard {
   background-image: url(wood.jpg);
-  background-size: cover;
   position: relative;
   overflow: auto;
 }
@@ -167,11 +166,7 @@ div.tabContent {
   margin-top: 10px;
 }
 
-div.stave {
-  background-color: white;
-}
 
 div.stave > p {
   margin: 0;
-  white-space: pre;
 }

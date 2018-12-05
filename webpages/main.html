@@ -836,7 +836,7 @@
 
     <div class = "taboptions">
       <input type = "button" id = "newStave" value = "New Stave" title = "Add a new stave to the tab." name = "addStaveButton">
-      <input type = "button" id = "clearTab" value = "Clear Tab Sheet" title = "Clear all tablature below." name = "clearTabButton">
+      <input type = "button" id = "clearTab" value = "Clear Tab Sheet" title = "Clear all tablature below." name = "clearTabButton" onclick = "fillTabBox();">
       <label>Select Stave:</label>
       <select id = "selectStave" name = "selectStave">
         <option value = "0" selected>Stave 1</option>
@@ -846,15 +846,8 @@
 
     <div class = "tabContent">
       <div class = "stave" id = "1">
-        <p class = "staveNo">Stave 1:</p>
-        </br>
-        <p class = "staveE">E|--</p>
-        <p class = "staveB">B|--</p>
-        <p class = "staveG">G|--</p>
-        <p class = "staveD">D|--</p>
-        <p class = "staveA">A|--</p>
-        <p class = "staveE">E|--</p>
-        <p></p>
+        <p>Stave 1:</p>
+        <textarea id = "tabOutput" name="stave" rows="6" cols="100"></textarea>
       </div>
     </div>
 
