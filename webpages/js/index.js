@@ -76,7 +76,18 @@ async function fretBoard() {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
 
-    let textArea = document.getElementById("stave1");
+    let selectedStaveMenu = document.getElementById("selectStave");
+
+    // If no staves yet created, output error message
+    if ((selectedStaveMenu.options).length <= 0) {
+      alert("Please create a stave to edit!");
+      return;
+    }
+
+    let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+    let staveid = "stave" + selectedStave;
+
+    let textArea = document.getElementById(staveid);
 
     // Variable for line line number
     let textAreaLines = textArea.value.split("\n");
@@ -142,6 +153,14 @@ async function addStaveButton() {
     textarea.value = textAppend;
 
     div.append(textarea);
+
+    // Add new stave to dropdown option box //
+    let staveDropdown = document.getElementById("selectStave");
+    let staveOption = document.createElement("option");
+    staveOption.value = id;
+    staveOption.innerHTML = "Stave" + id;
+
+    staveDropdown.append(staveOption);
 
 }
 
