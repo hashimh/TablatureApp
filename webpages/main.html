@@ -838,12 +838,28 @@
     </div>
 
     <div class = "staveoptions">
-      <input type = "button" id = "newStave" value = "New Stave" title = "Add a new stave to the tab." name = "addStaveButton" onclick = "addStaveButton();">
 
-      <label>Selected Stave:</label>
-      <select id = "selectStave" name = "selectStave">
-        <!-- Options added as staves are created -->
-      </select>
+      <div class="createstave">
+
+        <label>Select Stave Type: </label>
+        <select id = "selectStaveType" name = "selectStaveType">
+          <option value="Lead Guitar">Lead Guitar</option>
+          <option value="Rhythm Guitar">Rhythm Guitar</option>
+          <option value="Solo">Solo</option>
+          <option value="Bass Guitar">Bass Guitar</option>
+        </select>
+
+        <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStaveButton" onclick = "addStaveButton();">
+
+      </div>
+
+      <div class="selectstave">
+        <label>Selected Stave:</label>
+        <select id = "selectStave" name = "selectStave">
+          <!-- Options added as staves are created -->
+        </select>
+      </div>
+
     </div>
 
     <div class = "tabcontent" id="tabcontent">

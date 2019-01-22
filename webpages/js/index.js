@@ -69,6 +69,10 @@ async function populateMain() {
   // Code for clicking a fret
 }
 
+
+
+
+
 async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
 
@@ -114,6 +118,10 @@ async function fretBoard() {
   }
 }
 
+
+
+
+
 // FUNCTION TO ADD A STAVE //
 async function addStaveButton() {
     let tempmessage = document.getElementById("tempmessage");
@@ -121,16 +129,16 @@ async function addStaveButton() {
       tempmessage.parentNode.removeChild(tempmessage);
     }
 
-    console.log("add stave button clicked");
     let tabcontent = document.getElementById("tabcontent");
     let staves = document.getElementsByClassName("stave");
-    console.log(staves);
+
+    // Get selected stave type
+    let staveType = document.getElementById("selectStaveType");
+    let type = staveType.options[staveType.selectedIndex].value;
 
     // CODE FOR THE STAVE DIV //
     const id = (staves.length) + 1
     const staveid = "stave" + id
-
-    console.log("stave id: ", staveid);
 
     // Append a new stave - h3, textarea //
     let div = document.createElement("div");
@@ -139,7 +147,7 @@ async function addStaveButton() {
     tabcontent.append(div);
 
     let h3 = document.createElement("h3");
-    h3.innerHTML = "Stave " + id;
+    h3.innerHTML = "Stave " + id + ": " + type;
     div.append(h3);
 
     let textarea = document.createElement("textarea");
@@ -162,10 +170,17 @@ async function addStaveButton() {
 
     staveDropdown.append(staveOption);
 
+    console.log(div);
+
+
+
 }
 
-// GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
 
+
+
+
+// GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
 async function getPage(apiLink) {
   // This is a core function used when changing pages on this app.
   // It is sent an api link, and returns the HTML of the requested page.
