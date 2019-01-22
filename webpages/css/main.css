@@ -65,7 +65,6 @@ header {
 /* --------- MAIN GRID LAYOUT ----------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-.info { grid-area: info; }
 .fretboardBox { grid-area: fretboardBox; }
 .fretoptions { grid-area: fretoptions; }
 .tabbox { grid-area: tabbox; }
@@ -73,7 +72,6 @@ header {
 .mainel {
   display: grid;
   grid-template-areas:
-    'info info info'
     'fretboardBox fretboardBox fretoptions'
     'tabbox tabbox fretoptions';
   margin-top: 20px;
@@ -81,12 +79,17 @@ header {
 }
 
 /* -------------------------------------------------------------------------- */
+/* ---------- INFO BOX CODE  ------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+
+
+/* -------------------------------------------------------------------------- */
 /* ---------- FRETBOARD CODE  ----------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
 div.fretboardBox {
   display: inline-block;
-  height: 20vh;
   padding: 10px;
 }
 
@@ -151,22 +154,63 @@ div.fretStringLegend {
 /* ---------- TAB BOX CODE  ------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-div.taboptions {
-  border: 2px solid black;
-  padding: 5px;
+/* GRID CODE */
+.info { grid-area: tabinfo; }
+.staveoptions { grid-area: staveoptions; }
+.tabcontent { grid-area: tabcontent; }
+.taboptions { grid-area: taboptions;}
+
+.tabbox {
+  display: grid;
+  grid-template-areas:
+    'staveoptions staveoptions tabinfo'
+    'tabcontent tabcontent tabinfo'
+    'tabcontent tabcontent taboptions';
+  margin-top: 20px;
+}
+
+/* ---------------------------- Stave Option CSS ---------------------------- */
+div.staveoptions {
+  border: 5px solid black;
+  margin: 5px;
+  padding: 10px;
   background-color: gray;
   border-radius: 20px;
 }
 
-.taboptions > * {
+.staveoptions > * {
   margin: 5px;
 }
 
-div.tabContent {
-  margin-top: 10px;
+/* ------------------------------ Tab Info CSS ------------------------------ */
+div.info {
+  border: 5px solid black;
+  padding: 5px;
+  background-color: gray;
+  border-radius: 20px;
+  margin: 5px;
+  padding: 10px;
+  display: grid;
 }
 
+div.info > input {
+width: 50%;
+}
 
-div.stave > p {
-  margin: 0;
+/* ----------------------------- Tab Output CSS ----------------------------- */
+div.tabcontent {
+  margin-top: 10px;
+  border: 5px solid black;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 20px;
+}
+
+/* ----------------------------- Tab Option CSS ----------------------------- */
+div.taboptions {
+  border: 5px solid black;
+  margin: 5px;
+  padding: 10px;
+  background-color: gray;
+  border-radius: 20px;
 }

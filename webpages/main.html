@@ -8,7 +8,7 @@
 
 <header>
   <ul class="navmenu">
-    <li class = "navheader">Tabify<span id="greeting"></span></li>
+    <li class = "navheader">Tabify - Create a Tablature<span id="greeting"></span></li>
     <li><a href="#">Load</a></li>
     <li><a href="#">Save</a></li>
     <li><a href="#">Help</a></li>
@@ -18,13 +18,8 @@
 
 <main class = "mainel">
 
-  <div class="info">
-    <h1>Create a Tab</h1>
-    <p>Here is some information about what is going on down below...</p>
-    <p>This will one day be filled up a bit, gonna have to do something about the width...</p>
-  </div>
-
   <div class = "fretboardBox">
+    <h1>Fretboard</h1>
 
     <div class = "fretboard">
 
@@ -834,9 +829,17 @@
 
   <div class = "tabbox">
 
-    <div class = "taboptions">
-      <input type = "button" id = "newStave" value = "New Stave" title = "Add a new stave to the tab." name = "addStaveButton">
-      <input type = "button" id = "clearTab" value = "Clear Tab Sheet" title = "Clear all tablature below." name = "clearTabButton" onclick = "fillTabBox();">
+    <div class="info">
+      <h3>Tab Information</h3>
+      <label>Song Name:     </label>
+      <input type="text" name="" value="" id="tab_name"></br>
+      <label>Artist:        </label>
+      <input type="text" name="" value="" id="tab_artist">
+    </div>
+
+    <div class = "staveoptions">
+      <input type = "button" id = "newStave" value = "New Stave" title = "Add a new stave to the tab." name = "addStaveButton" onclick = "addStaveButton();">
+
       <label>Select Stave:</label>
       <select id = "selectStave" name = "selectStave">
         <option value = "0" selected>Stave 1</option>
@@ -844,11 +847,13 @@
       </select>
     </div>
 
-    <div class = "tabContent">
-      <div class = "stave" id = "1">
-        <p>Stave 1:</p>
-        <textarea id = "tabOutput" name="stave" rows="6" cols="100"></textarea>
-      </div>
+    <div class = "tabcontent" id="tabcontent">
+      <p id="tempmessage">No content... Please create a stave with the button above</p>
+    </div>
+
+    <div class="taboptions">
+      <h3>SOME OPTIONS FAM</h3>
+      <input type = "button" id = "clearTab" value = "Clear Staves" title = "Clear all staves" name = "clearTabButton" onclick = "fillTabBox();">
     </div>
 
   </div>

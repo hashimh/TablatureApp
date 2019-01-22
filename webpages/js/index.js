@@ -64,21 +64,9 @@ async function populateMain() {
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
   // Funtion to insert default text into tab box
-  fillTabBox();
   fretBoard();
 
   // Code for clicking a fret
-
-
-}
-
-async function fillTabBox() {
-  // Key at the top of the box
-  let textAppend = "";
-  let textArea = document.getElementById("tabOutput");
-  textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--"
-  textArea.value = textAppend;
-  // when new stave clicked, need to do the same shit
 }
 
 async function fretBoard() {
@@ -88,7 +76,7 @@ async function fretBoard() {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
 
-    let textArea = document.getElementById("tabOutput");
+    let textArea = document.getElementById("stave1");
 
     // Variable for line line number
     let textAreaLines = textArea.value.split("\n");
@@ -115,7 +103,47 @@ async function fretBoard() {
   }
 }
 
+// FUNCTION TO ADD A STAVE //
+async function addStaveButton() {
+    let tempmessage = document.getElementById("tempmessage");
+    if (tempmessage != undefined) {
+      tempmessage.parentNode.removeChild(tempmessage);
+    }
 
+    console.log("add stave button clicked");
+    let tabcontent = document.getElementById("tabcontent");
+    let staves = document.getElementsByClassName("stave");
+    console.log(staves);
+
+    // CODE FOR THE STAVE DIV //
+    const id = (staves.length) + 1
+    const staveid = "stave" + id
+
+    console.log("stave id: ", staveid);
+
+    // Append a new stave - h3, textarea //
+    let div = document.createElement("div");
+    div.setAttribute("id", id);
+    div.setAttribute("class", "stave");
+    tabcontent.append(div);
+
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "Stave " + id;
+    div.append(h3);
+
+    let textarea = document.createElement("textarea");
+    textarea.setAttribute("id", staveid);
+    textarea.setAttribute("name", "stave");
+    textarea.setAttribute("rows", "6");
+    textarea.setAttribute("cols", "100");
+
+    let textAppend = "";
+    textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--"
+    textarea.value = textAppend;
+
+    div.append(textarea);
+
+}
 
 // GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
 
