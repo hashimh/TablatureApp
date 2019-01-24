@@ -157,7 +157,7 @@ async function addStaveButton() {
     textarea.setAttribute("cols", "100");
 
     let textAppend = "";
-    textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--"
+    textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--";
     textarea.value = textAppend;
 
     div.append(textarea);
@@ -169,13 +169,26 @@ async function addStaveButton() {
     staveOption.innerHTML = "Stave" + id;
 
     staveDropdown.append(staveOption);
-
-    console.log(div);
-
-
-
 }
 
+async function clearAllStaves() {
+  let tabcontent = document.getElementById("tabcontent");
+  let allStaves = tabcontent.childNodes;
+  console.log(allStaves)
+  if (allStaves.length >= 1) {
+    if (confirm('Are you sure you want to reset all staves?')) {
+      console.log("chose yes");
+      while (tabcontent.firstChild) {
+        tabcontent.removeChild(tabcontent.firstChild);
+      }
+    } else {
+      // Do nothing
+      return;
+    }
+  } else {
+    alert("No staves created!");
+  }
+}
 
 
 

@@ -210,6 +210,10 @@ div.tabcontent {
   border-radius: 20px;
 }
 
+textarea {
+  resize: none;
+}
+
 /* ----------------------------- Tab Option CSS ----------------------------- */
 div.taboptions {
   border: 5px solid black;
