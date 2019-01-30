@@ -849,16 +849,18 @@
           <option value="Bass Guitar">Bass Guitar</option>
         </select>
 
-        <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStaveButton" onclick = "addStaveButton();">
+        <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStave" onclick = "addStave();">
 
       </div>
 
       <div class="selectstave">
-        <label>Selected Stave:</label>
+        <label>Edit Stave:</label>
         <select id = "selectStave" name = "selectStave">
           <!-- Options added as staves are created -->
         </select>
       </div>
+
+      <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
 
     </div>
 

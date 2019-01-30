@@ -73,7 +73,7 @@ async function populateMain() {
 
 
 
-async function fretBoard() {
+function fretBoard() {
   let frets = document.getElementsByClassName("fret");
 
   let fretClicked = function() {
@@ -123,7 +123,7 @@ async function fretBoard() {
 
 
 // FUNCTION TO ADD A STAVE //
-async function addStaveButton() {
+function addStave() {
     let tempmessage = document.getElementById("tempmessage");
     if (tempmessage != undefined) {
       tempmessage.parentNode.removeChild(tempmessage);
@@ -142,7 +142,7 @@ async function addStaveButton() {
 
     // Append a new stave - h3, textarea //
     let div = document.createElement("div");
-    div.setAttribute("id", id);
+    div.setAttribute("id", id); // ------------------------------------------------------------------------------------
     div.setAttribute("class", "stave");
     tabcontent.append(div);
 
@@ -166,12 +166,45 @@ async function addStaveButton() {
     let staveDropdown = document.getElementById("selectStave");
     let staveOption = document.createElement("option");
     staveOption.value = id;
-    staveOption.innerHTML = "Stave" + id;
+    staveOption.innerHTML = "Stave " + id;
 
     staveDropdown.append(staveOption);
+    staveDropdown.value = id;
 }
 
-async function clearAllStaves() {
+
+
+
+
+function deleteStave() {
+  let selectedStaveMenu = document.getElementById("selectStave");
+
+  // If no staves yet created, output error message
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("No Stave selected");
+    return;
+  }
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs Int
+  console.log(selectedStave);
+  // Function to delete an individual stave
+  // Search for child with id of selected, and remove child
+  if(confirm('Are you sure you want to delete Stave ' + selectedStave + '?')) {
+    console.log("chose yes");
+    // Selects are removes Stave 'div' element
+    let textarea = document.getElementById(selectedStave);
+    textarea.parentNode.removeChild(textarea);
+
+    // Remove Stave from dropdown menu
+    let staveDropdown = document.getElementById("selectStave");
+    staveDropdown.remove(staveDropdown.selectedIndex);
+  }
+}
+
+
+
+
+
+function clearAllStaves() {
   let tabcontent = document.getElementById("tabcontent");
   let allStaves = tabcontent.childNodes;
   console.log(allStaves)
@@ -180,6 +213,13 @@ async function clearAllStaves() {
       console.log("chose yes");
       while (tabcontent.firstChild) {
         tabcontent.removeChild(tabcontent.firstChild);
+      }
+      // REMOVE STAVES FROM DROPDOWN MENU 
+      let staveDropdown = document.getElementById("selectStave");
+      let dropdownLength = staveDropdown.options.length;
+      for (let i = 0; i < dropdownLength; i++) {
+        staveDropdown.remove(i);
+        staveDropdown.remove(staveDropdown.selectedIndex);
       }
     } else {
       // Do nothing
