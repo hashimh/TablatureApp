@@ -204,6 +204,16 @@ function deleteStave() {
 
 
 
+// Function to add selected chord
+function selectChord() {
+  // Check if a tab has been selected
+  
+  // On button click, add selected chord to tab sheet
+}
+
+
+
+
 
 function clearAllStaves() {
   let tabcontent = document.getElementById("tabcontent");

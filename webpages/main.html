@@ -818,11 +818,21 @@
   </div>
 
   <div class="fretoptions">
-    <ul>Here is...
-      <li>A list</li>
-      <li>of options</li>
-      <li>for the tab</li>
-    </ul>
+    <div class="chordoptions">
+      <h3>Chords</h3>
+      <label>Pre-Saved Chords:</label>
+        <select id = "selectChord" name = "selectChord">
+          <option value = "A">A</option>
+          <option value = "C">C</option>
+          <option value = "D">D</option>
+          <option value = "E">E</option>
+          <option value = "G">G</option>
+          <option value = "Am">Am</option>
+          <option value = "Dm">Dm</option>
+          <option value = "Em">Em</option>
+        </select>
+        <input type = "button" id = "selectChordButton" value = "Select" title = "Select chord to add to tablature" onclick = "selectChord();">
+      </div>
   </div>
 
 
@@ -832,9 +842,9 @@
     <div class="info">
       <h3>Tab Information</h3>
       <label>Song Name:     </label>
-      <input type="text" name="" value="" id="tab_name"></br>
+      <input type = "text" id = "tab_name"></br>
       <label>Artist:        </label>
-      <input type="text" name="" value="" id="tab_artist">
+      <input type = "text" id = "tab_artist">
     </div>
 
     <div class = "staveoptions">
