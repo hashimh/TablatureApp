@@ -155,6 +155,7 @@ function addStave() {
     textarea.setAttribute("name", "stave");
     textarea.setAttribute("rows", "6");
     textarea.setAttribute("cols", "100");
+    textarea.setAttribute("wrap", "off");
 
     let textAppend = "";
     textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--";
@@ -214,7 +215,7 @@ function clearAllStaves() {
       while (tabcontent.firstChild) {
         tabcontent.removeChild(tabcontent.firstChild);
       }
-      // REMOVE STAVES FROM DROPDOWN MENU 
+      // REMOVE STAVES FROM DROPDOWN MENU
       let staveDropdown = document.getElementById("selectStave");
       let dropdownLength = staveDropdown.options.length;
       for (let i = 0; i < dropdownLength; i++) {
