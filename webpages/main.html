@@ -818,21 +818,35 @@
   </div>
 
   <div class="fretoptions">
+
     <div class="chordoptions">
       <h3>Chords</h3>
-      <label>Pre-Saved Chords:</label>
-        <select id = "selectChord" name = "selectChord">
-          <option value = "A">A</option>
-          <option value = "C">C</option>
-          <option value = "D">D</option>
-          <option value = "E">E</option>
-          <option value = "G">G</option>
-          <option value = "Am">Am</option>
-          <option value = "Dm">Dm</option>
-          <option value = "Em">Em</option>
-        </select>
-        <input type = "button" id = "selectChordButton" value = "Select" title = "Select chord to add to tablature" onclick = "selectChord();">
+
+      <div class="presavedChords">
+        <label>Pre-Saved Chords:</label>
+          <select id = "selectChord" class = "chordDropdown" name = "selectChord">
+            <option value = "A">A</option>
+            <option value = "C">C</option>
+            <option value = "D">D</option>
+            <option value = "E">E</option>
+            <option value = "G">G</option>
+            <option value = "Am">Am</option>
+            <option value = "Dm">Dm</option>
+            <option value = "Em">Em</option>
+          </select>
+        <input type = "button" id = "selectChordButton" value = "Select" title = "Select a presaved chord to add to tablature" onclick = "selectChord();">
       </div>
+
+      <div class="savedchords">
+        <label>My Chords:</label>
+            <select id = "selectMyChord" class = "chordDropdown" name="selectMyChord">
+              <!-- to be filled by server -->
+            </select>
+          <input type="button" id = "selectSavedChordBtn" value="Select" title = "Select a saved chord to add to tablature">
+      </div>
+
+    </div>
+
   </div>
 
 
