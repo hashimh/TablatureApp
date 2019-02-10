@@ -205,9 +205,20 @@ function deleteStave() {
 
 
 // Function to add selected chord
-function selectChord() {
-  // Check if a tab has been selected
-  
+async function selectChord() {
+  // Check if a tab has been selected, via dropdown
+  let selectedStaveMenu = document.getElementById("selectStave");
+
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("No stave created!");
+    return;
+  }
+
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int
+  let textArea = document.getElementById("selectedStave");
+
+  let data = JSON.parse(presaved);
+  console.log(presaved);
   // On button click, add selected chord to tab sheet
 }
 

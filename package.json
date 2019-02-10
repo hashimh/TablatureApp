@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "initsql": "mysql -u root -p < databases/sql_init.sql"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,9 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
+    "nodemon": "^1.18.10",
     "simple-google-openid": "^0.2.2"
   },
   "devDependencies": {}
