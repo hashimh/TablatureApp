@@ -7,8 +7,8 @@ const GoogleAuth = require('simple-google-openid');
 
 const webpagesPath = path.join(__dirname, '../webpages');
 
-const db = require('../database/model-mysql');
-const config = require('../database/config');
+const db = require('../databases/model-mysql');
+const config = require('../databases/config');
 
 app.use('/', (req, res, next) => { console.log(new Date(), req.method, req.url); next(); });
 app.use('/', express.static(webpagesPath));
@@ -28,6 +28,7 @@ app.use('/api', GoogleAuth.guardMiddleware());
 app.get('/api/login', login);
 app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
+app.get('/api/getPresaved', getPresaved);
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -48,6 +49,19 @@ async function createTabBtn (req, res) {
   res.sendFile('main.html', {root: '../webpages'});
 }
 
+async function getPresaved (req, res) {
+  console.log("entered server function to get chord");
+  try {
+    // Calls database function to get presaved chord
+    const chord = await db.getPresaved(req.query.chord_name);
+    res.json(chord);
+  } catch (e) {
+    error (res, e);
+  }
+  // Gets presaved chord with input
+}
+
+
 (function () {
   const CHECK_DELAY = 2000;
   let lastTime = Date.now();
@@ -60,3 +74,9 @@ async function createTabBtn (req, res) {
     lastTime = currentTime;
   }, CHECK_DELAY);
 }());
+
+function error(res, msg) {
+  // Function to send errors.
+  res.sendStatus(500);
+  console.error(msg);
+}

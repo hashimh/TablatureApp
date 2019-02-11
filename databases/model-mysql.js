@@ -36,3 +36,29 @@ async function newConnection() {
   });
   return sql;
 }
+
+async function releaseConnection(connection) {
+  await connection.end();
+}
+
+process.on('unhandledRejection', console.error);
+
+
+
+
+
+// DATABASE FUNCTIONS
+async function getPresaved (chName) {
+  const sql = await init();
+
+  const query = sql.format('SELECT chord_frets FROM presaved WHERE chord_name = ?', chName);
+  const frets = await sql.query(query);
+  console.log("SQL QUERY RESULT:", frets[0]);
+
+  return frets[0];
+
+
+}
+
+// MODULE EXPORTATION
+module.exports.getPresaved = getPresaved;

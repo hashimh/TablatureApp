@@ -208,18 +208,44 @@ function deleteStave() {
 async function selectChord() {
   // Check if a tab has been selected, via dropdown
   let selectedStaveMenu = document.getElementById("selectStave");
+  let selectedChordMenu = document.getElementById("selectChord")
+  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+  console.log("SELECTED CHORD: " + selectedChord);
 
   if ((selectedStaveMenu.options).length <= 0) {
     alert("No stave created!");
     return;
   }
 
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("selectedStave");
 
-  let data = JSON.parse(presaved);
-  console.log(presaved);
-  // On button click, add selected chord to tab sheet
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + token },
+  };
+
+  let url = '/api/getPresaved' + '?chord_name=' + encodeURIComponent(selectedChord);
+  console.log("attempting to fetch /api/getPresaved");
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/getPresaved has failed.");
+    return;
+  }
+  console.log("successful /api/getPresaved call!");
+  let frets = await response.json();
+
+  // Raw string to append to textArea
+  console.log(frets[0].chord_frets);
+
+  // call server function to GET table value from 'presaved', where name = selected chord
+  // parse as JSON, console.log to check its legit
+  // append to textare
+
 }
 
 
