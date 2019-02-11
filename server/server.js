@@ -50,7 +50,6 @@ async function createTabBtn (req, res) {
 }
 
 async function getPresaved (req, res) {
-  console.log("entered server function to get chord");
   try {
     // Calls database function to get presaved chord
     const chord = await db.getPresaved(req.query.chord_name);

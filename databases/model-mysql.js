@@ -51,13 +51,12 @@ process.on('unhandledRejection', console.error);
 async function getPresaved (chName) {
   const sql = await init();
 
+  // SQL Query to get chord frets from database
   const query = sql.format('SELECT chord_frets FROM presaved WHERE chord_name = ?', chName);
   const frets = await sql.query(query);
-  console.log("SQL QUERY RESULT:", frets[0]);
 
+  // Returns chord_name from presaved chords table for specified chord
   return frets[0];
-
-
 }
 
 // MODULE EXPORTATION

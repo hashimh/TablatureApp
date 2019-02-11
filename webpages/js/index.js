@@ -93,7 +93,7 @@ function fretBoard() {
 
     let textArea = document.getElementById(staveid);
 
-    // Variable for line line number
+    // Variable for line number
     let textAreaLines = textArea.value.split("\n");
 
     // For each line in the textarea (line 0 to line 5)
@@ -217,8 +217,6 @@ async function selectChord() {
     return;
   }
 
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
-  let textArea = document.getElementById("selectedStave");
 
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
@@ -230,6 +228,7 @@ async function selectChord() {
   let url = '/api/getPresaved' + '?chord_name=' + encodeURIComponent(selectedChord);
   console.log("attempting to fetch /api/getPresaved");
 
+  // call server function to GET table value from 'presaved', where name = selected chord
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     // handle the error
@@ -237,15 +236,22 @@ async function selectChord() {
     return;
   }
   console.log("successful /api/getPresaved call!");
-  let frets = await response.json();
+  let chord = await response.json();
 
   // Raw string to append to textArea
-  console.log(frets[0].chord_frets);
+  let chordString = chord[0].chord_frets;
 
-  // call server function to GET table value from 'presaved', where name = selected chord
-  // parse as JSON, console.log to check its legit
-  // append to textare
+  // Get textarea, append chord to tab
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let textArea = document.getElementById("stave" + selectedStave);
 
+  let chordLines = chordString.split("/");
+  let textAreaLines = textArea.value.split("\n");
+
+  for (let i = 0; i < textAreaLines.length; i++) {
+    textAreaLines[i] += chordLines[i];
+  }
+  textArea.value = textAreaLines.join("\n");
 }
 
 
