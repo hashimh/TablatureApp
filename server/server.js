@@ -30,6 +30,8 @@ app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
 app.get('/api/getPresaved', getPresaved);
 
+app.post('/api/fillPresaved', fillPresaved);
+
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
@@ -49,6 +51,17 @@ async function createTabBtn (req, res) {
   res.sendFile('main.html', {root: '../webpages'});
 }
 
+// function to fill presaved chords into database table - only if table entries do not exist
+async function fillPresaved (req, res) {
+  try {
+    // Calls database function to fill table
+    await db.fillPresaved();
+  } catch (e) {
+    error (res, e);
+  }
+}
+
+
 async function getPresaved (req, res) {
   try {
     // Calls database function to get presaved chord
@@ -57,7 +70,6 @@ async function getPresaved (req, res) {
   } catch (e) {
     error (res, e);
   }
-  // Gets presaved chord with input
 }
 
 

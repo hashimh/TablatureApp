@@ -63,17 +63,17 @@ async function populateMain() {
   const el = document.getElementById('greeting');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
+
   // Funtion to insert default text into tab box
   fretBoard();
 
-  // Code for clicking a fret
 }
 
 
 
 
 
-function fretBoard() {
+async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
 
   let fretClicked = function() {
@@ -116,6 +116,25 @@ function fretBoard() {
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', fretClicked, false);
   }
+
+  // Now fill in presaved table:
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token },
+  };
+
+  let url = '/api/fillPresaved';
+  console.log("attempting to fetch /api/fillPresaved");
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/fillPresaved has failed.");
+    return;
+  }
+  console.log("successful /api/fillPresaved call! Check database!");
 }
 
 
