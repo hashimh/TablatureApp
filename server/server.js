@@ -7,8 +7,7 @@ const GoogleAuth = require('simple-google-openid');
 
 const webpagesPath = path.join(__dirname, '../webpages');
 
-const db = require('../databases/model-mysql');
-const config = require('../databases/config');
+const db = require('../databases/model-mongodb');
 
 app.use('/', (req, res, next) => { console.log(new Date(), req.method, req.url); next(); });
 app.use('/', express.static(webpagesPath));
