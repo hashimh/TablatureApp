@@ -54,6 +54,7 @@ async function createTabBtn (req, res) {
 // function to fill presaved chords into database table - only if table entries do not exist
 async function fillPresaved (req, res) {
   try {
+    // If no entries exist in the presaved table:
     // Calls database function to fill table
     await db.fillPresaved();
   } catch (e) {

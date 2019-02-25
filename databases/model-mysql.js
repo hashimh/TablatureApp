@@ -32,6 +32,8 @@ async function newConnectionChords() {
     multipleStatements: true
   });
 
+// initiates user database
+
   // handle unexpected errors by just logging them
   sql.on('error', (err) => {
     console.error(err);
@@ -66,9 +68,9 @@ async function fillPresaved() {
     [7, 'Em', '0--/0--/0--/2--/2--/0--']
   ];
 
-  // Check if the table is empty:
+  // Check if the table is empty by attempting to select contents:
   const checkQuery = sql.format('SELECT * FROM presaved');
-  const tableVals = await sql.query(checkQuery)
+  const tableVals = await sql.query(checkQuery);
 
   if (tableVals.length > 0 ) {
     // Presaved table is already filled.
