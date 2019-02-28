@@ -15,7 +15,6 @@ MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   const dbo = db.db("Tabify");
   console.log("connected to database");
-  db.close();
 });
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -62,16 +61,11 @@ function fillPresaved() {
   });
 }
 
-function getPresaved (chName) {
+let getPresaved = function(chName, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     const dbo = db.db("Tabify");
-    dbo.collection("presaved").find({ chord: chName}, { projection: { _id: 0, id: 0, chord: 0}}).toArray(function(err, res) {
-      if (err) throw err;
-      console.log("query result from mongodb for chord: ", res);
-      return res;
-      db.close();
-    });
+    dbo.collection("presaved").find({chord: chName}, { projection: { _id: 0, id: 0, chord: 0}}).toArray(cb);
   });
 }
 

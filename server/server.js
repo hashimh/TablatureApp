@@ -61,15 +61,16 @@ async function fillPresaved (req, res) {
   }
 }
 
-
-async function getPresaved (req, res) {
-  try {
-    // Calls database function to get presaved chord
-    const chord = await db.getPresaved(req.query.chord_name);
-    res.json(chord);
-  } catch (e) {
-    error (res, e);
-  }
+async function getPresaved(req, res) {
+  // Calls database function to get presaved chord
+  await db.getPresaved(req.query.chord_name, function(err, data) {
+    if (err) {
+      throw err;
+      return res(err);
+    } else {
+      return res.json(data);
+    }
+  });
 }
 
 

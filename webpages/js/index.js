@@ -258,7 +258,7 @@ async function selectChord() {
   let chord = await response.json();
 
   // Raw string to append to textArea
-  let chordString = chord[0].chord_frets;
+  let chordString = chord[0].frets;
 
   // Get textarea, append chord to tab
   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave

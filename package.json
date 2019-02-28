@@ -6,7 +6,6 @@
   "scripts": {
     "test": "test",
     "start": "node server/server.js",
-    "initdb": "mysql -u root -p < databases/sql_init.sql"
   },
   "keywords": [],
   "author": "",
