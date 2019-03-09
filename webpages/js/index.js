@@ -17,6 +17,23 @@ async function callServer(googleUser) {
   let apiLink = '/api/login';
   await getPage(apiLink);
 
+  // Checks if user is in database, if not then user is added.
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token },
+  };
+
+  // This API call checks to see if a user is in the database. If they aren't, they
+  // are added to the db. If yes, then this part is skipped.
+  const response = await fetch('/api/checkUser', fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/checkuser has failed.");
+    return;
+  }
+
   displayMenu(googleUser);
 
   // ---------------------------------------------------------------
@@ -62,7 +79,6 @@ async function populateMain() {
   // Get name for heading
   const el = document.getElementById('greeting');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
-
 
   // Funtion to insert default text into tab box
   fretBoard();
@@ -117,24 +133,24 @@ async function fretBoard() {
     frets[i].addEventListener('click', fretClicked, false);
   }
 
-  // Now fill in presaved table:
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token },
-  };
-
-  let url = '/api/fillPresaved';
-  console.log("attempting to fetch /api/fillPresaved");
-
-  const response = await fetch(url, fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    console.log("fetch response for /api/fillPresaved has failed.");
-    return;
-  }
-  console.log("successful /api/fillPresaved call! Check database!");
+  // // Now fill in presaved table:
+  // const token = localStorage.getItem("id_token");
+  // const fetchOptions = {
+  //   credentials: 'same-origin',
+  //   method: 'POST',
+  //   headers: { 'Authorization': 'Bearer ' + token },
+  // };
+  //
+  // let url = '/api/fillPresaved';
+  // console.log("attempting to fetch /api/fillPresaved");
+  //
+  // const response = await fetch(url, fetchOptions);
+  // if (!response.ok) {
+  //   // handle the error
+  //   console.log("fetch response for /api/fillPresaved has failed.");
+  //   return;
+  // }
+  // console.log("successful /api/fillPresaved call! Check database!");
 }
 
 

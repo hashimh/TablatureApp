@@ -27,9 +27,11 @@ app.use('/api', GoogleAuth.guardMiddleware());
 app.get('/api/login', login);
 app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
-app.get('/api/getPresaved', getPresaved);
+// app.get('/api/getPresaved', getPresaved);
 
-app.post('/api/fillPresaved', fillPresaved);
+// app.post('/api/fillPresaved', fillPresaved);
+app.post('/api/checkUser', checkUser);
+
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -50,28 +52,38 @@ async function createTabBtn (req, res) {
   res.sendFile('main.html', {root: '../webpages'});
 }
 
-// function to fill presaved chords into database table - only if table entries do not exist
-async function fillPresaved (req, res) {
-  try {
-    // If no entries exist in the presaved table:
-    // Calls database function to fill table
-    await db.fillPresaved();
-  } catch (e) {
-    error (res, e);
-  }
+async function checkUser(req, res) {
+  let fullName = req.user.displayName;
+  let firstName = fullName.split(' ').slice(0, -1).join(' ');
+  let lastName = fullName.split(' ').slice(-1).join(' ');
+
+  const retval = await db.login(req.user.emails[0].value, firstName, lastName);
+  res.json(retval);
 }
 
-async function getPresaved(req, res) {
-  // Calls database function to get presaved chord
-  await db.getPresaved(req.query.chord_name, function(err, data) {
-    if (err) {
-      throw err;
-      return res(err);
-    } else {
-      return res.json(data);
-    }
-  });
-}
+
+// function to fill presaved chords into database table - only if table entries do not exist
+// async function fillPresaved (req, res) {
+//   try {
+//     // If no entries exist in the presaved table:
+//     // Calls database function to fill table
+//     await db.fillPresaved();
+//   } catch (e) {
+//     error (res, e);
+//   }
+// }
+
+// async function getPresaved(req, res) {
+//   // Calls database function to get presaved chord
+//   await db.getPresaved(req.query.chord_name, function(err, data) {
+//     if (err) {
+//       throw err;
+//       return res(err);
+//     } else {
+//       return res.json(data);
+//     }
+//   });
+// }
 
 
 (function () {
