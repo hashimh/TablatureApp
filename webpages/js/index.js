@@ -220,58 +220,103 @@ function deleteStave() {
   }
 }
 
+// List of presaved chords to be used in selectChord function:
+const chordList = [
+  { "id": 0, "chord": "A", "frets": "0--/2--/2--/2--/0--/x--"},
+  { "id": 1, "chord": "C", "frets": "0--/1--/0--/2--/3--/x--"},
+  { "id": 2, "chord": "D", "frets": "2--/1--/2--/0--/x--/x--"},
+  { "id": 3, "chord": "E", "frets": "0--/0--/1--/2--/2--/0--"},
+  { "id": 4, "chord": "G", "frets": "3--/0--/0--/0--/2--/3--"},
+  { "id": 5, "chord": "Am", "frets": "0--/1--/2--/2--/0--/x--"},
+  { "id": 6, "chord": "Em", "frets": "0--/0--/0--/2--/2--/0--"}
+];
 
-
-
-// Function to add selected chord
-async function selectChord() {
-  // Check if a tab has been selected, via dropdown
+// function to get a presaved chord from the library:
+function selectChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectChord")
   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
-  console.log("SELECTED CHORD: " + selectedChord);
+  console.log("SELECTED CHORD: " + selectedChord); // prints 'A'
 
   if ((selectedStaveMenu.options).length <= 0) {
     alert("No stave created!");
     return;
   }
 
-
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token },
-  };
-
-  let url = '/api/getPresaved' + '?chord_name=' + encodeURIComponent(selectedChord);
-  console.log("attempting to fetch /api/getPresaved");
-
-  // call server function to GET table value from 'presaved', where name = selected chord
-  const response = await fetch(url, fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    console.log("fetch response for /api/getPresaved has failed.");
-    return;
+  let frets;
+  for (let i = 0; i < chordList.length; i++) {
+    if (chordList[i].chord == selectedChord) {
+      frets = chordList[i].frets;
+      console.log(frets);
+    }
   }
-  console.log("successful /api/getPresaved call!");
-  let chord = await response.json();
 
-  // Raw string to append to textArea
-  let chordString = chord[0].frets;
-
-  // Get textarea, append chord to tab
   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("stave" + selectedStave);
 
-  let chordLines = chordString.split("/");
+  let chordLines = frets.split("/");
   let textAreaLines = textArea.value.split("\n");
 
   for (let i = 0; i < textAreaLines.length; i++) {
     textAreaLines[i] += chordLines[i];
   }
   textArea.value = textAreaLines.join("\n");
+
 }
+
+
+
+
+
+// Function to add selected chord
+// async function selectChordOld() {
+//   // Check if a tab has been selected, via dropdown
+//   let selectedStaveMenu = document.getElementById("selectStave");
+//   let selectedChordMenu = document.getElementById("selectChord")
+//   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+//   console.log("SELECTED CHORD: " + selectedChord);
+//
+//   if ((selectedStaveMenu.options).length <= 0) {
+//     alert("No stave created!");
+//     return;
+//   }
+//
+//
+//   const token = localStorage.getItem("id_token");
+//   const fetchOptions = {
+//     credentials: 'same-origin',
+//     method: 'GET',
+//     headers: { 'Authorization': 'Bearer ' + token },
+//   };
+//
+//   let url = '/api/getPresaved' + '?chord_name=' + encodeURIComponent(selectedChord);
+//   console.log("attempting to fetch /api/getPresaved");
+//
+//   // call server function to GET table value from 'presaved', where name = selected chord
+//   const response = await fetch(url, fetchOptions);
+//   if (!response.ok) {
+//     // handle the error
+//     console.log("fetch response for /api/getPresaved has failed.");
+//     return;
+//   }
+//   console.log("successful /api/getPresaved call!");
+//   let chord = await response.json();
+//
+//   // Raw string to append to textArea
+//   let chordString = chord[0].frets;
+//
+//   // Get textarea, append chord to tab
+//   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+//   let textArea = document.getElementById("stave" + selectedStave);
+//
+//   let chordLines = chordString.split("/");
+//   let textAreaLines = textArea.value.split("\n");
+//
+//   for (let i = 0; i < textAreaLines.length; i++) {
+//     textAreaLines[i] += chordLines[i];
+//   }
+//   textArea.value = textAreaLines.join("\n");
+// }
 
 
 

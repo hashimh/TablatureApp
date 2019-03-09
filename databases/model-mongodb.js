@@ -22,53 +22,53 @@ MongoClient.connect(url, function(err, db) {
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
 // DATABASE FUNCTIONS
 // Fills in 'presaved' table:
-function fillPresaved() {
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    const dbo = db.db("Tabify");
+// function fillPresaved() {
+//   MongoClient.connect(url, function(err, db) {
+//     if (err) throw err;
+//     const dbo = db.db("Tabify");
+//
+//     // First, check it doesn't exist
+//     dbo.collection("presaved").find({}).toArray(function(err, res) {
+//       if (err) throw err;
+//
+//       if (res.length < 1) {
+//         // Create collection 'Presaved' if it does not exist
+//         dbo.createCollection("presaved", function(err, res) {
+//           if (err) throw err;
+//           console.log("collection 'presaved' created");
+//         });
+//
+//         // Array of presaved chord entries.
+//         const chordList = [
+//           { id: 0, chord: 'A', frets: '0--/2--/2--/2--/0--/x--'},
+//           { id: 1, chord: 'C', frets: '0--/1--/0--/2--/3--/x--'},
+//           { id: 2, chord: 'D', frets: '2--/1--/2--/0--/x--/x--'},
+//           { id: 3, chord: 'E', frets: '0--/0--/1--/2--/2--/0--'},
+//           { id: 4, chord: 'G', frets: '3--/0--/0--/0--/2--/3--'},
+//           { id: 5, chord: 'Am', frets: '0--/1--/2--/2--/0--/x--'},
+//           { id: 6, chord: 'Em', frets: '0--/0--/0--/2--/2--/0--'}
+//         ];
+//
+//         dbo.collection("presaved").insertMany(chordList, function(err, res) {
+//           if (err) throw err;
+//           console.log("number of presaved chords inserted: ", res.insertedCount);
+//           db.close();
+//         });
+//       } else {
+//         return;
+//       }
+//     });
+//   });
+// }
 
-    // First, check it doesn't exist
-    dbo.collection("presaved").find({}).toArray(function(err, res) {
-      if (err) throw err;
-
-      if (res.length < 1) {
-        // Create collection 'Presaved' if it does not exist
-        dbo.createCollection("presaved", function(err, res) {
-          if (err) throw err;
-          console.log("collection 'presaved' created");
-        });
-
-        // Array of presaved chord entries.
-        const chordList = [
-          { id: 0, chord: 'A', frets: '0--/2--/2--/2--/0--/x--'},
-          { id: 1, chord: 'C', frets: '0--/1--/0--/2--/3--/x--'},
-          { id: 2, chord: 'D', frets: '2--/1--/2--/0--/x--/x--'},
-          { id: 3, chord: 'E', frets: '0--/0--/1--/2--/2--/0--'},
-          { id: 4, chord: 'G', frets: '3--/0--/0--/0--/2--/3--'},
-          { id: 5, chord: 'Am', frets: '0--/1--/2--/2--/0--/x--'},
-          { id: 6, chord: 'Em', frets: '0--/0--/0--/2--/2--/0--'}
-        ];
-
-        dbo.collection("presaved").insertMany(chordList, function(err, res) {
-          if (err) throw err;
-          console.log("number of presaved chords inserted: ", res.insertedCount);
-          db.close();
-        });
-      } else {
-        return;
-      }
-    });
-  });
-}
-
-let getPresaved = function(chName, cb) {
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    const dbo = db.db("Tabify");
-    dbo.collection("presaved").find({chord: chName}, { projection: { _id: 0, id: 0, chord: 0}}).toArray(cb);
-  });
-}
+// let getPresaved = function(chName, cb) {
+//   MongoClient.connect(url, function(err, db) {
+//     if (err) throw err;
+//     const dbo = db.db("Tabify");
+//     dbo.collection("presaved").find({chord: chName}, { projection: { _id: 0, id: 0, chord: 0}}).toArray(cb);
+//   });
+// }
 
 // MODULE EXPORTATION
-module.exports.fillPresaved = fillPresaved;
-module.exports.getPresaved = getPresaved;
+// module.exports.fillPresaved = fillPresaved;
+// module.exports.getPresaved = getPresaved;
