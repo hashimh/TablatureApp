@@ -23,11 +23,7 @@ MongoClient.connect(url, function(err, db) {
 // DATABASE FUNCTIONS
 
 // Funtion to add user to database if not already on it.
-function login (email, fname, lname) {
-
-  let insertEmail = "'" + email + "'";
-  let fnameIn = "'" + fname + "'";
-  let lnameIn = "'" + lname + "'";
+function login (insertEmail, fnameIn, lnameIn) {
 
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;

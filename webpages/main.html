@@ -5,7 +5,6 @@
 <link href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700" rel="stylesheet">
 
 <script src = "./js/index.js"></script>
-<script type = "text/javascript" src = "../databases/presaved.json">
 
 </script>
 
@@ -820,10 +819,10 @@
 
   </div>
 
-  <div class="fretoptions">
+  <div class="chordoptions">
 
-    <div class="chordoptions">
-      <h3>Chords</h3>
+    <div class="chordselection">
+      <h4>Select a Chord</h4>
 
       <div class="presavedChords">
         <label>Pre-Saved Chords:</label>
@@ -846,10 +845,694 @@
             </select>
           <input type="button" id = "selectSavedChordBtn" value="Select" title = "Select a saved chord to add to tablature">
       </div>
+    </div>
+
+    <div class="chordcreation">
+
+      <h4>Create a Chord</h4>
+      <label>Chord Starting Position:</label>
+      <input type="text" name="startPosition" value="0">
+
+      <!-- CREATE A TABLE TO CREATE CHORDS -->
+
+      <div class="miniFretboard">
+
+        <div class="miniFirstRow">
+            <select class="tuningDropdown" data-current = "E4">
+              <option>C0</option>
+              <option>C#0</option>
+              <option>D0</option>
+              <option>D#0</option>
+              <option>E0</option>
+              <option>F0</option>
+              <option>F#0</option>
+              <option>G0</option>
+              <option>G#0</option>
+              <option>A0</option>
+              <option>A#0</option>
+              <option>B0</option>
+              <option>C1</option>
+              <option>C#1</option>
+              <option>D1</option>
+              <option>D#1</option>
+              <option>E1</option>
+              <option>F1</option>
+              <option>F#1</option>
+              <option>G1</option>
+              <option>G#1</option>
+              <option>A1</option>
+              <option>A#1</option>
+              <option>B1</option>
+              <option>C2</option>
+              <option>C#2</option>
+              <option>D2</option>
+              <option>D#2</option>
+              <option>E2</option>
+              <option>F2</option>
+              <option>F#2</option>
+              <option>G2</option>
+              <option>G#2</option>
+              <option>A2</option>
+              <option>A#2</option>
+              <option>B2</option>
+              <option>C3</option>
+              <option>C#3</option>
+              <option>D3</option>
+              <option>D#3</option>
+              <option>E3</option>
+              <option>F3</option>
+              <option>F#3</option>
+              <option>G3</option>
+              <option>G#3</option>
+              <option>A3</option>
+              <option>A#3</option>
+              <option>B3</option>
+              <option>C4</option>
+              <option>C#4</option>
+              <option>D4</option>
+              <option>D#4</option>
+              <option selected = "selected">E4</option>
+              <option>F4</option>
+              <option>F#4</option>
+              <option>G4</option>
+              <option>G#4</option>
+              <option>A4</option>
+              <option>A#4</option>
+              <option>B4</option>
+              <option>C5</option>
+              <option>C#5</option>
+              <option>D5</option>
+              <option>D#5</option>
+              <option>E5</option>
+              <option>F5</option>
+              <option>F#5</option>
+              <option>G5</option>
+              <option>G#5</option>
+              <option>A5</option>
+              <option>A#5</option>
+              <option>B5</option>
+              <option>C6</option>
+              <option>C#6</option>
+              <option>D6</option>
+              <option>D#6</option>
+              <option>E6</option>
+              <option>F6</option>
+              <option>F#6</option>
+              <option>G6</option>
+              <option>G#6</option>
+              <option>A6</option>
+              <option>A#6</option>
+              <option>B6</option>
+              <option>C7</option>
+              <option>C#7</option>
+              <option>D7</option>
+              <option>D#7</option>
+              <option>E7</option>
+              <option>F7</option>
+              <option>F#7</option>
+              <option>G7</option>
+              <option>G#7</option>
+              <option>A7</option>
+              <option>A#7</option>
+              <option>B7</option>
+            </select>
+
+          <div class = "fret2" data-string = "0" data-fret = "0"></div>
+          <div class = "fret2" data-string = "0" data-fret = "1"></div>
+          <div class = "fret2" data-string = "0" data-fret = "2"></div>
+          <div class = "fret2" data-string = "0" data-fret = "3"></div>
+          <div class = "fret2" data-string = "0" data-fret = "4"></div>
+          <div class = "fret2" data-string = "0" data-fret = "5"></div>
+
+        </div>
+
+        <div class="miniMidRow">
+            <select class = "tuningDropdown" data-curent = "B3">
+              <option>C0</option>
+              <option>C#0</option>
+              <option>D0</option>
+              <option>D#0</option>
+              <option>E0</option>
+              <option>F0</option>
+              <option>F#0</option>
+              <option>G0</option>
+              <option>G#0</option>
+              <option>A0</option>
+              <option>A#0</option>
+              <option>B0</option>
+              <option>C1</option>
+              <option>C#1</option>
+              <option>D1</option>
+              <option>D#1</option>
+              <option>E1</option>
+              <option>F1</option>
+              <option>F#1</option>
+              <option>G1</option>
+              <option>G#1</option>
+              <option>A1</option>
+              <option>A#1</option>
+              <option>B1</option>
+              <option>C2</option>
+              <option>C#2</option>
+              <option>D2</option>
+              <option>D#2</option>
+              <option>E2</option>
+              <option>F2</option>
+              <option>F#2</option>
+              <option>G2</option>
+              <option>G#2</option>
+              <option>A2</option>
+              <option>A#2</option>
+              <option selected = "selected">B2</option>
+              <option>C3</option>
+              <option>C#3</option>
+              <option>D3</option>
+              <option>D#3</option>
+              <option>E3</option>
+              <option>F3</option>
+              <option>F#3</option>
+              <option>G3</option>
+              <option>G#3</option>
+              <option>A3</option>
+              <option>A#3</option>
+              <option>B3</option>
+              <option>C4</option>
+              <option>C#4</option>
+              <option>D4</option>
+              <option>D#4</option>
+              <option>E4</option>
+              <option>F4</option>
+              <option>F#4</option>
+              <option>G4</option>
+              <option>G#4</option>
+              <option>A4</option>
+              <option>A#4</option>
+              <option>B4</option>
+              <option>C5</option>
+              <option>C#5</option>
+              <option>D5</option>
+              <option>D#5</option>
+              <option>E5</option>
+              <option>F5</option>
+              <option>F#5</option>
+              <option>G5</option>
+              <option>G#5</option>
+              <option>A5</option>
+              <option>A#5</option>
+              <option>B5</option>
+              <option>C6</option>
+              <option>C#6</option>
+              <option>D6</option>
+              <option>D#6</option>
+              <option>E6</option>
+              <option>F6</option>
+              <option>F#6</option>
+              <option>G6</option>
+              <option>G#6</option>
+              <option>A6</option>
+              <option>A#6</option>
+              <option>B6</option>
+              <option>C7</option>
+              <option>C#7</option>
+              <option>D7</option>
+              <option>D#7</option>
+              <option>E7</option>
+              <option>F7</option>
+              <option>F#7</option>
+              <option>G7</option>
+              <option>G#7</option>
+              <option>A7</option>
+              <option>A#7</option>
+              <option>B7</option>
+            </select>
+
+            <div class = "fret2" data-string = "1" data-fret = "0"></div>
+            <div class = "fret2" data-string = "1" data-fret = "1"></div>
+            <div class = "fret2" data-string = "1" data-fret = "2"></div>
+            <div class = "fret2" data-string = "1" data-fret = "3"></div>
+            <div class = "fret2" data-string = "1" data-fret = "4"></div>
+            <div class = "fret2" data-string = "1" data-fret = "5"></div>
+
+        </div>
+
+        <div class="miniMidRow">
+          <select class = "tuningDropdown" data-curent = "G3">
+            <option>C0</option>
+            <option>C#0</option>
+            <option>D0</option>
+            <option>D#0</option>
+            <option>E0</option>
+            <option>F0</option>
+            <option>F#0</option>
+            <option>G0</option>
+            <option>G#0</option>
+            <option>A0</option>
+            <option>A#0</option>
+            <option>B0</option>
+            <option>C1</option>
+            <option>C#1</option>
+            <option>D1</option>
+            <option>D#1</option>
+            <option>E1</option>
+            <option>F1</option>
+            <option>F#1</option>
+            <option>G1</option>
+            <option>G#1</option>
+            <option>A1</option>
+            <option>A#1</option>
+            <option>B1</option>
+            <option>C2</option>
+            <option>C#2</option>
+            <option>D2</option>
+            <option>D#2</option>
+            <option>E2</option>
+            <option>F2</option>
+            <option>F#2</option>
+            <option>G2</option>
+            <option>G#2</option>
+            <option>A2</option>
+            <option>A#2</option>
+            <option>B2</option>
+            <option>C3</option>
+            <option>C#3</option>
+            <option>D3</option>
+            <option>D#3</option>
+            <option>E3</option>
+            <option>F3</option>
+            <option>F#3</option>
+            <option selected = "selected">G3</option>
+            <option>G#3</option>
+            <option>A3</option>
+            <option>A#3</option>
+            <option>B3</option>
+            <option>C4</option>
+            <option>C#4</option>
+            <option>D4</option>
+            <option>D#4</option>
+            <option>E4</option>
+            <option>F4</option>
+            <option>F#4</option>
+            <option>G4</option>
+            <option>G#4</option>
+            <option>A4</option>
+            <option>A#4</option>
+            <option>B4</option>
+            <option>C5</option>
+            <option>C#5</option>
+            <option>D5</option>
+            <option>D#5</option>
+            <option>E5</option>
+            <option>F5</option>
+            <option>F#5</option>
+            <option>G5</option>
+            <option>G#5</option>
+            <option>A5</option>
+            <option>A#5</option>
+            <option>B5</option>
+            <option>C6</option>
+            <option>C#6</option>
+            <option>D6</option>
+            <option>D#6</option>
+            <option>E6</option>
+            <option>F6</option>
+            <option>F#6</option>
+            <option>G6</option>
+            <option>G#6</option>
+            <option>A6</option>
+            <option>A#6</option>
+            <option>B6</option>
+            <option>C7</option>
+            <option>C#7</option>
+            <option>D7</option>
+            <option>D#7</option>
+            <option>E7</option>
+            <option>F7</option>
+            <option>F#7</option>
+            <option>G7</option>
+            <option>G#7</option>
+            <option>A7</option>
+            <option>A#7</option>
+            <option>B7</option>
+          </select>
+
+        <div class = "fret2" data-string = "2" data-fret = "0"></div>
+        <div class = "fret2" data-string = "2" data-fret = "1"></div>
+        <div class = "fret2" data-string = "2" data-fret = "2"></div>
+        <div class = "fret2" data-string = "2" data-fret = "3"></div>
+        <div class = "fret2" data-string = "2" data-fret = "4"></div>
+        <div class = "fret2" data-string = "2" data-fret = "5"></div>
+
+      </div>
+
+        <div class="miniMidRow">
+          <select class = "tuningDropdown" data-curent = "D3">
+            <option>C0</option>
+            <option>C#0</option>
+            <option>D0</option>
+            <option>D#0</option>
+            <option>E0</option>
+            <option>F0</option>
+            <option>F#0</option>
+            <option>G0</option>
+            <option>G#0</option>
+            <option>A0</option>
+            <option>A#0</option>
+            <option>B0</option>
+            <option>C1</option>
+            <option>C#1</option>
+            <option>D1</option>
+            <option>D#1</option>
+            <option>E1</option>
+            <option>F1</option>
+            <option>F#1</option>
+            <option>G1</option>
+            <option>G#1</option>
+            <option>A1</option>
+            <option>A#1</option>
+            <option>B1</option>
+            <option>C2</option>
+            <option>C#2</option>
+            <option>D2</option>
+            <option>D#2</option>
+            <option>E2</option>
+            <option>F2</option>
+            <option>F#2</option>
+            <option>G2</option>
+            <option>G#2</option>
+            <option>A2</option>
+            <option>A#2</option>
+            <option>B2</option>
+            <option>C3</option>
+            <option>C#3</option>
+            <option selected = "selected">D3</option>
+            <option>D#3</option>
+            <option>E3</option>
+            <option>F3</option>
+            <option>F#3</option>
+            <option>G3</option>
+            <option>G#3</option>
+            <option>A3</option>
+            <option>A#3</option>
+            <option>B3</option>
+            <option>C4</option>
+            <option>C#4</option>
+            <option>D4</option>
+            <option>D#4</option>
+            <option>E4</option>
+            <option>F4</option>
+            <option>F#4</option>
+            <option>G4</option>
+            <option>G#4</option>
+            <option>A4</option>
+            <option>A#4</option>
+            <option>B4</option>
+            <option>C5</option>
+            <option>C#5</option>
+            <option>D5</option>
+            <option>D#5</option>
+            <option>E5</option>
+            <option>F5</option>
+            <option>F#5</option>
+            <option>G5</option>
+            <option>G#5</option>
+            <option>A5</option>
+            <option>A#5</option>
+            <option>B5</option>
+            <option>C6</option>
+            <option>C#6</option>
+            <option>D6</option>
+            <option>D#6</option>
+            <option>E6</option>
+            <option>F6</option>
+            <option>F#6</option>
+            <option>G6</option>
+            <option>G#6</option>
+            <option>A6</option>
+            <option>A#6</option>
+            <option>B6</option>
+            <option>C7</option>
+            <option>C#7</option>
+            <option>D7</option>
+            <option>D#7</option>
+            <option>E7</option>
+            <option>F7</option>
+            <option>F#7</option>
+            <option>G7</option>
+            <option>G#7</option>
+            <option>A7</option>
+            <option>A#7</option>
+            <option>B7</option>
+          </select>
+
+          <div class = "fret2" data-string = "3" data-fret = "0"></div>
+          <div class = "fret2" data-string = "3" data-fret = "1"></div>
+          <div class = "fret2" data-string = "3" data-fret = "2"></div>
+          <div class = "fret2" data-string = "3" data-fret = "3"></div>
+          <div class = "fret2" data-string = "3" data-fret = "4"></div>
+          <div class = "fret2" data-string = "3" data-fret = "5"></div>
+
+        </div>
+
+        <div class="miniMidRow">
+          <select class = "tuningDropdown" data-curent = "A2">
+            <option>C0</option>
+            <option>C#0</option>
+            <option>D0</option>
+            <option>D#0</option>
+            <option>E0</option>
+            <option>F0</option>
+            <option>F#0</option>
+            <option>G0</option>
+            <option>G#0</option>
+            <option>A0</option>
+            <option>A#0</option>
+            <option>B0</option>
+            <option>C1</option>
+            <option>C#1</option>
+            <option>D1</option>
+            <option>D#1</option>
+            <option>E1</option>
+            <option>F1</option>
+            <option>F#1</option>
+            <option>G1</option>
+            <option>G#1</option>
+            <option>A1</option>
+            <option>A#1</option>
+            <option>B1</option>
+            <option>C2</option>
+            <option>C#2</option>
+            <option>D2</option>
+            <option>D#2</option>
+            <option>E2</option>
+            <option>F2</option>
+            <option>F#2</option>
+            <option>G2</option>
+            <option>G#2</option>
+            <option selected = "selected">A2</option>
+            <option>A#2</option>
+            <option>B2</option>
+            <option>C3</option>
+            <option>C#3</option>
+            <option>D3</option>
+            <option>D#3</option>
+            <option>E3</option>
+            <option>F3</option>
+            <option>F#3</option>
+            <option>G3</option>
+            <option>G#3</option>
+            <option>A3</option>
+            <option>A#3</option>
+            <option>B3</option>
+            <option>C4</option>
+            <option>C#4</option>
+            <option>D4</option>
+            <option>D#4</option>
+            <option>E4</option>
+            <option>F4</option>
+            <option>F#4</option>
+            <option>G4</option>
+            <option>G#4</option>
+            <option>A4</option>
+            <option>A#4</option>
+            <option>B4</option>
+            <option>C5</option>
+            <option>C#5</option>
+            <option>D5</option>
+            <option>D#5</option>
+            <option>E5</option>
+            <option>F5</option>
+            <option>F#5</option>
+            <option>G5</option>
+            <option>G#5</option>
+            <option>A5</option>
+            <option>A#5</option>
+            <option>B5</option>
+            <option>C6</option>
+            <option>C#6</option>
+            <option>D6</option>
+            <option>D#6</option>
+            <option>E6</option>
+            <option>F6</option>
+            <option>F#6</option>
+            <option>G6</option>
+            <option>G#6</option>
+            <option>A6</option>
+            <option>A#6</option>
+            <option>B6</option>
+            <option>C7</option>
+            <option>C#7</option>
+            <option>D7</option>
+            <option>D#7</option>
+            <option>E7</option>
+            <option>F7</option>
+            <option>F#7</option>
+            <option>G7</option>
+            <option>G#7</option>
+            <option>A7</option>
+            <option>A#7</option>
+            <option>B7</option>
+          </select>
+
+          <div class = "fret2" data-string = "4" data-fret = "0"></div>
+          <div class = "fret2" data-string = "4" data-fret = "1"></div>
+          <div class = "fret2" data-string = "4" data-fret = "2"></div>
+          <div class = "fret2" data-string = "4" data-fret = "3"></div>
+          <div class = "fret2" data-string = "4" data-fret = "4"></div>
+          <div class = "fret2" data-string = "4" data-fret = "5"></div>
+
+        </div>
+
+        <div class="miniLastRow">
+          <select class = "tuningDropdown" data-curent = "E2">
+            <option>C0</option>
+            <option>C#0</option>
+            <option>D0</option>
+            <option>D#0</option>
+            <option>E0</option>
+            <option>F0</option>
+            <option>F#0</option>
+            <option>G0</option>
+            <option>G#0</option>
+            <option>A0</option>
+            <option>A#0</option>
+            <option>B0</option>
+            <option>C1</option>
+            <option>C#1</option>
+            <option>D1</option>
+            <option>D#1</option>
+            <option>E1</option>
+            <option>F1</option>
+            <option>F#1</option>
+            <option>G1</option>
+            <option>G#1</option>
+            <option>A1</option>
+            <option>A#1</option>
+            <option>B1</option>
+            <option>C2</option>
+            <option>C#2</option>
+            <option>D2</option>
+            <option>D#2</option>
+            <option selected = "selected">E2</option>
+            <option>F2</option>
+            <option>F#2</option>
+            <option>G2</option>
+            <option>G#2</option>
+            <option>A2</option>
+            <option>A#2</option>
+            <option>B2</option>
+            <option>C3</option>
+            <option>C#3</option>
+            <option>D3</option>
+            <option>D#3</option>
+            <option>E3</option>
+            <option>F3</option>
+            <option>F#3</option>
+            <option>G3</option>
+            <option>G#3</option>
+            <option>A3</option>
+            <option>A#3</option>
+            <option>B3</option>
+            <option>C4</option>
+            <option>C#4</option>
+            <option>D4</option>
+            <option>D#4</option>
+            <option>E4</option>
+            <option>F4</option>
+            <option>F#4</option>
+            <option>G4</option>
+            <option>G#4</option>
+            <option>A4</option>
+            <option>A#4</option>
+            <option>B4</option>
+            <option>C5</option>
+            <option>C#5</option>
+            <option>D5</option>
+            <option>D#5</option>
+            <option>E5</option>
+            <option>F5</option>
+            <option>F#5</option>
+            <option>G5</option>
+            <option>G#5</option>
+            <option>A5</option>
+            <option>A#5</option>
+            <option>B5</option>
+            <option>C6</option>
+            <option>C#6</option>
+            <option>D6</option>
+            <option>D#6</option>
+            <option>E6</option>
+            <option>F6</option>
+            <option>F#6</option>
+            <option>G6</option>
+            <option>G#6</option>
+            <option>A6</option>
+            <option>A#6</option>
+            <option>B6</option>
+            <option>C7</option>
+            <option>C#7</option>
+            <option>D7</option>
+            <option>D#7</option>
+            <option>E7</option>
+            <option>F7</option>
+            <option>F#7</option>
+            <option>G7</option>
+            <option>G#7</option>
+            <option>A7</option>
+            <option>A#7</option>
+            <option>B7</option>
+          </select>
+
+          <div class = "fret2" data-string = "5" data-fret = "0"></div>
+          <div class = "fret2" data-string = "5" data-fret = "1"></div>
+          <div class = "fret2" data-string = "5" data-fret = "2"></div>
+          <div class = "fret2" data-string = "5" data-fret = "3"></div>
+          <div class = "fret2" data-string = "5" data-fret = "4"></div>
+          <div class = "fret2" data-string = "5" data-fret = "5"></div>
+
+        </div>
+
+        <div class="miniFretLegend">
+          <div class = "fretUnselectableLegend">&nbsp</div>
+          <div class = "fretUnselectableLegend">x</div>
+          <div class = "fretUnselectableLegend">0</div>
+          <div class = "fretUnselectableLegend">1</div>
+          <div class = "fretUnselectableLegend">2</div>
+          <div class = "fretUnselectableLegend">3</div>
+          <div class = "fretUnselectableLegend">4</div>
+        </div>
+
+
+      </div>
+
+      <input type="button" id = "undoChange" value = "Undo" title = "Undo last change">
+      <input type="button" id = "clearChord" value = "Clear" title = "Clear all changes">
+      <input type="button" id = "createChord" value = "Create New Chord" title = "Create a new chord to save">
 
     </div>
 
   </div>
+
+</div>
 
 
 

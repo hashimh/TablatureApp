@@ -236,6 +236,13 @@ function deleteStave() {
   }
 }
 
+
+
+// -----------------------------------------------------------------------------
+// ---------- CODE FOR CHORD BOX -----------------------------------------------
+// -----------------------------------------------------------------------------
+
+
 // List of presaved chords to be used in selectChord function:
 const chordList = [
   { "id": 0, "chord": "A", "frets": "0--/2--/2--/2--/0--/x--"},
@@ -280,7 +287,12 @@ function selectChord() {
 
 }
 
+// Event listener for change of chord starting position, change legend row of table
+// Event listener for buttons to undo change and clear changes, as well as saving the chord
 
+async function createChord() {
+  // code for creating a chord
+}
 
 
 

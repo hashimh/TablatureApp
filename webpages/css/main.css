@@ -66,23 +66,74 @@ header {
 /* -------------------------------------------------------------------------- */
 
 .fretboardBox { grid-area: fretboardBox; }
-.fretoptions { grid-area: fretoptions; }
+.chordoptions { grid-area: chordoptions; }
 .tabbox { grid-area: tabbox; }
 
 .mainel {
   display: grid;
   grid-template-areas:
-    'fretboardBox fretboardBox fretoptions'
-    'tabbox tabbox fretoptions';
+    'fretboardBox fretboardBox chordoptions'
+    'tabbox tabbox chordoptions';
   margin-top: 20px;
   grid-template-columns: 1.5fr 1.5fr 1fr;
 }
 
 /* -------------------------------------------------------------------------- */
-/* ---------- FRET OPTIONS CODE --------------------------------------------- */
+/* ---------- CHORD OPTIONS CODE --------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
+.chordselection {
+  padding-bottom: 5px;
+}
 
+.chordcreation {
+  border-top: 2px solid black;
+  padding-top: 5px;
+}
+
+/* Chord Creation Fretbox */
+div.miniFretboard {
+  background-color: beige;
+  position: relative;
+  overflow: auto;
+}
+
+div.miniFirstRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniMidRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniLastRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.fret2 {
+  display: table-cell;
+  width: 4.2%;
+  min-width: 60px;
+  margin: 0;
+  padding: 0;
+  /* border: 1em solid black; */
+  border-width: thin;
+  border-right: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+div.fret2:hover {
+  background-color: sienna;
+}
+
+div.miniFretLegend {
+  display: table-row;
+  width: 100%;
+  background-color: teal;
+}
 /* -------------------------------------------------------------------------- */
 /* ---------- FRETBOARD CODE  ----------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -107,6 +158,7 @@ div.fret {
   /* border: 1em solid black; */
   border-width: thin;
   border-right: 2px solid black;
+  border-bottom: 1px solid black;
 }
 
 div.fret:hover {
