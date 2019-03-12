@@ -851,14 +851,17 @@
 
       <h4>Create a Chord</h4>
       <label>Chord Starting Position:</label>
-      <input type="text" name="startPosition" value="0">
+      <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "17" oninput = "changeStartPos();" onkeydown = "return false;">
+      <br>
+      <label>Chord Name:</label>
+      <input type="text" name="chordName">
 
       <!-- CREATE A TABLE TO CREATE CHORDS -->
 
       <div class="miniFretboard">
 
         <div class="miniFirstRow">
-            <select class="tuningDropdown" data-current = "E4">
+          <select class="tuningDropdown" data-current = "E4">
               <option>C0</option>
               <option>C#0</option>
               <option>D0</option>
@@ -967,7 +970,7 @@
         </div>
 
         <div class="miniMidRow">
-            <select class = "tuningDropdown" data-curent = "B3">
+          <select class = "tuningDropdown" data-curent = "B3">
               <option>C0</option>
               <option>C#0</option>
               <option>D0</option>
@@ -1066,12 +1069,12 @@
               <option>B7</option>
             </select>
 
-            <div class = "fret2" data-string = "1" data-fret = "0"></div>
-            <div class = "fret2" data-string = "1" data-fret = "1"></div>
-            <div class = "fret2" data-string = "1" data-fret = "2"></div>
-            <div class = "fret2" data-string = "1" data-fret = "3"></div>
-            <div class = "fret2" data-string = "1" data-fret = "4"></div>
-            <div class = "fret2" data-string = "1" data-fret = "5"></div>
+          <div class = "fret2" data-string = "1" data-fret = "0"></div>
+          <div class = "fret2" data-string = "1" data-fret = "1"></div>
+          <div class = "fret2" data-string = "1" data-fret = "2"></div>
+          <div class = "fret2" data-string = "1" data-fret = "3"></div>
+          <div class = "fret2" data-string = "1" data-fret = "4"></div>
+          <div class = "fret2" data-string = "1" data-fret = "5"></div>
 
         </div>
 
@@ -1175,12 +1178,12 @@
             <option>B7</option>
           </select>
 
-        <div class = "fret2" data-string = "2" data-fret = "0"></div>
-        <div class = "fret2" data-string = "2" data-fret = "1"></div>
-        <div class = "fret2" data-string = "2" data-fret = "2"></div>
-        <div class = "fret2" data-string = "2" data-fret = "3"></div>
-        <div class = "fret2" data-string = "2" data-fret = "4"></div>
-        <div class = "fret2" data-string = "2" data-fret = "5"></div>
+          <div class = "fret2" data-string = "2" data-fret = "0"></div>
+          <div class = "fret2" data-string = "2" data-fret = "1"></div>
+          <div class = "fret2" data-string = "2" data-fret = "2"></div>
+          <div class = "fret2" data-string = "2" data-fret = "3"></div>
+          <div class = "fret2" data-string = "2" data-fret = "4"></div>
+          <div class = "fret2" data-string = "2" data-fret = "5"></div>
 
       </div>
 
@@ -1511,7 +1514,7 @@
 
         </div>
 
-        <div class="miniFretLegend">
+        <div class="miniFretLegend" id = "fretMiniLegend">
           <div class = "fretUnselectableLegend">&nbsp</div>
           <div class = "fretUnselectableLegend">x</div>
           <div class = "fretUnselectableLegend">0</div>

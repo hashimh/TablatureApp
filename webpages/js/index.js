@@ -288,10 +288,26 @@ function selectChord() {
 }
 
 // Event listener for change of chord starting position, change legend row of table
-// Event listener for buttons to undo change and clear changes, as well as saving the chord
+function changeStartPos() {
+  let val = parseInt(document.getElementById("startPos").value);
+  let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+
+  // Change the content of the last 5 out of 7 values in the legend row
+  for (let i = 0; i < legendText.length; i++) {
+    if (legendText[i].innerHTML >= 0) {
+      let newVal = (i - 2) + val;
+      legendText[i].innerHTML = newVal;
+    }
+  }
+}
 
 async function createChord() {
   // code for creating a chord
+  // on click:
+  //    - check that the row is empty
+  //        - if yes, add marker onto fret, note down fret and string
+  //        - if no, output error
+  //    - when save changes clicked, convert table input to "--0/--..." format to be saved in db
 }
 
 
