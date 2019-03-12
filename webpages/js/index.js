@@ -80,8 +80,8 @@ async function populateMain() {
   const el = document.getElementById('greeting');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
-  // Funtion to insert default text into tab box
   fretBoard();
+  chordFretboard();
 
 }
 
@@ -300,6 +300,45 @@ function changeStartPos() {
     }
   }
 }
+
+function chordFretboard() {
+  let frets = document.getElementsByClassName("fret2");
+
+  // Function called by "onclick" event of frets on mini fretboard
+  let chordFretClicked = function() {
+    console.log("clicked: ", this);
+    let string = this.getAttribute("data-string");
+    let fret = this.getAttribute("data-fret");
+    let startPos = document.getElementById("startPos").value;
+
+    let newFretVal;
+
+    // if statement ensures the fret number is modified according to starting point.
+    if (fret >= 0) {
+      fret = parseInt(fret);
+      startPos = parseInt(startPos);
+      newFretVal = fret + startPos;
+    } else {
+      newFretVal = fret;
+    }
+
+    // fret information now stored in the following variables:
+    console.log("clicked: ", string, newFretVal);
+
+
+
+  }
+
+  // Adds event listener for each fret on the mini fretboard
+  for (let i = 0; i < frets.length; i++) {
+    frets[i].addEventListener('click', chordFretClicked, false);
+  }
+}
+
+  // when clicked, check if the row is empty
+  // then add html marker (possibly finger number) onto table
+  // create tab format "--0/--0"...
+
 
 async function createChord() {
   // code for creating a chord
