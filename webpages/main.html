@@ -860,7 +860,7 @@
 
       <div class="miniFretboard">
 
-        <div class="miniFirstRow">
+        <div class="miniFirstRow" id = "miniFirstRow">
           <select class="tuningDropdown" data-current = "E4">
               <option>C0</option>
               <option>C#0</option>
@@ -969,7 +969,7 @@
 
         </div>
 
-        <div class="miniMidRow">
+        <div class="miniSecondRow" id = "miniSecondRow">
           <select class = "tuningDropdown" data-curent = "B3">
               <option>C0</option>
               <option>C#0</option>
@@ -1078,7 +1078,7 @@
 
         </div>
 
-        <div class="miniMidRow">
+        <div class="miniThirdRow" id = "miniThirdRow">
           <select class = "tuningDropdown" data-curent = "G3">
             <option>C0</option>
             <option>C#0</option>
@@ -1187,7 +1187,7 @@
 
       </div>
 
-        <div class="miniMidRow">
+        <div class="miniFourthRow" id = "miniFourthRow">
           <select class = "tuningDropdown" data-curent = "D3">
             <option>C0</option>
             <option>C#0</option>
@@ -1296,7 +1296,7 @@
 
         </div>
 
-        <div class="miniMidRow">
+        <div class="miniFifthRow" id = "miniFifthRow">
           <select class = "tuningDropdown" data-curent = "A2">
             <option>C0</option>
             <option>C#0</option>
@@ -1405,7 +1405,7 @@
 
         </div>
 
-        <div class="miniLastRow">
+        <div class="miniSixthRow" id = "miniSixthRow">
           <select class = "tuningDropdown" data-curent = "E2">
             <option>C0</option>
             <option>C#0</option>
@@ -1529,7 +1529,7 @@
 
       <input type="button" id = "undoChange" value = "Undo" title = "Undo last change">
       <input type="button" id = "clearChord" value = "Clear" title = "Clear all changes">
-      <input type="button" id = "createChord" value = "Create New Chord" title = "Create a new chord to save">
+      <input type="button" id = "createChord" value = "Create New Chord" title = "Create a new chord to save" onclick = "createChord();">
 
     </div>
 

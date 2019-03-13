@@ -103,12 +103,32 @@ div.miniFirstRow {
   width: 100%;
 }
 
-div.miniMidRow {
+div.miniFirstRow {
   display: table-row;
   width: 100%;
 }
 
-div.miniLastRow {
+div.miniSecondRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniThirdRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniFourthRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniFifthRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniSixthRow {
   display: table-row;
   width: 100%;
 }
@@ -128,6 +148,24 @@ div.fret2 {
 div.fret2:hover {
   background-color: sienna;
 }
+
+div.fret2Selected {
+  background-color: brown;
+  display: table-cell;
+  width: 4.2%;
+  min-width: 60px;
+  margin: 0;
+  padding: 0;
+  /* border: 1em solid black; */
+  border-width: thin;
+  border-right: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+div.fret2Selected:hover {
+  background-color: brown;
+}
+
 
 div.miniFretLegend {
   display: table-row;

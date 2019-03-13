@@ -306,7 +306,6 @@ function chordFretboard() {
 
   // Function called by "onclick" event of frets on mini fretboard
   let chordFretClicked = function() {
-    console.log("clicked: ", this);
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
     let startPos = document.getElementById("startPos").value;
@@ -314,6 +313,7 @@ function chordFretboard() {
     let newFretVal;
 
     // if statement ensures the fret number is modified according to starting point.
+    // produces fret value information to be used for chord creation
     if (fret >= 0) {
       fret = parseInt(fret);
       startPos = parseInt(startPos);
@@ -322,11 +322,47 @@ function chordFretboard() {
       newFretVal = fret;
     }
 
-    // fret information now stored in the following variables:
-    console.log("clicked: ", string, newFretVal);
+    // Set marker onto div to display user's fret choice
 
-
-
+    if (string == 0) {
+        // remove fret2Selected from classList of all elements of the string row
+        // then adds selected element to selected class
+       let stringRow = document.getElementById("miniFirstRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     } else if (string == 1) {
+       let stringRow = document.getElementById("miniSecondRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     } else if (string == 2) {
+       let stringRow = document.getElementById("miniThirdRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     } else if (string == 3) {
+       let stringRow = document.getElementById("miniFourthRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     } else if (string == 4) {
+       let stringRow = document.getElementById("miniFifthRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     } else {
+       let stringRow = document.getElementById("miniSixthRow").getElementsByTagName("div");
+       for (let i = 0; i < stringRow.length; i++) {
+         stringRow[i].classList.remove("fret2Selected");
+       }
+       this.classList.add("fret2Selected");
+     }
   }
 
   // Adds event listener for each fret on the mini fretboard
@@ -341,12 +377,57 @@ function chordFretboard() {
 
 
 async function createChord() {
-  // code for creating a chord
-  // on click:
-  //    - check that the row is empty
-  //        - if yes, add marker onto fret, note down fret and string
-  //        - if no, output error
-  //    - when save changes clicked, convert table input to "--0/--..." format to be saved in db
+  let chordTab = "";
+
+  // first, check if all rows have a selected value, if not, send alert and return
+  let stringRow0Selected = document.getElementById("miniFirstRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow1Selected = document.getElementById("miniSecondRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow2Selected = document.getElementById("miniThirdRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow3Selected = document.getElementById("miniFourthRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow4Selected = document.getElementById("miniFifthRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow5Selected = document.getElementById("miniSixthRow").getElementsByClassName("fret2Selected")[0];
+
+  if (stringRow0Selected == undefined) {
+    alert("please select a fret for string 0");
+    return;
+  } else if (stringRow1Selected == undefined) {
+    alert("please select a fret for string 1");
+    return;
+  } else if (stringRow2Selected == undefined) {
+    alert("please select a fret for string 2");
+    return;
+  } else if (stringRow3Selected == undefined) {
+    alert("please select a fret for string 3");
+    return;
+  } else if (stringRow4Selected == undefined) {
+    alert("please select a fret for string 4");
+    return;
+  } else if (stringRow5Selected == undefined) {
+    alert("please select a fret for string 5");
+    return;
+  }
+
+  // add starting position to fret values
+  let startPos = parseInt(document.getElementById("startPos").value);
+  let string0fret = parseInt(stringRow0Selected.getAttribute("data-fret")) + startPos;
+  let string1fret = parseInt(stringRow1Selected.getAttribute("data-fret")) + startPos;
+  let string2fret = parseInt(stringRow2Selected.getAttribute("data-fret")) + startPos;
+  let string3fret = parseInt(stringRow3Selected.getAttribute("data-fret")) + startPos;
+  let string4fret = parseInt(stringRow4Selected.getAttribute("data-fret")) + startPos;
+  let string5fret = parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
+
+  // append frets to chordTab respectively
+  chordTab += string0fret + "--/"
+  chordTab += string1fret + "--/"
+  chordTab += string2fret + "--/"
+  chordTab += string3fret + "--/"
+  chordTab += string4fret + "--/"
+  chordTab += string5fret + "--"
+
+  // chord tab succesfully created
+  console.log(chordTab)
+
+
 }
 
 
