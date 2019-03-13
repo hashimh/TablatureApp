@@ -405,27 +405,74 @@ async function createChord() {
   } else if (stringRow5Selected == undefined) {
     alert("please select a fret for string 5");
     return;
+  } else {
+    // if all strings contain a selected fret
+    let chName = document.getElementById("chName").value;
+    if (chName.length < 1) {
+      alert("please enter a valid chord name");
+      return;
+    } else {
+      // if all strings contain selected fret AND has a valid name
+
+      let startPos = parseInt(document.getElementById("startPos").value);
+
+      // appends starting position or "x" to final chord tab
+      if (stringRow0Selected.getAttribute("data-fret") > -1) {
+        let string0fret = parseInt(stringRow0Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string0fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      if (stringRow1Selected.getAttribute("data-fret") > -1) {
+        let string1fret = parseInt(stringRow1Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string1fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      if (stringRow2Selected.getAttribute("data-fret") > -1) {
+        let string2fret = parseInt(stringRow2Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string2fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      if (stringRow3Selected.getAttribute("data-fret") > -1) {
+        let string3fret = parseInt(stringRow3Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string3fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      if (stringRow4Selected.getAttribute("data-fret") > -1) {
+        let string4fret = parseInt(stringRow4Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string4fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      if (stringRow5Selected.getAttribute("data-fret") > -1) {
+        let string5fret = parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string5fret + "--/"
+      } else {
+        chordTab += "x--/"
+      }
+
+      // chord tab succesfully created
+      console.log(chordTab)
+
+      // save chord to database!!!
+      const token = localStorage.getItem("id_token");
+      const fetchOptions = {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+      };
+
+      let url = '/api/saveChord' + '?chord_name=' + encodeURIComponent(chName) + '?chord_frets=' + encodeURIComponent(chordTab);
+    }
   }
-
-  // add starting position to fret values
-  let startPos = parseInt(document.getElementById("startPos").value);
-  let string0fret = parseInt(stringRow0Selected.getAttribute("data-fret")) + startPos;
-  let string1fret = parseInt(stringRow1Selected.getAttribute("data-fret")) + startPos;
-  let string2fret = parseInt(stringRow2Selected.getAttribute("data-fret")) + startPos;
-  let string3fret = parseInt(stringRow3Selected.getAttribute("data-fret")) + startPos;
-  let string4fret = parseInt(stringRow4Selected.getAttribute("data-fret")) + startPos;
-  let string5fret = parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
-
-  // append frets to chordTab respectively
-  chordTab += string0fret + "--/"
-  chordTab += string1fret + "--/"
-  chordTab += string2fret + "--/"
-  chordTab += string3fret + "--/"
-  chordTab += string4fret + "--/"
-  chordTab += string5fret + "--"
-
-  // chord tab succesfully created
-  console.log(chordTab)
 
 
 }
