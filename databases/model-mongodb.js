@@ -56,7 +56,38 @@ function login (insertEmail, fnameIn, lnameIn) {
   });
 }
 
+function saveChord (chName, chFrets, email) {
 
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+
+    // First, check chord name is not a duplicate
+    dbo.collection("chords").find({chord_name: chName}).toArray(function(err, res) {
+      if (err) throw err;
+
+      if (res.length < 1) {
+        // Create collection "chords" if it doesn't exist:
+        dbo.createCollection("chords", function(err, res) {
+          if (err) throw err;
+          console.log("collection 'chords' created");
+        });
+
+        const chordInfo = [
+          { email: email, chord_name: chName, chord_frets: chFrets }
+        ];
+
+        dbo.collection("chords").insertMany(chordInfo, function(err, res) {
+          if (err) throw err;
+          console.log("inserted chord into database: ", chName, chFrets, " for user ", email);
+          db.close();
+        });
+      } else {
+        console.log(chName, " already exists in database")
+      }
+    });
+  });
+}
 
 // Fills in 'presaved' table:
 // function fillPresaved() {
@@ -110,3 +141,4 @@ function login (insertEmail, fnameIn, lnameIn) {
 // module.exports.fillPresaved = fillPresaved;
 // module.exports.getPresaved = getPresaved;
 module.exports.login = login;
+module.exports.saveChord = saveChord;

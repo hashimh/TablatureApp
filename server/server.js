@@ -31,6 +31,7 @@ app.get('/api/createTabBtn', createTabBtn);
 
 // app.post('/api/fillPresaved', fillPresaved);
 app.post('/api/checkUser', checkUser);
+app.post('/api/saveChord', saveChord);
 
 
 // -------------------------------------------------- //
@@ -61,7 +62,15 @@ async function checkUser(req, res) {
   res.json(retval);
 }
 
+async function saveChord(req, res) {
+  // Two parameters to be saved in database
+  console.log("chord name: ", req.query.chord_name);
+  console.log("chord frets: ", req.query.chord_frets);
+  console.log("requesting user email: ", req.user.emails[0].value);
 
+  const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.user.emails[0].value);
+  res.json(retval);
+}
 // function to fill presaved chords into database table - only if table entries do not exist
 // async function fillPresaved (req, res) {
 //   try {

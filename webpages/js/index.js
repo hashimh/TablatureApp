@@ -470,11 +470,18 @@ async function createChord() {
         headers: { 'Authorization': 'Bearer ' + token },
       };
 
-      let url = '/api/saveChord' + '?chord_name=' + encodeURIComponent(chName) + '?chord_frets=' + encodeURIComponent(chordTab);
+      let url = '/api/saveChord' + '?chord_name=' + encodeURIComponent(chName) + '&chord_frets=' + encodeURIComponent(chordTab);
+      console.log("attempting to fetch /api/savedChord");
+
+      const response = await fetch(url, fetchOptions);
+      if (!response.ok) {
+        // handle the error
+        console.log("fetch response for /api/saveChord has failed.");
+        return;
+      }
+      console.log("successful /api/saveChord call!");
     }
   }
-
-
 }
 
 
