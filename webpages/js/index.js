@@ -82,6 +82,7 @@ async function populateMain() {
 
   fretBoard();
   chordFretboard();
+  // getMyChords();
 
 }
 
@@ -301,7 +302,7 @@ function changeStartPos() {
   }
 }
 
-function chordFretboard() {
+async function chordFretboard() {
   let frets = document.getElementsByClassName("fret2");
 
   // Function called by "onclick" event of frets on mini fretboard
@@ -369,6 +370,9 @@ function chordFretboard() {
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', chordFretClicked, false);
   }
+
+  refreshSavedDropdown();
+
 }
 
   // when clicked, check if the row is empty
@@ -478,8 +482,15 @@ async function createChord() {
         // handle the error
         console.log("fetch response for /api/saveChord has failed.");
         return;
+      } else {
+        console.log("successful /api/saveChord call!");
+
+        // Append chName to dropdown
+        let chordDropdown = document.getElementById("selectMyChord");
+        let newOption = document.createElement("option");
+        newOption.text = chName;
+        chordDropdown.add(newOption);
       }
-      console.log("successful /api/saveChord call!");
     }
   }
 }
@@ -566,8 +577,65 @@ function clearAllStaves() {
   }
 }
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// ----------------------------- GENERIC FUNCTIONS -----------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
+// GENERIC FUNCTION TO GET CURRENT USERS CHORD INFORMATION FROM DATABASE
+async function getMyChords() {
+  // Function will select all names in saved chords with email = current user to display in dropdown menu.
 
+  // First, get chord names from server
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + token },
+  };
+
+  let url = '/api/getSavedChords'
+  console.log("attempting to fetch /api/getSavedChords");
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/getSavedChords has failed.");
+    return;
+  }
+  console.log("successful /api/getSavedChords call");
+
+  let chords = await response.json();
+  // An object with the JSON database tables for user's chords!
+  console.log("getMyChords(): ",chords);
+  return chords;
+
+}
+
+// GENERIC FUNCTION USED TO LOAD 'MY CHORDS' DROPDOWN
+async function refreshSavedDropdown() {
+  let chordDropdown = document.getElementById("selectMyChord");
+  let options = chordDropdown.getElementsByTagName("option");
+
+  // First, clear the dropdown
+  for (let i = options.length - 1; i >= 0; i--) {
+    chordDropdown.options[i] = null;
+  }
+
+  // Fill in 'My Chords' dropdown:
+
+  let chords = await getMyChords();
+  console.log("Fill chordFretboard chords value: ", chords);
+
+  for (let i = 0; i < chords.length; i++) {
+    let option = document.createElement("option");
+    option.text = chords[i].chord_name;
+    chordDropdown.add(option);
+  }
+}
 
 // GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
 async function getPage(apiLink) {

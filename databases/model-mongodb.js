@@ -89,6 +89,17 @@ function saveChord (chName, chFrets, email) {
   });
 }
 
+let getSavedChords = function(emailIn, cb) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+    dbo.collection("chords").find({email: emailIn}).toArray(cb);
+    db.close();
+  });
+}
+
+
+
 // Fills in 'presaved' table:
 // function fillPresaved() {
 //   MongoClient.connect(url, function(err, db) {
@@ -142,3 +153,4 @@ function saveChord (chName, chFrets, email) {
 // module.exports.getPresaved = getPresaved;
 module.exports.login = login;
 module.exports.saveChord = saveChord;
+module.exports.getSavedChords = getSavedChords;

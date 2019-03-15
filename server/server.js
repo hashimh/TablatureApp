@@ -28,6 +28,7 @@ app.get('/api/login', login);
 app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
 // app.get('/api/getPresaved', getPresaved);
+app.get('/api/getSavedChords', getSavedChords);
 
 // app.post('/api/fillPresaved', fillPresaved);
 app.post('/api/checkUser', checkUser);
@@ -52,6 +53,19 @@ async function createTabBtn (req, res) {
   // Sends main.html on button click.
   res.sendFile('main.html', {root: '../webpages'});
 }
+
+async function getSavedChords(req, res) {
+  // Calls database function to get user's presaved chords
+  await db.getSavedChords(req.user.emails[0].value, function(err, data) {
+    if (err) {
+      throw err;
+      return res(err);
+    } else {
+      return res.json(data);
+    }
+  });
+}
+
 
 async function checkUser(req, res) {
   let fullName = req.user.displayName;
