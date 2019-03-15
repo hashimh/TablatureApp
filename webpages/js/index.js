@@ -285,8 +285,45 @@ function selectChord() {
     textAreaLines[i] += chordLines[i];
   }
   textArea.value = textAreaLines.join("\n");
+}
+
+async function selectMyChord() {
+  let selectedStaveMenu = document.getElementById("selectStave");
+  let selectedChordMenu = document.getElementById("selectMyChord");
+  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+  console.log("SELECTED MYCHORD: " + selectedChord); // prints chord selected by user
+
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("No stave created!");
+    return;
+  }
+
+  let chords = await getMyChords();
+  let myChord;
+
+  // Iterate through all user chords until match found
+  for (let i = 0; i < chords.length; i++) {
+    if (chords[i].chord_name == selectedChord) {
+      myChord = chords[i].chord_frets;
+    }
+  }
+
+  console.log(myChord);
+
+  // Now, add the chord to the stave box
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let textArea = document.getElementById("stave" + selectedStave);
+
+  let chordLines = myChord.split("/");
+  let textAreaLines = textArea.value.split("\n");
+
+  for (let i = 0; i < textAreaLines.length; i++) {
+    textAreaLines[i] += chordLines[i];
+  }
+  textArea.value = textAreaLines.join("\n");
 
 }
+
 
 // Event listener for change of chord starting position, change legend row of table
 function changeStartPos() {
@@ -485,11 +522,32 @@ async function createChord() {
       } else {
         console.log("successful /api/saveChord call!");
 
+        alert("chord saved to database!");
+
         // Append chName to dropdown
         let chordDropdown = document.getElementById("selectMyChord");
         let newOption = document.createElement("option");
         newOption.text = chName;
         chordDropdown.add(newOption);
+
+        // Clear start position input and reset fretboard legend values
+        document.getElementById("startPos").value = 0;
+        let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+        for (let i = 0; i < legendText.length; i++) {
+          if (legendText[i].innerHTML >= 0) {
+            legendText[i].innerHTML = (i - 2);
+          }
+        }
+
+        // Clear chord name input
+        document.getElementById("chName").value = "";
+
+        // Clear fretboard selections
+        let frets = document.querySelectorAll('.fret2.fret2Selected');
+        for (let i = 0; i < frets.length; i++) {
+          frets[i].classList.remove('fret2Selected');
+        }
+
       }
     }
   }
@@ -610,7 +668,6 @@ async function getMyChords() {
 
   let chords = await response.json();
   // An object with the JSON database tables for user's chords!
-  console.log("getMyChords(): ",chords);
   return chords;
 
 }
@@ -628,7 +685,6 @@ async function refreshSavedDropdown() {
   // Fill in 'My Chords' dropdown:
 
   let chords = await getMyChords();
-  console.log("Fill chordFretboard chords value: ", chords);
 
   for (let i = 0; i < chords.length; i++) {
     let option = document.createElement("option");
