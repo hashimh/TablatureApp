@@ -252,9 +252,9 @@ div.fretStringLegend {
 .tabbox {
   display: grid;
   grid-template-areas:
-    'staveoptions staveoptions tabinfo'
-    'tabcontent tabcontent tabinfo'
-    'tabcontent tabcontent taboptions';
+    'staveoptions staveoptions staveoptions taboptions'
+    'tabcontent tabcontent tabcontent taboptions'
+    'tabcontent tabcontent tabcontent taboptions';
   margin-top: 20px;
 }
 
@@ -304,6 +304,7 @@ textarea {
 
 /* ----------------------------- Tab Option CSS ----------------------------- */
 div.taboptions {
+  max-width: 50vh;
   border: 5px solid black;
   margin: 5px;
   padding: 10px;
