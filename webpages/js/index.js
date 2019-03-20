@@ -119,8 +119,6 @@ async function fretBoard() {
     let staveSpacing = document.getElementById("tabSpacing");
     let selectedSpacing = parseInt(staveSpacing.options[staveSpacing.selectedIndex].value);
 
-    console.log(selectedSpacing);
-
     for (let i = 0; i < textAreaLines.length; i++) {
       if (i != string) {
         if (fret > 9) {
@@ -180,37 +178,39 @@ async function fretBoard() {
         }
       }
     }
-
-
-
     textArea.value = textAreaLines.join("\n");
-
   }
 
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', fretClicked, false);
   }
-
-  // // Now fill in presaved table:
-  // const token = localStorage.getItem("id_token");
-  // const fetchOptions = {
-  //   credentials: 'same-origin',
-  //   method: 'POST',
-  //   headers: { 'Authorization': 'Bearer ' + token },
-  // };
-  //
-  // let url = '/api/fillPresaved';
-  // console.log("attempting to fetch /api/fillPresaved");
-  //
-  // const response = await fetch(url, fetchOptions);
-  // if (!response.ok) {
-  //   // handle the error
-  //   console.log("fetch response for /api/fillPresaved has failed.");
-  //   return;
-  // }
-  // console.log("successful /api/fillPresaved call! Check database!");
 }
 
+// Function to insert blank spaces into selected tablature
+function insertBlanks() {
+  // Variable to store amount of spaces to insert
+  let dropdown = document.getElementById("insertSpace");
+  let amount = parseInt(dropdown.options[dropdown.selectedIndex].value);
+
+  // Check stave exists
+  let selectedStaveMenu = document.getElementById("selectStave");
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("Please create a stave to edit!");
+    return;
+  }
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+  let staveid = "stave" + selectedStave;
+
+  // Variable for rows in selected text area
+  let textArea = document.getElementById(staveid);
+  let textAreaLines = textArea.value.split("\n");
+  let insert = '-'
+
+  for (let i = 0; i < textAreaLines.length; i++) {
+    textAreaLines[i] += insert.repeat(amount);
+  }
+  textArea.value = textAreaLines.join("\n");
+}
 
 
 
