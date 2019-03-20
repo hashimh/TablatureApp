@@ -115,17 +115,74 @@ async function fretBoard() {
 
     // For each line in the textarea (line 0 to line 5)
     // concatenate (+) either "--" or "stringnumber", depending on strng value
+    // Also adjust value of tab spacing
+    let staveSpacing = document.getElementById("tabSpacing");
+    let selectedSpacing = parseInt(staveSpacing.options[staveSpacing.selectedIndex].value);
+
+    console.log(selectedSpacing);
+
     for (let i = 0; i < textAreaLines.length; i++) {
       if (i != string) {
         if (fret > 9) {
-          textAreaLines[i] += '----'
+          switch (selectedSpacing) {
+            case 1:
+              textAreaLines[i] += '---';
+              break;
+            case 2:
+              textAreaLines[i] += '----';
+              break;
+            case 3:
+              textAreaLines[i] += '-----';
+              break;
+            case 4:
+              textAreaLines[i] += '------';
+              break;
+            case 5:
+              textAreaLines[i] += '-------';
+              break;
+          }
         } else {
-          textAreaLines[i] += '---';
+          switch (selectedSpacing) {
+            case 1:
+              textAreaLines[i] += '--';
+              break;
+            case 2:
+              textAreaLines[i] += '---';
+              break;
+            case 3:
+              textAreaLines[i] += '----';
+              break;
+            case 4:
+              textAreaLines[i] += '-----';
+              break;
+            case 5:
+              textAreaLines[i] += '------';
+              break;
+          }
         }
       } else {
-        textAreaLines[i] += fret + '--';
+        switch (selectedSpacing) {
+          case 1:
+            textAreaLines[i] += fret + '-';
+            break;
+          case 2:
+            textAreaLines[i] += fret + '--';
+            break;
+          case 3:
+              textAreaLines[i] += fret + '---';
+              break;
+          case 4:
+            textAreaLines[i] += fret + '----';
+            break;
+          case 5:
+            textAreaLines[i] += fret + '-----';
+            break;
+        }
       }
     }
+
+
+
     textArea.value = textAreaLines.join("\n");
 
   }
