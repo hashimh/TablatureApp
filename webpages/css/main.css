@@ -311,3 +311,17 @@ div.taboptions {
   background-color: gray;
   border-radius: 20px;
 }
+
+.optionBtn {
+  background-color: gray;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.activeBtn {
+  background-color: teal;
+}
+
+.optionBtn:hover {
+  background-color: teal;
+}

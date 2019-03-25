@@ -184,6 +184,23 @@ async function fretBoard() {
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', fretClicked, false);
   }
+
+  // Add event listeners for buttons
+  let btns = document.getElementsByClassName("optionBtn");
+
+  console.log(btns);
+
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function() {
+      let current = document.getElementsByClassName("activeBtn");
+      if (current.length > 0) {
+        current[0].classList.remove("activeBtn");
+      }
+      this.classList.add("activeBtn");
+    });
+  }
+
+
 }
 
 // Function to insert blank spaces into selected tablature
