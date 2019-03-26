@@ -1,23 +1,37 @@
 'use strict';
 
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// -------------------------------------- INITIAL FUNCTIONS -------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Store user's login information into localStorage ---------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function onSignIn(googleUser) {
-  // Get the users ID Token, store in local storage to be used with interactions with the server (authentication).
   console.log("sign in function called");
   let auth2 = gapi.auth2.getAuthInstance();
   localStorage.setItem("id_token",auth2.currentUser.get().getAuthResponse().id_token);
   localStorage.setItem("googleUser",googleUser.getBasicProfile().getName());
   auth2.disconnect();
-  // Once logged in, call function callServer().
 
+  // Call next initialising function
   callServer(googleUser);
 }
 
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function gets next form from the server ------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function callServer(googleUser) {
   console.log("call server function called");
   let apiLink = '/api/login';
   await getPage(apiLink);
 
-  // Checks if user is in database, if not then user is added.
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
     credentials: 'same-origin',
@@ -29,26 +43,21 @@ async function callServer(googleUser) {
   // are added to the db. If yes, then this part is skipped.
   const response = await fetch('/api/checkUser', fetchOptions);
   if (!response.ok) {
-    // handle the error
     console.log("fetch response for /api/checkuser has failed.");
     return;
   }
 
-  displayMenu(googleUser);
-
-  // ---------------------------------------------------------------
-  // NEED A FUNCTION TO ADD USER TO DATABASE IF NOT EXISTING ALREADY
-  // ---------------------------------------------------------------
-
-}
-
-async function displayMenu(googleUser) {
   // Get name for heading
   const profile = googleUser.getBasicProfile();
   const el = document.getElementById('greeting');
   el.textContent = 'Welcome, ' + profile.getName() + '...' + 'What would you like to do today?';
 }
 
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to sign out of the menu.html form ---------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function signOut() {
   // Call server function 'logout'
   let apiLink = '/api/logout';
@@ -59,8 +68,14 @@ async function signOut() {
   // Removes ID Token from local storage, ensures Google account logs out properly.
   localStorage.removeItem("id_token");
   localStorage.removeItem("googleUser");
+
 }
 
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to go to main.html form -------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function createTabBtn() {
   // Call server function 'createTabBtn'
   let apiLink = '/api/createTabBtn';
@@ -69,39 +84,45 @@ async function createTabBtn() {
   populateMain();
 }
 
-// -----------------------------------------------------------------------------
-// ---------- CODE FOR MAIN.HTML -----------------------------------------------
-// -----------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to initialise the form --------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function populateMain() {
   console.log("populating main...")
 
-  // Get name for heading
+  // Get user's name for nav bar
   const el = document.getElementById('greeting');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
   fretBoard();
   chordFretboard();
-  // getMyChords();
-
 }
 
-
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ------------------------------------- MAIN FRETBOARD CODE ------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 
 let symbolInserted = false;
 let symbolString;
 let symbolFret;
 
+// ----------------------------------------------------------------------------------------------- //
+// Function for main fretboard, allows frets to be added to tablature ---------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
 
+  // Event handler for clicking a fret:
   let fretClicked = function() {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
-
     let selectedStaveMenu = document.getElementById("selectStave");
 
-    // If no staves yet created, output error message
+    // If no staves yet created, output error message.
     if ((selectedStaveMenu.options).length <= 0) {
       alert("Please create a stave to edit!");
       return;
@@ -109,10 +130,7 @@ async function fretBoard() {
 
     let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
     let staveid = "stave" + selectedStave;
-
     let textArea = document.getElementById(staveid);
-
-    // Variable for line number
     let textAreaLines = textArea.value.split("\n");
 
     // For each line in the textarea (line 0 to line 5)
@@ -315,9 +333,6 @@ async function fretBoard() {
 
   // Add event listeners for buttons
   let btns = document.getElementsByClassName("optionBtn");
-
-  console.log(btns);
-
   for (let i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function() {
       let current = document.getElementsByClassName("activeBtn");
@@ -338,39 +353,19 @@ async function fretBoard() {
       }
     }
   });
-
 }
 
-// Function to insert blank spaces into selected tablature
-function insertBlanks() {
-  // Variable to store amount of spaces to insert
-  let dropdown = document.getElementById("insertSpace");
-  let amount = parseInt(dropdown.options[dropdown.selectedIndex].value);
-
-  // Check stave exists
-  let selectedStaveMenu = document.getElementById("selectStave");
-  if ((selectedStaveMenu.options).length <= 0) {
-    alert("Please create a stave to edit!");
-    return;
-  }
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
-  let staveid = "stave" + selectedStave;
-
-  // Variable for rows in selected text area
-  let textArea = document.getElementById(staveid);
-  let textAreaLines = textArea.value.split("\n");
-  let insert = '-'
-
-  for (let i = 0; i < textAreaLines.length; i++) {
-    textAreaLines[i] += insert.repeat(amount);
-  }
-  textArea.value = textAreaLines.join("\n");
-}
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// --------------------------------------- STAVE FUNCTIONS --------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 
 
 
-
-// FUNCTION TO ADD A STAVE //
+// ----------------------------------------------------------------------------------------------- //
+// Function to insert empty stave into tablature box --------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function addStave() {
     let tempmessage = document.getElementById("tempmessage");
     if (tempmessage != undefined) {
@@ -384,13 +379,12 @@ function addStave() {
     let staveType = document.getElementById("selectStaveType");
     let type = staveType.options[staveType.selectedIndex].value;
 
-    // CODE FOR THE STAVE DIV //
     const id = (staves.length) + 1
     const staveid = "stave" + id
 
     // Append a new stave - h3, textarea //
     let div = document.createElement("div");
-    div.setAttribute("id", id); // ------------------------------------------------------------------------------------
+    div.setAttribute("id", id);
     div.setAttribute("class", "stave");
     tabcontent.append(div);
 
@@ -423,8 +417,9 @@ function addStave() {
 
 
 
-
-
+// ----------------------------------------------------------------------------------------------- //
+// Function to delete the selected stave --------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function deleteStave() {
   let selectedStaveMenu = document.getElementById("selectStave");
 
@@ -451,9 +446,71 @@ function deleteStave() {
 
 
 
-// -----------------------------------------------------------------------------
-// ---------- CODE FOR CHORD BOX -----------------------------------------------
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------- //
+// Function to clear the form of all staves ------------------------------------------------------ //
+// ----------------------------------------------------------------------------------------------- //
+function clearAllStaves() {
+  let tabcontent = document.getElementById("tabcontent");
+  let allStaves = tabcontent.childNodes;
+  console.log(allStaves)
+  if (allStaves.length >= 1) {
+    if (confirm('Are you sure you want to reset all staves?')) {
+      console.log("chose yes");
+      while (tabcontent.firstChild) {
+        tabcontent.removeChild(tabcontent.firstChild);
+      }
+      // REMOVE STAVES FROM DROPDOWN MENU
+      let staveDropdown = document.getElementById("selectStave");
+      let dropdownLength = staveDropdown.options.length;
+      for (let i = 0; i < dropdownLength; i++) {
+        staveDropdown.remove(i);
+        staveDropdown.remove(staveDropdown.selectedIndex);
+      }
+    } else {
+      // Do nothing
+      return;
+    }
+  } else {
+    alert("No staves created!");
+  }
+}
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to insert blank spaces into selected tablature --------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function insertBlanks() {
+  // Variable to store amount of spaces to insert
+  let dropdown = document.getElementById("insertSpace");
+  let amount = parseInt(dropdown.options[dropdown.selectedIndex].value);
+
+  // Check stave exists
+  let selectedStaveMenu = document.getElementById("selectStave");
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("Please create a stave to edit!");
+    return;
+  }
+  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+  let staveid = "stave" + selectedStave;
+
+  // Variable for rows in selected text area
+  let textArea = document.getElementById(staveid);
+  let textAreaLines = textArea.value.split("\n");
+  let insert = '-'
+
+  for (let i = 0; i < textAreaLines.length; i++) {
+    textAreaLines[i] += insert.repeat(amount);
+  }
+  textArea.value = textAreaLines.join("\n");
+}
+
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ---------------------------- CHORD CREATION AND SELECTION FUNCTIONS --------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+
 
 
 // List of presaved chords to be used in selectChord function:
@@ -467,12 +524,13 @@ const chordList = [
   { "id": 6, "chord": "Em", "frets": "0--/0--/0--/2--/2--/0--"}
 ];
 
-// function to get a presaved chord from the library:
+// ----------------------------------------------------------------------------------------------- //
+// Function to get a presaved chord from chordList array ----------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function selectChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectChord")
   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
-  console.log("SELECTED CHORD: " + selectedChord); // prints 'A'
 
   if ((selectedStaveMenu.options).length <= 0) {
     alert("No stave created!");
@@ -483,7 +541,6 @@ function selectChord() {
   for (let i = 0; i < chordList.length; i++) {
     if (chordList[i].chord == selectedChord) {
       frets = chordList[i].frets;
-      console.log(frets);
     }
   }
 
@@ -493,12 +550,39 @@ function selectChord() {
   let chordLines = frets.split("/");
   let textAreaLines = textArea.value.split("\n");
 
+  let tabSpacing = document.getElementById("tabSpacing");
+  let spaces = parseInt(tabSpacing.options[tabSpacing.selectedIndex].value);
+  let newChordLines;
+
   for (let i = 0; i < textAreaLines.length; i++) {
-    textAreaLines[i] += chordLines[i];
+    // Alter for tab spacing and append to textAreaLines
+    switch (spaces) {
+      case 1:
+        chordLines[i] = chordLines[i].substring(0, chordLines[i].length - 1);
+        textAreaLines[i] += chordLines[i];
+        break;
+      case 2:
+        textAreaLines[i] += chordLines[i];
+        break;
+      case 3:
+        textAreaLines[i] += (chordLines[i] + '-');
+        break;
+      case 4:
+        textAreaLines[i] += (chordLines[i] + '--');
+        break;
+      case 5:
+      textAreaLines[i] += (chordLines[i] + '---');
+      break;
+    }
   }
   textArea.value = textAreaLines.join("\n");
 }
 
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to get a saved chord from the database ----------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function selectMyChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectMyChord");
@@ -520,7 +604,6 @@ async function selectMyChord() {
     }
   }
 
-  console.log(myChord);
 
   // Now, add the chord to the stave box
   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
@@ -529,15 +612,38 @@ async function selectMyChord() {
   let chordLines = myChord.split("/");
   let textAreaLines = textArea.value.split("\n");
 
+  let tabSpacing = document.getElementById("tabSpacing");
+  let spaces = parseInt(tabSpacing.options[tabSpacing.selectedIndex].value);
+  let newChordLines;
+
   for (let i = 0; i < textAreaLines.length; i++) {
-    textAreaLines[i] += chordLines[i];
+    // Alter for tab spacing and append to textAreaLines
+    switch (spaces) {
+      case 1:
+        chordLines[i] = chordLines[i].substring(0, chordLines[i].length - 1);
+        textAreaLines[i] += chordLines[i];
+        break;
+      case 2:
+        textAreaLines[i] += chordLines[i];
+        break;
+      case 3:
+        textAreaLines[i] += (chordLines[i] + '-');
+        break;
+      case 4:
+        textAreaLines[i] += (chordLines[i] + '--');
+        break;
+      case 5:
+      textAreaLines[i] += (chordLines[i] + '---');
+      break;
+    }
   }
   textArea.value = textAreaLines.join("\n");
-
 }
 
 
-// Event listener for change of chord starting position, change legend row of table
+// ----------------------------------------------------------------------------------------------- //
+// Function to alter chord fretboard based on starting position of chord ------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function changeStartPos() {
   let val = parseInt(document.getElementById("startPos").value);
   let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
@@ -551,13 +657,18 @@ function changeStartPos() {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Function to get a presaved chord from the library --------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function chordFretboard() {
   let frets = document.getElementsByClassName("fret2");
+  let prevFret;
 
   // Function called by "onclick" event of frets on mini fretboard
   let chordFretClicked = function() {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
+    prevFret = this;
     let startPos = document.getElementById("startPos").value;
 
     let newFretVal;
@@ -615,20 +726,38 @@ async function chordFretboard() {
      }
   }
 
+  // Add event listener for "clear" button
+  let clearBtn = document.getElementById("clearChord");
+  clearChord.addEventListener("click", function() {
+    // Clear start position input and reset fretboard legend values
+    document.getElementById("startPos").value = 0;
+    let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+    for (let i = 0; i < legendText.length; i++) {
+      if (legendText[i].innerHTML >= 0) {
+        legendText[i].innerHTML = (i - 2);
+      }
+    }
+    // Clear chord name input
+    document.getElementById("chName").value = "";
+    // Clear fretboard selections
+    let frets = document.querySelectorAll('.fret2.fret2Selected');
+    for (let i = 0; i < frets.length; i++) {
+      frets[i].classList.remove('fret2Selected');
+    }
+  });
+
   // Adds event listener for each fret on the mini fretboard
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', chordFretClicked, false);
   }
-
   refreshSavedDropdown();
-
 }
 
-  // when clicked, check if the row is empty
-  // then add html marker (possibly finger number) onto table
-  // create tab format "--0/--0"...
 
 
+// ----------------------------------------------------------------------------------------------- //
+// Function to create a chord from the mini fretboard -------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function createChord() {
   let chordTab = "";
 
@@ -765,99 +894,18 @@ async function createChord() {
   }
 }
 
-
-
-// Function to add selected chord
-// async function selectChordOld() {
-//   // Check if a tab has been selected, via dropdown
-//   let selectedStaveMenu = document.getElementById("selectStave");
-//   let selectedChordMenu = document.getElementById("selectChord")
-//   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
-//   console.log("SELECTED CHORD: " + selectedChord);
-//
-//   if ((selectedStaveMenu.options).length <= 0) {
-//     alert("No stave created!");
-//     return;
-//   }
-//
-//
-//   const token = localStorage.getItem("id_token");
-//   const fetchOptions = {
-//     credentials: 'same-origin',
-//     method: 'GET',
-//     headers: { 'Authorization': 'Bearer ' + token },
-//   };
-//
-//   let url = '/api/getPresaved' + '?chord_name=' + encodeURIComponent(selectedChord);
-//   console.log("attempting to fetch /api/getPresaved");
-//
-//   // call server function to GET table value from 'presaved', where name = selected chord
-//   const response = await fetch(url, fetchOptions);
-//   if (!response.ok) {
-//     // handle the error
-//     console.log("fetch response for /api/getPresaved has failed.");
-//     return;
-//   }
-//   console.log("successful /api/getPresaved call!");
-//   let chord = await response.json();
-//
-//   // Raw string to append to textArea
-//   let chordString = chord[0].frets;
-//
-//   // Get textarea, append chord to tab
-//   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
-//   let textArea = document.getElementById("stave" + selectedStave);
-//
-//   let chordLines = chordString.split("/");
-//   let textAreaLines = textArea.value.split("\n");
-//
-//   for (let i = 0; i < textAreaLines.length; i++) {
-//     textAreaLines[i] += chordLines[i];
-//   }
-//   textArea.value = textAreaLines.join("\n");
-// }
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// -------------------------------------- GENERIC FUNCTIONS -------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 
 
 
-
-
-function clearAllStaves() {
-  let tabcontent = document.getElementById("tabcontent");
-  let allStaves = tabcontent.childNodes;
-  console.log(allStaves)
-  if (allStaves.length >= 1) {
-    if (confirm('Are you sure you want to reset all staves?')) {
-      console.log("chose yes");
-      while (tabcontent.firstChild) {
-        tabcontent.removeChild(tabcontent.firstChild);
-      }
-      // REMOVE STAVES FROM DROPDOWN MENU
-      let staveDropdown = document.getElementById("selectStave");
-      let dropdownLength = staveDropdown.options.length;
-      for (let i = 0; i < dropdownLength; i++) {
-        staveDropdown.remove(i);
-        staveDropdown.remove(staveDropdown.selectedIndex);
-      }
-    } else {
-      // Do nothing
-      return;
-    }
-  } else {
-    alert("No staves created!");
-  }
-}
-
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// ----------------------------- GENERIC FUNCTIONS -----------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-
-// GENERIC FUNCTION TO GET CURRENT USERS CHORD INFORMATION FROM DATABASE
+// ----------------------------------------------------------------------------------------------- //
+// Generic function to get chords from database -------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function getMyChords() {
-  // Function will select all names in saved chords with email = current user to display in dropdown menu.
 
   // First, get chord names from server
   const token = localStorage.getItem("id_token");
@@ -881,10 +929,13 @@ async function getMyChords() {
   let chords = await response.json();
   // An object with the JSON database tables for user's chords!
   return chords;
-
 }
 
-// GENERIC FUNCTION USED TO LOAD 'MY CHORDS' DROPDOWN
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Generic function to refresh the saved chords dropdown ----------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function refreshSavedDropdown() {
   let chordDropdown = document.getElementById("selectMyChord");
   let options = chordDropdown.getElementsByTagName("option");
@@ -905,12 +956,13 @@ async function refreshSavedDropdown() {
   }
 }
 
-// GENERIC FUNCTION USED TO GET NEW HTML PAGES TO THE SERVER //
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Generic function to change forms -------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function getPage(apiLink) {
-  // This is a core function used when changing pages on this app.
-  // It is sent an api link, and returns the HTML of the requested page.
   const token = localStorage.getItem("id_token");
-  // These are the options sent with the API request.
   const fetchOptions = {
     credentials: 'same-origin',
     method: 'GET',
@@ -918,11 +970,9 @@ async function getPage(apiLink) {
   };
   const response = await fetch(apiLink, fetchOptions);
   if (!response.ok) {
-    // handle the error
     console.log("fetch response for " + apiLink + 'has failed.');
     return;
   }
-  // TO-DO: History API
   console.log('fetch response for ' + apiLink + ' successful!');
   let innerhtml = await response.text();
   document.documentElement.innerHTML = innerhtml;

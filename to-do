@@ -1,13 +1,15 @@
-- Tab Symbols + Options
+To Do:
 - Databases -
     - Tabs
 - Server functions (audio)
 - Midi format - virtual guitar
-- Tab Spacing
+- Create chord buttons
 - ORGANISE CSS + CLASS NAMES
-electron -
+- Electron
 
 Done:
 - chords
 - user database
 - chords database
+- tab symbols
+- tab spacing
