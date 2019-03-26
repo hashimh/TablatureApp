@@ -126,32 +126,32 @@
               <option>A#7</option>
               <option>B7</option>
             </select>
+          </div>
+          <!-- Divs for all frets on the fretboard - first row -->
+          <div id="fret" class = "fret" data-string = "0" data-fret = "0"></div>
+          <div class = "fret" data-string = "0" data-fret = "1"></div>
+          <div class = "fret" data-string = "0" data-fret = "2"></div>
+          <div class = "fret" data-string = "0" data-fret = "3"></div>
+          <div class = "fret" data-string = "0" data-fret = "4"></div>
+          <div class = "fret" data-string = "0" data-fret = "5"></div>
+          <div class = "fret" data-string = "0" data-fret = "6"></div>
+          <div class = "fret" data-string = "0" data-fret = "7"></div>
+          <div class = "fret" data-string = "0" data-fret = "8"></div>
+          <div class = "fret" data-string = "0" data-fret = "9"></div>
+          <div class = "fret" data-string = "0" data-fret = "10"></div>
+          <div class = "fret" data-string = "0" data-fret = "11"></div>
+          <div class = "fret" data-string = "0" data-fret = "12"></div>
+          <div class = "fret" data-string = "0" data-fret = "13"></div>
+          <div class = "fret" data-string = "0" data-fret = "14"></div>
+          <div class = "fret" data-string = "0" data-fret = "15"></div>
+          <div class = "fret" data-string = "0" data-fret = "16"></div>
+          <div class = "fret" data-string = "0" data-fret = "17"></div>
+          <div class = "fret" data-string = "0" data-fret = "18"></div>
+          <div class = "fret" data-string = "0" data-fret = "19"></div>
+          <div class = "fret" data-string = "0" data-fret = "20"></div>
+          <div class = "fret" data-string = "0" data-fret = "21"></div>
+          <div class = "fret" data-string = "0" data-fret = "22"></div>
         </div>
-        <!-- Divs for all frets on the fretboard - first row -->
-        <div id="fret" class = "fret" data-string = "0" data-fret = "0"></div>
-        <div class = "fret" data-string = "0" data-fret = "1"></div>
-        <div class = "fret" data-string = "0" data-fret = "2"></div>
-        <div class = "fret" data-string = "0" data-fret = "3"></div>
-        <div class = "fret" data-string = "0" data-fret = "4"></div>
-        <div class = "fret" data-string = "0" data-fret = "5"></div>
-        <div class = "fret" data-string = "0" data-fret = "6"></div>
-        <div class = "fret" data-string = "0" data-fret = "7"></div>
-        <div class = "fret" data-string = "0" data-fret = "8"></div>
-        <div class = "fret" data-string = "0" data-fret = "9"></div>
-        <div class = "fret" data-string = "0" data-fret = "10"></div>
-        <div class = "fret" data-string = "0" data-fret = "11"></div>
-        <div class = "fret" data-string = "0" data-fret = "12"></div>
-        <div class = "fret" data-string = "0" data-fret = "13"></div>
-        <div class = "fret" data-string = "0" data-fret = "14"></div>
-        <div class = "fret" data-string = "0" data-fret = "15"></div>
-        <div class = "fret" data-string = "0" data-fret = "16"></div>
-        <div class = "fret" data-string = "0" data-fret = "17"></div>
-        <div class = "fret" data-string = "0" data-fret = "18"></div>
-        <div class = "fret" data-string = "0" data-fret = "19"></div>
-        <div class = "fret" data-string = "0" data-fret = "20"></div>
-        <div class = "fret" data-string = "0" data-fret = "21"></div>
-        <div class = "fret" data-string = "0" data-fret = "22"></div>
-      </div>
 
       <div class = "fretMidRow">
         <div class = "fretStringLegend">
@@ -1611,7 +1611,7 @@
         <button type="button" name="insertSpaces" onclick = "insertBlanks()">Insert</button>
       </div>
 
-      <div class="block">
+      <div class="block" id = "optionBtns">
         <h5>Tab Symbols:</h5>
         <button type="button" class = "optionBtn" name="Hammer On">h</button>
         <button type="button" class = "optionBtn" name="Bend">b</button>
@@ -1620,6 +1620,7 @@
         <button type="button" class = "optionBtn" name="Slide Up">/</button>
         <button type="button" class = "optionBtn" name="Slide Down">\</button>
         <button type="button" class = "optionBtn" name="Vibrato">~</button>
+        <button type="button" id = "clearOptions" name="clearOptions">Clear</button>
       </div>
 
       <input type = "button" id = "clearTab" value = "Delete Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();">

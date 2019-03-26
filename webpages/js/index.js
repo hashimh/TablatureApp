@@ -88,7 +88,8 @@ async function populateMain() {
 
 
 
-
+let symbolInserted = false;
+let symbolString;
 
 async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
@@ -119,68 +120,128 @@ async function fretBoard() {
     let staveSpacing = document.getElementById("tabSpacing");
     let selectedSpacing = parseInt(staveSpacing.options[staveSpacing.selectedIndex].value);
 
+    // Check if a symbol has been selected
+    let activeBtn = document.getElementsByClassName("activeBtn");
+    let symbol;
+    if (activeBtn.length < 1) {
+      symbol = "none";
+    } else {
+      symbol = activeBtn[0].innerHTML;
+      console.log(symbol);
+      // Now, remove button from active class list.
+      activeBtn[0].classList.remove("activeBtn");
+    }
+
+
+
     for (let i = 0; i < textAreaLines.length; i++) {
-      if (i != string) {
-        if (fret > 9) {
-          switch (selectedSpacing) {
-            case 1:
-              textAreaLines[i] += '---';
-              break;
-            case 2:
-              textAreaLines[i] += '----';
-              break;
-            case 3:
-              textAreaLines[i] += '-----';
-              break;
-            case 4:
-              textAreaLines[i] += '------';
-              break;
-            case 5:
-              textAreaLines[i] += '-------';
-              break;
-          }
-        } else {
-          switch (selectedSpacing) {
-            case 1:
-              textAreaLines[i] += '--';
-              break;
-            case 2:
-              textAreaLines[i] += '---';
-              break;
-            case 3:
-              textAreaLines[i] += '----';
-              break;
-            case 4:
-              textAreaLines[i] += '-----';
-              break;
-            case 5:
-              textAreaLines[i] += '------';
-              break;
-          }
+
+      if (symbolInserted == true && symbolString > -1) {
+        // Hammer On:
+        
+        if (string != symbolString) {
+          alert("please select the string of the most recent symbol!");
+          return;
         }
+      }
+      // while (symbolInserted == true) {
+      //   // Ensure user only clicks on the correct string
+      //   if (string !== prevString) {
+      //     alert("please select a fret on the same string as symbol!");
+      //     return;
+      //   }
+      // }
+
+
+
+      if (i != string) {
+        // First, handle symbols
+        switch (symbol) {
+          case "h":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
+          default:
+            // If no symbols are selected
+            symbolInserted = false;
+            symbolString = -1;
+            if (fret > 9) {
+              switch (selectedSpacing) {
+                case 1:
+                  textAreaLines[i] += '---';
+                  break;
+                case 2:
+                  textAreaLines[i] += '----';
+                  break;
+                case 3:
+                  textAreaLines[i] += '-----';
+                  break;
+                case 4:
+                  textAreaLines[i] += '------';
+                  break;
+                case 5:
+                  textAreaLines[i] += '-------';
+                  break;
+              }
+            } else {
+              switch (selectedSpacing) {
+                case 1:
+                  textAreaLines[i] += '--';
+                  break;
+                case 2:
+                  textAreaLines[i] += '---';
+                  break;
+                case 3:
+                  textAreaLines[i] += '----';
+                  break;
+                case 4:
+                  textAreaLines[i] += '-----';
+                  break;
+                case 5:
+                  textAreaLines[i] += '------';
+                  break;
+                }
+            }
+          }
       } else {
-        switch (selectedSpacing) {
-          case 1:
-            textAreaLines[i] += fret + '-';
+        // First, handle any symbol
+        switch(symbol) {
+          case "h":
+          symbolInserted = true;
+          symbolString = string;
+            textAreaLines[i] += fret + "h";
             break;
-          case 2:
-            textAreaLines[i] += fret + '--';
-            break;
-          case 3:
-              textAreaLines[i] += fret + '---';
-              break;
-          case 4:
-            textAreaLines[i] += fret + '----';
-            break;
-          case 5:
-            textAreaLines[i] += fret + '-----';
-            break;
+          default:
+            // If no symbol exists:
+            switch (selectedSpacing) {
+              case 1:
+                textAreaLines[i] += fret + '-';
+                break;
+              case 2:
+                textAreaLines[i] += fret + '--';
+                break;
+              case 3:
+                  textAreaLines[i] += fret + '---';
+                  break;
+              case 4:
+                textAreaLines[i] += fret + '----';
+                break;
+              case 5:
+                textAreaLines[i] += fret + '-----';
+                break;
+            }
         }
       }
     }
+    console.log("symbol inserted: ", symbolInserted, " ,symbol string: ", symbolString);
     textArea.value = textAreaLines.join("\n");
   }
 
+  // Add event listener for frets on fretboard
   for (let i = 0; i < frets.length; i++) {
     frets[i].addEventListener('click', fretClicked, false);
   }
@@ -200,6 +261,16 @@ async function fretBoard() {
     });
   }
 
+  // Add event listener for clearing tab option button selection
+  let clearBtn = document.getElementById("clearOptions");
+  clearBtn.addEventListener("click", function() {
+    for (let i = 0; i < btns.length; i++) {
+      let current = document.getElementsByClassName("activeBtn");
+      if (current.length > 0) {
+        current[0].classList.remove("activeBtn");
+      }
+    }
+  });
 
 }
 
