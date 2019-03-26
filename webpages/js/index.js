@@ -90,6 +90,7 @@ async function populateMain() {
 
 let symbolInserted = false;
 let symbolString;
+let symbolFret;
 
 async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
@@ -137,20 +138,16 @@ async function fretBoard() {
     for (let i = 0; i < textAreaLines.length; i++) {
 
       if (symbolInserted == true && symbolString > -1) {
-        // Hammer On:
-        
+        // handle rules with symbols to ensure they are used correctly
         if (string != symbolString) {
           alert("please select the string of the most recent symbol!");
           return;
+        } else if (fret <= symbolFret) {
+          alert("please select a higher fret!");
+          return;
         }
       }
-      // while (symbolInserted == true) {
-      //   // Ensure user only clicks on the correct string
-      //   if (string !== prevString) {
-      //     alert("please select a fret on the same string as symbol!");
-      //     return;
-      //   }
-      // }
+
 
 
 
@@ -158,6 +155,14 @@ async function fretBoard() {
         // First, handle symbols
         switch (symbol) {
           case "h":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
+          case "b":
             symbolInserted = true;
             if (fret > 9) {
               textAreaLines[i] += "---"
@@ -211,9 +216,16 @@ async function fretBoard() {
         // First, handle any symbol
         switch(symbol) {
           case "h":
-          symbolInserted = true;
-          symbolString = string;
+            symbolInserted = true;
+            symbolString = string;
+            symbolFret = fret;
             textAreaLines[i] += fret + "h";
+            break;
+          case "b":
+            symbolInserted = true;
+            symbolString = string;
+            symbolFret = fret;
+            textAreaLines[i] += fret + "b";
             break;
           default:
             // If no symbol exists:
