@@ -128,7 +128,6 @@ async function fretBoard() {
       symbol = "none";
     } else {
       symbol = activeBtn[0].innerHTML;
-      console.log(symbol);
       // Now, remove button from active class list.
       activeBtn[0].classList.remove("activeBtn");
     }
@@ -137,19 +136,19 @@ async function fretBoard() {
 
     for (let i = 0; i < textAreaLines.length; i++) {
 
-      if (symbolInserted == true && symbolString > -1) {
+      if (symbolInserted == true && (symbolString > -1 && symbolFret > -1)) {
+        console.log("string: ", string, " fret: ", fret);
+        console.log("symbolString: ", symbolString, " symbolFret: ", symbolFret);
         // handle rules with symbols to ensure they are used correctly
         if (string != symbolString) {
-          alert("please select the string of the most recent symbol!");
+          alert("invalid fret");
           return;
-        } else if (fret <= symbolFret) {
-          alert("please select a higher fret!");
-          return;
+        } else {
+          symbolInserted = false;
+          symbolString = -1;
+          symbolFret = -1;
         }
       }
-
-
-
 
       if (i != string) {
         // First, handle symbols
@@ -170,10 +169,43 @@ async function fretBoard() {
               textAreaLines[i] += "--"
             }
             break;
+          case "p":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
+          case "/":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
+          case "\\":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
+          case "~":
+            symbolInserted = true;
+            if (fret > 9) {
+              textAreaLines[i] += "---"
+            } else {
+              textAreaLines[i] += "--"
+            }
+            break;
           default:
             // If no symbols are selected
             symbolInserted = false;
             symbolString = -1;
+            symbolFret = -1;
             if (fret > 9) {
               switch (selectedSpacing) {
                 case 1:
@@ -227,6 +259,30 @@ async function fretBoard() {
             symbolFret = fret;
             textAreaLines[i] += fret + "b";
             break;
+          case "p":
+            symbolInserted = true;
+            symbolString = string;
+            symbolFret = fret;
+            textAreaLines[i] += fret + "p";
+            break;
+          case "/":
+            symbolInserted = true;
+            symbolString = string;
+            symbolFret = fret;
+            textAreaLines[i] += fret + "/";
+            break;
+          case "\\":
+            symbolInserted = true;
+            symbolString = string;
+            symbolFret = fret;
+            textAreaLines[i] += fret + "\\";
+            break;
+          case "~":
+            symbolInserted = false;
+            symbolString = string;
+            symbolFret = fret;
+            textAreaLines[i] += fret + "~";
+            break;
           default:
             // If no symbol exists:
             switch (selectedSpacing) {
@@ -249,7 +305,6 @@ async function fretBoard() {
         }
       }
     }
-    console.log("symbol inserted: ", symbolInserted, " ,symbol string: ", symbolString);
     textArea.value = textAreaLines.join("\n");
   }
 
