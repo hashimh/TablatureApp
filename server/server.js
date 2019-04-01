@@ -30,7 +30,7 @@ app.get('/api/createTabBtn', createTabBtn);
 app.get('/api/getSavedChords', getSavedChords);
 
 app.post('/api/checkUser', checkUser);
-app.post('/api/saveChord', saveChord);
+app.post('/api/saveChord', saveChord);  
 
 
 // -------------------------------------------------- //

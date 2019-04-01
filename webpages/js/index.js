@@ -400,7 +400,24 @@ function addStave() {
     textarea.setAttribute("wrap", "off");
 
     let textAppend = "";
-    textAppend += "E |--\nB |--\nG |--\nD |--\nA |--\nE |--";
+    // get tuning from select dropdowns
+    let str1 = document.getElementById("tuningDropdown1");
+    let str2 = document.getElementById("tuningDropdown2");
+    let str3 = document.getElementById("tuningDropdown3");
+    let str4 = document.getElementById("tuningDropdown4");
+    let str5 = document.getElementById("tuningDropdown5");
+    let str6 = document.getElementById("tuningDropdown6");
+
+    let str1val = str1.textContent;
+
+    textAppend +=
+      str1.value + " |--\n" +
+      str2.value + " |--\n" +
+      str3.value + " |--\n" +
+      str4.value + " |--\n" +
+      str5.value + " |--\n" +
+      str5.value + " |--";
+
     textarea.value = textAppend;
 
     div.append(textarea);
@@ -414,12 +431,13 @@ function addStave() {
     staveDropdown.append(staveOption);
     staveDropdown.value = id;
 
-    document.getElementById("tuningDropdown1").disabled = true;
-    document.getElementById("tuningDropdown2").disabled = true;
-    document.getElementById("tuningDropdown3").disabled = true;
-    document.getElementById("tuningDropdown4").disabled = true;
-    document.getElementById("tuningDropdown5").disabled = true;
-    document.getElementById("tuningDropdown6").disabled = true;
+    // document.getElementById("tuningDropdown1").disabled = true;
+    str1.disabled = true;
+    str2.disabled = true;
+    str3.disabled = true;
+    str4.disabled = true;
+    str5.disabled = true;
+    str6.disabled = true;
 }
 
 
