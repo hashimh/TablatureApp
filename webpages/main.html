@@ -13,10 +13,45 @@
     <li class = "navheader">Tabify - Create a Tablature<span id="greeting"></span></li>
     <li><a href="#">Load</a></li>
     <li><a href="#">Save</a></li>
-    <li><a href="#">Help</a></li>
-    <li><a href="#">Sign Out</a></li>
+    <li><a id = "helpBtn" href="#" onclick = "helpBtn()">Help</a></li>
+    <li><a href="#" onclick = "signOut2();">Sign Out</a></li>
   </ul>
 </header>
+
+<div id = "myModal" class = "modal">
+  <div class = "modalContent">
+    <span class = "close">&times;</span>
+    <h3>Creating a Tablature</h3>
+    <p>
+      In order to create a tablature using Tabify, you must first select
+      the type of instrument from the Stave Creation section.
+      Upon creating a stave, use the main fretboard for lead parts, or the chord section
+      the right hand side to create or select chords for rhythm parts. <br>
+      You can also load in previous tablatures using the 'Load' button on the navigation
+      bar.
+    </p>
+    <h4>Creating Chords</h4>
+    <p>
+      Use the miniature fretboard on the right side of the form to create chords not included
+      in the 'presaved' list. Simply choose the starting position of the chord, and select
+      the frets of the chord on the specific strings.<br>
+      Name the chord, and click the save button for it to be available for you during any session,
+      in the 'My Chords' list.
+    </p>
+    <h4>Tab Symbols</h4>
+    <p>
+      The 'Tab Options and Symbols' section provides the key symbols used universally in the tablature
+      format:<br>
+      h - Hammer On <br>
+      b - Bend <br>
+      p - Pull Off <br>
+      / - Slide Up <br>
+      \ - Slide Down <br>
+      ~ - Vibrato
+    </p>
+  </div>
+</div>
+
 
 <main class = "mainel">
 
