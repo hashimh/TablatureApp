@@ -27,10 +27,8 @@ app.use('/api', GoogleAuth.guardMiddleware());
 app.get('/api/login', login);
 app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
-// app.get('/api/getPresaved', getPresaved);
 app.get('/api/getSavedChords', getSavedChords);
 
-// app.post('/api/fillPresaved', fillPresaved);
 app.post('/api/checkUser', checkUser);
 app.post('/api/saveChord', saveChord);
 
@@ -77,36 +75,9 @@ async function checkUser(req, res) {
 }
 
 async function saveChord(req, res) {
-  // Two parameters to be saved in database
-  console.log("chord name: ", req.query.chord_name);
-  console.log("chord frets: ", req.query.chord_frets);
-  console.log("requesting user email: ", req.user.emails[0].value);
-
-  const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.user.emails[0].value);
+  const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.user.emails[0].value);
   res.json(retval);
 }
-// function to fill presaved chords into database table - only if table entries do not exist
-// async function fillPresaved (req, res) {
-//   try {
-//     // If no entries exist in the presaved table:
-//     // Calls database function to fill table
-//     await db.fillPresaved();
-//   } catch (e) {
-//     error (res, e);
-//   }
-// }
-
-// async function getPresaved(req, res) {
-//   // Calls database function to get presaved chord
-//   await db.getPresaved(req.query.chord_name, function(err, data) {
-//     if (err) {
-//       throw err;
-//       return res(err);
-//     } else {
-//       return res.json(data);
-//     }
-//   });
-// }
 
 
 (function () {

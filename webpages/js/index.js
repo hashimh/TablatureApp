@@ -413,6 +413,13 @@ function addStave() {
 
     staveDropdown.append(staveOption);
     staveDropdown.value = id;
+
+    document.getElementById("tuningDropdown1").disabled = true;
+    document.getElementById("tuningDropdown2").disabled = true;
+    document.getElementById("tuningDropdown3").disabled = true;
+    document.getElementById("tuningDropdown4").disabled = true;
+    document.getElementById("tuningDropdown5").disabled = true;
+    document.getElementById("tuningDropdown6").disabled = true;
 }
 
 
@@ -441,6 +448,16 @@ function deleteStave() {
     // Remove Stave from dropdown menu
     let staveDropdown = document.getElementById("selectStave");
     staveDropdown.remove(staveDropdown.selectedIndex);
+  }
+
+  if ((selectedStaveMenu.options).length <= 0) {
+    // enable tuning dropdown lists if no staves are left.
+    document.getElementById("tuningDropdown1").disabled = false;
+    document.getElementById("tuningDropdown2").disabled = false;
+    document.getElementById("tuningDropdown3").disabled = false;
+    document.getElementById("tuningDropdown4").disabled = false;
+    document.getElementById("tuningDropdown5").disabled = false;
+    document.getElementById("tuningDropdown6").disabled = false;
   }
 }
 
@@ -473,6 +490,14 @@ function clearAllStaves() {
   } else {
     alert("No staves created!");
   }
+
+  document.getElementById("tuningDropdown1").disabled = false;
+  document.getElementById("tuningDropdown2").disabled = false;
+  document.getElementById("tuningDropdown3").disabled = false;
+  document.getElementById("tuningDropdown4").disabled = false;
+  document.getElementById("tuningDropdown5").disabled = false;
+  document.getElementById("tuningDropdown6").disabled = false;
+
 }
 
 
@@ -504,6 +529,38 @@ function insertBlanks() {
   }
   textArea.value = textAreaLines.join("\n");
 }
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to change tuning values for chord creation area -------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function updateTuning(el) {
+  // apply the change to the mini fretboard for chord creation
+  switch (el.id) {
+    case "tuningDropdown1":
+      document.getElementById("tuningLabel1").innerHTML = el.value;
+      break;
+    case "tuningDropdown2":
+      document.getElementById("tuningLabel2").innerHTML = el.value;
+      break;
+    case "tuningDropdown3":
+      document.getElementById("tuningLabel3").innerHTML = el.value;
+      break;
+    case "tuningDropdown4":
+      document.getElementById("tuningLabel4").innerHTML = el.value;
+      break;
+    case "tuningDropdown5":
+      document.getElementById("tuningLabel5").innerHTML = el.value;
+      break;
+    case "tuningDropdown6":
+      document.getElementById("tuningLabel6").innerHTML = el.value;
+      break;
+  }
+
+}
+
+
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -844,6 +901,19 @@ async function createChord() {
       // chord tab succesfully created
       console.log(chordTab)
 
+      // now, get the tuning values from dropdown
+      let tuning = [];
+      let str1 = document.getElementById("tuningLabel1").textContent;
+      let str2 = document.getElementById("tuningLabel2").textContent;
+      let str3 = document.getElementById("tuningLabel3").textContent;
+      let str4 = document.getElementById("tuningLabel4").textContent;
+      let str5 = document.getElementById("tuningLabel5").textContent;
+      let str6 = document.getElementById("tuningLabel6").textContent;
+      tuning.push(str1, str2, str3, str4, str5, str6);
+
+      console.log(tuning);
+
+
       // save chord to database!!!
       const token = localStorage.getItem("id_token");
       const fetchOptions = {
@@ -852,7 +922,10 @@ async function createChord() {
         headers: { 'Authorization': 'Bearer ' + token },
       };
 
-      let url = '/api/saveChord' + '?chord_name=' + encodeURIComponent(chName) + '&chord_frets=' + encodeURIComponent(chordTab);
+      let url = '/api/saveChord'
+                + '?chord_name=' + encodeURIComponent(chName)
+                + '&chord_frets=' + encodeURIComponent(chordTab)
+                + '&chord_tuning=' + encodeURIComponent(tuning);
       console.log("attempting to fetch /api/savedChord");
 
       const response = await fetch(url, fetchOptions);

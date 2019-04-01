@@ -56,7 +56,7 @@ function login (insertEmail, fnameIn, lnameIn) {
   });
 }
 
-function saveChord (chName, chFrets, email) {
+function saveChord (chName, chFrets, chTuning, email) {
 
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -74,7 +74,7 @@ function saveChord (chName, chFrets, email) {
         });
 
         const chordInfo = [
-          { email: email, chord_name: chName, chord_frets: chFrets }
+          { email: email, chord_name: chName, chord_frets: chFrets, chord_tuning: chTuning }
         ];
 
         dbo.collection("chords").insertMany(chordInfo, function(err, res) {
