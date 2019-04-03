@@ -238,31 +238,29 @@ async function saveTab() {
     } else {
       console.log("successful /api/saveTab call!");
     }
+    alert("tab saved in database!");
+    // clear modal entries and close modal
+    songName = "";
+    artistName = "";
+    modal.style.display = "none";
 
-
+    // clear tab creation area
+    while (tabContent.firstChild) {
+      tabcontent.removeChild(tabcontent.firstChild);
+    }
+    // REMOVE STAVES FROM DROPDOWN MENU
+    let staveDropdown = document.getElementById("selectStave");
+    let dropdownLength = staveDropdown.options.length;
+    for (let i = 0; i < dropdownLength; i++) {
+      staveDropdown.remove(i);
+      staveDropdown.remove(staveDropdown.selectedIndex);
+    }
+    // add text back to no stave area
+    let tempmessage = document.createElement("p");
+    tempmessage.innerHTML = "No content... Please create a stave with the button above"
+    tempmessage.setAttribute("id", "tempmessage");
+    tabcontent.append(tempmessage);
   });
-  alert("tab saved in database!");
-  // clear modal entries and close modal
-  songName = "";
-  artistName = "";
-  modal.style.display = "none";
-
-  // clear tab creation area
-  while (tabContent.firstChild) {
-    tabcontent.removeChild(tabcontent.firstChild);
-  }
-  // REMOVE STAVES FROM DROPDOWN MENU
-  let staveDropdown = document.getElementById("selectStave");
-  let dropdownLength = staveDropdown.options.length;
-  for (let i = 0; i < dropdownLength; i++) {
-    staveDropdown.remove(i);
-    staveDropdown.remove(staveDropdown.selectedIndex);
-  }
-  // add text back to no stave area
-  let tempmessage = document.createElement("p");
-  tempmessage.innerHTML = "No content... Please create a stave with the button above"
-  tempmessage.setAttribute("id", "tempmessage");
-  tabcontent.append(tempmessage);
 }
 
 
