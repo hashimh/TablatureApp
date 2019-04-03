@@ -74,26 +74,6 @@ async function signOut() {
 
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to sign out of the menu.html form ---------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-async function signOut2() {
-  if (confirm("All changes will be lost, continue with sign out?")) {
-    // Call server function 'logout'
-    let apiLink = '/api/logout';
-    await getPage(apiLink);
-
-    window.location.reload();
-
-    // Removes ID Token from local storage, ensures Google account logs out properly.
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("googleUser");
-  } else {
-    return;
-  }
-}
-
-
-// ----------------------------------------------------------------------------------------------- //
 // Function to go to main.html form -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function createTabBtn() {
@@ -120,17 +100,18 @@ async function populateMain() {
   chordFretboard();
 }
 
-
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ------------------------------------- NAVIGATION BAR CODE ------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 
 // ----------------------------------------------------------------------------------------------- //
 // Code for the help modal popup ----------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // Get the modal
 function helpBtn() {
-  let modal = document.getElementById('myModal');
-
-  // Get the button that opens the modal
-  let btn = document.getElementById("helpBtn");
+  let modal = document.getElementById('helpModal');
 
   // Get the <span> element that closes the modal
   let span = document.getElementsByClassName("close")[0];
@@ -152,6 +133,119 @@ function helpBtn() {
 }
 
 
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to sign out of the menu.html form ---------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+async function signOut2() {
+  if (confirm("All changes will be lost, continue with sign out?")) {
+    // Call server function 'logout'
+    let apiLink = '/api/logout';
+    await getPage(apiLink);
+
+    window.location.reload();
+
+    // Removes ID Token from local storage, ensures Google account logs out properly.
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("googleUser");
+  } else {
+    return;
+  }
+}
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to save a tablature ------------------------------------------------------------------ //
+// ----------------------------------------------------------------------------------------------- //
+async function saveTab() {
+  // first, check if at least 1 stave exists, with at least 1 column of entries
+  let selectedStaveMenu = document.getElementById("selectStave");
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("Nothing to save!");
+    return;
+  }
+
+  // now, bring up form for user to enter song name, artist, genre, etc.
+  let modal = document.getElementById("saveModal");
+  let span = document.getElementsByClassName("close")[1];
+
+  modal.style.display = "block";
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  let confirmBtn = document.getElementById("confirmSave");
+  confirmBtn.addEventListener("click", async function() {
+    // most of the code will go here...
+    // first, check inputs and assign variables
+    let songName = document.getElementById("songName").value;
+    let artistName = document.getElementById("artistName").value;
+    let genreMenu = document.getElementById("genreSelect");
+    let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
+
+    if (songName.length <= 0) {
+      alert("Please enter a valid song name.");
+      return;
+    } else if (artistName.length <= 0) {
+      alert("Please enter a valid artist name.");
+    }
+
+    // Now, save the stave contents into variables
+    let types = [];
+    let staves = [];
+    let tabContent = document.getElementById("tabcontent");
+    let allStaves = tabContent.getElementsByTagName("div");
+
+    for (let i = 0; i < allStaves.length; i++) {
+      // get stave type from h3's id, and add to 'type' array
+      let type = allStaves[i].getElementsByTagName("h3")[0].id
+      type = type.substring(1);
+      types.push(type)
+
+      // now, get stave textarea, and add to 'stave' array
+      let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
+      staves.push(textarea);
+
+    }
+
+    // Now, stave types and contents stored in the arrays below...
+    console.log(types);
+    console.log(staves);
+
+    // make initial server call requests...
+    const token = localStorage.getItem("id_token");
+    const fetchOptions = {
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+    };
+
+    let url = '/api/saveTab'
+              + '?song_name=' + encodeURIComponent(songName)
+              + '&artist_name=' + encodeURIComponent(artistName)
+              + '&genre=' + encodeURIComponent(songGenre)
+              + '&stave_types=' + encodeURIComponent([types])
+              + '&stave_content=' + encodeURIComponent([staves]);
+
+    console.log("attempting to fetch /api/saveTab");
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      // handle the error
+      console.log("fetch response for /api/saveTab has failed")
+      return;
+    } else {
+      console.log("successful /api/saveTab call!");
+    }
+
+    alert("tab saved in database!");
+
+
+    // remember to clear the modal upon save completion
+
+  })
+}
 
 
 // ----------------------------------------------------------------------------------------------- //
@@ -444,6 +538,7 @@ function addStave() {
 
     let h3 = document.createElement("h3");
     h3.innerHTML = "Stave " + id + ": " + type;
+    h3.setAttribute("id",id + type)
     div.append(h3);
 
     let textarea = document.createElement("textarea");

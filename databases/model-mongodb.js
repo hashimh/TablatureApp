@@ -89,6 +89,33 @@ function saveChord (chName, chFrets, chTuning, email) {
   });
 }
 
+function saveTab (email, song, artist, genre, types, staves) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+
+    // Create collection "tabs" if it doesn't exist:
+    dbo.createCollection("tabs", function(err, res) {
+      if (err) throw err;
+      console.log("collection 'tabs' created");
+    });
+
+    const tabInfo = [
+      { email: email, song_name: song, artist_name: artist, genre: genre, stave_types: types, stave_content: staves }
+    ];
+
+    dbo.collection("tabs").insertMany(tabInfo, function(err, res) {
+      if (err) throw err;
+      console.log("inserted tab into database!");
+      db.close();
+    });
+  });
+}
+
+
+
+
+
 let getSavedChords = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -154,3 +181,4 @@ let getSavedChords = function(emailIn, cb) {
 module.exports.login = login;
 module.exports.saveChord = saveChord;
 module.exports.getSavedChords = getSavedChords;
+module.exports.saveTab = saveTab;

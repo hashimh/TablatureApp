@@ -30,7 +30,8 @@ app.get('/api/createTabBtn', createTabBtn);
 app.get('/api/getSavedChords', getSavedChords);
 
 app.post('/api/checkUser', checkUser);
-app.post('/api/saveChord', saveChord);  
+app.post('/api/saveChord', saveChord);
+app.post('/api/saveTab', saveTab);
 
 
 // -------------------------------------------------- //
@@ -78,6 +79,20 @@ async function saveChord(req, res) {
   const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.user.emails[0].value);
   res.json(retval);
 }
+
+async function saveTab(req, res) {
+  const retval = await db.saveTab(req.user.emails[0].value,
+                                  req.query.song_name,
+                                  req.query.artist_name,
+                                  req.query.genre,
+                                  req.query.stave_types,
+                                  req.query.stave_content);
+  res.json(retval);
+}
+
+
+
+
 
 
 (function () {

@@ -29,17 +29,34 @@ main > div {
 
 /* Modal Content */
 .modalContent {
-  background-color: teal;
+  background-color: dteal;
   margin: auto;
   padding: 20px;
   border: 5px solid black;
-  width: 80%;
+  width: 60%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s
 }
+
+/* Modal Content */
+.modalContent2 {
+  background-color: teal;
+  margin: auto;
+  padding: 20px;
+  border: 5px solid black;
+  width: 30%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+
+
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
@@ -66,6 +83,14 @@ main > div {
   text-decoration: none;
   cursor: pointer;
 }
+
+.saveModalInput  {
+  display: table;
+  vertical-align: middle;
+  height: 50px;
+}
+
+
 /* -------------------------------------------------------------------------- */
 /* ---------- NAVIGATION BAR ------------------------------------------------ */
 /* -------------------------------------------------------------------------- */
