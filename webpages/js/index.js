@@ -239,12 +239,30 @@ async function saveTab() {
       console.log("successful /api/saveTab call!");
     }
 
-    alert("tab saved in database!");
 
+  });
+  alert("tab saved in database!");
+  // clear modal entries and close modal
+  songName = "";
+  artistName = "";
+  modal.style.display = "none";
 
-    // remember to clear the modal upon save completion
-
-  })
+  // clear tab creation area
+  while (tabContent.firstChild) {
+    tabcontent.removeChild(tabcontent.firstChild);
+  }
+  // REMOVE STAVES FROM DROPDOWN MENU
+  let staveDropdown = document.getElementById("selectStave");
+  let dropdownLength = staveDropdown.options.length;
+  for (let i = 0; i < dropdownLength; i++) {
+    staveDropdown.remove(i);
+    staveDropdown.remove(staveDropdown.selectedIndex);
+  }
+  // add text back to no stave area
+  let tempmessage = document.createElement("p");
+  tempmessage.innerHTML = "No content... Please create a stave with the button above"
+  tempmessage.setAttribute("id", "tempmessage");
+  tabcontent.append(tempmessage);
 }
 
 
@@ -636,10 +654,8 @@ function deleteStave() {
 function clearAllStaves() {
   let tabcontent = document.getElementById("tabcontent");
   let allStaves = tabcontent.childNodes;
-  console.log(allStaves)
   if (allStaves.length >= 1) {
     if (confirm('Are you sure you want to reset all staves?')) {
-      console.log("chose yes");
       while (tabcontent.firstChild) {
         tabcontent.removeChild(tabcontent.firstChild);
       }
@@ -650,6 +666,11 @@ function clearAllStaves() {
         staveDropdown.remove(i);
         staveDropdown.remove(staveDropdown.selectedIndex);
       }
+      // add text back to no stave area
+      let tempmessage = document.createElement("p");
+      tempmessage.innerHTML = "No content... Please create a stave with the button above"
+      tempmessage.setAttribute("id", "tempmessage");
+      tabcontent.append(tempmessage);
     } else {
       // Do nothing
       return;
