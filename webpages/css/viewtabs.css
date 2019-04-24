@@ -1,0 +1,74 @@
+body {
+  background-color: teal;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+main > div {
+  border: 8px solid black;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+  background-color: gray;
+}
+
+/* NAVIGATION BAR */
+header {
+  border: 8px solid black;
+  border-radius: 20px;
+  background-color: gray;
+  margin: 10px;
+}
+
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.navbar > li {
+  display: inline;
+}
+
+.navbar li a {
+  font-size: 20px;
+  float: right;
+  display: block;
+  text-align: center;
+  padding: 16px 16px;
+  border-left: 5px solid black;
+  text-decoration: none;
+}
+
+.navbar li a:hover {
+  background-color: #585858;
+}
+
+.navbar li a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.navheader {
+  float: left;
+  display: block;
+  font-size: 20px;
+  padding: 16px;
+}
+
+/* SEARCH CRITERIA  */
+.searchCriteria label {
+  display: block;
+}
+
+.searchCriteria { grid-area: criteria }
+.tabTable { grid-area: tabTable }
+
+.selectTab {
+  display: grid;
+  grid-template-areas:
+    'criteria tabTable tabTable';
+}

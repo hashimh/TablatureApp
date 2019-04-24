@@ -1,0 +1,70 @@
+<!-- VIEW / MODIFY TABS FORM -->
+<!DOCTYPE html>
+<title>Guitar Tab Creator</title>
+
+<link rel="stylesheet" href="./css/viewtabs.css">
+<link href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700" rel="stylesheet">
+
+<script src = "./js/index.js"></script>
+
+<header>
+  <ul class = "navbar">
+    <li class = "navheader">Tabify - View Tablatures<span id = "greeting"></span></li>
+    <li><a href="#">Sign Out</a></li>
+    <li><a href="#">Help</a></li>
+  </ul>
+</header>
+
+<main>
+  <div class = "content">
+
+    <div class = "selectTab">
+
+      <div class = "searchCriteria">
+        <h3>Tablature Selection: Search Criteria</h3>
+
+        <label>Show me:</label>
+        <select class = "showWhichTabs" name="showWhichTabs">
+          <option value="allTabs">All Tabs</option>
+          <option value="myTabs">My Tabs</option>
+          <option value="userTabs">User Tabs</option>
+        </select>
+
+        <label>Song Name:</label>
+        <input type="text" name = "searchSongName" value="">
+
+        <label>Artist:</label>
+        <input type="text" name = "searchArtist" value="">
+
+        <label>By Genre:</label>
+        <select id = "searchGenra" name="genreSelect">
+          <option>All Genres</option>
+          <option>Alternative Rock</option>
+          <option>Blues</option>
+          <option>Classical</option>
+          <option>Country</option>
+          <option>Folk</option>
+          <option>Funk</option>
+          <option>Heavy Metal</option>
+          <option>Hip Hop</option>
+          <option>Indie</option>
+          <option>Jazz</option>
+          <option>Pop</option>
+          <option>Psychadelic Rock</option>
+          <option>Punk Rock</option>
+          <option>Reggae</option>
+          <option>Rock</option>
+          <option>Soul</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class = "tabTable">
+        <label>table here</label>
+      </div>
+
+    </div>
+
+
+  </div>
+</main>
