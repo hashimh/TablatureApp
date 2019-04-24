@@ -27,7 +27,9 @@ app.use('/api', GoogleAuth.guardMiddleware());
 app.get('/api/login', login);
 app.get('/api/logout', logout);
 app.get('/api/createTabBtn', createTabBtn);
+app.get('/api/viewTabBtn', viewTabBtn);
 app.get('/api/getSavedChords', getSavedChords);
+app.get('/api/getTabsMetadata', getTabsMetadata);
 
 app.post('/api/checkUser', checkUser);
 app.post('/api/saveChord', saveChord);
@@ -53,9 +55,26 @@ async function createTabBtn (req, res) {
   res.sendFile('main.html', {root: '../webpages'});
 }
 
-async function getSavedChords(req, res) {
+async function viewTabBtn (req, res) {
+  // Sends viewtabs.html on button click.
+  res.sendFile('viewtabs.html', {root: '../webpages'});
+}
+
+async function getSavedChords (req, res) {
   // Calls database function to get user's presaved chords
   await db.getSavedChords(req.user.emails[0].value, function(err, data) {
+    if (err) {
+      throw err;
+      return res(err);
+    } else {
+      return res.json(data);
+    }
+  });
+}
+
+async function getTabsMetadata (req, res) {
+  // Calls database function to get all tablatures
+  await db.getTabsMetadata(function(err, data) {
     if (err) {
       throw err;
       return res(err);

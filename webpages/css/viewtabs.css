@@ -70,5 +70,15 @@ header {
 .selectTab {
   display: grid;
   grid-template-areas:
-    'criteria tabTable tabTable';
+    'criteria tabTable tabTable tabTable';
+}
+
+/* TABLE CSS */
+table, th, td {
+  border: 1px solid black;
+}
+
+table  {
+  background-color: white;
+  width: 100%;
 }

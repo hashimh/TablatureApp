@@ -1,15 +1,16 @@
 To Do:
-- Databases -
-    - Tabs
+- View tab page
+- add back button to forms
 - Server functions (audio)
 - Midi format - virtual guitar
-- Create chord buttons
 - ORGANISE CSS + CLASS NAMES
+
 - Electron
 
 Done:
 - chords
 - user database
 - chords database
+- tabs database
 - tab symbols
 - tab spacing

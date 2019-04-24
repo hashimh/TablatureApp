@@ -112,10 +112,6 @@ function saveTab (email, song, artist, genre, types, staves) {
   });
 }
 
-
-
-
-
 let getSavedChords = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -125,6 +121,15 @@ let getSavedChords = function(emailIn, cb) {
   });
 }
 
+let getTabsMetadata = function(cb) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+    dbo.collection("tabs").find({}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    }).toArray(cb);
+    db.close();
+  });
+}
 
 
 // Fills in 'presaved' table:
@@ -182,3 +187,4 @@ module.exports.login = login;
 module.exports.saveChord = saveChord;
 module.exports.getSavedChords = getSavedChords;
 module.exports.saveTab = saveTab;
+module.exports.getTabsMetadata = getTabsMetadata;
