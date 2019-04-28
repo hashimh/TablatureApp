@@ -1172,34 +1172,14 @@ async function viewTabBtn() {
   populateMain2();
 }
 
-
+let tabInfo;
 async function populateMain2() {
   // Get user's name for nav bar
   const el = document.getElementById('greeting2');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
-  // Firstly, get tablature information from the database
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: {'Authorization': 'Bearer ' + token },
-  };
-
-  let url = '/api/getTabsMetadata'
-  console.log("attempting to fetch /api/getTabsMetadata")
-
-  const response = await fetch(url, fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    console.log("fetch response for /api/getTabsMetadata has failed.");
-    return;
-  }
-  console.log("successful /api/getTabsMetadata call.");
-
-  // Store incoming data into JSON object
-  let tabInfo = await response.json();
-
+  // Get tablature information from the database
+  tabInfo =  await getTabs("all");
   populateTable(tabInfo);
 }
 
@@ -1211,9 +1191,13 @@ function populateTable(tabInfo) {
   tabInfo.sort(sortBy('song_name'));
   console.log(tabInfo);
 
+  // First, reset table
+  let table = document.getElementById('tabTable');
+  while (table.hasChildNodes()) {
+    table.removeChild(table.firstChild);
+  }
 
   // Now, insert this information into the table
-  let table = document.getElementById('tabTable');
 
   for (let i = 0; i < tabInfo.length; i++) {
 
@@ -1260,6 +1244,61 @@ function populateTable(tabInfo) {
 
 
 
+
+
+// Function to change whose tabs are displayed to user
+async function showWhichTabsChange() {
+  // let myTabInfo;
+  let menu = document.getElementsByClassName("showWhichTabs")[0];
+  let newVal = menu.options[menu.selectedIndex].value;
+
+  console.log(newVal, tabInfo);
+
+  if (newVal == "allTabs") {
+    // show all aka insert tabInfo into table
+    tabInfo =  await getTabs("all");
+    populateTable(tabInfo);
+  } else if (newVal == "myTabs") {
+    // show all of users tabs
+    tabInfo = await getTabs("myTabs");
+    populateTable(tabInfo);
+  } else {
+    // don't show users tabs
+    tabInfo =  await getTabs("otherTabs");
+    populateTable(tabInfo);
+  }
+}
+
+
+
+async function getTabs(key) {
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + token },
+  };
+
+  let url = '/api/getTabsMetadata'
+          + '?key=' + encodeURIComponent(key);
+  console.log("attempting to fetch /api/getTabsMetadata")
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/getTabsMetadata has failed.");
+    return;
+  }
+  console.log("successful /api/getTabsMetadata call.");
+
+  // Store incoming data into JSON object
+  let res = await response.json();
+  return res;
+
+}
+// function to get all tabs
+// function to get my tabs
+// function to get other peoples tabs
 
 
 

@@ -74,14 +74,34 @@ async function getSavedChords (req, res) {
 
 async function getTabsMetadata (req, res) {
   // Calls database function to get all tablatures
-  await db.getTabsMetadata(function(err, data) {
-    if (err) {
-      throw err;
-      return res(err);
-    } else {
-      return res.json(data);
-    }
-  });
+  if (req.query.key == "all") {
+    await db.getTabsMetadata(function(err, data) {
+      if (err) {
+        throw err;
+        return res(err);
+      } else {
+        return res.json(data);
+      }
+    });
+  } else if (req.query.key == "myTabs") {
+    await db.getMyTabsMetadata(req.user.emails[0].value, (function(err, data) {
+      if (err) {
+        throw err;
+        return res(err);
+      } else {
+        return res.json(data);
+      }
+    }));
+  } else {
+    await db.getOtherTabsMetadata(req.user.emails[0].value, (function(err, data) {
+      if (err) {
+        throw err;
+        return res(err);
+      } else {
+        return res.json(data);
+      }
+    }));
+  }
 }
 
 

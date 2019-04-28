@@ -131,6 +131,25 @@ let getTabsMetadata = function(cb) {
   });
 }
 
+let getMyTabsMetadata = function(emailIn, cb) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+    dbo.collection("tabs").find( {email: emailIn}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    }).toArray(cb);
+    db.close();
+  });
+}
+
+let getOtherTabsMetadata = function(emailIn, cb) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+    dbo.collection("tabs").find( {email: {$ne: emailIn}}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    }).toArray(cb);
+    db.close();
+  });
+}
 
 // Fills in 'presaved' table:
 // function fillPresaved() {
@@ -188,3 +207,5 @@ module.exports.saveChord = saveChord;
 module.exports.getSavedChords = getSavedChords;
 module.exports.saveTab = saveTab;
 module.exports.getTabsMetadata = getTabsMetadata;
+module.exports.getMyTabsMetadata = getMyTabsMetadata;
+module.exports.getOtherTabsMetadata = getOtherTabsMetadata;
