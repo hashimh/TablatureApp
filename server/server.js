@@ -11,6 +11,8 @@ const db = require('../databases/model-mongodb');
 
 app.use('/', (req, res, next) => { console.log(new Date(), req.method, req.url); next(); });
 app.use('/', express.static(webpagesPath));
+app.use(express.static('../webpages/js/audio'));
+
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '../webpages/' + 'login.html'));
@@ -39,6 +41,9 @@ app.post('/api/saveTab', saveTab);
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
+
+
+
 
 async function login (req, res) {
   // Sends menu.html once logged in.

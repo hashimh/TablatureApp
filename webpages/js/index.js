@@ -285,9 +285,17 @@ async function fretBoard() {
     let fret = this.getAttribute("data-fret");
     let selectedStaveMenu = document.getElementById("selectStave");
 
+    // play audio
+    let note = this.getAttribute("data-note");
+
+    let audio = new Audio('js/audio/' + note + '.mp3');
+    audio.play();
+
+
+
+
     // If no staves yet created, output error message.
     if ((selectedStaveMenu.options).length <= 0) {
-      alert("Please create a stave to edit!");
       return;
     }
 
@@ -1162,7 +1170,7 @@ async function createChord() {
 // Code for the 'viewtabs.html' form
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to go to viewtab.html form -------------------------------------------------------------- //
+// Function to go to viewtab.html form ----------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function viewTabBtn() {
   // Call server function 'createTabBtn'
@@ -1185,9 +1193,11 @@ async function populateMain2() {
 
 
 
+// ----------------------------------------------------------------------------------------------- //
+// Function to populate tab results table -------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function populateTable(tabInfo) {
-  // Initially sorted from A -> Z by song name, sort before inserting
-  // into table
+  // Initially sorted from A -> Z by song name, sort before inserting into table
   tabInfo.sort(sortBy('song_name'));
   console.log(tabInfo);
 
@@ -1198,55 +1208,39 @@ function populateTable(tabInfo) {
   }
 
   // Now, insert this information into the table
-
   for (let i = 0; i < tabInfo.length; i++) {
-
     let row = table.insertRow(0);
-
     let cellUser = row.insertCell(0);
     cellUser.innerHTML = tabInfo[i].email;
-
     let cellGenre = row.insertCell(0);
     cellGenre.innerHTML = tabInfo[i].genre;
-
     let cellArtist = row.insertCell(0);
     cellArtist.innerHTML = tabInfo[i].artist_name;
-
     let cellSongName = row.insertCell(0);
     cellSongName.innerHTML = tabInfo[i].song_name;
   }
 
   // Create table headers
   let row = table.insertRow(0);
-
   let cell4 = row.insertCell(0);
   cell4.innerHTML = "User";
   cell4.style.fontWeight = 'bold';
-
   let cell3 = row.insertCell(0);
   cell3.innerHTML = "Genre";
   cell3.style.fontWeight = 'bold';
-
   let cell2 = row.insertCell(0);
   cell2.innerHTML = "Artist";
   cell2.style.fontWeight = 'bold';
-
   let cell1 = row.insertCell(0);
   cell1.innerHTML = "Song Name";
   cell1.style.fontWeight = 'bold';
-
 }
 
 
 
-
-
-
-
-
-
-
-// Function to change whose tabs are displayed to user
+// ----------------------------------------------------------------------------------------------- //
+// Function to change whose tabs are displayed to user ------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function showWhichTabsChange() {
   // let myTabInfo;
   let menu = document.getElementsByClassName("showWhichTabs")[0];
@@ -1268,40 +1262,6 @@ async function showWhichTabsChange() {
     populateTable(tabInfo);
   }
 }
-
-
-
-async function getTabs(key) {
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: {'Authorization': 'Bearer ' + token },
-  };
-
-  let url = '/api/getTabsMetadata'
-          + '?key=' + encodeURIComponent(key);
-  console.log("attempting to fetch /api/getTabsMetadata")
-
-  const response = await fetch(url, fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    console.log("fetch response for /api/getTabsMetadata has failed.");
-    return;
-  }
-  console.log("successful /api/getTabsMetadata call.");
-
-  // Store incoming data into JSON object
-  let res = await response.json();
-  return res;
-
-}
-// function to get all tabs
-// function to get my tabs
-// function to get other peoples tabs
-
-
-
 
 
 
@@ -1399,3 +1359,33 @@ let sortBy = function(property) {
     return ((x[property] === y[property]) ?0 : ((x[property] > y[property]) ? 1 : -1));
   };
 };
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// A generic function for the search criteria for viewing tablatures ----------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+async function getTabs(key) {
+  const token = localStorage.getItem("id_token");
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + token },
+  };
+
+  let url = '/api/getTabsMetadata'
+          + '?key=' + encodeURIComponent(key);
+  console.log("attempting to fetch /api/getTabsMetadata")
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("fetch response for /api/getTabsMetadata has failed.");
+    return;
+  }
+  console.log("successful /api/getTabsMetadata call.");
+
+  // Store incoming data into JSON object and return to function caller
+  let res = await response.json();
+  return res;
+}
