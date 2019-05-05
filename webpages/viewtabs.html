@@ -31,13 +31,13 @@
         </select>
 
         <label>Song Name:</label>
-        <input type="text" name = "searchSongName" value="">
+        <input id = "searchByName" type = "text" name = "searchSongName" value="" onchange = "searchByName()">
 
         <label>Artist:</label>
-        <input type="text" name = "searchArtist" value="">
+        <input id = "searchByArtist" type="text" name = "searchArtist" value="" onchange = "searchByArtist()">
 
         <label>By Genre:</label>
-        <select id = "searchGenra" name="genreSelect">
+        <select id = "searchGenre" name="genreSelect" onchange = "searchByGenre()">
           <option>All Genres</option>
           <option>Alternative Rock</option>
           <option>Blues</option>
@@ -63,6 +63,7 @@
         <h3>Results</h3>
 
         <table id = "tabTable">
+          <!-- Inserted via DOM manipulation -->
         </table>
 
       </div>

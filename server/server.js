@@ -32,6 +32,7 @@ app.get('/api/createTabBtn', createTabBtn);
 app.get('/api/viewTabBtn', viewTabBtn);
 app.get('/api/getSavedChords', getSavedChords);
 app.get('/api/getTabsMetadata', getTabsMetadata);
+app.get('/api/getTabContent', getTabContent);
 
 app.post('/api/checkUser', checkUser);
 app.post('/api/saveChord', saveChord);
@@ -108,6 +109,20 @@ async function getTabsMetadata (req, res) {
     }));
   }
 }
+
+
+async function getTabContent (req, res) {
+  // Calls database to get chosen tablatures data
+  await db.getTabContent(req.query.id, function(err, data) {
+    if (err) {
+      throw err;
+      return res(err);
+    } else {
+      return res.json(data);
+    }
+  })
+}
+
 
 
 async function checkUser(req, res) {

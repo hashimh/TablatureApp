@@ -1,5 +1,5 @@
-  <!DOCTYPE html>
-<title>Guitar Tab Creator</title>
+<!DOCTYPE html>
+<title>Tabify - Guitar Tab Creator</title>
 
 <link rel="stylesheet" href="./css/main.css">
 <link href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700" rel="stylesheet">
@@ -103,11 +103,9 @@
 
   <div class = "fretboardBox">
     <h1>Fretboard</h1>
-
     <div class = "fretboard">
 
-        <!-- FIRST ROW OF THE FRET BOARD -->
-        <div class = "fretFirstRow">
+      <div class = "fretFirstRow">
           <div class = "fretStringLegend">
             <select id = "tuningDropdown1" class = "tuningDropdown" onchange = "updateTuning(this);">
               <option>C0</option>
@@ -150,7 +148,7 @@
               <option>C#3</option>
               <option>D3</option>
               <option>D#3</option>
-              <option>E3</option>
+              <option selected = "selected">E3</option>
               <option>F3</option>
               <option>F#3</option>
               <option>G3</option>
@@ -162,7 +160,7 @@
               <option>C#4</option>
               <option>D4</option>
               <option>D#4</option>
-              <option selected = "selected">E4</option>
+              <option>E4</option>
               <option>F4</option>
               <option>F#4</option>
               <option>G4</option>
@@ -209,16 +207,16 @@
             </select>
           </div>
           <!-- Divs for all frets on the fretboard - first row -->
-           <div class = "fret" data-string = "0" data-fret = "0" data-note = "E3"></div>
-           <div class = "fret" data-string = "0" data-fret = "1" data-note = "F3"></div>
-           <div class = "fret" data-string = "0" data-fret = "2" data-note = "F3sharp"></div>
-           <div class = "fret" data-string = "0" data-fret = "3" data-note = "G3"></div>
-           <div class = "fret" data-string = "0" data-fret = "4" data-note = "G3sharp"></div>
-           <div class = "fret" data-string = "0" data-fret = "5" data-note = "A3"></div>
-           <div class = "fret" data-string = "0" data-fret = "6" data-note = "A3sharp"></div>
-           <div class = "fret" data-string = "0" data-fret = "7" data-note = "B3"></div>
-           <div class = "fret" data-string = "0" data-fret = "8" data-note = "C4"></div>
-           <div class = "fret" data-string = "0" data-fret = "9" data-note = "C4sharp"></div>
+          <div class = "fret" data-string = "0" data-fret = "0" data-note = "E3"></div>
+          <div class = "fret" data-string = "0" data-fret = "1" data-note = "F3"></div>
+          <div class = "fret" data-string = "0" data-fret = "2" data-note = "F3sharp"></div>
+          <div class = "fret" data-string = "0" data-fret = "3" data-note = "G3"></div>
+          <div class = "fret" data-string = "0" data-fret = "4" data-note = "G3sharp"></div>
+          <div class = "fret" data-string = "0" data-fret = "5" data-note = "A3"></div>
+          <div class = "fret" data-string = "0" data-fret = "6" data-note = "A3sharp"></div>
+          <div class = "fret" data-string = "0" data-fret = "7" data-note = "B3"></div>
+          <div class = "fret" data-string = "0" data-fret = "8" data-note = "C4"></div>
+          <div class = "fret" data-string = "0" data-fret = "9" data-note = "C4sharp"></div>
           <div class = "fret" data-string = "0" data-fret = "10" data-note = "D4"></div>
           <div class = "fret" data-string = "0" data-fret = "11" data-note = "D4sharp"></div>
           <div class = "fret" data-string = "0" data-fret = "12" data-note = "E4"></div>
@@ -395,7 +393,7 @@
           <option>E2</option>
           <option>F2</option>
           <option>F#2</option>
-          <option>G2</option>
+          <option selected = "selected">G2</option>
           <option>G#2</option>
           <option>A2</option>
           <option>A#2</option>
@@ -407,7 +405,7 @@
           <option>E3</option>
           <option>F3</option>
           <option>F#3</option>
-          <option selected = "selected">G3</option>
+          <option>G3</option>
           <option>G#3</option>
           <option>A3</option>
           <option>A#3</option>
@@ -517,7 +515,7 @@
           <option>B1</option>
           <option>C2</option>
           <option>C#2</option>
-          <option>D2</option>
+          <option selected = "selected">D2</option>
           <option>D#2</option>
           <option>E2</option>
           <option>F2</option>
@@ -529,7 +527,7 @@
           <option>B2</option>
           <option>C3</option>
           <option>C#3</option>
-          <option selected = "selected">D3</option>
+          <option>D3</option>
           <option>D#3</option>
           <option>E3</option>
           <option>F3</option>
@@ -639,7 +637,7 @@
           <option>F#1</option>
           <option>G1</option>
           <option>G#1</option>
-          <option>A1</option>
+          <option  selected = "selected">A1</option>
           <option>A#1</option>
           <option>B1</option>
           <option>C2</option>
@@ -651,7 +649,7 @@
           <option>F#2</option>
           <option>G2</option>
           <option>G#2</option>
-          <option selected = "selected">A2</option>
+          <option>A2</option>
           <option>A#2</option>
           <option>B2</option>
           <option>C3</option>
@@ -761,7 +759,7 @@
           <option>C#1</option>
           <option>D1</option>
           <option>D#1</option>
-          <option>E1</option>
+          <option  selected = "selected">E1</option>
           <option>F1</option>
           <option>F#1</option>
           <option>G1</option>
@@ -773,7 +771,7 @@
           <option>C#2</option>
           <option>D2</option>
           <option>D#2</option>
-          <option selected = "selected">E2</option>
+          <option>E2</option>
           <option>F2</option>
           <option>F#2</option>
           <option>G2</option>
@@ -897,7 +895,6 @@
       </div>
 
     </div>
-
   </div>
 
   <div class="chordoptions">
@@ -976,7 +973,7 @@
           <div class = "fret2" data-string = "2" data-fret = "3"></div>
           <div class = "fret2" data-string = "2" data-fret = "4"></div>
 
-      </div>
+        </div>
 
         <div class="miniFourthRow" id = "miniFourthRow">
           <label id = "tuningLabel4" class = "tuningLabel">D3</label>
@@ -1024,29 +1021,18 @@
           <div class = "fretUnselectableLegend">4</div>
         </div>
 
-
       </div>
 
       <input type="button" id = "clearChord" value = "Reset" title = "Clear all changes">
       <input type="button" id = "createChord" value = "Create New Chord" title = "Create a new chord to save" onclick = "createChord();">
 
     </div>
-
   </div>
-
 </div>
 
 
 
   <div class = "tabbox">
-
-    <!-- <div class="info">
-      <h3>Tab Information</h3>
-      <label>Song Name:     </label>
-      <input type = "text" id = "tab_name"></br>
-      <label>Artist:        </label>
-      <input type = "text" id = "tab_artist">
-    </div> -->
 
     <div class = "staveoptions">
 
@@ -1072,6 +1058,10 @@
       </div>
 
       <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
+
+      <input type="button" id = "playTabAudio" value="Play Audio" name = "playAudioBtn" onclick = "playAudio()">
+      <input type="button" id = "pauseTabAudio" value="Pause Audio" name = "pauseAudioBtn" onclick = "pauseAudio()">
+      <input type="button" id = "stopTabAudio" value="Stop Audio" name = "stopAudioBtn" onclick = "stopAudio()">
 
     </div>
 
@@ -1122,8 +1112,10 @@
       </div>
 
       <input type = "button" id = "clearTab" value = "Delete Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();">
+
+
+
+
     </div>
-
   </div>
-
 </main>

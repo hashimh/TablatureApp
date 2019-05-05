@@ -111,18 +111,14 @@ async function populateMain() {
 // Get the modal
 function helpBtn() {
   let modal = document.getElementById('helpModal');
-
   // Get the <span> element that closes the modal
   let span = document.getElementsByClassName("close")[0];
-
   // When the user clicks the button, open the modal
   modal.style.display = "block";
-
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
     modal.style.display = "none";
   }
-
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
     if (event.target == modal) {
@@ -580,15 +576,13 @@ function addStave() {
     let str5 = document.getElementById("tuningDropdown5");
     let str6 = document.getElementById("tuningDropdown6");
 
-    let str1val = str1.textContent;
-
     textAppend +=
       str1.value + " |--\n" +
       str2.value + " |--\n" +
       str3.value + " |--\n" +
       str4.value + " |--\n" +
       str5.value + " |--\n" +
-      str5.value + " |--";
+      str6.value + " |--";
 
     textarea.value = textAppend;
 
@@ -755,6 +749,74 @@ function updateTuning(el) {
 
 
 
+// AUDIO FUNCTIONS FOR TABLATURE
+function playAudio() {
+  // this function will play the audio of all staves created
+  // first, a 'do for each' for each stave
+  //      then, a do for each for each of the 6 lines, changing
+  //      start position to first number (after E4  |--)
+  //
+  //      read each line simultaneously, and play appropriate notes for the tablature
+  let tabcontent = document.getElementById("tabcontent");
+  let allStaves = tabcontent.childNodes;
+
+  let textAreas = document.getElementsByTagName("textarea");
+
+  if (textAreas.length >= 1) {
+    // checked that stave(s) exist
+
+    for (let i = 0; i < textAreas.length; i++) {
+      // this for statement loops through the text areas, and performs
+      // actions for each one sequentially
+      let textAreaLines = textAreas[i].value.split("\n");
+      console.log("split textarealines", textAreaLines)
+
+      for (let j = 0; j < textAreaLines.length; j++) {
+        let data_string = "" + j + "";
+        console.log("searching: ", textAreaLines[j])
+
+         for (let k = 5; k < textAreaLines[j].length; k++) {
+           console.log(textAreaLines[j][k]);
+           if (textAreaLines[j][k] !== "-") {
+            if (textAreaLines[j][k] !== "x") {
+              console.log(textAreaLines[j][k]);
+              // || textAreaLinesNew[k] !== "x"
+              // console.log(textAreaLinesNew[k]);
+              // console.log(textAreaLines[k]);
+              let data_fret = "" + textAreaLines[j][k] + "";
+              console.log(data_string, data_fret);
+              //  data_string = "'" + data_string + "'";
+              // get the data-note value for the values of data_string and data_fret
+              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+
+              // play the note!
+              let audio = new Audio('js/audio/' + div.dataset.note + '.mp3');
+              audio.play();
+            }
+          }
+          console.log("end of note search");
+         }
+      // console.log("end of column search")
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ---------------------------- CHORD CREATION AND SELECTION FUNCTIONS --------------------------- //
@@ -779,7 +841,7 @@ const chordList = [
 // ----------------------------------------------------------------------------------------------- //
 function selectChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
-  let selectedChordMenu = document.getElementById("selectChord")
+  let selectedChordMenu = document.getElementById("selectChord");
   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
   if ((selectedStaveMenu.options).length <= 0) {
@@ -1210,6 +1272,9 @@ function populateTable(tabInfo) {
   // Now, insert this information into the table
   for (let i = 0; i < tabInfo.length; i++) {
     let row = table.insertRow(0);
+    row.setAttribute("onmouseover", "changeBackground(this)", 0);
+    row.setAttribute("onmouseout", "revertBackground(this)", 0);
+    row.setAttribute("id", tabInfo[i]._id, 0);
     let cellUser = row.insertCell(0);
     cellUser.innerHTML = tabInfo[i].email;
     let cellGenre = row.insertCell(0);
@@ -1222,6 +1287,7 @@ function populateTable(tabInfo) {
 
   // Create table headers
   let row = table.insertRow(0);
+
   let cell4 = row.insertCell(0);
   cell4.innerHTML = "User";
   cell4.style.fontWeight = 'bold';
@@ -1234,6 +1300,8 @@ function populateTable(tabInfo) {
   let cell1 = row.insertCell(0);
   cell1.innerHTML = "Song Name";
   cell1.style.fontWeight = 'bold';
+
+  addRowHandlers();
 }
 
 
@@ -1264,6 +1332,97 @@ async function showWhichTabsChange() {
 }
 
 
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to search all tabs by name, artist and genre ----------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function searchByName() {
+  let search = document.getElementById("searchByName").value;
+  let newTabInfo = tabInfo.filter(function (el) {
+    return el.song_name.includes(search);
+  });
+  populateTable(newTabInfo);
+}
+
+function searchByArtist() {
+  let search = document.getElementById("searchByArtist").value;
+  let newTabInfo = tabInfo.filter(function (el) {
+    return el.artist_name.includes(search);
+  });
+  populateTable(newTabInfo);
+}
+
+function searchByGenre() {
+  let searchMenu = document.getElementById("searchGenre");
+  let search = searchMenu.options[searchMenu.selectedIndex].value;
+  console.log(search);
+  if (search !== "All Genres") {
+    let newTabInfo = tabInfo.filter(function (el) {
+        return el.genre == search;
+      });
+      populateTable(newTabInfo);
+    } else {
+      populateTable(tabInfo);
+    }
+}
+
+
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to make clickable table and get relevant info upon events ---------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+async function addRowHandlers() {
+  let table = document.getElementById("tabTable");
+  console.log(table);
+  let rows = table.getElementsByTagName("tr");
+  for (let i = 1; i < rows.length; i++) {
+    let currentRow = table.rows[i];
+    let createClickHandler = function(row) {
+      return async function() {
+        let user = row.getElementsByTagName("td")[3];
+        let id = row.id;
+
+        console.log(user, id);
+        // Do the main shit
+        // use getTabs function, alter 'key' parameter to be sent
+        // to include name, artist and user
+
+        const token = localStorage.getItem("id_token");
+        const fetchOptions = {
+          credentials: 'same-origin',
+          method: 'GET',
+          headers: {'Authorization': 'Bearer ' + token },
+        };
+        let url = '/api/getTabContent'
+                + '?id=' + encodeURIComponent(id);
+        console.log("attempting to fetch /api/getTabContent");
+
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) {
+          console.log("fretch response for /api/getTabContent has failed.");
+          return;
+        }
+        console.log("successful /api/getTabContent call.");
+
+        let res = await response.json();
+        console.log(res);
+
+
+      }
+    }
+    currentRow.onclick = createClickHandler(currentRow);
+  }
+}
+
+
+
+// Functions to change background colour of row on mouseover
+function changeBackground(row) {
+  row.style.backgroundColor = "teal";
+}
+function revertBackground(row) {
+  row.style.backgroundColor = "white";
+}
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -1387,5 +1546,17 @@ async function getTabs(key) {
 
   // Store incoming data into JSON object and return to function caller
   let res = await response.json();
+  console.log(res);
   return res;
+}
+
+
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }

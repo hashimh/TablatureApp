@@ -3,6 +3,7 @@
 const fs = require('fs');
 const mongo = require('mongodb');
 const path = require('path');
+const ObjectId = require('mongodb').ObjectId;
 
 // Create object, specify connection URL
 const MongoClient = require('mongodb').MongoClient;
@@ -125,7 +126,7 @@ let getTabsMetadata = function(cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     const dbo = db.db("Tabify");
-    dbo.collection("tabs").find({}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    dbo.collection("tabs").find({}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
     db.close();
   });
@@ -135,7 +136,7 @@ let getMyTabsMetadata = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     const dbo = db.db("Tabify");
-    dbo.collection("tabs").find( {email: emailIn}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    dbo.collection("tabs").find( {email: emailIn}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
     db.close();
   });
@@ -145,8 +146,18 @@ let getOtherTabsMetadata = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     const dbo = db.db("Tabify");
-    dbo.collection("tabs").find( {email: {$ne: emailIn}}, { projection: { _id: 0, song_name: 1, artist_name: 1, genre: 1, email: 1}
+    dbo.collection("tabs").find( {email: {$ne: emailIn}}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
+    db.close();
+  });
+}
+
+let getTabContent = function (id, cb) {
+  let o_id = new ObjectId(id);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+    dbo.collection("tabs").find( {_id: o_id}).toArray(cb);
     db.close();
   });
 }
@@ -209,3 +220,4 @@ module.exports.saveTab = saveTab;
 module.exports.getTabsMetadata = getTabsMetadata;
 module.exports.getMyTabsMetadata = getMyTabsMetadata;
 module.exports.getOtherTabsMetadata = getOtherTabsMetadata;
+module.exports.getTabContent = getTabContent;
