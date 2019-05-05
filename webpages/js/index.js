@@ -16,6 +16,8 @@ function onSignIn(googleUser) {
   let auth2 = gapi.auth2.getAuthInstance();
   localStorage.setItem("id_token",auth2.currentUser.get().getAuthResponse().id_token);
   localStorage.setItem("googleUser",googleUser.getBasicProfile().getName());
+  localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
+  console.log(googleUser.getBasicProfile().getEmail());
   auth2.disconnect();
 
   // Call next initialising function
@@ -1379,11 +1381,10 @@ async function addRowHandlers() {
     let currentRow = table.rows[i];
     let createClickHandler = function(row) {
       return async function() {
-        let user = row.getElementsByTagName("td")[3];
         let id = row.id;
 
-        console.log(user, id);
-        // Do the main shit
+        console.log(id);
+        // Do the main stuff
         // use getTabs function, alter 'key' parameter to be sent
         // to include name, artist and user
 
@@ -1403,17 +1404,98 @@ async function addRowHandlers() {
           return;
         }
         console.log("successful /api/getTabContent call.");
-
         let res = await response.json();
-        console.log(res);
 
-
+        populateContent(res);
       }
     }
     currentRow.onclick = createClickHandler(currentRow);
   }
 }
 
+
+
+// Populate content
+function populateContent (tabContent) {
+  let mainDiv = document.getElementById("selectedContent");
+  // First, empty contents of mainDiv
+  while (mainDiv.hasChildNodes()) {
+    mainDiv.removeChild(mainDiv.firstChild);
+  }
+  // for loop through number of staves
+  // if tablature is users, show modal
+
+  console.log(tabContent[0].stave_types);
+
+  let staves = tabContent[0].stave_types.split(",");
+  let rawContent = tabContent[0].stave_content.split(",")
+  let user = tabContent[0].email;
+
+  console.log(staves, rawContent);
+
+  for (let i = 0; i < staves.length; i++) {
+    // first, create inner stave div
+    let staveDiv = document.createElement("div");
+    staveDiv.setAttribute("class", "contentDiv");
+
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
+    staveDiv.append(h3);
+
+    let textarea = document.createElement("textarea");
+    textarea.setAttribute("rows", "6");
+    textarea.setAttribute("cols", "100");
+    textarea.setAttribute("wrap", "off");
+    textarea.value = "\n\n\n\n\n";
+
+    let textAreaLines = textarea.value.split("\n");
+
+    console.log(textAreaLines.length);
+
+    let content = rawContent[i].split("\n");
+
+    console.log(content);
+
+    for (let j = 0; j < content.length; j++) {
+
+      console.log(content[j]);
+
+      textAreaLines[j] += content[j];
+    }
+
+    textarea.value = textAreaLines.join("\n");
+    staveDiv.append(textarea);
+    mainDiv.append(staveDiv);
+
+    // Now, check for edit or view
+    if (user == localStorage.getItem("userEmail")) {
+      console.log("EDIT")
+    } else {
+      // Create a div for text boxes, containing song name, artist and email
+      let infoDiv = document.createElement("div");
+      infoDiv.setAttribute("class", "infoDiv");
+
+      let nameLabel = document.createElement("label");
+      nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
+      nameLabel.setAttribute("style", "display: block");
+      infoDiv.append(nameLabel);
+
+      let artistLabel = document.createElement("label")
+      artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
+      artistLabel.setAttribute("style", "display: block");
+      infoDiv.append(artistLabel);
+
+      let genreLabel = document.createElement("label");
+      genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
+      genreLabel.setAttribute("style", "display: block");
+      infoDiv.append(genreLabel);
+
+      mainDiv.append(infoDiv);
+    }
+
+  }
+
+}
 
 
 // Functions to change background colour of row on mouseover

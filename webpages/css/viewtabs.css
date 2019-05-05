@@ -66,11 +66,22 @@ header {
 
 .searchCriteria { grid-area: criteria }
 .tabTable { grid-area: tabTable }
+#selectedContent { grid-area: myContent }
 
 .selectTab {
   display: grid;
   grid-template-areas:
-    'criteria tabTable tabTable tabTable';
+    'criteria tabTable tabTable tabTable'
+    'myContent myContent myContent myContent';
+}
+
+.contentDiv { grid-area: contentdiv }
+.infoDiv { grid-area: infodiv }
+
+#selectedContent {
+  display: grid;
+  grid-template-areas:
+    'contentdiv infodiv';
 }
 
 /* TABLE CSS */
