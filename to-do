@@ -1,9 +1,8 @@
 To Do:
 - View tab page
 - add back button to forms
-- Server functions (audio)
-- Midi format - virtual guitar
 - ORGANISE CSS + CLASS NAMES
+- play audio of all staves
 
 - Electron
 
@@ -14,3 +13,4 @@ Done:
 - tabs database
 - tab symbols
 - tab spacing
+- view tab page

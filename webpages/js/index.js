@@ -1225,6 +1225,34 @@ async function createChord() {
 }
 
 
+async function backBtnMain() {
+  let tempmessage = document.getElementById("tempmessage");
+
+  if (tempmessage == null) {
+    if (confirm('Changes will not be saved, are you sure you want to go back?')) {
+      // Call main menu form
+      let apiLink = '/api/login';
+      await getPage(apiLink);
+    } else {
+      // Do nothing
+      return;
+    }
+  } else if (tempmessage.innerHTML.length !== 57) {
+    if (confirm('Changes will not be saved, are you sure you want to go back?')) {
+      // Call main menu form
+      let apiLink = '/api/login';
+      await getPage(apiLink);
+    } else {
+      // Do nothing
+      return;
+    }
+  } else {
+    let apiLink = '/api/login';
+    await getPage(apiLink);
+  }
+}
+
+
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
