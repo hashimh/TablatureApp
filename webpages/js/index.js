@@ -725,6 +725,13 @@ function deleteStave() {
     document.getElementById("tuningDropdown4").disabled = false;
     document.getElementById("tuningDropdown5").disabled = false;
     document.getElementById("tuningDropdown6").disabled = false;
+
+    let tabcontent = document.getElementById("tabcontent");
+    let tempmessage = document.createElement("p");
+    tempmessage.innerHTML = "No content... Please create a stave with the button above"
+    tempmessage.setAttribute("id", "tempmessage");
+    tabcontent.append(tempmessage);
+
   }
 }
 
@@ -736,7 +743,13 @@ function deleteStave() {
 function clearAllStaves() {
   let tabcontent = document.getElementById("tabcontent");
   let allStaves = tabcontent.childNodes;
-  if (allStaves.length >= 1) {
+
+  let selectedStaveMenu = document.getElementById("selectStave");
+  // If no staves yet created, output error message
+  if ((selectedStaveMenu.options).length <= 0) {
+    alert("No staves created");
+    return;
+  } else {
     if (confirm('Are you sure you want to reset all staves?')) {
       while (tabcontent.firstChild) {
         tabcontent.removeChild(tabcontent.firstChild);
@@ -757,8 +770,6 @@ function clearAllStaves() {
       // Do nothing
       return;
     }
-  } else {
-    alert("No staves created!");
   }
 
   document.getElementById("tuningDropdown1").disabled = false;
@@ -885,18 +896,6 @@ function playAudio() {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1340,6 +1339,12 @@ async function populateMain2() {
   const el = document.getElementById('greeting2');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
+  // Remove potential pre-existing results
+  let div = document.getElementById("selectedContent");
+  while (div.hasChildNodes()) {
+    div.removeChild(div.firstChild);
+  }
+
   // Get tablature information from the database
   tabInfo =  await getTabs("all");
   populateTable(tabInfo);
@@ -1591,7 +1596,14 @@ function populateContent (tabContent) {
     editBtn.setAttribute("title", "Select to edit current tablature");
     editBtn.innerHTML = "Edit Tablature";
 
+    let deleteBtn = document.createElement("button");
+    deleteBtn.setAttribute("id", "deleteTabBtn");
+    deleteBtn.setAttribute("value", "Delete Tab");
+    deleteBtn.setAttribute("title", "Select to delete current tablature");
+    deleteBtn.innerHTML = "Delete Tablature";
+
     mainDiv.append(editBtn);
+    mainDiv.append(deleteBtn);
   }
 
   if (document.getElementById("editTabBtn") !== null) {
@@ -1599,6 +1611,38 @@ function populateContent (tabContent) {
       console.log("raw data in click function", rawData);
       // Make a call to the 'edit tablature' function
       editTab(rawData);
+    }
+  }
+
+  if (document.getElementById("deleteTabBtn") !== null) {
+    document.getElementById("deleteTabBtn").onclick = async function() {
+      if (confirm('Are you sure you want to delete this tablature?')) {
+        console.log("deleting...");
+        let _id = rawData[0]._id;
+        // Send request to server to delete, then reload page
+        const token = localStorage.getItem("id_token");
+        const fetchOptions = {
+          credentials: 'same-origin',
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token },
+        };
+
+        let url = '/api/deleteTab'
+        + '?_id=' + encodeURIComponent(_id);
+
+        console.log("attempting to fetch /api/deleteTab");
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) {
+          console.log("fetch request for /api/deleteTab has failed.");
+          return;
+        } else {
+          console.log("successful /api/deleteTab call");
+        }
+        alert("Tablature deleted");
+        populateMain2();
+      } else {
+        return;
+      }
     }
   }
 }

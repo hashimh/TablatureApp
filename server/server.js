@@ -39,6 +39,7 @@ app.post('/api/checkUser', checkUser);
 app.post('/api/saveChord', saveChord);
 app.post('/api/saveTab', saveTab);
 app.post('/api/updateTab', updateTab);
+app.post('/api/deleteTab', deleteTab);
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -160,6 +161,12 @@ async function updateTab (req, res) {
                                     req.query.stave_content);
   res.json(retval);
 }
+
+async function deleteTab (req, res) {
+  const retval = await db.deleteTab(req.query._id)
+  res.json(retval);
+}
+
 
 
 
