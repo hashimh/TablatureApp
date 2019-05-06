@@ -1,4 +1,5 @@
 'use strict';
+let editedTab = false;
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -83,6 +84,8 @@ async function createTabBtn() {
   let apiLink = '/api/createTabBtn';
   await getPage(apiLink);
 
+  editedTab = false;
+
   populateMain();
 }
 
@@ -135,7 +138,7 @@ function helpBtn() {
 // Function to sign out of the menu.html form ---------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function signOut2() {
-  if (confirm("All changes will be lost, continue with sign out?")) {
+  if (confirm("All content will be lost, continue with sign out?")) {
     // Call server function 'logout'
     let apiLink = '/api/logout';
     await getPage(apiLink);
@@ -174,89 +177,94 @@ async function saveTab() {
   }
 
   let confirmBtn = document.getElementById("confirmSave");
+  console.log(editedTab);
   confirmBtn.addEventListener("click", async function() {
-    // most of the code will go here...
-    // first, check inputs and assign variables
-    let songName = document.getElementById("songName").value;
-    let artistName = document.getElementById("artistName").value;
-    let genreMenu = document.getElementById("genreSelect");
-    let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
+    if (editedTab == false) {
+      // most of the code will go here...
+      // first, check inputs and assign variables
+      let songName = document.getElementById("songName").value;
+      let artistName = document.getElementById("artistName").value;
+      let genreMenu = document.getElementById("genreSelect");
+      let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
 
-    if (songName.length <= 0) {
-      alert("Please enter a valid song name.");
-      return;
-    } else if (artistName.length <= 0) {
-      alert("Please enter a valid artist name.");
-    }
+      if (songName.length <= 0) {
+        alert("Please enter a valid song name.");
+        return;
+      } else if (artistName.length <= 0) {
+        alert("Please enter a valid artist name.");
+      }
 
-    // Now, save the stave contents into variables
-    let types = [];
-    let staves = [];
-    let tabContent = document.getElementById("tabcontent");
-    let allStaves = tabContent.getElementsByTagName("div");
+      // Now, save the stave contents into variables
+      let types = [];
+      let staves = [];
+      let tabContent = document.getElementById("tabcontent");
+      let allStaves = tabContent.getElementsByTagName("div");
 
-    for (let i = 0; i < allStaves.length; i++) {
-      // get stave type from h3's id, and add to 'type' array
-      let type = allStaves[i].getElementsByTagName("h3")[0].id
-      type = type.substring(1);
-      types.push(type)
+      for (let i = 0; i < allStaves.length; i++) {
+        // get stave type from h3's id, and add to 'type' array
+        let type = allStaves[i].getElementsByTagName("h3")[0].id
+        type = type.substring(1);
+        types.push(type)
 
-      // now, get stave textarea, and add to 'stave' array
-      let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
-      staves.push(textarea);
+        // now, get stave textarea, and add to 'stave' array
+        let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
+        staves.push(textarea);
 
-    }
+      }
 
-    // Now, stave types and contents stored in the arrays below...
-    console.log(types);
-    console.log(staves);
+      // Now, stave types and contents stored in the arrays below...
+      console.log(types);
+      console.log(staves);
 
-    // make initial server call requests...
-    const token = localStorage.getItem("id_token");
-    const fetchOptions = {
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + token },
-    };
+      // make initial server call requests...
+      const token = localStorage.getItem("id_token");
+      const fetchOptions = {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+      };
 
-    let url = '/api/saveTab'
-              + '?song_name=' + encodeURIComponent(songName)
-              + '&artist_name=' + encodeURIComponent(artistName)
-              + '&genre=' + encodeURIComponent(songGenre)
-              + '&stave_types=' + encodeURIComponent([types])
-              + '&stave_content=' + encodeURIComponent([staves]);
+      let url = '/api/saveTab'
+      + '?song_name=' + encodeURIComponent(songName)
+      + '&artist_name=' + encodeURIComponent(artistName)
+      + '&genre=' + encodeURIComponent(songGenre)
+      + '&stave_types=' + encodeURIComponent([types])
+      + '&stave_content=' + encodeURIComponent([staves]);
 
-    console.log("attempting to fetch /api/saveTab");
-    const response = await fetch(url, fetchOptions);
-    if (!response.ok) {
-      // handle the error
-      console.log("fetch response for /api/saveTab has failed")
-      return;
+      console.log("attempting to fetch /api/saveTab");
+      const response = await fetch(url, fetchOptions);
+      if (!response.ok) {
+        // handle the error
+        console.log("fetch response for /api/saveTab has failed")
+        return;
+      } else {
+        console.log("successful /api/saveTab call!");
+      }
+      alert("tab saved in database!");
+      // clear modal entries and close modal
+      songName = "";
+      artistName = "";
+      modal.style.display = "none";
+
+      // clear tab creation area
+      while (tabContent.firstChild) {
+        tabcontent.removeChild(tabcontent.firstChild);
+      }
+      // REMOVE STAVES FROM DROPDOWN MENU
+      let staveDropdown = document.getElementById("selectStave");
+      let dropdownLength = staveDropdown.options.length;
+      for (let i = 0; i < dropdownLength; i++) {
+        staveDropdown.remove(i);
+        staveDropdown.remove(staveDropdown.selectedIndex);
+      }
+      // add text back to no stave area
+      let tempmessage = document.createElement("p");
+      tempmessage.innerHTML = "No content... Please create a stave with the button above"
+      tempmessage.setAttribute("id", "tempmessage");
+      tabcontent.append(tempmessage);
     } else {
-      console.log("successful /api/saveTab call!");
+      console.log("not gonna save a new one");
     }
-    alert("tab saved in database!");
-    // clear modal entries and close modal
-    songName = "";
-    artistName = "";
-    modal.style.display = "none";
-
-    // clear tab creation area
-    while (tabContent.firstChild) {
-      tabcontent.removeChild(tabcontent.firstChild);
-    }
-    // REMOVE STAVES FROM DROPDOWN MENU
-    let staveDropdown = document.getElementById("selectStave");
-    let dropdownLength = staveDropdown.options.length;
-    for (let i = 0; i < dropdownLength; i++) {
-      staveDropdown.remove(i);
-      staveDropdown.remove(staveDropdown.selectedIndex);
-    }
-    // add text back to no stave area
-    let tempmessage = document.createElement("p");
-    tempmessage.innerHTML = "No content... Please create a stave with the button above"
-    tempmessage.setAttribute("id", "tempmessage");
-    tabcontent.append(tempmessage);
   });
 }
 
@@ -299,7 +307,9 @@ async function fretBoard() {
 
     let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
     let staveid = "stave" + selectedStave;
+    console.log(staveid);
     let textArea = document.getElementById(staveid);
+    console.log(textArea);
     let textAreaLines = textArea.value.split("\n");
 
     // For each line in the textarea (line 0 to line 5)
@@ -1226,27 +1236,8 @@ async function createChord() {
 
 
 async function backBtnMain() {
-  let tempmessage = document.getElementById("tempmessage");
-
-  if (tempmessage == null) {
-    if (confirm('Changes will not be saved, are you sure you want to go back?')) {
-      // Call main menu form
-      let apiLink = '/api/login';
-      await getPage(apiLink);
-    } else {
-      // Do nothing
-      return;
-    }
-  } else if (tempmessage.innerHTML.length !== 57) {
-    if (confirm('Changes will not be saved, are you sure you want to go back?')) {
-      // Call main menu form
-      let apiLink = '/api/login';
-      await getPage(apiLink);
-    } else {
-      // Do nothing
-      return;
-    }
-  } else {
+  if (confirm('Changes will not be saved, are you sure you want to go back?')) {
+    // Call main menu form
     let apiLink = '/api/login';
     await getPage(apiLink);
   }
@@ -1454,6 +1445,8 @@ function populateContent (tabContent) {
   // if tablature is users, show modal
 
   console.log(tabContent[0].stave_types);
+  console.log(tabContent);
+  let rawData = tabContent;
 
   let staves = tabContent[0].stave_types.split(",");
   let rawContent = tabContent[0].stave_content.split(",")
@@ -1495,35 +1488,127 @@ function populateContent (tabContent) {
     staveDiv.append(textarea);
     mainDiv.append(staveDiv);
 
-    // Now, check for edit or view
-    if (user == localStorage.getItem("userEmail")) {
-      console.log("EDIT")
-    } else {
-      // Create a div for text boxes, containing song name, artist and email
-      let infoDiv = document.createElement("div");
-      infoDiv.setAttribute("class", "infoDiv");
-
-      let nameLabel = document.createElement("label");
-      nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
-      nameLabel.setAttribute("style", "display: block");
-      infoDiv.append(nameLabel);
-
-      let artistLabel = document.createElement("label")
-      artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
-      artistLabel.setAttribute("style", "display: block");
-      infoDiv.append(artistLabel);
-
-      let genreLabel = document.createElement("label");
-      genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
-      genreLabel.setAttribute("style", "display: block");
-      infoDiv.append(genreLabel);
-
-      mainDiv.append(infoDiv);
-    }
 
   }
 
+
+  // Create a div for text boxes, containing song name, artist and email
+  let infoDiv = document.createElement("div");
+  infoDiv.setAttribute("class", "infoDiv");
+
+  let nameLabel = document.createElement("label");
+  nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
+  nameLabel.setAttribute("style", "display: block");
+  infoDiv.append(nameLabel);
+
+  let artistLabel = document.createElement("label")
+  artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
+  artistLabel.setAttribute("style", "display: block");
+  infoDiv.append(artistLabel);
+
+  let genreLabel = document.createElement("label");
+  genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
+  genreLabel.setAttribute("style", "display: block");
+  infoDiv.append(genreLabel);
+
+  mainDiv.append(infoDiv);
+
+  if (user == localStorage.getItem("userEmail")) {
+    let editBtn = document.createElement("button");
+    editBtn.setAttribute("id", "editTabBtn")
+    editBtn.setAttribute("value", "Edit");
+    editBtn.setAttribute("title", "Select to edit current tablature");
+    editBtn.innerHTML = "Edit Tablature";
+
+    mainDiv.append(editBtn);
+  }
+
+  if (document.getElementById("editTabBtn") !== null) {
+    document.getElementById("editTabBtn").onclick = function() {
+      console.log("raw data in click function", rawData);
+      // Make a call to the 'edit tablature' function
+      editTab(rawData);
+    }
+  }
 }
+
+
+
+async function editTab(data) {
+  // Take user to 'create tablature' page, with data
+  let apiLink = '/api/createTabBtn';
+  await getPage(apiLink);
+  console.log(data);
+
+  // Now, fill in the page with all information
+  // - Add staves to dropdown menu
+  let staves = data[0].stave_types.split(",");
+  let staveDropdown = document.getElementById("selectStave");
+  let rawContent = data[0].stave_content.split(",")
+  let tabContent = document.getElementById("tabcontent");
+
+  for (let i = 0; i < staves.length; i++) {
+    let staveOption = document.createElement("option");
+    staveOption.value = i + 1;
+    staveOption.innerHTML = "Stave " + (i + 1);
+    staveDropdown.append(staveOption);
+
+    // - For each stave group in data
+    //      - run createStave
+    //      - fill in with information
+    //      - OR... Just fill it out now
+
+
+    let div = document.createElement("div");
+    div.setAttribute("id", i + 1);
+    div.setAttribute("class", "stave");
+    tabContent.append(div);
+
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
+    h3.setAttribute("id", (i+1) + staves[i]);
+    div.append(h3);
+
+    let textArea = document.createElement("textarea");
+    textArea.setAttribute("id", "stave" + (i + 1));
+    textArea.setAttribute("name", "stave");
+    textArea.setAttribute("rows", "6");
+    textArea.setAttribute("cols", "100");
+    textArea.setAttribute("wrap", "off");
+    textArea.value = "\n\n\n\n\n";
+
+    console.log(textArea)
+
+    let textAreaLines = textArea.value.split("\n");
+    let content = rawContent[i].split("\n");
+
+    for (let j = 0; j < content.length; j++) {
+      textAreaLines[j] = content[j];
+    }
+
+    textArea.value = textAreaLines.join("\n");
+    div.append(textArea);
+    tabContent.append(div);
+  }
+  fretBoard();
+  chordFretboard();
+
+  let songName = data[0].song_name;
+  let artistName = data[0].artist_name;
+  let genre = data[0].genre
+
+  // Override save button to send pre-saved metadata to modal
+
+  document.getElementById("saveTabBtn").addEventListener("click", function() {
+    document.getElementById("songName").value = songName;
+    document.getElementById("artistName").value = artistName;
+    document.getElementById("genreSelect").value = genre;
+  });
+
+  editedTab = true;
+
+}
+
 
 
 // Functions to change background colour of row on mouseover
@@ -1532,6 +1617,13 @@ function changeBackground(row) {
 }
 function revertBackground(row) {
   row.style.backgroundColor = "white";
+}
+
+
+
+async function backBtnView() {
+  let apiLink = '/api/login'
+  await getPage(apiLink);
 }
 
 // ----------------------------------------------------------------------------------------------- //

@@ -75,14 +75,14 @@ header {
     'myContent myContent myContent myContent';
 }
 
-.contentDiv { grid-area: contentdiv }
+/* .contentDiv { grid-area: contentdiv }
 .infoDiv { grid-area: infodiv }
 
 #selectedContent {
   display: grid;
   grid-template-areas:
     'contentdiv infodiv';
-}
+} */
 
 /* TABLE CSS */
 table, th, td {
