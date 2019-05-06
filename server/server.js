@@ -34,10 +34,11 @@ app.get('/api/getSavedChords', getSavedChords);
 app.get('/api/getTabsMetadata', getTabsMetadata);
 app.get('/api/getTabContent', getTabContent);
 
+
 app.post('/api/checkUser', checkUser);
 app.post('/api/saveChord', saveChord);
 app.post('/api/saveTab', saveTab);
-
+app.post('/api/updateTab', updateTab);
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -149,6 +150,16 @@ async function saveTab(req, res) {
   res.json(retval);
 }
 
+async function updateTab (req, res) {
+  const retval = await db.updateTab(req.query._id,
+                                    req.user.emails[0].value,
+                                    req.query.song_name,
+                                    req.query.artist_name,
+                                    req.query.genre,
+                                    req.query.stave_types,
+                                    req.query.stave_content);
+  res.json(retval);
+}
 
 
 

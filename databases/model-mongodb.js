@@ -113,6 +113,26 @@ function saveTab (email, song, artist, genre, types, staves) {
   });
 }
 
+function updateTab (id, email, song, artist, genre, types, staves) {
+  let o_id = new ObjectId(id);
+  console.log(o_id);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+
+    dbo.collection("tabs").updateOne(
+        { _id : o_id },
+        { $set : {"song_name" : song, "artist_name" : artist, "genre" : genre, "stave_types" : types, "stave_content" : staves }},
+        { upsert : true }
+    );
+    db.close();
+  });
+}
+
+
+
+
+
 let getSavedChords = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -215,8 +235,10 @@ let getTabContent = function (id, cb) {
 // module.exports.getPresaved = getPresaved;
 module.exports.login = login;
 module.exports.saveChord = saveChord;
-module.exports.getSavedChords = getSavedChords;
 module.exports.saveTab = saveTab;
+module.exports.updateTab = updateTab;
+
+module.exports.getSavedChords = getSavedChords;
 module.exports.getTabsMetadata = getTabsMetadata;
 module.exports.getMyTabsMetadata = getMyTabsMetadata;
 module.exports.getOtherTabsMetadata = getOtherTabsMetadata;
