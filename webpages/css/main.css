@@ -165,13 +165,47 @@ header {
 }
 
 .chordcreation {
-  border-top: 2px solid black;
-  padding-top: 5px;
+  /* border-top: 2px solid black; */
+  padding-top: 15px;
 }
+
+.chordselection label {
+  display: inline-block;
+  width: 15vh;
+  text-align: left;
+}
+
+.chordselection select {
+  display: inline-block;
+  width: 5vh;
+  text-align: left;
+}
+
+#startPosLbl {
+  display: inline-block;
+  width: 15vh;
+  text-align: left;
+}
+
+#startPos {
+  width: 5vh;
+}
+
+#chNameLbl {
+  display: inline-block;
+  width: 15vh;
+  text-align: left;
+}
+
+#chName {
+  width: 5vh;
+}
+
 
 /* Chord Creation Fretbox */
 
 div.miniFretboard {
+  margin-top: 15px;
   background-color: beige;
   position: relative;
   overflow: auto;
@@ -253,7 +287,6 @@ div.miniFretLegend {
   background-color: teal;
 }
 
-
 /* -------------------------------------------------------------------------- */
 /* ---------- FRETBOARD CODE  ----------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -265,6 +298,8 @@ div.fretboardBox {
 
 div.fretboard {
   background-image: url(wood.jpg);
+  background-size: 100%;
+  background-attachment: scroll;
   position: relative;
   overflow: auto;
 }
@@ -321,6 +356,12 @@ div.fretStringLegend {
   height: 25px;
 }
 
+#clearChord {
+  float: right;
+}
+
+
+
 /* -------------------------------------------------------------------------- */
 /* ---------- TAB BOX CODE  ------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -341,7 +382,15 @@ div.fretStringLegend {
 }
 
 /* ---------------------------- Stave Option CSS ---------------------------- */
+#selectStaveType { grid-area: create }
+#selectToEdit { grid-area: edit }
+.audiOBtns { grid-area: audio}
+
 div.staveoptions {
+  display: grid;
+  grid-template-areas:
+    'create create audio'
+    'edit edit audio';
   border: 5px solid black;
   margin: 5px;
   padding: 10px;
@@ -353,8 +402,15 @@ div.staveoptions {
   margin: 5px;
 }
 
-.staveoptions > div {
+.staveoptions > label {
   display: inline-block;
+  width: 100px;
+  text-align: right;
+}
+
+h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 /* ------------------------------ Tab Info CSS ------------------------------ */
@@ -404,6 +460,20 @@ div.taboptions {
   background-color: teal;
 }
 
+.block label {
+  display: inline-block;
+  width: 12vh;
+  text-align: left;
+}
+
 .optionBtn:hover {
   background-color: teal;
+}
+
+#symbolsH4 {
+  padding-top: 10px;
+}
+
+#clearTab {
+  margin-top: 10px;
 }

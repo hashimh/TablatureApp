@@ -928,10 +928,10 @@
     <div class="chordcreation">
 
       <h4>Create a Chord</h4>
-      <label>Chord Starting Position:</label>
+      <label id = "startPosLbl">Starting Position:</label>
       <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "17" oninput = "changeStartPos();" onkeydown = "return false;">
       <br>
-      <label>Chord Name:</label>
+      <label id = "chNameLbl">Chord Name:</label>
       <input type="text" name="chordName" id = "chName">
 
       <!-- CREATE A TABLE TO CREATE CHORDS -->
@@ -1038,7 +1038,9 @@
 
       <div class="createstave">
 
-        <label>Select Stave Type: </label>
+        <h4>Stave Options</h4>
+
+        <label>Create a Stave: </label>
         <select id = "selectStaveType" name = "selectStaveType">
           <option value="Lead Guitar">Lead Guitar</option>
           <option value="Rhythm Guitar">Rhythm Guitar</option>
@@ -1050,18 +1052,20 @@
 
       </div>
 
-      <div class="selectstave">
+      <div id = "selectToEdit" class="selectstave">
         <label>Edit Stave:</label>
         <select id = "selectStave" name = "selectStave">
           <!-- Options added as staves are created -->
         </select>
+        <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
       </div>
 
-      <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
-
-      <input type="button" id = "playTabAudio" value="Play Audio" name = "playAudioBtn" onclick = "playAudio()">
-      <input type="button" id = "pauseTabAudio" value="Pause Audio" name = "pauseAudioBtn" onclick = "pauseAudio()">
-      <input type="button" id = "stopTabAudio" value="Stop Audio" name = "stopAudioBtn" onclick = "stopAudio()">
+      <div class="audiOBtns">
+        <h4>Audio Playback</h4>
+        <input type="button" id = "playTabAudio" value="Play Audio" name = "playAudioBtn" onclick = "playAudio()">
+        <input type="button" id = "pauseTabAudio" value="Pause Audio" name = "pauseAudioBtn" onclick = "pauseAudio()">
+        <input type="button" id = "stopTabAudio" value="Stop Audio" name = "stopAudioBtn" onclick = "stopAudio()">
+      </div>
 
     </div>
 
@@ -1071,7 +1075,7 @@
 
     <div class="taboptions">
 
-      <h4>Tab Options and Symbols</h4>
+      <h4>Tab Options</h4>
 
       <div class="block">
         <label>Tab Spacing: </label>
@@ -1100,8 +1104,10 @@
         <button type="button" name="insertSpaces" onclick = "insertBlanks()">Insert</button>
       </div>
 
-      <div class="block" id = "optionBtns">
-        <h5>Tab Symbols:</h5>
+      <input type = "button" id = "clearTab" value = "Delete All Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();">
+
+      <div class="block2" id = "optionBtns">
+        <h4 id = "symbolsH4">Tab Symbols:</h4>
         <button type="button" class = "optionBtn" name="Hammer On">h</button>
         <button type="button" class = "optionBtn" name="Bend">b</button>
         <button type="button" class = "optionBtn" name="Pull Off">p</button>
@@ -1110,10 +1116,6 @@
         <button type="button" class = "optionBtn" name="Vibrato">~</button>
         <button type="button" id = "clearOptions" name="clearOptions">Clear</button>
       </div>
-
-      <input type = "button" id = "clearTab" value = "Delete Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();">
-
-
 
 
     </div>
