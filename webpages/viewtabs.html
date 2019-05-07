@@ -9,7 +9,7 @@
 
 <header>
   <ul class = "navbar">
-    <li class = "navheader">Tabify - View Tablatures<span id = "greeting2"></span></li>
+    <li class = "navheader">TabMe - View or Edit Tablatures<span id = "greeting2"></span></li>
     <li><a href="#">Help</a></li>
     <li><a href = '#' onclick = "backBtnView()">Back</a></li>
     <li><a href="#" onclick = "signOut2()">Sign Out</a></li>
@@ -21,45 +21,6 @@
 
     <div class = "selectTab">
 
-      <div class = "searchCriteria">
-        <h3>Tablature Selection: Search Criteria</h3>
-
-        <label>Show me:</label>
-        <select class = "showWhichTabs" name="showWhichTabs" onchange = "showWhichTabsChange();">
-          <option value="allTabs">All Tabs</option>
-          <option value="myTabs">My Tabs</option>
-          <option value="userTabs">User Tabs</option>
-        </select>
-
-        <label>Song Name:</label>
-        <input id = "searchByName" type = "text" name = "searchSongName" value="" onchange = "searchByName()">
-
-        <label>Artist:</label>
-        <input id = "searchByArtist" type="text" name = "searchArtist" value="" onchange = "searchByArtist()">
-
-        <label>By Genre:</label>
-        <select id = "searchGenre" name="genreSelect" onchange = "searchByGenre()">
-          <option>All Genres</option>
-          <option>Alternative Rock</option>
-          <option>Blues</option>
-          <option>Classical</option>
-          <option>Country</option>
-          <option>Folk</option>
-          <option>Funk</option>
-          <option>Heavy Metal</option>
-          <option>Hip Hop</option>
-          <option>Indie</option>
-          <option>Jazz</option>
-          <option>Pop</option>
-          <option>Psychadelic Rock</option>
-          <option>Punk Rock</option>
-          <option>Reggae</option>
-          <option>Rock</option>
-          <option>Soul</option>
-          <option>Other</option>
-        </select>
-      </div>
-
       <div class = "tabTable">
         <h3>Results</h3>
 
@@ -68,6 +29,57 @@
         </table>
 
       </div>
+
+      <div class = "searchCriteria">
+        <h3>Search Criteria</h3>
+
+        <div class="block">
+          <label>Show me:</label>
+          <select id = "showMeDropdown" class = "showWhichTabs infoInput" name="showWhichTabs" onchange = "showWhichTabsChange();">
+            <option value="allTabs">All Tabs</option>
+            <option value="myTabs">My Tabs</option>
+            <option value="userTabs">User Tabs</option>
+          </select>
+        </div>
+
+        <div class="block">
+          <label>Select Genre:</label>
+          <select class = "infoInput" id = "searchGenre" name="genreSelect" onchange = "searchByGenre()">
+            <option>All Genres</option>
+            <option>Alternative Rock</option>
+            <option>Blues</option>
+            <option>Classical</option>
+            <option>Country</option>
+            <option>Folk</option>
+            <option>Funk</option>
+            <option>Heavy Metal</option>
+            <option>Hip Hop</option>
+            <option>Indie</option>
+            <option>Jazz</option>
+            <option>Pop</option>
+            <option>Psychadelic Rock</option>
+            <option>Punk Rock</option>
+            <option>Reggae</option>
+            <option>Rock</option>
+            <option>Soul</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="block">
+          <label>Song Name:</label>
+          <input class = "infoInput" id = "searchByName" type = "text" name = "searchSongName" value="" onchange = "searchByName()">
+        </div>
+
+        <div class="block">
+          <label>Artist Name:</label>
+          <input class = "infoInput" id = "searchByArtist" type="text" name = "searchArtist" value="" onchange = "searchByArtist()">
+        </div>
+
+        <button type="button" name="resetBtn" onclick = "resetSearch()">Reset</button>
+
+      </div>
+
 
     </div>
   </div>

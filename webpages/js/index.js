@@ -50,11 +50,6 @@ async function callServer(googleUser) {
     console.log("fetch response for /api/checkuser has failed.");
     return;
   }
-
-  // Get name for heading
-  const profile = googleUser.getBasicProfile();
-  const el = document.getElementById('greeting');
-  el.textContent = 'Welcome, ' + profile.getName() + '...' + 'What would you like to do today?';
 }
 
 
@@ -1362,6 +1357,7 @@ function populateTable(tabInfo) {
 
   // First, reset table
   let table = document.getElementById('tabTable');
+  table.style.visibility = "visible";
   while (table.hasChildNodes()) {
     table.removeChild(table.firstChild);
   }
@@ -1513,6 +1509,7 @@ async function addRowHandlers() {
 // Populate content
 function populateContent (tabContent) {
   let mainDiv = document.getElementById("selectedContent");
+  mainDiv.style.visibility = "visible";
   // First, empty contents of mainDiv
   while (mainDiv.hasChildNodes()) {
     mainDiv.removeChild(mainDiv.firstChild);
@@ -1726,6 +1723,15 @@ async function editTab(data) {
 }
 
 
+
+// Function to reset search criteria
+function resetSearch() {
+  document.getElementById("showMeDropdown").selectedIndex = 0;
+  document.getElementById("searchGenre").selectedIndex = 0;
+  document.getElementById("searchByName").value = ""
+  document.getElementById("searchByArtist").value = ""
+  populateMain2();
+}
 
 // Functions to change background colour of row on mouseover
 function changeBackground(row) {

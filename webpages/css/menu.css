@@ -9,6 +9,10 @@ body {
   padding: 0;
 }
 
+main > div {
+  text-align: center;
+}
+
 #logo {
   text-align: center;
   padding-bottom: 40px;
@@ -35,8 +39,6 @@ body {
   padding: 15px;
   margin: 10px;
   width: 20%;
-  margin-left: 80vh;
-  margin-top: 10vh;
   cursor: pointer;
   border-radius: 5px;
   font-size: 20px;
