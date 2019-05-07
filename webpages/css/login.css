@@ -1,3 +1,4 @@
+/* Main and Body CSS */
 main {
   font-family: 'Open Sans', sans-serif;
 }
@@ -6,26 +7,14 @@ body {
   background-color: teal;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
-#loginbox {
-  display: inline-block;
-  text-align: center;
-  background-color: #707070;
-  height: 100vh;
-}
-
-#logintext {
-  width: 60vw;
-  border-right: 10px solid black;
-}
+/* Text Information CSS */
 
 #infotext {
   margin-left: 5em;
   margin-right: 5em;
 }
-
 
 .heading {
   text-align: center;
@@ -35,25 +24,57 @@ body {
   text-decoration: underline;
 }
 
+.item2 {
+  border-right: 10px solid black;
+  height: 100vh;
+}
+
+/* Login Area CSS */
+
+.item1 {
+  background-color: #707070;
+}
+
+.loginInfo {
+  top: 0;
+  padding-left: 4em;
+  padding-right: 4em;
+  text-align: center;
+}
+
 .g-signin2 {
   width: 100%;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 40vh;
+  padding-top: 5vh;
 }
 
 .g-signin2 > div {
   margin: 0 auto;
 }
 
-/* GRID LAYOUT CSS */
+.createAccountBtn {
+  font-size: 25px;
+  color: black;
+  background-color: #707070;
+  border-top: 10px solid black;
+  text-align: center;
+  padding-top: 2em;
+  text-decoration: none;
+}
+
+
+/* Grid Layout CSS */
 
 .item1 { grid-area: right; }
+.createAccountBtn { grid-area: bottomright; }
 .item2 { grid-area: left; }
 
 .grid-container {
   display: grid;
   grid-template-areas:
-    'left right';
+    'left right'
+    'left right'
+    'left bottomright';
   background-color: teal;
 }
 
