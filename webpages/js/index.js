@@ -824,35 +824,37 @@ async function playAudio() {
   //      read each line simultaneously, and play appropriate notes for the tablature
   let tabcontent = document.getElementById("tabcontent");
   let allStaves = tabcontent.childNodes;
-
   let textAreas = document.getElementsByTagName("textarea");
-  console.log("TEXTAREAS: " + textAreas)
 
   if (textAreas.length >= 1) {
-    // checked that stave(s) exist
-
     for (let i = 0; i < textAreas.length; i++) {
-      // this for statement loops through the text areas, and performs
-      // actions for each one sequentially
       let textAreaLines = textAreas[i].value.split("\n");
-      console.log("split textarealines", textAreaLines, textAreaLines.length, textAreaLines[0].length);
+      let current_fret = [-1,-1,"0"]
 
-
-      for (let k = 6; k < textAreaLines[0].length; k++) {
+      for (let k = 6; k < textAreaLines[0].length; k+=2) {
         for (let j = 0; j < textAreaLines.length; j++) {
           let data_string = "" + j + "";
-          console.log(j, k, textAreaLines[j][k]);
           if (textAreaLines[j][k] >= 0) {
-            console.log("found: " + textAreaLines[j][k]);
-            let data_fret = "" + textAreaLines[j][k] + "";
-            console.log(data_string, data_fret);
-            let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-            await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+            let data_fret;
+            console.log(j, k, textAreaLines[j][k], textAreaLines[j][k+1])
+            if (textAreaLines[j][k+1] >= 0) {
+              data_fret = textAreaLines[j][k] + textAreaLines[j][k+1];
+              console.log(data_fret)
+              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+            } else {
+              data_fret = textAreaLines[j][k];
+              console.log(data_fret);
+              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+              k = k - 1;
+            }
           }
         }
         // empty gap for blank rows
-        sleep(100);
+        sleep(200);
       }
+      sleep(500);
     }
   }
 }
