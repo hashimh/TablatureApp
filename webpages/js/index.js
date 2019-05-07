@@ -14,12 +14,10 @@ let editedTabId = "";
 // Store user's login information into localStorage ---------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function onSignIn(googleUser) {
-  console.log("sign in function called");
   let auth2 = gapi.auth2.getAuthInstance();
   localStorage.setItem("id_token",auth2.currentUser.get().getAuthResponse().id_token);
   localStorage.setItem("googleUser",googleUser.getBasicProfile().getName());
   localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
-  console.log(googleUser.getBasicProfile().getEmail());
   auth2.disconnect();
 
   // Call next initialising function
@@ -32,7 +30,6 @@ function onSignIn(googleUser) {
 // Function gets next form from the server ------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function callServer(googleUser) {
-  console.log("call server function called");
   let apiLink = '/api/login';
   await getPage(apiLink);
 
@@ -47,7 +44,7 @@ async function callServer(googleUser) {
   // are added to the db. If yes, then this part is skipped.
   const response = await fetch('/api/checkUser', fetchOptions);
   if (!response.ok) {
-    console.log("fetch response for /api/checkuser has failed.");
+    console.log("Fetch response for /api/checkuser has failed.");
     return;
   }
 }
@@ -91,8 +88,6 @@ async function createTabBtn() {
 // Function to initialise the form --------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function populateMain() {
-  console.log("populating main...")
-
   // Get user's name for nav bar
   const el = document.getElementById('greeting');
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
@@ -174,7 +169,6 @@ async function saveTab() {
   }
 
   let confirmBtn = document.getElementById("confirmSave");
-  console.log(editedTab);
   confirmBtn.addEventListener("click", async function() {
   let songName = document.getElementById("songName").value;
   let artistName = document.getElementById("artistName").value;
@@ -209,10 +203,6 @@ async function saveTab() {
 
       }
 
-      // Now, stave types and contents stored in the arrays below...
-      console.log(types);
-      console.log(staves);
-
       // make initial server call requests...
       const token = localStorage.getItem("id_token");
       const fetchOptions = {
@@ -228,14 +218,14 @@ async function saveTab() {
       + '&stave_types=' + encodeURIComponent([types])
       + '&stave_content=' + encodeURIComponent([staves]);
 
-      console.log("attempting to fetch /api/saveTab");
+      console.log("Attempting to fetch /api/saveTab...");
       const response = await fetch(url, fetchOptions);
       if (!response.ok) {
         // handle the error
-        console.log("fetch response for /api/saveTab has failed")
+        console.log("Fetch response for /api/saveTab has failed.")
         return;
       } else {
-        console.log("successful /api/saveTab call!");
+        console.log("Successful /api/saveTab call.");
       }
       alert("Tab saved in database!");
       // clear modal entries and close modal
@@ -260,15 +250,7 @@ async function saveTab() {
       tempmessage.setAttribute("id", "tempmessage");
       tabcontent.append(tempmessage);
     } else {
-      console.log("not gonna save a new one, id", editedTabId);
       // Call new server function -> new database function -> replace old _id file with new one
-      // We need:
-      // - song name - songName
-      // - artist - artistName
-      // - genre - songGenre
-      // - stave types - prev. code
-      // - stave content - prev. code
-
       let types = [];
       let staves = [];
       let tabContent = document.getElementById("tabcontent");
@@ -300,13 +282,13 @@ async function saveTab() {
       + '&stave_types=' + encodeURIComponent([types])
       + '&stave_content=' + encodeURIComponent([staves]);
 
-      console.log("attempting to fetch /api/updateTab");
+      console.log("Attempting to fetch /api/updateTab...");
       const response = await fetch(url, fetchOptions);
       if (!response.ok) {
-        console.log("fetch response for /api/updateTab has failed");
+        console.log("Fetch response for /api/updateTab has failed.");
         return;
       } else {
-        console.log("successful /api/updateTab call");
+        console.log("Successful /api/updateTab call.");
       }
       alert("Tab updated in database!");
       // clear modal entries and close modal
@@ -373,9 +355,7 @@ async function fretBoard() {
 
     let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
     let staveid = "stave" + selectedStave;
-    console.log(staveid);
     let textArea = document.getElementById(staveid);
-    console.log(textArea);
     let textAreaLines = textArea.value.split("\n");
 
     // For each line in the textarea (line 0 to line 5)
@@ -400,8 +380,6 @@ async function fretBoard() {
     for (let i = 0; i < textAreaLines.length; i++) {
 
       if (symbolInserted == true && (symbolString > -1 && symbolFret > -1)) {
-        console.log("string: ", string, " fret: ", fret);
-        console.log("symbolString: ", symbolString, " symbolFret: ", symbolFret);
         // handle rules with symbols to ensure they are used correctly
         if (string != symbolString) {
           alert("invalid fret");
@@ -698,11 +676,9 @@ function deleteStave() {
     return;
   }
   let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs Int
-  console.log(selectedStave);
   // Function to delete an individual stave
   // Search for child with id of selected, and remove child
   if(confirm('Are you sure you want to delete Stave ' + selectedStave + '?')) {
-    console.log("chose yes");
     // Selects are removes Stave 'div' element
     let textarea = document.getElementById(selectedStave);
     textarea.parentNode.removeChild(textarea);
@@ -839,7 +815,7 @@ function updateTuning(el) {
 
 
 // AUDIO FUNCTIONS FOR TABLATURE
-function playAudio() {
+async function playAudio() {
   // this function will play the audio of all staves created
   // first, a 'do for each' for each stave
   //      then, a do for each for each of the 6 lines, changing
@@ -850,6 +826,7 @@ function playAudio() {
   let allStaves = tabcontent.childNodes;
 
   let textAreas = document.getElementsByTagName("textarea");
+  console.log("TEXTAREAS: " + textAreas)
 
   if (textAreas.length >= 1) {
     // checked that stave(s) exist
@@ -858,36 +835,24 @@ function playAudio() {
       // this for statement loops through the text areas, and performs
       // actions for each one sequentially
       let textAreaLines = textAreas[i].value.split("\n");
-      console.log("split textarealines", textAreaLines)
+      console.log("split textarealines", textAreaLines, textAreaLines.length, textAreaLines[0].length);
 
-      for (let j = 0; j < textAreaLines.length; j++) {
-        let data_string = "" + j + "";
-        console.log("searching: ", textAreaLines[j])
 
-         for (let k = 5; k < textAreaLines[j].length; k++) {
-           console.log(textAreaLines[j][k]);
-           if (textAreaLines[j][k] !== "-") {
-            if (textAreaLines[j][k] !== "x") {
-              console.log(textAreaLines[j][k]);
-              // || textAreaLinesNew[k] !== "x"
-              // console.log(textAreaLinesNew[k]);
-              // console.log(textAreaLines[k]);
-              let data_fret = "" + textAreaLines[j][k] + "";
-              console.log(data_string, data_fret);
-              //  data_string = "'" + data_string + "'";
-              // get the data-note value for the values of data_string and data_fret
-              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-
-              // play the note!
-              let audio = new Audio('js/audio/' + div.dataset.note + '.mp3');
-              audio.play();
-            }
+      for (let k = 6; k < textAreaLines[0].length; k++) {
+        for (let j = 0; j < textAreaLines.length; j++) {
+          let data_string = "" + j + "";
+          console.log(j, k, textAreaLines[j][k]);
+          if (textAreaLines[j][k] >= 0) {
+            console.log("found: " + textAreaLines[j][k]);
+            let data_fret = "" + textAreaLines[j][k] + "";
+            console.log(data_string, data_fret);
+            let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+            await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
           }
-          console.log("end of note search");
-         }
-      // console.log("end of column search")
+        }
+        // empty gap for blank rows
+        sleep(100);
       }
-
     }
   }
 }
@@ -976,7 +941,6 @@ async function selectMyChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectMyChord");
   let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
-  console.log("SELECTED MYCHORD: " + selectedChord); // prints chord selected by user
 
   if ((selectedStaveMenu.options).length <= 0) {
     alert("No stave created!");
@@ -1229,10 +1193,6 @@ async function createChord() {
       } else {
         chordTab += "x--/"
       }
-
-      // chord tab succesfully created
-      console.log(chordTab)
-
       // now, get the tuning values from dropdown
       let tuning = [];
       let str1 = document.getElementById("tuningLabel1").textContent;
@@ -1242,9 +1202,6 @@ async function createChord() {
       let str5 = document.getElementById("tuningLabel5").textContent;
       let str6 = document.getElementById("tuningLabel6").textContent;
       tuning.push(str1, str2, str3, str4, str5, str6);
-
-      console.log(tuning);
-
 
       // save chord to database!!!
       const token = localStorage.getItem("id_token");
@@ -1258,17 +1215,17 @@ async function createChord() {
                 + '?chord_name=' + encodeURIComponent(chName)
                 + '&chord_frets=' + encodeURIComponent(chordTab)
                 + '&chord_tuning=' + encodeURIComponent(tuning);
-      console.log("attempting to fetch /api/savedChord");
+      console.log("Attempting to fetch /api/savedChord.");
 
       const response = await fetch(url, fetchOptions);
       if (!response.ok) {
         // handle the error
-        console.log("fetch response for /api/saveChord has failed.");
+        console.log("Fetch response for /api/saveChord has failed.");
         return;
       } else {
-        console.log("successful /api/saveChord call!");
+        console.log("Successful /api/saveChord call.");
 
-        alert("chord saved to database!");
+        alert("Chord saved to database");
 
         // Append chName to dropdown
         let chordDropdown = document.getElementById("selectMyChord");
@@ -1353,7 +1310,6 @@ async function populateMain2() {
 function populateTable(tabInfo) {
   // Initially sorted from A -> Z by song name, sort before inserting into table
   tabInfo.sort(sortBy('song_name'));
-  console.log(tabInfo);
 
   // First, reset table
   let table = document.getElementById('tabTable');
@@ -1407,8 +1363,6 @@ async function showWhichTabsChange() {
   let menu = document.getElementsByClassName("showWhichTabs")[0];
   let newVal = menu.options[menu.selectedIndex].value;
 
-  console.log(newVal, tabInfo);
-
   if (newVal == "allTabs") {
     // show all aka insert tabInfo into table
     tabInfo =  await getTabs("all");
@@ -1448,7 +1402,6 @@ function searchByArtist() {
 function searchByGenre() {
   let searchMenu = document.getElementById("searchGenre");
   let search = searchMenu.options[searchMenu.selectedIndex].value;
-  console.log(search);
   if (search !== "All Genres") {
     let newTabInfo = tabInfo.filter(function (el) {
         return el.genre == search;
@@ -1466,7 +1419,6 @@ function searchByGenre() {
 // ----------------------------------------------------------------------------------------------- //
 async function addRowHandlers() {
   let table = document.getElementById("tabTable");
-  console.log(table);
   let rows = table.getElementsByTagName("tr");
   for (let i = 1; i < rows.length; i++) {
     let currentRow = table.rows[i];
@@ -1474,7 +1426,6 @@ async function addRowHandlers() {
       return async function() {
         let id = row.id;
 
-        console.log(id);
         // Do the main stuff
         // use getTabs function, alter 'key' parameter to be sent
         // to include name, artist and user
@@ -1487,14 +1438,14 @@ async function addRowHandlers() {
         };
         let url = '/api/getTabContent'
                 + '?id=' + encodeURIComponent(id);
-        console.log("attempting to fetch /api/getTabContent");
+        console.log("Attempting to fetch /api/getTabContent.");
 
         const response = await fetch(url, fetchOptions);
         if (!response.ok) {
-          console.log("fretch response for /api/getTabContent has failed.");
+          console.log("Fetch response for /api/getTabContent has failed.");
           return;
         }
-        console.log("successful /api/getTabContent call.");
+        console.log("Successful /api/getTabContent call.");
         let res = await response.json();
 
         populateContent(res);
@@ -1516,16 +1467,11 @@ function populateContent (tabContent) {
   }
   // for loop through number of staves
   // if tablature is users, show modal
-
-  console.log(tabContent[0].stave_types);
-  console.log(tabContent);
   let rawData = tabContent;
 
   let staves = tabContent[0].stave_types.split(",");
   let rawContent = tabContent[0].stave_content.split(",")
   let user = tabContent[0].email;
-
-  console.log(staves, rawContent);
 
   for (let i = 0; i < staves.length; i++) {
     // first, create inner stave div
@@ -1543,17 +1489,9 @@ function populateContent (tabContent) {
     textarea.value = "\n\n\n\n\n";
 
     let textAreaLines = textarea.value.split("\n");
-
-    console.log(textAreaLines.length);
-
     let content = rawContent[i].split("\n");
 
-    console.log(content);
-
     for (let j = 0; j < content.length; j++) {
-
-      console.log(content[j]);
-
       textAreaLines[j] += content[j];
     }
 
@@ -1605,7 +1543,6 @@ function populateContent (tabContent) {
 
   if (document.getElementById("editTabBtn") !== null) {
     document.getElementById("editTabBtn").onclick = function() {
-      console.log("raw data in click function", rawData);
       // Make a call to the 'edit tablature' function
       editTab(rawData);
     }
@@ -1614,7 +1551,7 @@ function populateContent (tabContent) {
   if (document.getElementById("deleteTabBtn") !== null) {
     document.getElementById("deleteTabBtn").onclick = async function() {
       if (confirm('Are you sure you want to delete this tablature?')) {
-        console.log("deleting...");
+        console.log("Deleting...");
         let _id = rawData[0]._id;
         // Send request to server to delete, then reload page
         const token = localStorage.getItem("id_token");
@@ -1627,15 +1564,15 @@ function populateContent (tabContent) {
         let url = '/api/deleteTab'
         + '?_id=' + encodeURIComponent(_id);
 
-        console.log("attempting to fetch /api/deleteTab");
+        console.log("Attempting to fetch /api/deleteTab.");
         const response = await fetch(url, fetchOptions);
         if (!response.ok) {
-          console.log("fetch request for /api/deleteTab has failed.");
+          console.log("Fetch request for /api/deleteTab has failed.");
           return;
         } else {
-          console.log("successful /api/deleteTab call");
+          console.log("Successful /api/deleteTab call.");
         }
-        alert("Tablature deleted");
+        alert("Tablature deleted.");
         populateMain2();
       } else {
         return;
@@ -1650,7 +1587,6 @@ async function editTab(data) {
   // Take user to 'create tablature' page, with data
   let apiLink = '/api/createTabBtn';
   await getPage(apiLink);
-  console.log(data);
 
   // Now, fill in the page with all information
   // - Add staves to dropdown menu
@@ -1688,8 +1624,6 @@ async function editTab(data) {
     textArea.setAttribute("cols", "100");
     textArea.setAttribute("wrap", "off");
     textArea.value = "\n\n\n\n\n";
-
-    console.log(textArea)
 
     let textAreaLines = textArea.value.split("\n");
     let content = rawContent[i].split("\n");
@@ -1770,15 +1704,15 @@ async function getMyChords() {
   };
 
   let url = '/api/getSavedChords'
-  console.log("attempting to fetch /api/getSavedChords");
+  console.log("Attempting to fetch /api/getSavedChords.");
 
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     // handle the error
-    console.log("fetch response for /api/getSavedChords has failed.");
+    console.log("Fetch response for /api/getSavedChords has failed.");
     return;
   }
-  console.log("successful /api/getSavedChords call");
+  console.log("Successful /api/getSavedChords call.");
 
   let chords = await response.json();
   // An object with the JSON database tables for user's chords!
@@ -1824,10 +1758,10 @@ async function getPage(apiLink) {
   };
   const response = await fetch(apiLink, fetchOptions);
   if (!response.ok) {
-    console.log("fetch response for " + apiLink + 'has failed.');
+    console.log("Fetch response for " + apiLink + 'has failed.');
     return;
   }
-  console.log('fetch response for ' + apiLink + ' successful!');
+  console.log('Fetch response for ' + apiLink + ' successful.');
   let innerhtml = await response.text();
   document.documentElement.innerHTML = innerhtml;
 }
