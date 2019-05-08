@@ -40,6 +40,8 @@ app.post('/api/saveChord', saveChord);
 app.post('/api/saveTab', saveTab);
 app.post('/api/updateTab', updateTab);
 app.post('/api/deleteTab', deleteTab);
+app.post('/api/updateChord', updateChord);
+app.post('/api/deleteChord', deleteChord);
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -137,7 +139,12 @@ async function checkUser(req, res) {
 }
 
 async function saveChord(req, res) {
-  const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.user.emails[0].value);
+  const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.query.start_pos, req.user.emails[0].value);
+  res.json(retval);
+}
+
+async function updateChord(req, res) {
+  const retval = await db.updateChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.query.start_pos, req.user.emails[0].value, req.query.editedId);
   res.json(retval);
 }
 
@@ -163,11 +170,14 @@ async function updateTab (req, res) {
 }
 
 async function deleteTab (req, res) {
-  const retval = await db.deleteTab(req.query._id)
+  const retval = await db.deleteTab(req.query._id);
   res.json(retval);
 }
 
-
+async function deleteChord (req, res) {
+  const retval = await db.deleteChord(req.query._id);
+  res.json(retval);
+}
 
 
 

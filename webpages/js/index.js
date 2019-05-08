@@ -1014,6 +1014,123 @@ async function selectMyChord() {
 }
 
 
+let editedChord = false;
+let editedChordId;
+let editedOldName;
+
+async function editChord() {
+
+  let selectedStaveMenu = document.getElementById("selectStave");
+  let selectedChordMenu = document.getElementById("selectMyChord");
+  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+
+  let chords = await getMyChords();
+  let myChord;
+
+  // Iterate through all user chords until match found
+  for (let i = 0; i < chords.length; i++) {
+    if (chords[i].chord_name == selectedChord) {
+      myChord = chords[i];
+    }
+  }
+
+  console.log(myChord);
+  console.log(myChord.start_pos);
+
+  editedChord = true;
+  editedChordId = myChord._id;
+  editedOldName = myChord.chord_name;
+
+  // Change value of startPos and chordName
+  document.getElementById("startPos").value = myChord.start_pos;
+  document.getElementById("chName").value = myChord.chord_name;
+  changeStartPos();
+  let frets = myChord.chord_frets.split("/");
+  console.log(frets);
+
+  for (let i = 0; i < frets.length; i++) {
+    // for each line in the chord
+    let fretVal = frets[i].substring(0, frets[i].length - 2);
+    console.log("fret: " + fretVal);
+    let data_fret;
+    let data_string;
+    if (fretVal >= 0) {
+      data_fret = fretVal - myChord.start_pos;
+    } else {
+      data_fret = 'x';
+    }
+    data_string = i;
+    console.log("data fret and data string: " + data_fret, data_string);
+
+    // Now, activate above frets on mini fretboard.
+    let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "].fret2");
+    console.log(div[0]);
+    div[0].classList.add("fret2Selected");
+
+
+  }
+  let button = document.createElement("button");
+  button.innerHTML = "Delete";
+  button.setAttribute("style", "float: right");
+  button.onclick = async function() {
+    if (confirm('Are you sure you want to delete this chord?')) {
+      const token = localStorage.getItem("id_token");
+
+      const fetchOptions = {
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+      };
+
+      let url = '/api/deleteChord'
+      + '?_id=' + encodeURIComponent(editedChordId);
+
+      console.log("Attempting to fetch /api/deleteChord.");
+      const response = await fetch(url, fetchOptions);
+      if (!response.ok) {
+        console.log("Fetch request for /api/deleteChord has failed.");
+        return;
+      } else {
+        console.log("Successful /api/deleteChord call.");
+      }
+
+      let chordDropdown = document.getElementById("selectMyChord");
+      chordDropdown.remove(chordDropdown.selectedIndex);
+
+      // Clear start position input and reset fretboard legend values
+      document.getElementById("startPos").value = 0;
+      let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+      for (let i = 0; i < legendText.length; i++) {
+        if (legendText[i].innerHTML >= 0) {
+          legendText[i].innerHTML = (i - 2);
+        }
+      }
+
+      // Clear chord name input
+      document.getElementById("chName").value = "";
+
+      // Clear fretboard selections
+      let frets = document.querySelectorAll('.fret2.fret2Selected');
+      for (let i = 0; i < frets.length; i++) {
+        frets[i].classList.remove('fret2Selected');
+      }
+
+      editedChord = false;
+      editedChordId = "";
+      editedOldName = "";
+
+      alert("Chord deleted.");
+    }
+  }
+  let btnDiv = document.getElementsByClassName("chordcreation")[0];;
+  console.log(btnDiv);
+  btnDiv.appendChild(button);
+
+}
+
+
+
+
 // ----------------------------------------------------------------------------------------------- //
 // Function to alter chord fretboard based on starting position of chord ------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -1209,9 +1326,9 @@ async function createChord() {
 
       if (stringRow5Selected.getAttribute("data-fret") > -1) {
         let string5fret = parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string5fret + "--/"
+        chordTab += string5fret + "--"
       } else {
-        chordTab += "x--/"
+        chordTab += "x--"
       }
       // now, get the tuning values from dropdown
       let tuning = [];
@@ -1231,50 +1348,85 @@ async function createChord() {
         headers: { 'Authorization': 'Bearer ' + token },
       };
 
-      let url = '/api/saveChord'
-                + '?chord_name=' + encodeURIComponent(chName)
-                + '&chord_frets=' + encodeURIComponent(chordTab)
-                + '&chord_tuning=' + encodeURIComponent(tuning);
-      console.log("Attempting to fetch /api/savedChord.");
+      let response;
+      if (editedChord == true) {
+        console.log("DO NOT RE-SAVE");
+        let url = '/api/updateChord'
+                  + '?chord_name=' + encodeURIComponent(chName)
+                  + '&chord_frets=' + encodeURIComponent(chordTab)
+                  + '&chord_tuning=' + encodeURIComponent(tuning)
+                  + '&start_pos=' + encodeURIComponent(startPos)
+                  + '&editedId=' + encodeURIComponent(editedChordId);
 
-      const response = await fetch(url, fetchOptions);
-      if (!response.ok) {
-        // handle the error
-        console.log("Fetch response for /api/saveChord has failed.");
-        return;
-      } else {
-        console.log("Successful /api/saveChord call.");
+        response = await fetch(url, fetchOptions);
 
-        alert("Chord saved to database");
-
-        // Append chName to dropdown
-        let chordDropdown = document.getElementById("selectMyChord");
-        let newOption = document.createElement("option");
-        newOption.text = chName;
-        chordDropdown.add(newOption);
-
-        // Clear start position input and reset fretboard legend values
-        document.getElementById("startPos").value = 0;
-        let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
-        for (let i = 0; i < legendText.length; i++) {
-          if (legendText[i].innerHTML >= 0) {
-            legendText[i].innerHTML = (i - 2);
-          }
-        }
-
-        // Clear chord name input
-        document.getElementById("chName").value = "";
-
-        // Clear fretboard selections
-        let frets = document.querySelectorAll('.fret2.fret2Selected');
-        for (let i = 0; i < frets.length; i++) {
-          frets[i].classList.remove('fret2Selected');
-        }
-
+        if (!response.ok) {
+          // handle the error
+          console.log("Fetch response for /api/updateChord has failed.");
+          return;
+        } else {
+          console.log("Successful /api/updateChord call.");
       }
+
+      // Update name in dropdown list
+      let chordDropdown = document.getElementById("selectMyChord");
+      chordDropdown.remove(chordDropdown.selectedIndex);
+      let newOption = document.createElement("option");
+      newOption.text = chName;
+      chordDropdown.add(newOption);
+
+    } else {
+        console.log("NEW CHORD, SAVE");
+        let url = '/api/saveChord'
+                  + '?chord_name=' + encodeURIComponent(chName)
+                  + '&chord_frets=' + encodeURIComponent(chordTab)
+                  + '&chord_tuning=' + encodeURIComponent(tuning)
+                  + '&start_pos=' + encodeURIComponent(startPos)
+        console.log("Attempting to fetch /api/savedChord.");
+
+        response = await fetch(url, fetchOptions);
+
+        if (!response.ok) {
+          // handle the error
+          console.log("Fetch response for /api/saveChord has failed.");
+          return;
+        } else {
+          console.log("Successful /api/saveChord call.");
+      }
+
+      // Add new chord to list
+      let chordDropdown = document.getElementById("selectMyChord");
+      let newOption = document.createElement("option");
+      newOption.text = chName;
+      chordDropdown.add(newOption);
+    }
+
+    // Clear start position input and reset fretboard legend values
+    document.getElementById("startPos").value = 0;
+    let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+    for (let i = 0; i < legendText.length; i++) {
+      if (legendText[i].innerHTML >= 0) {
+        legendText[i].innerHTML = (i - 2);
+      }
+    }
+
+    // Clear chord name input
+    document.getElementById("chName").value = "";
+
+    // Clear fretboard selections
+    let frets = document.querySelectorAll('.fret2.fret2Selected');
+    for (let i = 0; i < frets.length; i++) {
+      frets[i].classList.remove('fret2Selected');
+    }
+
+    editedChord = false;
+    editedChordId = "";
+    editedOldName = "";
+
     }
   }
 }
+
 
 
 async function backBtnMain() {

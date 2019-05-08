@@ -57,7 +57,7 @@ function login (insertEmail, fnameIn, lnameIn) {
   });
 }
 
-function saveChord (chName, chFrets, chTuning, email) {
+function saveChord (chName, chFrets, chTuning, startPos, email) {
 
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -75,12 +75,12 @@ function saveChord (chName, chFrets, chTuning, email) {
         });
 
         const chordInfo = [
-          { email: email, chord_name: chName, chord_frets: chFrets, chord_tuning: chTuning }
+          { email: email, chord_name: chName, chord_frets: chFrets, chord_tuning: chTuning, start_pos: startPos }
         ];
 
         dbo.collection("chords").insertMany(chordInfo, function(err, res) {
           if (err) throw err;
-          console.log("inserted chord into database: ", chName, chFrets, " for user ", email);
+          console.log("inserted chord into database: ", chName, chFrets, startPos, " for user ", email);
           db.close();
         });
       } else {
@@ -89,6 +89,25 @@ function saveChord (chName, chFrets, chTuning, email) {
     });
   });
 }
+
+function updateChord (chName, chFrets, chTuning, chStart, email, chId) {
+  let o_id = new ObjectId(chId);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+
+    dbo.collection("chords").updateOne(
+      { _id: o_id},
+      { $set: {"chord_name" : chName, "chord_frets" : chFrets, "chord_tuning" : chTuning, "start_pos" : chStart}},
+      { upsert: true }
+    );
+    db.close();
+  })
+}
+
+
+
+
 
 function saveTab (email, song, artist, genre, types, staves) {
   MongoClient.connect(url, function(err, db) {
@@ -137,8 +156,20 @@ function deleteTab (id) {
 
     dbo.collection("tabs").remove( { _id: o_id });
     db.close();
-  })
+  });
 }
+
+function deleteChord (id) {
+  let o_id = new ObjectId(id);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("Tabify");
+
+    dbo.collection("chords").remove( { _id: o_id });
+    db.close();
+  });
+}
+
 
 
 let getSavedChords = function(emailIn, cb) {
@@ -198,6 +229,7 @@ module.exports.login = login;
 module.exports.saveChord = saveChord;
 module.exports.saveTab = saveTab;
 module.exports.updateTab = updateTab;
+module.exports.updateChord = updateChord;
 
 module.exports.getSavedChords = getSavedChords;
 module.exports.getTabsMetadata = getTabsMetadata;
@@ -206,3 +238,4 @@ module.exports.getOtherTabsMetadata = getOtherTabsMetadata;
 module.exports.getTabContent = getTabContent;
 
 module.exports.deleteTab = deleteTab;
+module.exports.deleteChord = deleteChord;
