@@ -829,32 +829,50 @@ async function playAudio() {
   if (textAreas.length >= 1) {
     for (let i = 0; i < textAreas.length; i++) {
       let textAreaLines = textAreas[i].value.split("\n");
-      let current_fret = [-1,-1,"0"]
+      let current_fret = [-1,-1,"0"];
+      let staveTypeRaw = tabcontent.getElementsByTagName("h3")[i].innerHTML;
+      let staveType = staveTypeRaw.substring(9);
+      console.log(staveTypeRaw + " type: " + staveType)
 
-      for (let k = 6; k < textAreaLines[0].length; k+=2) {
-        for (let j = 0; j < textAreaLines.length; j++) {
-          let data_string = "" + j + "";
-          if (textAreaLines[j][k] >= 0) {
-            let data_fret;
-            console.log(j, k, textAreaLines[j][k], textAreaLines[j][k+1])
-            if (textAreaLines[j][k+1] >= 0) {
-              data_fret = textAreaLines[j][k] + textAreaLines[j][k+1];
-              console.log(data_fret)
-              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
-            } else {
-              data_fret = textAreaLines[j][k];
-              console.log(data_fret);
-              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
-              k = k - 1;
+      if (staveType == "Lead Guitar") {
+        for (let k = 6; k < textAreaLines[0].length; k+=2) {
+          for (let j = 0; j < textAreaLines.length; j++) {
+            let data_string = "" + j + "";
+            if (textAreaLines[j][k] >= 0) {
+              let data_fret;
+              console.log(j, k, textAreaLines[j][k], textAreaLines[j][k+1])
+              if (textAreaLines[j][k+1] >= 0) {
+                data_fret = textAreaLines[j][k] + textAreaLines[j][k+1];
+                console.log(data_fret)
+                let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+                await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+              } else {
+                data_fret = textAreaLines[j][k];
+                console.log(data_fret);
+                let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+                await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+                k = k - 1;
+              }
             }
           }
+          // empty gap for blank rows
+          sleep(200);
         }
-        // empty gap for blank rows
-        sleep(200);
+      } else {
+        // Stave type is not lead - rhythm
+        for (let k = 6; k < textAreaLines[0].length; k++) {
+          for (let j = 0; j < textAreaLines.length; j++) {
+            let data_string = "" + j + "";
+            if (textAreaLines[j][k] >= 0) {
+              let data_fret;
+              data_fret = textAreaLines[j][k]
+              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
+              new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+            }
+          }
+          sleep(200);
+        }
       }
-      sleep(500);
     }
   }
 }
