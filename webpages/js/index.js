@@ -620,7 +620,7 @@ function addStave() {
     textarea.setAttribute("id", staveid);
     textarea.setAttribute("name", "stave");
     textarea.setAttribute("rows", "6");
-    textarea.setAttribute("cols", "80");
+    textarea.setAttribute("cols", "100");
     textarea.setAttribute("wrap", "off");
 
     let textAppend = "";
@@ -867,7 +867,7 @@ async function playAudio() {
               let data_fret;
               data_fret = textAreaLines[j][k]
               let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-              new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
             }
           }
           sleep(200);
@@ -1791,7 +1791,7 @@ async function editTab(data) {
     textArea.setAttribute("id", "stave" + (i + 1));
     textArea.setAttribute("name", "stave");
     textArea.setAttribute("rows", "6");
-    textArea.setAttribute("cols", "80");
+    textArea.setAttribute("cols", "100");
     textArea.setAttribute("wrap", "off");
     textArea.value = "\n\n\n\n\n";
 
