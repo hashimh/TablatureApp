@@ -6,6 +6,7 @@ and accessing the website.
 Requirements to run application:
   - Node.js: https://nodejs.org/en/download/
   - Git Bash: https://gitforwindows.org/
+  - MongoDB Server: https://www.mongodb.com/download-center/community
   
 Instructions:
 1. Donwload Node.js
@@ -19,3 +20,7 @@ Instructions:
            "App listening on port 8080"
            "Connected to database"
 9. Finally, to access the website go onto a web browser and type in the following URL: 'localhost:8080'.
+
+If any errors occur with the database connection, please check if 'MongoDB Sever' is an running service under Windows Services, as
+this is required for the application to function correctly.
+MongoDB's 'Compass' software will allow the database to be viewed.
