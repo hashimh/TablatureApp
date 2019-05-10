@@ -10,7 +10,7 @@ Requirements to run application:
 Instructions:
 1. Donwload Node.js
 2. Download Git Bash
-3. Enter Git Bash and run the command 'git clone https://github.com/hashimh/TabMe-UP815459.git
+3. Enter Git Bash and run the command 'git clone https://github.com/hashimh/TabMe-UP815459.git'
 4. Sign Into Git
 5. When the repository has been cloned, run the command 'cd TabMe-UP815459'
 6. Run the command 'git checkout mongodb' to access the correct branch
