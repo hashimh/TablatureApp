@@ -171,7 +171,7 @@ header {
 
 .chordselection label {
   display: inline-block;
-  width: 15vh;
+  width: 23vh;
   text-align: left;
 }
 
@@ -183,7 +183,7 @@ header {
 
 #startPosLbl {
   display: inline-block;
-  width: 15vh;
+  width: 23vh;
   text-align: left;
 }
 
@@ -193,7 +193,7 @@ header {
 
 #chNameLbl {
   display: inline-block;
-  width: 15vh;
+  width: 23vh;
   text-align: left;
 }
 
@@ -462,7 +462,7 @@ div.taboptions {
 
 .block label {
   display: inline-block;
-  width: 12vh;
+  width: 18vh;
   text-align: left;
 }
 
@@ -471,6 +471,10 @@ div.taboptions {
 }
 
 #symbolsH4 {
+  padding-top: 10px;
+}
+
+#audioH4 {
   padding-top: 10px;
 }
 

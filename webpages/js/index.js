@@ -620,7 +620,7 @@ function addStave() {
     textarea.setAttribute("id", staveid);
     textarea.setAttribute("name", "stave");
     textarea.setAttribute("rows", "6");
-    textarea.setAttribute("cols", "100");
+    textarea.setAttribute("cols", "80");
     textarea.setAttribute("wrap", "off");
 
     let textAppend = "";
@@ -1791,7 +1791,7 @@ async function editTab(data) {
     textArea.setAttribute("id", "stave" + (i + 1));
     textArea.setAttribute("name", "stave");
     textArea.setAttribute("rows", "6");
-    textArea.setAttribute("cols", "100");
+    textArea.setAttribute("cols", "80");
     textArea.setAttribute("wrap", "off");
     textArea.value = "\n\n\n\n\n";
 
