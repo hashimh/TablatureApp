@@ -55,6 +55,15 @@ async function login (req, res) {
   res.sendFile('menu.html', {root: '../webpages'});
 }
 
+async function checkUser(req, res) {
+  let fullName = req.user.displayName;
+  let firstName = fullName.split(' ').slice(0, -1).join(' ');
+  let lastName = fullName.split(' ').slice(-1).join(' ');
+
+  const retval = await db.login(req.user.emails[0].value, firstName, lastName);
+  res.json(retval);
+}
+
 function logout (req, res) {
   // Sends login page HTML on sign out.
   res.sendFile('login.html', {root: '../webpages'});
@@ -129,14 +138,6 @@ async function getTabContent (req, res) {
 
 
 
-async function checkUser(req, res) {
-  let fullName = req.user.displayName;
-  let firstName = fullName.split(' ').slice(0, -1).join(' ');
-  let lastName = fullName.split(' ').slice(-1).join(' ');
-
-  const retval = await db.login(req.user.emails[0].value, firstName, lastName);
-  res.json(retval);
-}
 
 async function saveChord(req, res) {
   const retval = await db.saveChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.query.start_pos, req.user.emails[0].value);
@@ -144,7 +145,12 @@ async function saveChord(req, res) {
 }
 
 async function updateChord(req, res) {
-  const retval = await db.updateChord(req.query.chord_name, req.query.chord_frets, req.query.chord_tuning, req.query.start_pos, req.user.emails[0].value, req.query.editedId);
+  const retval = await db.updateChord(req.query.chord_name,
+                                      req.query.chord_frets,
+                                      req.query.chord_tuning,
+                                      req.query.start_pos,
+                                      req.user.emails[0].value,
+                                      req.query.editedId);
   res.json(retval);
 }
 

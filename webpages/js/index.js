@@ -1350,7 +1350,6 @@ async function createChord() {
 
       let response;
       if (editedChord == true) {
-        console.log("DO NOT RE-SAVE");
         let url = '/api/updateChord'
                   + '?chord_name=' + encodeURIComponent(chName)
                   + '&chord_frets=' + encodeURIComponent(chordTab)
@@ -1376,7 +1375,6 @@ async function createChord() {
       chordDropdown.add(newOption);
 
     } else {
-        console.log("NEW CHORD, SAVE");
         let url = '/api/saveChord'
                   + '?chord_name=' + encodeURIComponent(chName)
                   + '&chord_frets=' + encodeURIComponent(chordTab)

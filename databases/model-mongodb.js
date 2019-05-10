@@ -9,14 +9,14 @@ const ObjectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
-process.on('unhandledRejection', console.error);
-
 // Initialise Tabify database in MongoDB
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   const dbo = db.db("Tabify");
-  console.log("connected to database");
+  console.log("Connected to database");
 });
+
+process.on('unhandledRejection', console.error);
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //

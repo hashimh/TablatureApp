@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>Tabify - Guitar Tab Creator</title>
+<title>TabMe - Guitar Tab Creator</title>
 
 <link rel="stylesheet" href="./css/main.css">
 <link href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700" rel="stylesheet">
@@ -8,7 +8,7 @@
 
 <header>
   <ul class="navmenu">
-    <li class = "navheader">Tabify - Create a Tablature<span id="greeting"></span></li>
+    <li class = "navheader">TabMe - Create a Tablature<span id="greeting"></span></li>
     <li><a id = "saveTabBtn" href="#" onclick = "saveTab()">Save</a></li>
     <li><a href="#" onclick = "helpBtn()">Help</a></li>
     <li><a href="#" onclick = "backBtnMain()">Back</a></li>
@@ -21,7 +21,7 @@
     <span class = "close">&times;</span>
     <h3>Creating a Tablature</h3>
     <p>
-      In order to create a tablature using Tabify, you must first select
+      In order to create a tablature using TabMe, you must first select
       the type of instrument from the Stave Creation section.
       Upon creating a stave, use the main fretboard for lead parts, or the chord section
       the right hand side to create or select chords for rhythm parts. <br>
@@ -1045,8 +1045,6 @@
         <select id = "selectStaveType" name = "selectStaveType">
           <option value="Lead Guitar">Lead Guitar</option>
           <option value="Rhythm Guitar">Rhythm Guitar</option>
-          <option value="Solo">Solo</option>
-          <option value="Bass Guitar">Bass Guitar</option>
         </select>
 
         <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStave" onclick = "addStave();">
