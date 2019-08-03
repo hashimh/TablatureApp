@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node C:\Users\Hashim\Desktop\tab_app\main\server\server.js"
   },
   "author": "",
   "license": "ISC",
