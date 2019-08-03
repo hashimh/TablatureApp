@@ -6,7 +6,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node /server/server.js"
+    "start": "npm run /server/server.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
