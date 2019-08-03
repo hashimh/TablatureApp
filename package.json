@@ -17,5 +17,8 @@
     "p5": "^0.8.0",
     "simple-google-openid": "^0.2.2"
   },
+  "engines": {
+    "node": "8.12.0"
+  },
   "devDependencies": {}
 }
