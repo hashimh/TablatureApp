@@ -3,6 +3,7 @@
 Initial to dos:
 - get bearings back
 - finalise this specific version of application
+- remove mysql2 from dependencies
 
 - revamp user interface
       - new images
