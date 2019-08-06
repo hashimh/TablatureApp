@@ -52,7 +52,7 @@ app.post('/api/deleteChord', deleteChord);
 
 async function login (req, res) {
   // Sends menu.html once logged in.
-  res.sendFile('menu.html', {root: '../webpages'});
+  res.sendFile('menu.html', {root: './webpages'});
 }
 
 async function checkUser(req, res) {
@@ -71,12 +71,12 @@ function logout (req, res) {
 
 async function createTabBtn (req, res) {
   // Sends main.html on button click.
-  res.sendFile('main.html', {root: '../webpages'});
+  res.sendFile('main.html', {root: './webpages'});
 }
 
 async function viewTabBtn (req, res) {
   // Sends viewtabs.html on button click.
-  res.sendFile('viewtabs.html', {root: '../webpages'});
+  res.sendFile('viewtabs.html', {root: './webpages'});
 }
 
 async function getSavedChords (req, res) {
