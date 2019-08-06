@@ -7,12 +7,12 @@ const ObjectId = require('mongodb').ObjectId;
 
 // Create object, specify connection URL
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
 
 // Initialise Tabify database in MongoDB
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  const dbo = db.db("Tabify");
+  const dbo = db.db("heroku_2k42nnmn");
   console.log("Connected to database");
 });
 
@@ -28,7 +28,7 @@ function login (insertEmail, fnameIn, lnameIn) {
 
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     // First, check the user doesn't exist in database
     dbo.collection("users").find({email: insertEmail}).toArray(function(err, res) {
@@ -61,7 +61,7 @@ function saveChord (chName, chFrets, chTuning, startPos, email) {
 
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     // First, check chord name is not a duplicate
     dbo.collection("chords").find({chord_name: chName}).toArray(function(err, res) {
@@ -94,7 +94,7 @@ function updateChord (chName, chFrets, chTuning, chStart, email, chId) {
   let o_id = new ObjectId(chId);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     dbo.collection("chords").updateOne(
       { _id: o_id},
@@ -112,7 +112,7 @@ function updateChord (chName, chFrets, chTuning, chStart, email, chId) {
 function saveTab (email, song, artist, genre, types, staves) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     // Create collection "tabs" if it doesn't exist:
     dbo.createCollection("tabs", function(err, res) {
@@ -137,7 +137,7 @@ function updateTab (id, email, song, artist, genre, types, staves) {
   console.log(o_id);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     dbo.collection("tabs").updateOne(
         { _id : o_id },
@@ -152,7 +152,7 @@ function deleteTab (id) {
   let o_id = new ObjectId(id);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     dbo.collection("tabs").remove( { _id: o_id });
     db.close();
@@ -163,7 +163,7 @@ function deleteChord (id) {
   let o_id = new ObjectId(id);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
 
     dbo.collection("chords").remove( { _id: o_id });
     db.close();
@@ -175,7 +175,7 @@ function deleteChord (id) {
 let getSavedChords = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
     dbo.collection("chords").find({email: emailIn}).toArray(cb);
     db.close();
   });
@@ -184,7 +184,7 @@ let getSavedChords = function(emailIn, cb) {
 let getTabsMetadata = function(cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
     dbo.collection("tabs").find({}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
     db.close();
@@ -194,7 +194,7 @@ let getTabsMetadata = function(cb) {
 let getMyTabsMetadata = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
     dbo.collection("tabs").find( {email: emailIn}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
     db.close();
@@ -204,7 +204,7 @@ let getMyTabsMetadata = function(emailIn, cb) {
 let getOtherTabsMetadata = function(emailIn, cb) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
     dbo.collection("tabs").find( {email: {$ne: emailIn}}, { projection: { _id: 1, song_name: 1, artist_name: 1, genre: 1, email: 1}
     }).toArray(cb);
     db.close();
@@ -215,7 +215,7 @@ let getTabContent = function (id, cb) {
   let o_id = new ObjectId(id);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    const dbo = db.db("Tabify");
+    const dbo = db.db("heroku_2k42nnmn");
     dbo.collection("tabs").find( {_id: o_id}).toArray(cb);
     db.close();
   });
