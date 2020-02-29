@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 main > div {
@@ -23,8 +23,8 @@ main > div {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -34,11 +34,11 @@ main > div {
   padding: 20px;
   border: 5px solid black;
   width: 60%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
 
 /* Modal Content */
@@ -48,25 +48,34 @@ main > div {
   padding: 20px;
   border: 5px solid black;
   width: 30%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
-
-
-
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 /* The Close Button */
@@ -84,12 +93,11 @@ main > div {
   cursor: pointer;
 }
 
-.saveModalInput  {
+.saveModalInput {
   display: table;
   vertical-align: middle;
   height: 50px;
 }
-
 
 /* -------------------------------------------------------------------------- */
 /* ---------- NAVIGATION BAR ------------------------------------------------ */
@@ -143,15 +151,21 @@ header {
 /* --------- MAIN GRID LAYOUT ----------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-.fretboardBox { grid-area: fretboardBox; }
-.chordoptions { grid-area: chordoptions; }
-.tabbox { grid-area: tabbox; }
+.fretboardBox {
+  grid-area: fretboardBox;
+}
+.chordoptions {
+  grid-area: chordoptions;
+}
+.tabbox {
+  grid-area: tabbox;
+}
 
 .mainel {
   display: grid;
   grid-template-areas:
-    'fretboardBox fretboardBox chordoptions'
-    'tabbox tabbox chordoptions';
+    "fretboardBox fretboardBox chordoptions"
+    "tabbox tabbox chordoptions";
   margin-top: 20px;
   grid-template-columns: 1.5fr 1.5fr 1fr;
 }
@@ -200,7 +214,6 @@ header {
 #chName {
   width: 5vh;
 }
-
 
 /* Chord Creation Fretbox */
 
@@ -280,7 +293,6 @@ div.fret2Selected:hover {
   background-color: brown;
 }
 
-
 div.miniFretLegend {
   display: table-row;
   width: 100%;
@@ -319,7 +331,6 @@ div.fret {
 div.fret:hover {
   background-color: sienna;
 }
-
 
 div.fretFirstRow {
   display: table-row;
@@ -360,37 +371,49 @@ div.fretStringLegend {
   float: right;
 }
 
-
-
 /* -------------------------------------------------------------------------- */
 /* ---------- TAB BOX CODE  ------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
 /* GRID CODE */
-.info { grid-area: tabinfo; }
-.staveoptions { grid-area: staveoptions; }
-.tabcontent { grid-area: tabcontent; }
-.taboptions { grid-area: taboptions;}
+.info {
+  grid-area: tabinfo;
+}
+.staveoptions {
+  grid-area: staveoptions;
+}
+.tabcontent {
+  grid-area: tabcontent;
+}
+.taboptions {
+  grid-area: taboptions;
+}
 
 .tabbox {
   display: grid;
   grid-template-areas:
-    'staveoptions staveoptions staveoptions taboptions'
-    'tabcontent tabcontent tabcontent taboptions'
-    'tabcontent tabcontent tabcontent taboptions';
+    "staveoptions staveoptions staveoptions taboptions"
+    "tabcontent tabcontent tabcontent taboptions"
+    "tabcontent tabcontent tabcontent taboptions";
   margin-top: 20px;
 }
 
 /* ---------------------------- Stave Option CSS ---------------------------- */
-#selectStaveType { grid-area: create }
-#selectToEdit { grid-area: edit }
-.audiOBtns { grid-area: audio}
+#selectStaveType {
+  grid-area: create;
+}
+#selectToEdit {
+  grid-area: edit;
+}
+.audiOBtns {
+  grid-area: audio;
+}
 
 div.staveoptions {
   display: grid;
   grid-template-areas:
-    'create create audio'
-    'edit edit audio';
+    "create create audio"
+    "edit edit audio";
   border: 5px solid black;
   margin: 5px;
   padding: 10px;

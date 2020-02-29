@@ -1,15 +1,14 @@
 ##### POST UNIVERSITY TO DO LIST #####
 
-Initial to dos:
-- get bearings back
-- finalise this specific version of application
-- remove mysql2 from dependencies
-
+COMPLETE VERSION 1.0.0
 - revamp user interface
       - new images
       - new button style
       - new colour scheme?
-- change file organisation
-
-Continuing with development:
-- new list of features
+      - scaling:
+            -> use vw for sizing
+            -> @media queries
+            -> em for lengths and heights (also fonts?)
+- remove features not fully implemented
+      - tuning on fretboard
+      - maybe remove audio for now until it works fully

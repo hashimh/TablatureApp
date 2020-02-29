@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 let editedTab = false;
 let editedTabId = "";
 
@@ -8,15 +8,16 @@ let editedTabId = "";
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Store user's login information into localStorage ---------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function onSignIn(googleUser) {
   let auth2 = gapi.auth2.getAuthInstance();
-  localStorage.setItem("id_token",auth2.currentUser.get().getAuthResponse().id_token);
-  localStorage.setItem("googleUser",googleUser.getBasicProfile().getName());
+  localStorage.setItem(
+    "id_token",
+    auth2.currentUser.get().getAuthResponse().id_token
+  );
+  localStorage.setItem("googleUser", googleUser.getBasicProfile().getName());
   localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
   auth2.disconnect();
 
@@ -24,39 +25,35 @@ function onSignIn(googleUser) {
   callServer(googleUser);
 }
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Function gets next form from the server ------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function callServer(googleUser) {
-  let apiLink = '/api/login';
+  let apiLink = "/api/login";
   await getPage(apiLink);
 
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token },
+    credentials: "same-origin",
+    method: "POST",
+    headers: { Authorization: "Bearer " + token }
   };
 
   // This API call checks to see if a user is in the database. If they aren't, they
   // are added to the db. If yes, then this part is skipped.
-  const response = await fetch('/api/checkUser', fetchOptions);
+  const response = await fetch("/api/checkUser", fetchOptions);
   if (!response.ok) {
     console.log("Fetch response for /api/checkuser has failed.");
     return;
   }
 }
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Function to sign out of the menu.html form ---------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function signOut() {
   // Call server function 'logout'
-  let apiLink = '/api/logout';
+  let apiLink = "/api/logout";
   await getPage(apiLink);
 
   window.location.reload();
@@ -64,32 +61,29 @@ async function signOut() {
   // Removes ID Token from local storage, ensures Google account logs out properly.
   localStorage.removeItem("id_token");
   localStorage.removeItem("googleUser");
-
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to go to main.html form -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function createTabBtn() {
   // Call server function 'createTabBtn'
-  let apiLink = '/api/createTabBtn';
+  let apiLink = "/api/createTabBtn";
   await getPage(apiLink);
 
   editedTab = false;
-  editedTabId = "";``
+  editedTabId = "";
+  ``;
 
   populateMain();
 }
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to initialise the form --------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function populateMain() {
   // Get user's name for nav bar
-  const el = document.getElementById('greeting');
+  const el = document.getElementById("greeting");
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
   fretBoard();
@@ -107,7 +101,7 @@ async function populateMain() {
 // ----------------------------------------------------------------------------------------------- //
 // Get the modal
 function helpBtn() {
-  let modal = document.getElementById('helpModal');
+  let modal = document.getElementById("helpModal");
   // Get the <span> element that closes the modal
   let span = document.getElementsByClassName("close")[0];
   // When the user clicks the button, open the modal
@@ -115,16 +109,14 @@ function helpBtn() {
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
     modal.style.display = "none";
-  }
+  };
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
     if (event.target == modal) {
       modal.style.display = "none";
     }
-  }
+  };
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to sign out of the menu.html form ---------------------------------------------------- //
@@ -132,7 +124,7 @@ function helpBtn() {
 async function signOut2() {
   if (confirm("All content will be lost, continue with sign out?")) {
     // Call server function 'logout'
-    let apiLink = '/api/logout';
+    let apiLink = "/api/logout";
     await getPage(apiLink);
 
     window.location.reload();
@@ -145,15 +137,13 @@ async function signOut2() {
   }
 }
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Function to save a tablature ------------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
 async function saveTab() {
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("Nothing to save!");
     return;
   }
@@ -166,14 +156,14 @@ async function saveTab() {
 
   span.onclick = function() {
     modal.style.display = "none";
-  }
+  };
 
   let confirmBtn = document.getElementById("confirmSave");
   confirmBtn.addEventListener("click", async function() {
-  let songName = document.getElementById("songName").value;
-  let artistName = document.getElementById("artistName").value;
-  let genreMenu = document.getElementById("genreSelect");
-  let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
+    let songName = document.getElementById("songName").value;
+    let artistName = document.getElementById("artistName").value;
+    let genreMenu = document.getElementById("genreSelect");
+    let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
     if (editedTab == false) {
       // most of the code will go here...
       // first, check inputs and assign variables
@@ -193,36 +183,41 @@ async function saveTab() {
 
       for (let i = 0; i < allStaves.length; i++) {
         // get stave type from h3's id, and add to 'type' array
-        let type = allStaves[i].getElementsByTagName("h3")[0].id
+        let type = allStaves[i].getElementsByTagName("h3")[0].id;
         type = type.substring(1);
-        types.push(type)
+        types.push(type);
 
         // now, get stave textarea, and add to 'stave' array
         let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
         staves.push(textarea);
-
       }
 
       // make initial server call requests...
       const token = localStorage.getItem("id_token");
       const fetchOptions = {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
+        credentials: "same-origin",
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
       };
 
-      let url = '/api/saveTab'
-      + '?song_name=' + encodeURIComponent(songName)
-      + '&artist_name=' + encodeURIComponent(artistName)
-      + '&genre=' + encodeURIComponent(songGenre)
-      + '&stave_types=' + encodeURIComponent([types])
-      + '&stave_content=' + encodeURIComponent([staves]);
+      let url =
+        "/api/saveTab" +
+        "?song_name=" +
+        encodeURIComponent(songName) +
+        "&artist_name=" +
+        encodeURIComponent(artistName) +
+        "&genre=" +
+        encodeURIComponent(songGenre) +
+        "&stave_types=" +
+        encodeURIComponent([types]) +
+        "&stave_content=" +
+        encodeURIComponent([staves]);
 
       console.log("Attempting to fetch /api/saveTab...");
       const response = await fetch(url, fetchOptions);
       if (!response.ok) {
         // handle the error
-        console.log("Fetch response for /api/saveTab has failed.")
+        console.log("Fetch response for /api/saveTab has failed.");
         return;
       } else {
         console.log("Successful /api/saveTab call.");
@@ -246,7 +241,8 @@ async function saveTab() {
       }
       // add text back to no stave area
       let tempmessage = document.createElement("p");
-      tempmessage.innerHTML = "No content... Please create a stave with the button above"
+      tempmessage.innerHTML =
+        "No content... Please create a stave with the button above";
       tempmessage.setAttribute("id", "tempmessage");
       tabcontent.append(tempmessage);
     } else {
@@ -258,9 +254,9 @@ async function saveTab() {
 
       for (let i = 0; i < allStaves.length; i++) {
         // get stave type from h3's id, and add to 'type' array
-        let type = allStaves[i].getElementsByTagName("h3")[0].id
+        let type = allStaves[i].getElementsByTagName("h3")[0].id;
         type = type.substring(1);
-        types.push(type)
+        types.push(type);
 
         // now, get stave textarea, and add to 'stave' array
         let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
@@ -269,18 +265,25 @@ async function saveTab() {
 
       const token = localStorage.getItem("id_token");
       const fetchOptions = {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
+        credentials: "same-origin",
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
       };
 
-      let url = '/api/updateTab'
-      + '?_id=' + encodeURIComponent(editedTabId)
-      + '&song_name=' + encodeURIComponent(songName)
-      + '&artist_name=' + encodeURIComponent(artistName)
-      + '&genre=' + encodeURIComponent(songGenre)
-      + '&stave_types=' + encodeURIComponent([types])
-      + '&stave_content=' + encodeURIComponent([staves]);
+      let url =
+        "/api/updateTab" +
+        "?_id=" +
+        encodeURIComponent(editedTabId) +
+        "&song_name=" +
+        encodeURIComponent(songName) +
+        "&artist_name=" +
+        encodeURIComponent(artistName) +
+        "&genre=" +
+        encodeURIComponent(songGenre) +
+        "&stave_types=" +
+        encodeURIComponent([types]) +
+        "&stave_content=" +
+        encodeURIComponent([staves]);
 
       console.log("Attempting to fetch /api/updateTab...");
       const response = await fetch(url, fetchOptions);
@@ -309,13 +312,13 @@ async function saveTab() {
       }
       // add text back to no stave area
       let tempmessage = document.createElement("p");
-      tempmessage.innerHTML = "No content... Please create a stave with the button above"
+      tempmessage.innerHTML =
+        "No content... Please create a stave with the button above";
       tempmessage.setAttribute("id", "tempmessage");
       tabcontent.append(tempmessage);
     }
   });
 }
-
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -342,18 +345,16 @@ async function fretBoard() {
     // play audio
     let note = this.getAttribute("data-note");
 
-    let audio = new Audio('js/audio/' + note + '.mp3');
+    let audio = new Audio("js/audio/" + note + ".mp3");
     audio.play();
 
-
-
-
     // If no staves yet created, output error message.
-    if ((selectedStaveMenu.options).length <= 0) {
+    if (selectedStaveMenu.options.length <= 0) {
       return;
     }
 
-    let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+    let selectedStave =
+      selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
     let staveid = "stave" + selectedStave;
     let textArea = document.getElementById(staveid);
     let textAreaLines = textArea.value.split("\n");
@@ -362,7 +363,9 @@ async function fretBoard() {
     // concatenate (+) either "--" or "stringnumber", depending on strng value
     // Also adjust value of tab spacing
     let staveSpacing = document.getElementById("tabSpacing");
-    let selectedSpacing = parseInt(staveSpacing.options[staveSpacing.selectedIndex].value);
+    let selectedSpacing = parseInt(
+      staveSpacing.options[staveSpacing.selectedIndex].value
+    );
 
     // Check if a symbol has been selected
     let activeBtn = document.getElementsByClassName("activeBtn");
@@ -375,11 +378,8 @@ async function fretBoard() {
       activeBtn[0].classList.remove("activeBtn");
     }
 
-
-
     for (let i = 0; i < textAreaLines.length; i++) {
-
-      if (symbolInserted == true && (symbolString > -1 && symbolFret > -1)) {
+      if (symbolInserted == true && symbolString > -1 && symbolFret > -1) {
         // handle rules with symbols to ensure they are used correctly
         if (string != symbolString) {
           alert("invalid fret");
@@ -397,49 +397,49 @@ async function fretBoard() {
           case "h":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           case "b":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           case "p":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           case "/":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           case "\\":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           case "~":
             symbolInserted = true;
             if (fret > 9) {
-              textAreaLines[i] += "---"
+              textAreaLines[i] += "---";
             } else {
-              textAreaLines[i] += "--"
+              textAreaLines[i] += "--";
             }
             break;
           default:
@@ -450,44 +450,44 @@ async function fretBoard() {
             if (fret > 9) {
               switch (selectedSpacing) {
                 case 1:
-                  textAreaLines[i] += '---';
+                  textAreaLines[i] += "---";
                   break;
                 case 2:
-                  textAreaLines[i] += '----';
+                  textAreaLines[i] += "----";
                   break;
                 case 3:
-                  textAreaLines[i] += '-----';
+                  textAreaLines[i] += "-----";
                   break;
                 case 4:
-                  textAreaLines[i] += '------';
+                  textAreaLines[i] += "------";
                   break;
                 case 5:
-                  textAreaLines[i] += '-------';
+                  textAreaLines[i] += "-------";
                   break;
               }
             } else {
               switch (selectedSpacing) {
                 case 1:
-                  textAreaLines[i] += '--';
+                  textAreaLines[i] += "--";
                   break;
                 case 2:
-                  textAreaLines[i] += '---';
+                  textAreaLines[i] += "---";
                   break;
                 case 3:
-                  textAreaLines[i] += '----';
+                  textAreaLines[i] += "----";
                   break;
                 case 4:
-                  textAreaLines[i] += '-----';
+                  textAreaLines[i] += "-----";
                   break;
                 case 5:
-                  textAreaLines[i] += '------';
+                  textAreaLines[i] += "------";
                   break;
-                }
+              }
             }
-          }
+        }
       } else {
         // First, handle any symbol
-        switch(symbol) {
+        switch (symbol) {
           case "h":
             symbolInserted = true;
             symbolString = string;
@@ -528,30 +528,30 @@ async function fretBoard() {
             // If no symbol exists:
             switch (selectedSpacing) {
               case 1:
-                textAreaLines[i] += fret + '-';
+                textAreaLines[i] += fret + "-";
                 break;
               case 2:
-                textAreaLines[i] += fret + '--';
+                textAreaLines[i] += fret + "--";
                 break;
               case 3:
-                  textAreaLines[i] += fret + '---';
-                  break;
+                textAreaLines[i] += fret + "---";
+                break;
               case 4:
-                textAreaLines[i] += fret + '----';
+                textAreaLines[i] += fret + "----";
                 break;
               case 5:
-                textAreaLines[i] += fret + '-----';
+                textAreaLines[i] += fret + "-----";
                 break;
             }
         }
       }
     }
     textArea.value = textAreaLines.join("\n");
-  }
+  };
 
   // Add event listener for frets on fretboard
   for (let i = 0; i < frets.length; i++) {
-    frets[i].addEventListener('click', fretClicked, false);
+    frets[i].addEventListener("click", fretClicked, false);
   }
 
   // Add event listeners for buttons
@@ -584,85 +584,87 @@ async function fretBoard() {
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Function to insert empty stave into tablature box --------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function addStave() {
-    let tempmessage = document.getElementById("tempmessage");
-    if (tempmessage != undefined) {
-      tempmessage.parentNode.removeChild(tempmessage);
-    }
+  let tempmessage = document.getElementById("tempmessage");
+  if (tempmessage != undefined) {
+    tempmessage.parentNode.removeChild(tempmessage);
+  }
 
-    let tabcontent = document.getElementById("tabcontent");
-    let staves = document.getElementsByClassName("stave");
+  let tabcontent = document.getElementById("tabcontent");
+  let staves = document.getElementsByClassName("stave");
 
-    // Get selected stave type
-    let staveType = document.getElementById("selectStaveType");
-    let type = staveType.options[staveType.selectedIndex].value;
+  // Get selected stave type
+  let staveType = document.getElementById("selectStaveType");
+  let type = staveType.options[staveType.selectedIndex].value;
 
-    const id = (staves.length) + 1
-    const staveid = "stave" + id
+  const id = staves.length + 1;
+  const staveid = "stave" + id;
 
-    // Append a new stave - h3, textarea //
-    let div = document.createElement("div");
-    div.setAttribute("id", id);
-    div.setAttribute("class", "stave");
-    tabcontent.append(div);
+  // Append a new stave - h3, textarea //
+  let div = document.createElement("div");
+  div.setAttribute("id", id);
+  div.setAttribute("class", "stave");
+  tabcontent.append(div);
 
-    let h3 = document.createElement("h3");
-    h3.innerHTML = "Stave " + id + ": " + type;
-    h3.setAttribute("id",id + type)
-    div.append(h3);
+  let h3 = document.createElement("h3");
+  h3.innerHTML = "Stave " + id + ": " + type;
+  h3.setAttribute("id", id + type);
+  div.append(h3);
 
-    let textarea = document.createElement("textarea");
-    textarea.setAttribute("id", staveid);
-    textarea.setAttribute("name", "stave");
-    textarea.setAttribute("rows", "6");
-    textarea.setAttribute("cols", "100");
-    textarea.setAttribute("wrap", "off");
+  let textarea = document.createElement("textarea");
+  textarea.setAttribute("id", staveid);
+  textarea.setAttribute("name", "stave");
+  textarea.setAttribute("rows", "6");
+  textarea.setAttribute("cols", "100");
+  textarea.setAttribute("wrap", "off");
 
-    let textAppend = "";
-    // get tuning from select dropdowns
-    let str1 = document.getElementById("tuningDropdown1");
-    let str2 = document.getElementById("tuningDropdown2");
-    let str3 = document.getElementById("tuningDropdown3");
-    let str4 = document.getElementById("tuningDropdown4");
-    let str5 = document.getElementById("tuningDropdown5");
-    let str6 = document.getElementById("tuningDropdown6");
+  let textAppend = "";
+  // get tuning from select dropdowns
+  let str1 = document.getElementById("tuningDropdown1");
+  let str2 = document.getElementById("tuningDropdown2");
+  let str3 = document.getElementById("tuningDropdown3");
+  let str4 = document.getElementById("tuningDropdown4");
+  let str5 = document.getElementById("tuningDropdown5");
+  let str6 = document.getElementById("tuningDropdown6");
 
-    textAppend +=
-      str1.value + " |--\n" +
-      str2.value + " |--\n" +
-      str3.value + " |--\n" +
-      str4.value + " |--\n" +
-      str5.value + " |--\n" +
-      str6.value + " |--";
+  textAppend +=
+    str1.value +
+    " |--\n" +
+    str2.value +
+    " |--\n" +
+    str3.value +
+    " |--\n" +
+    str4.value +
+    " |--\n" +
+    str5.value +
+    " |--\n" +
+    str6.value +
+    " |--";
 
-    textarea.value = textAppend;
+  textarea.value = textAppend;
 
-    div.append(textarea);
+  div.append(textarea);
 
-    // Add new stave to dropdown option box //
-    let staveDropdown = document.getElementById("selectStave");
-    let staveOption = document.createElement("option");
-    staveOption.value = id;
-    staveOption.innerHTML = "Stave " + id;
+  // Add new stave to dropdown option box //
+  let staveDropdown = document.getElementById("selectStave");
+  let staveOption = document.createElement("option");
+  staveOption.value = id;
+  staveOption.innerHTML = "Stave " + id;
 
-    staveDropdown.append(staveOption);
-    staveDropdown.value = id;
+  staveDropdown.append(staveOption);
+  staveDropdown.value = id;
 
-    // document.getElementById("tuningDropdown1").disabled = true;
-    str1.disabled = true;
-    str2.disabled = true;
-    str3.disabled = true;
-    str4.disabled = true;
-    str5.disabled = true;
-    str6.disabled = true;
+  // document.getElementById("tuningDropdown1").disabled = true;
+  str1.disabled = true;
+  str2.disabled = true;
+  str3.disabled = true;
+  str4.disabled = true;
+  str5.disabled = true;
+  str6.disabled = true;
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to delete the selected stave --------------------------------------------------------- //
@@ -671,14 +673,15 @@ function deleteStave() {
   let selectedStaveMenu = document.getElementById("selectStave");
 
   // If no staves yet created, output error message
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("No Stave selected");
     return;
   }
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs Int
+  let selectedStave =
+    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs Int
   // Function to delete an individual stave
   // Search for child with id of selected, and remove child
-  if(confirm('Are you sure you want to delete Stave ' + selectedStave + '?')) {
+  if (confirm("Are you sure you want to delete Stave " + selectedStave + "?")) {
     // Selects are removes Stave 'div' element
     let textarea = document.getElementById(selectedStave);
     textarea.parentNode.removeChild(textarea);
@@ -688,7 +691,7 @@ function deleteStave() {
     staveDropdown.remove(staveDropdown.selectedIndex);
   }
 
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     // enable tuning dropdown lists if no staves are left.
     document.getElementById("tuningDropdown1").disabled = false;
     document.getElementById("tuningDropdown2").disabled = false;
@@ -699,14 +702,12 @@ function deleteStave() {
 
     let tabcontent = document.getElementById("tabcontent");
     let tempmessage = document.createElement("p");
-    tempmessage.innerHTML = "No content... Please create a stave with the button above"
+    tempmessage.innerHTML =
+      "No content... Please create a stave with the button above";
     tempmessage.setAttribute("id", "tempmessage");
     tabcontent.append(tempmessage);
-
   }
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to clear the form of all staves ------------------------------------------------------ //
@@ -717,11 +718,11 @@ function clearAllStaves() {
 
   let selectedStaveMenu = document.getElementById("selectStave");
   // If no staves yet created, output error message
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("No staves created");
     return;
   } else {
-    if (confirm('Are you sure you want to reset all staves?')) {
+    if (confirm("Are you sure you want to reset all staves?")) {
       while (tabcontent.firstChild) {
         tabcontent.removeChild(tabcontent.firstChild);
       }
@@ -734,7 +735,8 @@ function clearAllStaves() {
       }
       // add text back to no stave area
       let tempmessage = document.createElement("p");
-      tempmessage.innerHTML = "No content... Please create a stave with the button above"
+      tempmessage.innerHTML =
+        "No content... Please create a stave with the button above";
       tempmessage.setAttribute("id", "tempmessage");
       tabcontent.append(tempmessage);
     } else {
@@ -749,10 +751,7 @@ function clearAllStaves() {
   document.getElementById("tuningDropdown4").disabled = false;
   document.getElementById("tuningDropdown5").disabled = false;
   document.getElementById("tuningDropdown6").disabled = false;
-
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to insert blank spaces into selected tablature --------------------------------------- //
@@ -764,25 +763,24 @@ function insertBlanks() {
 
   // Check stave exists
   let selectedStaveMenu = document.getElementById("selectStave");
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("Please create a stave to edit!");
     return;
   }
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+  let selectedStave =
+    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
   let staveid = "stave" + selectedStave;
 
   // Variable for rows in selected text area
   let textArea = document.getElementById(staveid);
   let textAreaLines = textArea.value.split("\n");
-  let insert = '-'
+  let insert = "-";
 
   for (let i = 0; i < textAreaLines.length; i++) {
     textAreaLines[i] += insert.repeat(amount);
   }
   textArea.value = textAreaLines.join("\n");
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to change tuning values for chord creation area -------------------------------------- //
@@ -809,10 +807,7 @@ function updateTuning(el) {
       document.getElementById("tuningLabel6").innerHTML = el.value;
       break;
   }
-
 }
-
-
 
 // AUDIO FUNCTIONS FOR TABLATURE
 async function playAudio() {
@@ -829,28 +824,40 @@ async function playAudio() {
   if (textAreas.length >= 1) {
     for (let i = 0; i < textAreas.length; i++) {
       let textAreaLines = textAreas[i].value.split("\n");
-      let current_fret = [-1,-1,"0"];
+      let current_fret = [-1, -1, "0"];
       let staveTypeRaw = tabcontent.getElementsByTagName("h3")[i].innerHTML;
       let staveType = staveTypeRaw.substring(9);
-      console.log(staveTypeRaw + " type: " + staveType)
+      console.log(staveTypeRaw + " type: " + staveType);
 
       if (staveType == "Lead Guitar") {
-        for (let k = 6; k < textAreaLines[0].length; k+=2) {
+        for (let k = 6; k < textAreaLines[0].length; k += 2) {
           for (let j = 0; j < textAreaLines.length; j++) {
             let data_string = "" + j + "";
             if (textAreaLines[j][k] >= 0) {
               let data_fret;
-              console.log(j, k, textAreaLines[j][k], textAreaLines[j][k+1])
-              if (textAreaLines[j][k+1] >= 0) {
-                data_fret = textAreaLines[j][k] + textAreaLines[j][k+1];
-                console.log(data_fret)
-                let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-                await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+              console.log(j, k, textAreaLines[j][k], textAreaLines[j][k + 1]);
+              if (textAreaLines[j][k + 1] >= 0) {
+                data_fret = textAreaLines[j][k] + textAreaLines[j][k + 1];
+                console.log(data_fret);
+                let div = document.querySelectorAll(
+                  "[data-string=" +
+                    CSS.escape(data_string) +
+                    "][data-fret=" +
+                    CSS.escape(data_fret) +
+                    "]"
+                )[0];
+                await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
               } else {
                 data_fret = textAreaLines[j][k];
                 console.log(data_fret);
-                let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-                await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+                let div = document.querySelectorAll(
+                  "[data-string=" +
+                    CSS.escape(data_string) +
+                    "][data-fret=" +
+                    CSS.escape(data_fret) +
+                    "]"
+                )[0];
+                await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
                 k = k - 1;
               }
             }
@@ -865,9 +872,15 @@ async function playAudio() {
             let data_string = "" + j + "";
             if (textAreaLines[j][k] >= 0) {
               let data_fret;
-              data_fret = textAreaLines[j][k]
-              let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "]")[0];
-              await new Audio('js/audio/' + div.dataset.note + '.mp3').play();
+              data_fret = textAreaLines[j][k];
+              let div = document.querySelectorAll(
+                "[data-string=" +
+                  CSS.escape(data_string) +
+                  "][data-fret=" +
+                  CSS.escape(data_fret) +
+                  "]"
+              )[0];
+              await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
             }
           }
           sleep(200);
@@ -877,25 +890,21 @@ async function playAudio() {
   }
 }
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ---------------------------- CHORD CREATION AND SELECTION FUNCTIONS --------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
-
-
 // List of presaved chords to be used in selectChord function:
 const chordList = [
-  { "id": 0, "chord": "A", "frets": "0--/2--/2--/2--/0--/x--"},
-  { "id": 1, "chord": "C", "frets": "0--/1--/0--/2--/3--/x--"},
-  { "id": 2, "chord": "D", "frets": "2--/1--/2--/0--/x--/x--"},
-  { "id": 3, "chord": "E", "frets": "0--/0--/1--/2--/2--/0--"},
-  { "id": 4, "chord": "G", "frets": "3--/0--/0--/0--/2--/3--"},
-  { "id": 5, "chord": "Am", "frets": "0--/1--/2--/2--/0--/x--"},
-  { "id": 6, "chord": "Em", "frets": "0--/0--/0--/2--/2--/0--"}
+  { id: 0, chord: "A", frets: "0--/2--/2--/2--/0--/x--" },
+  { id: 1, chord: "C", frets: "0--/1--/0--/2--/3--/x--" },
+  { id: 2, chord: "D", frets: "2--/1--/2--/0--/x--/x--" },
+  { id: 3, chord: "E", frets: "0--/0--/1--/2--/2--/0--" },
+  { id: 4, chord: "G", frets: "3--/0--/0--/0--/2--/3--" },
+  { id: 5, chord: "Am", frets: "0--/1--/2--/2--/0--/x--" },
+  { id: 6, chord: "Em", frets: "0--/0--/0--/2--/2--/0--" }
 ];
 
 // ----------------------------------------------------------------------------------------------- //
@@ -904,9 +913,10 @@ const chordList = [
 function selectChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectChord");
-  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+  let selectedChord =
+    selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("No stave created!");
     return;
   }
@@ -918,7 +928,8 @@ function selectChord() {
     }
   }
 
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let selectedStave =
+    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("stave" + selectedStave);
 
   let chordLines = frets.split("/");
@@ -939,20 +950,18 @@ function selectChord() {
         textAreaLines[i] += chordLines[i];
         break;
       case 3:
-        textAreaLines[i] += (chordLines[i] + '-');
+        textAreaLines[i] += chordLines[i] + "-";
         break;
       case 4:
-        textAreaLines[i] += (chordLines[i] + '--');
+        textAreaLines[i] += chordLines[i] + "--";
         break;
       case 5:
-      textAreaLines[i] += (chordLines[i] + '---');
-      break;
+        textAreaLines[i] += chordLines[i] + "---";
+        break;
     }
   }
   textArea.value = textAreaLines.join("\n");
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to get a saved chord from the database ----------------------------------------------- //
@@ -960,9 +969,10 @@ function selectChord() {
 async function selectMyChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectMyChord");
-  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+  let selectedChord =
+    selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
-  if ((selectedStaveMenu.options).length <= 0) {
+  if (selectedStaveMenu.options.length <= 0) {
     alert("No stave created!");
     return;
   }
@@ -977,9 +987,9 @@ async function selectMyChord() {
     }
   }
 
-
   // Now, add the chord to the stave box
-  let selectedStave = selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let selectedStave =
+    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("stave" + selectedStave);
 
   let chordLines = myChord.split("/");
@@ -1000,29 +1010,28 @@ async function selectMyChord() {
         textAreaLines[i] += chordLines[i];
         break;
       case 3:
-        textAreaLines[i] += (chordLines[i] + '-');
+        textAreaLines[i] += chordLines[i] + "-";
         break;
       case 4:
-        textAreaLines[i] += (chordLines[i] + '--');
+        textAreaLines[i] += chordLines[i] + "--";
         break;
       case 5:
-      textAreaLines[i] += (chordLines[i] + '---');
-      break;
+        textAreaLines[i] += chordLines[i] + "---";
+        break;
     }
   }
   textArea.value = textAreaLines.join("\n");
 }
-
 
 let editedChord = false;
 let editedChordId;
 let editedOldName;
 
 async function editChord() {
-
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedChordMenu = document.getElementById("selectMyChord");
-  let selectedChord = selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
+  let selectedChord =
+    selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
   let chords = await getMyChords();
   let myChord;
@@ -1057,33 +1066,37 @@ async function editChord() {
     if (fretVal >= 0) {
       data_fret = fretVal - myChord.start_pos;
     } else {
-      data_fret = 'x';
+      data_fret = "x";
     }
     data_string = i;
     console.log("data fret and data string: " + data_fret, data_string);
 
     // Now, activate above frets on mini fretboard.
-    let div = document.querySelectorAll("[data-string=" + CSS.escape(data_string) + "][data-fret=" + CSS.escape(data_fret) + "].fret2");
+    let div = document.querySelectorAll(
+      "[data-string=" +
+        CSS.escape(data_string) +
+        "][data-fret=" +
+        CSS.escape(data_fret) +
+        "].fret2"
+    );
     console.log(div[0]);
     div[0].classList.add("fret2Selected");
-
-
   }
   let button = document.createElement("button");
   button.innerHTML = "Delete";
   button.setAttribute("style", "float: right");
   button.onclick = async function() {
-    if (confirm('Are you sure you want to delete this chord?')) {
+    if (confirm("Are you sure you want to delete this chord?")) {
       const token = localStorage.getItem("id_token");
 
       const fetchOptions = {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
+        credentials: "same-origin",
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
       };
 
-      let url = '/api/deleteChord'
-      + '?_id=' + encodeURIComponent(editedChordId);
+      let url =
+        "/api/deleteChord" + "?_id=" + encodeURIComponent(editedChordId);
 
       console.log("Attempting to fetch /api/deleteChord.");
       const response = await fetch(url, fetchOptions);
@@ -1099,10 +1112,12 @@ async function editChord() {
 
       // Clear start position input and reset fretboard legend values
       document.getElementById("startPos").value = 0;
-      let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+      let legendText = document
+        .getElementById("fretMiniLegend")
+        .getElementsByTagName("div");
       for (let i = 0; i < legendText.length; i++) {
         if (legendText[i].innerHTML >= 0) {
-          legendText[i].innerHTML = (i - 2);
+          legendText[i].innerHTML = i - 2;
         }
       }
 
@@ -1110,9 +1125,9 @@ async function editChord() {
       document.getElementById("chName").value = "";
 
       // Clear fretboard selections
-      let frets = document.querySelectorAll('.fret2.fret2Selected');
+      let frets = document.querySelectorAll(".fret2.fret2Selected");
       for (let i = 0; i < frets.length; i++) {
-        frets[i].classList.remove('fret2Selected');
+        frets[i].classList.remove("fret2Selected");
       }
 
       editedChord = false;
@@ -1121,27 +1136,25 @@ async function editChord() {
 
       alert("Chord deleted.");
     }
-  }
-  let btnDiv = document.getElementsByClassName("chordcreation")[0];;
+  };
+  let btnDiv = document.getElementsByClassName("chordcreation")[0];
   console.log(btnDiv);
   btnDiv.appendChild(button);
-
 }
-
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to alter chord fretboard based on starting position of chord ------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function changeStartPos() {
   let val = parseInt(document.getElementById("startPos").value);
-  let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+  let legendText = document
+    .getElementById("fretMiniLegend")
+    .getElementsByTagName("div");
 
   // Change the content of the last 5 out of 7 values in the legend row
   for (let i = 0; i < legendText.length; i++) {
     if (legendText[i].innerHTML >= 0) {
-      let newVal = (i - 2) + val;
+      let newVal = i - 2 + val;
       legendText[i].innerHTML = newVal;
     }
   }
@@ -1176,74 +1189,86 @@ async function chordFretboard() {
     // Set marker onto div to display user's fret choice
 
     if (string == 0) {
-        // remove fret2Selected from classList of all elements of the string row
-        // then adds selected element to selected class
-       let stringRow = document.getElementById("miniFirstRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     } else if (string == 1) {
-       let stringRow = document.getElementById("miniSecondRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     } else if (string == 2) {
-       let stringRow = document.getElementById("miniThirdRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     } else if (string == 3) {
-       let stringRow = document.getElementById("miniFourthRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     } else if (string == 4) {
-       let stringRow = document.getElementById("miniFifthRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     } else {
-       let stringRow = document.getElementById("miniSixthRow").getElementsByTagName("div");
-       for (let i = 0; i < stringRow.length; i++) {
-         stringRow[i].classList.remove("fret2Selected");
-       }
-       this.classList.add("fret2Selected");
-     }
-  }
+      // remove fret2Selected from classList of all elements of the string row
+      // then adds selected element to selected class
+      let stringRow = document
+        .getElementById("miniFirstRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    } else if (string == 1) {
+      let stringRow = document
+        .getElementById("miniSecondRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    } else if (string == 2) {
+      let stringRow = document
+        .getElementById("miniThirdRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    } else if (string == 3) {
+      let stringRow = document
+        .getElementById("miniFourthRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    } else if (string == 4) {
+      let stringRow = document
+        .getElementById("miniFifthRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    } else {
+      let stringRow = document
+        .getElementById("miniSixthRow")
+        .getElementsByTagName("div");
+      for (let i = 0; i < stringRow.length; i++) {
+        stringRow[i].classList.remove("fret2Selected");
+      }
+      this.classList.add("fret2Selected");
+    }
+  };
 
   // Add event listener for "clear" button
   let clearBtn = document.getElementById("clearChord");
   clearChord.addEventListener("click", function() {
     // Clear start position input and reset fretboard legend values
     document.getElementById("startPos").value = 0;
-    let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
+    let legendText = document
+      .getElementById("fretMiniLegend")
+      .getElementsByTagName("div");
     for (let i = 0; i < legendText.length; i++) {
       if (legendText[i].innerHTML >= 0) {
-        legendText[i].innerHTML = (i - 2);
+        legendText[i].innerHTML = i - 2;
       }
     }
     // Clear chord name input
     document.getElementById("chName").value = "";
     // Clear fretboard selections
-    let frets = document.querySelectorAll('.fret2.fret2Selected');
+    let frets = document.querySelectorAll(".fret2.fret2Selected");
     for (let i = 0; i < frets.length; i++) {
-      frets[i].classList.remove('fret2Selected');
+      frets[i].classList.remove("fret2Selected");
     }
   });
 
   // Adds event listener for each fret on the mini fretboard
   for (let i = 0; i < frets.length; i++) {
-    frets[i].addEventListener('click', chordFretClicked, false);
+    frets[i].addEventListener("click", chordFretClicked, false);
   }
   refreshSavedDropdown();
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to create a chord from the mini fretboard -------------------------------------------- //
@@ -1252,12 +1277,24 @@ async function createChord() {
   let chordTab = "";
 
   // first, check if all rows have a selected value, if not, send alert and return
-  let stringRow0Selected = document.getElementById("miniFirstRow").getElementsByClassName("fret2Selected")[0];
-  let stringRow1Selected = document.getElementById("miniSecondRow").getElementsByClassName("fret2Selected")[0];
-  let stringRow2Selected = document.getElementById("miniThirdRow").getElementsByClassName("fret2Selected")[0];
-  let stringRow3Selected = document.getElementById("miniFourthRow").getElementsByClassName("fret2Selected")[0];
-  let stringRow4Selected = document.getElementById("miniFifthRow").getElementsByClassName("fret2Selected")[0];
-  let stringRow5Selected = document.getElementById("miniSixthRow").getElementsByClassName("fret2Selected")[0];
+  let stringRow0Selected = document
+    .getElementById("miniFirstRow")
+    .getElementsByClassName("fret2Selected")[0];
+  let stringRow1Selected = document
+    .getElementById("miniSecondRow")
+    .getElementsByClassName("fret2Selected")[0];
+  let stringRow2Selected = document
+    .getElementById("miniThirdRow")
+    .getElementsByClassName("fret2Selected")[0];
+  let stringRow3Selected = document
+    .getElementById("miniFourthRow")
+    .getElementsByClassName("fret2Selected")[0];
+  let stringRow4Selected = document
+    .getElementById("miniFifthRow")
+    .getElementsByClassName("fret2Selected")[0];
+  let stringRow5Selected = document
+    .getElementById("miniSixthRow")
+    .getElementsByClassName("fret2Selected")[0];
 
   if (stringRow0Selected == undefined) {
     alert("please select a fret for string 0");
@@ -1290,45 +1327,51 @@ async function createChord() {
 
       // appends starting position or "x" to final chord tab
       if (stringRow0Selected.getAttribute("data-fret") > -1) {
-        let string0fret = parseInt(stringRow0Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string0fret + "--/"
+        let string0fret =
+          parseInt(stringRow0Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string0fret + "--/";
       } else {
-        chordTab += "x--/"
+        chordTab += "x--/";
       }
 
       if (stringRow1Selected.getAttribute("data-fret") > -1) {
-        let string1fret = parseInt(stringRow1Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string1fret + "--/"
+        let string1fret =
+          parseInt(stringRow1Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string1fret + "--/";
       } else {
-        chordTab += "x--/"
+        chordTab += "x--/";
       }
 
       if (stringRow2Selected.getAttribute("data-fret") > -1) {
-        let string2fret = parseInt(stringRow2Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string2fret + "--/"
+        let string2fret =
+          parseInt(stringRow2Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string2fret + "--/";
       } else {
-        chordTab += "x--/"
+        chordTab += "x--/";
       }
 
       if (stringRow3Selected.getAttribute("data-fret") > -1) {
-        let string3fret = parseInt(stringRow3Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string3fret + "--/"
+        let string3fret =
+          parseInt(stringRow3Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string3fret + "--/";
       } else {
-        chordTab += "x--/"
+        chordTab += "x--/";
       }
 
       if (stringRow4Selected.getAttribute("data-fret") > -1) {
-        let string4fret = parseInt(stringRow4Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string4fret + "--/"
+        let string4fret =
+          parseInt(stringRow4Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string4fret + "--/";
       } else {
-        chordTab += "x--/"
+        chordTab += "x--/";
       }
 
       if (stringRow5Selected.getAttribute("data-fret") > -1) {
-        let string5fret = parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
-        chordTab += string5fret + "--"
+        let string5fret =
+          parseInt(stringRow5Selected.getAttribute("data-fret")) + startPos;
+        chordTab += string5fret + "--";
       } else {
-        chordTab += "x--"
+        chordTab += "x--";
       }
       // now, get the tuning values from dropdown
       let tuning = [];
@@ -1343,19 +1386,25 @@ async function createChord() {
       // save chord to database!!!
       const token = localStorage.getItem("id_token");
       const fetchOptions = {
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token },
+        credentials: "same-origin",
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
       };
 
       let response;
       if (editedChord == true) {
-        let url = '/api/updateChord'
-                  + '?chord_name=' + encodeURIComponent(chName)
-                  + '&chord_frets=' + encodeURIComponent(chordTab)
-                  + '&chord_tuning=' + encodeURIComponent(tuning)
-                  + '&start_pos=' + encodeURIComponent(startPos)
-                  + '&editedId=' + encodeURIComponent(editedChordId);
+        let url =
+          "/api/updateChord" +
+          "?chord_name=" +
+          encodeURIComponent(chName) +
+          "&chord_frets=" +
+          encodeURIComponent(chordTab) +
+          "&chord_tuning=" +
+          encodeURIComponent(tuning) +
+          "&start_pos=" +
+          encodeURIComponent(startPos) +
+          "&editedId=" +
+          encodeURIComponent(editedChordId);
 
         response = await fetch(url, fetchOptions);
 
@@ -1365,21 +1414,25 @@ async function createChord() {
           return;
         } else {
           console.log("Successful /api/updateChord call.");
-      }
+        }
 
-      // Update name in dropdown list
-      let chordDropdown = document.getElementById("selectMyChord");
-      chordDropdown.remove(chordDropdown.selectedIndex);
-      let newOption = document.createElement("option");
-      newOption.text = chName;
-      chordDropdown.add(newOption);
-
-    } else {
-        let url = '/api/saveChord'
-                  + '?chord_name=' + encodeURIComponent(chName)
-                  + '&chord_frets=' + encodeURIComponent(chordTab)
-                  + '&chord_tuning=' + encodeURIComponent(tuning)
-                  + '&start_pos=' + encodeURIComponent(startPos)
+        // Update name in dropdown list
+        let chordDropdown = document.getElementById("selectMyChord");
+        chordDropdown.remove(chordDropdown.selectedIndex);
+        let newOption = document.createElement("option");
+        newOption.text = chName;
+        chordDropdown.add(newOption);
+      } else {
+        let url =
+          "/api/saveChord" +
+          "?chord_name=" +
+          encodeURIComponent(chName) +
+          "&chord_frets=" +
+          encodeURIComponent(chordTab) +
+          "&chord_tuning=" +
+          encodeURIComponent(tuning) +
+          "&start_pos=" +
+          encodeURIComponent(startPos);
         console.log("Attempting to fetch /api/savedChord.");
 
         response = await fetch(url, fetchOptions);
@@ -1390,52 +1443,49 @@ async function createChord() {
           return;
         } else {
           console.log("Successful /api/saveChord call.");
+        }
+
+        // Add new chord to list
+        let chordDropdown = document.getElementById("selectMyChord");
+        let newOption = document.createElement("option");
+        newOption.text = chName;
+        chordDropdown.add(newOption);
       }
 
-      // Add new chord to list
-      let chordDropdown = document.getElementById("selectMyChord");
-      let newOption = document.createElement("option");
-      newOption.text = chName;
-      chordDropdown.add(newOption);
-    }
-
-    // Clear start position input and reset fretboard legend values
-    document.getElementById("startPos").value = 0;
-    let legendText = document.getElementById("fretMiniLegend").getElementsByTagName('div');
-    for (let i = 0; i < legendText.length; i++) {
-      if (legendText[i].innerHTML >= 0) {
-        legendText[i].innerHTML = (i - 2);
+      // Clear start position input and reset fretboard legend values
+      document.getElementById("startPos").value = 0;
+      let legendText = document
+        .getElementById("fretMiniLegend")
+        .getElementsByTagName("div");
+      for (let i = 0; i < legendText.length; i++) {
+        if (legendText[i].innerHTML >= 0) {
+          legendText[i].innerHTML = i - 2;
+        }
       }
-    }
 
-    // Clear chord name input
-    document.getElementById("chName").value = "";
+      // Clear chord name input
+      document.getElementById("chName").value = "";
 
-    // Clear fretboard selections
-    let frets = document.querySelectorAll('.fret2.fret2Selected');
-    for (let i = 0; i < frets.length; i++) {
-      frets[i].classList.remove('fret2Selected');
-    }
+      // Clear fretboard selections
+      let frets = document.querySelectorAll(".fret2.fret2Selected");
+      for (let i = 0; i < frets.length; i++) {
+        frets[i].classList.remove("fret2Selected");
+      }
 
-    editedChord = false;
-    editedChordId = "";
-    editedOldName = "";
-
+      editedChord = false;
+      editedChordId = "";
+      editedOldName = "";
     }
   }
 }
 
-
-
 async function backBtnMain() {
-  if (confirm('Changes will not be saved, are you sure you want to go back?')) {
+  if (confirm("Changes will not be saved, are you sure you want to go back?")) {
     // Call main menu form
-    let apiLink = '/api/login';
+    let apiLink = "/api/login";
     await getPage(apiLink);
   }
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -1449,7 +1499,7 @@ async function backBtnMain() {
 // ----------------------------------------------------------------------------------------------- //
 async function viewTabBtn() {
   // Call server function 'createTabBtn'
-  let apiLink = '/api/viewTabBtn';
+  let apiLink = "/api/viewTabBtn";
   await getPage(apiLink);
 
   populateMain2();
@@ -1458,7 +1508,7 @@ async function viewTabBtn() {
 let tabInfo;
 async function populateMain2() {
   // Get user's name for nav bar
-  const el = document.getElementById('greeting2');
+  const el = document.getElementById("greeting2");
   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
   // Remove potential pre-existing results
@@ -1468,21 +1518,19 @@ async function populateMain2() {
   }
 
   // Get tablature information from the database
-  tabInfo =  await getTabs("all");
+  tabInfo = await getTabs("all");
   populateTable(tabInfo);
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to populate tab results table -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function populateTable(tabInfo) {
   // Initially sorted from A -> Z by song name, sort before inserting into table
-  tabInfo.sort(sortBy('song_name'));
+  tabInfo.sort(sortBy("song_name"));
 
   // First, reset table
-  let table = document.getElementById('tabTable');
+  let table = document.getElementById("tabTable");
   table.style.visibility = "visible";
   while (table.hasChildNodes()) {
     table.removeChild(table.firstChild);
@@ -1509,21 +1557,19 @@ function populateTable(tabInfo) {
 
   let cell4 = row.insertCell(0);
   cell4.innerHTML = "User";
-  cell4.style.fontWeight = 'bold';
+  cell4.style.fontWeight = "bold";
   let cell3 = row.insertCell(0);
   cell3.innerHTML = "Genre";
-  cell3.style.fontWeight = 'bold';
+  cell3.style.fontWeight = "bold";
   let cell2 = row.insertCell(0);
   cell2.innerHTML = "Artist";
-  cell2.style.fontWeight = 'bold';
+  cell2.style.fontWeight = "bold";
   let cell1 = row.insertCell(0);
   cell1.innerHTML = "Song Name";
-  cell1.style.fontWeight = 'bold';
+  cell1.style.fontWeight = "bold";
 
   addRowHandlers();
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to change whose tabs are displayed to user ------------------------------------------- //
@@ -1535,7 +1581,7 @@ async function showWhichTabsChange() {
 
   if (newVal == "allTabs") {
     // show all aka insert tabInfo into table
-    tabInfo =  await getTabs("all");
+    tabInfo = await getTabs("all");
     populateTable(tabInfo);
   } else if (newVal == "myTabs") {
     // show all of users tabs
@@ -1543,19 +1589,17 @@ async function showWhichTabsChange() {
     populateTable(tabInfo);
   } else {
     // don't show users tabs
-    tabInfo =  await getTabs("otherTabs");
+    tabInfo = await getTabs("otherTabs");
     populateTable(tabInfo);
   }
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to search all tabs by name, artist and genre ----------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function searchByName() {
   let search = document.getElementById("searchByName").value;
-  let newTabInfo = tabInfo.filter(function (el) {
+  let newTabInfo = tabInfo.filter(function(el) {
     return el.song_name.includes(search);
   });
   populateTable(newTabInfo);
@@ -1563,7 +1607,7 @@ function searchByName() {
 
 function searchByArtist() {
   let search = document.getElementById("searchByArtist").value;
-  let newTabInfo = tabInfo.filter(function (el) {
+  let newTabInfo = tabInfo.filter(function(el) {
     return el.artist_name.includes(search);
   });
   populateTable(newTabInfo);
@@ -1573,16 +1617,14 @@ function searchByGenre() {
   let searchMenu = document.getElementById("searchGenre");
   let search = searchMenu.options[searchMenu.selectedIndex].value;
   if (search !== "All Genres") {
-    let newTabInfo = tabInfo.filter(function (el) {
-        return el.genre == search;
-      });
-      populateTable(newTabInfo);
-    } else {
-      populateTable(tabInfo);
-    }
+    let newTabInfo = tabInfo.filter(function(el) {
+      return el.genre == search;
+    });
+    populateTable(newTabInfo);
+  } else {
+    populateTable(tabInfo);
+  }
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to make clickable table and get relevant info upon events ---------------------------- //
@@ -1602,12 +1644,11 @@ async function addRowHandlers() {
 
         const token = localStorage.getItem("id_token");
         const fetchOptions = {
-          credentials: 'same-origin',
-          method: 'GET',
-          headers: {'Authorization': 'Bearer ' + token },
+          credentials: "same-origin",
+          method: "GET",
+          headers: { Authorization: "Bearer " + token }
         };
-        let url = '/api/getTabContent'
-                + '?id=' + encodeURIComponent(id);
+        let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
         console.log("Attempting to fetch /api/getTabContent.");
 
         const response = await fetch(url, fetchOptions);
@@ -1619,16 +1660,14 @@ async function addRowHandlers() {
         let res = await response.json();
 
         populateContent(res);
-      }
-    }
+      };
+    };
     currentRow.onclick = createClickHandler(currentRow);
   }
 }
 
-
-
 // Populate content
-function populateContent (tabContent) {
+function populateContent(tabContent) {
   let mainDiv = document.getElementById("selectedContent");
   mainDiv.style.visibility = "visible";
   // First, empty contents of mainDiv
@@ -1640,7 +1679,7 @@ function populateContent (tabContent) {
   let rawData = tabContent;
 
   let staves = tabContent[0].stave_types.split(",");
-  let rawContent = tabContent[0].stave_content.split(",")
+  let rawContent = tabContent[0].stave_content.split(",");
   let user = tabContent[0].email;
 
   for (let i = 0; i < staves.length; i++) {
@@ -1668,10 +1707,7 @@ function populateContent (tabContent) {
     textarea.value = textAreaLines.join("\n");
     staveDiv.append(textarea);
     mainDiv.append(staveDiv);
-
-
   }
-
 
   // Create a div for text boxes, containing song name, artist and email
   let infoDiv = document.createElement("div");
@@ -1682,7 +1718,7 @@ function populateContent (tabContent) {
   nameLabel.setAttribute("style", "display: block");
   infoDiv.append(nameLabel);
 
-  let artistLabel = document.createElement("label")
+  let artistLabel = document.createElement("label");
   artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
   artistLabel.setAttribute("style", "display: block");
   infoDiv.append(artistLabel);
@@ -1696,7 +1732,7 @@ function populateContent (tabContent) {
 
   if (user == localStorage.getItem("userEmail")) {
     let editBtn = document.createElement("button");
-    editBtn.setAttribute("id", "editTabBtn")
+    editBtn.setAttribute("id", "editTabBtn");
     editBtn.setAttribute("value", "Edit");
     editBtn.setAttribute("title", "Select to edit current tablature");
     editBtn.innerHTML = "Edit Tablature";
@@ -1715,24 +1751,23 @@ function populateContent (tabContent) {
     document.getElementById("editTabBtn").onclick = function() {
       // Make a call to the 'edit tablature' function
       editTab(rawData);
-    }
+    };
   }
 
   if (document.getElementById("deleteTabBtn") !== null) {
     document.getElementById("deleteTabBtn").onclick = async function() {
-      if (confirm('Are you sure you want to delete this tablature?')) {
+      if (confirm("Are you sure you want to delete this tablature?")) {
         console.log("Deleting...");
         let _id = rawData[0]._id;
         // Send request to server to delete, then reload page
         const token = localStorage.getItem("id_token");
         const fetchOptions = {
-          credentials: 'same-origin',
-          method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token },
+          credentials: "same-origin",
+          method: "POST",
+          headers: { Authorization: "Bearer " + token }
         };
 
-        let url = '/api/deleteTab'
-        + '?_id=' + encodeURIComponent(_id);
+        let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
 
         console.log("Attempting to fetch /api/deleteTab.");
         const response = await fetch(url, fetchOptions);
@@ -1747,22 +1782,20 @@ function populateContent (tabContent) {
       } else {
         return;
       }
-    }
+    };
   }
 }
 
-
-
 async function editTab(data) {
   // Take user to 'create tablature' page, with data
-  let apiLink = '/api/createTabBtn';
+  let apiLink = "/api/createTabBtn";
   await getPage(apiLink);
 
   // Now, fill in the page with all information
   // - Add staves to dropdown menu
   let staves = data[0].stave_types.split(",");
   let staveDropdown = document.getElementById("selectStave");
-  let rawContent = data[0].stave_content.split(",")
+  let rawContent = data[0].stave_content.split(",");
   let tabContent = document.getElementById("tabcontent");
 
   for (let i = 0; i < staves.length; i++) {
@@ -1776,7 +1809,6 @@ async function editTab(data) {
     //      - fill in with information
     //      - OR... Just fill it out now
 
-
     let div = document.createElement("div");
     div.setAttribute("id", i + 1);
     div.setAttribute("class", "stave");
@@ -1784,7 +1816,7 @@ async function editTab(data) {
 
     let h3 = document.createElement("h3");
     h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
-    h3.setAttribute("id", (i+1) + staves[i]);
+    h3.setAttribute("id", i + 1 + staves[i]);
     div.append(h3);
 
     let textArea = document.createElement("textarea");
@@ -1811,7 +1843,7 @@ async function editTab(data) {
 
   let songName = data[0].song_name;
   let artistName = data[0].artist_name;
-  let genre = data[0].genre
+  let genre = data[0].genre;
 
   // Override save button to send pre-saved metadata to modal
 
@@ -1823,17 +1855,14 @@ async function editTab(data) {
 
   editedTab = true;
   editedTabId = data[0]._id;
-
 }
-
-
 
 // Function to reset search criteria
 function resetSearch() {
   document.getElementById("showMeDropdown").selectedIndex = 0;
   document.getElementById("searchGenre").selectedIndex = 0;
-  document.getElementById("searchByName").value = ""
-  document.getElementById("searchByArtist").value = ""
+  document.getElementById("searchByName").value = "";
+  document.getElementById("searchByArtist").value = "";
   populateMain2();
 }
 
@@ -1845,10 +1874,8 @@ function revertBackground(row) {
   row.style.backgroundColor = "white";
 }
 
-
-
 async function backBtnView() {
-  let apiLink = '/api/login'
+  let apiLink = "/api/login";
   await getPage(apiLink);
 }
 
@@ -1858,22 +1885,19 @@ async function backBtnView() {
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Generic function to get chords from database -------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function getMyChords() {
-
   // First, get chord names from server
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token },
+    credentials: "same-origin",
+    method: "GET",
+    headers: { Authorization: "Bearer " + token }
   };
 
-  let url = '/api/getSavedChords'
+  let url = "/api/getSavedChords";
   console.log("Attempting to fetch /api/getSavedChords.");
 
   const response = await fetch(url, fetchOptions);
@@ -1888,8 +1912,6 @@ async function getMyChords() {
   // An object with the JSON database tables for user's chords!
   return chords;
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Generic function to refresh the saved chords dropdown ----------------------------------------- //
@@ -1914,40 +1936,34 @@ async function refreshSavedDropdown() {
   }
 }
 
-
-
 // ----------------------------------------------------------------------------------------------- //
 // Generic function to change forms -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function getPage(apiLink) {
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token },
+    credentials: "same-origin",
+    method: "GET",
+    headers: { Authorization: "Bearer " + token }
   };
   const response = await fetch(apiLink, fetchOptions);
   if (!response.ok) {
-    console.log("Fetch response for " + apiLink + 'has failed.');
+    console.log("Fetch response for " + apiLink + "has failed.");
     return;
   }
-  console.log('Fetch response for ' + apiLink + ' successful.');
+  console.log("Fetch response for " + apiLink + " successful.");
   let innerhtml = await response.text();
   document.documentElement.innerHTML = innerhtml;
 }
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to sort array of tabs by 'property' variable ----------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 let sortBy = function(property) {
-  return function (x, y) {
-    return ((x[property] === y[property]) ?0 : ((x[property] > y[property]) ? 1 : -1));
+  return function(x, y) {
+    return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1;
   };
 };
-
-
 
 // ----------------------------------------------------------------------------------------------- //
 // A generic function for the search criteria for viewing tablatures ----------------------------- //
@@ -1955,14 +1971,13 @@ let sortBy = function(property) {
 async function getTabs(key) {
   const token = localStorage.getItem("id_token");
   const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    headers: {'Authorization': 'Bearer ' + token },
+    credentials: "same-origin",
+    method: "GET",
+    headers: { Authorization: "Bearer " + token }
   };
 
-  let url = '/api/getTabsMetadata'
-          + '?key=' + encodeURIComponent(key);
-  console.log("attempting to fetch /api/getTabsMetadata")
+  let url = "/api/getTabsMetadata" + "?key=" + encodeURIComponent(key);
+  console.log("attempting to fetch /api/getTabsMetadata");
 
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
@@ -1978,12 +1993,10 @@ async function getTabs(key) {
   return res;
 }
 
-
-
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
+    if (new Date().getTime() - start > milliseconds) {
       break;
     }
   }
