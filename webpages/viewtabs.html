@@ -2,44 +2,54 @@
 <!DOCTYPE html>
 <title>TabMe - Guitar Tab Creator</title>
 
-<link rel="stylesheet" href="./css/viewtabs.css">
-<link href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700" rel="stylesheet">
+<link rel="stylesheet" href="./css/viewtabs.css" />
+<link
+  href="https://fonts.googleapis.com/css?family=Neuton:800|Open+Sans:400,700"
+  rel="stylesheet"
+/>
 
-<script src = "./js/index.js"></script>
+<script src="./js/index.js"></script>
 
 <head>
-  <meta name="google-site-verification" content="d7h_fP3cHteL9VvmQt7nxwPwfp0SDtzvuB_WTOnGGfM" />
+  <meta
+    name="google-site-verification"
+    content="d7h_fP3cHteL9VvmQt7nxwPwfp0SDtzvuB_WTOnGGfM"
+  />
 </head>
 
 <header>
-  <ul class = "navbar">
-    <li class = "navheader">TabMe - View or Edit Tablatures<span id = "greeting2"></span></li>
+  <ul class="navbar">
+    <li class="navheader">
+      TabMe - View or Edit Tablatures<span id="greeting2"></span>
+    </li>
     <li><a href="#">Help</a></li>
-    <li><a href = '#' onclick = "backBtnView()">Back</a></li>
-    <li><a href="#" onclick = "signOut2()">Sign Out</a></li>
+    <li><a href="#" onclick="backBtnView()">Back</a></li>
+    <li><a href="#" onclick="signOut2()">Sign Out</a></li>
   </ul>
 </header>
 
 <main>
-  <div class = "content">
-
-    <div class = "selectTab">
-
-      <div class = "tabTable">
+  <div class="content">
+    <div class="selectTab">
+      <div class="tabTable">
         <h3>Results</h3>
 
-        <table id = "tabTable">
+        <table id="tabTable">
           <!-- Inserted via DOM manipulation -->
         </table>
-
       </div>
 
-      <div class = "searchCriteria">
+      <div class="searchCriteria">
         <h3>Search Criteria</h3>
 
         <div class="block">
           <label>Show me:</label>
-          <select id = "showMeDropdown" class = "showWhichTabs infoInput" name="showWhichTabs" onchange = "showWhichTabsChange();">
+          <select
+            id="showMeDropdown"
+            class="showWhichTabs infoInput"
+            name="showWhichTabs"
+            onchange="showWhichTabsChange();"
+          >
             <option value="allTabs">All Tabs</option>
             <option value="myTabs">My Tabs</option>
             <option value="userTabs">User Tabs</option>
@@ -48,7 +58,12 @@
 
         <div class="block">
           <label>Select Genre:</label>
-          <select class = "infoInput" id = "searchGenre" name="genreSelect" onchange = "searchByGenre()">
+          <select
+            class="infoInput"
+            id="searchGenre"
+            name="genreSelect"
+            onchange="searchByGenre()"
+          >
             <option>All Genres</option>
             <option>Alternative Rock</option>
             <option>Blues</option>
@@ -72,26 +87,36 @@
 
         <div class="block">
           <label>Song Name:</label>
-          <input class = "infoInput" id = "searchByName" type = "text" name = "searchSongName" value="" onchange = "searchByName()">
+          <input
+            class="infoInput"
+            id="searchByName"
+            type="text"
+            name="searchSongName"
+            value=""
+            onchange="searchByName()"
+          />
         </div>
 
         <div class="block">
           <label>Artist Name:</label>
-          <input class = "infoInput" id = "searchByArtist" type="text" name = "searchArtist" value="" onchange = "searchByArtist()">
+          <input
+            class="infoInput"
+            id="searchByArtist"
+            type="text"
+            name="searchArtist"
+            value=""
+            onchange="searchByArtist()"
+          />
         </div>
 
-        <button type="button" name="resetBtn" onclick = "resetSearch()">Reset</button>
-
+        <button type="button" name="resetBtn" onclick="resetSearch()">
+          Reset
+        </button>
       </div>
-
-
     </div>
   </div>
 
-  <div id = "selectedContent">
+  <div id="selectedContent">
     <!-- Inserted via DOM request -->
   </div>
-
-
-
 </main>

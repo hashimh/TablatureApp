@@ -1,0 +1,115 @@
+/* ----------------------------------------------------------------------------- */
+/* Main and Body CSS */
+main {
+  font-family: Raleway;
+}
+
+body {
+  background-color: #bcb0ee;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Raleway;
+}
+
+/* ----------------------------------------------------------------------------- */
+/* Main Grid Layout CSS */
+.item1 {
+  grid-area: left;
+}
+.item2 {
+  grid-area: right;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 20fr 80fr;
+  grid-template-areas: "left right";
+}
+
+.grid-container > div {
+  font-size: 15px;
+}
+
+/* ----------------------------------------------------------------------------- */
+/* Text Information CSS */
+#logintext {
+  border-left: 2px solid black;
+  height: 100vh;
+  padding-top: 2em;
+}
+
+.heading {
+  text-align: center;
+}
+
+.subheading {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------------------- */
+/* Login Area CSS */
+#loginbox {
+  background-color: #cfcfc4;
+  padding-top: 2em;
+}
+
+.loginInfo {
+  top: 0;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  text-align: center;
+}
+
+/* Google Sign In Button Code */
+.g-signin2 > div {
+  margin: 0 auto;
+}
+.abcRioButtonContents * {
+  font-size: 18.5px;
+}
+
+.abcRioButton.abcRioButtonLightBlue {
+  box-shadow: none;
+}
+.abcRioButton.abcRioButtonLightBlue:hover {
+  box-shadow: none;
+}
+.abcRioButtonContentWrapper {
+  background-color: white;
+  color: black;
+  -webkit-transition: all ease 0.8s;
+  -moz-transition: all ease 0.8s;
+  transition: all ease 0.8s;
+  border: none;
+}
+.abcRioButtonContentWrapper:hover {
+  border: none;
+  cursor: pointer;
+  box-shadow: inset 250px 0 0 0 #bcb0ee;
+}
+
+.createAccountBtn {
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  padding-top: 2em;
+}
+.createAccountBtn input {
+  font-size: 18.5px;
+  padding: 0.5em;
+  width: 250px;
+  height: 48px;
+  background-color: white;
+  -webkit-transition: all ease 0.8s;
+  -moz-transition: all ease 0.8s;
+  transition: all ease 0.8s;
+  border: none;
+}
+.createAccountBtn input:hover {
+  cursor: pointer;
+  box-shadow: inset 250px 0 0 0 #bcb0ee;
+}

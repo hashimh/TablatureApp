@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<title>Guitar Tab Creator</title>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta
+  name="google-signin-client_id"
+  content="566769051678-k1mpvtssd5jin7p6bekdtv7g1r23qav4.apps.googleusercontent.com"
+/>
+<link rel="stylesheet" type="text/css" href="./css/home.css" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="//fonts.googleapis.com/css?family=Raleway"
+/>
+<head>
+  <meta
+    name="google-site-verification"
+    content="d7h_fP3cHteL9VvmQt7nxwPwfp0SDtzvuB_WTOnGGfM"
+  />
+</head>
+
+<script src="./js/index.js"></script>
+
+<main>
+  <div id="griddiv" class="grid-container">
+
+    <div id="loginbox" class="item1">
+      <div class="loginInfo">
+        <h2 class="heading">Sign In</h2>
+        <p>
+          Sign in with a Google Account for full access to the site.
+        </p>
+      </div>
+      <div
+        class="g-signin2"
+        data-onsuccess="onSignIn"
+        data-width="250"
+        data-height="50"
+        data-longtitle="true"
+      ></div>
+      <form
+        action="https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp"
+        target="_blank"
+        class="createAccountBtn"
+      ><input type="submit" value="Create a Google Account"></input></form>
+    </div>
+
+    <div id="logintext" class="item2">
+      <h2 class="heading">A Guitar Tablature Creator</h2>
+      <h4 class="heading subheading">A Dissertation Project by Hashim Hussain</h4>
+    </div>
+
+  </div>
+</main>

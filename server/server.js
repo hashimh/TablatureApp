@@ -16,8 +16,8 @@ app.use("/", (req, res, next) => {
 app.use("/", express.static(webpagesPath));
 app.use(express.static("../webpages/js/audio"));
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "../webpages/" + "login.html"));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "../webpages/" + "home.html"));
 });
 
 const PORT = process.env.PORT || 8080;
@@ -60,14 +60,8 @@ async function login(req, res) {
 
 async function checkUser(req, res) {
   let fullName = req.user.displayName;
-  let firstName = fullName
-    .split(" ")
-    .slice(0, -1)
-    .join(" ");
-  let lastName = fullName
-    .split(" ")
-    .slice(-1)
-    .join(" ");
+  let firstName = fullName.split(" ").slice(0, -1).join(" ");
+  let lastName = fullName.split(" ").slice(-1).join(" ");
 
   const retval = await db.login(req.user.emails[0].value, firstName, lastName);
   res.json(retval);
@@ -75,7 +69,7 @@ async function checkUser(req, res) {
 
 function logout(req, res) {
   // Sends login page HTML on sign out.
-  res.sendFile("login.html", { root: "../webpages" });
+  res.sendFile("home.html", { root: "../webpages" });
 }
 
 async function createTabBtn(req, res) {
@@ -90,7 +84,7 @@ async function viewTabBtn(req, res) {
 
 async function getSavedChords(req, res) {
   // Calls database function to get user's presaved chords
-  await db.getSavedChords(req.user.emails[0].value, function(err, data) {
+  await db.getSavedChords(req.user.emails[0].value, function (err, data) {
     if (err) {
       throw err;
       return res(err);
@@ -103,7 +97,7 @@ async function getSavedChords(req, res) {
 async function getTabsMetadata(req, res) {
   // Calls database function to get all tablatures
   if (req.query.key == "all") {
-    await db.getTabsMetadata(function(err, data) {
+    await db.getTabsMetadata(function (err, data) {
       if (err) {
         throw err;
         return res(err);
@@ -112,7 +106,7 @@ async function getTabsMetadata(req, res) {
       }
     });
   } else if (req.query.key == "myTabs") {
-    await db.getMyTabsMetadata(req.user.emails[0].value, function(err, data) {
+    await db.getMyTabsMetadata(req.user.emails[0].value, function (err, data) {
       if (err) {
         throw err;
         return res(err);
@@ -121,7 +115,7 @@ async function getTabsMetadata(req, res) {
       }
     });
   } else {
-    await db.getOtherTabsMetadata(req.user.emails[0].value, function(
+    await db.getOtherTabsMetadata(req.user.emails[0].value, function (
       err,
       data
     ) {
@@ -137,7 +131,7 @@ async function getTabsMetadata(req, res) {
 
 async function getTabContent(req, res) {
   // Calls database to get chosen tablatures data
-  await db.getTabContent(req.query.id, function(err, data) {
+  await db.getTabContent(req.query.id, function (err, data) {
     if (err) {
       throw err;
       return res(err);
@@ -205,7 +199,7 @@ async function deleteChord(req, res) {
   res.json(retval);
 }
 
-(function() {
+(function () {
   const CHECK_DELAY = 2000;
   let lastTime = Date.now();
 
@@ -213,10 +207,7 @@ async function deleteChord(req, res) {
     const currentTime = Date.now();
     if (currentTime > lastTime + CHECK_DELAY * 2) {
       // ignore small delays
-      gapi.auth2
-        .getAuthInstance()
-        .currentUser.get()
-        .reloadAuthResponse();
+      gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
     }
     lastTime = currentTime;
   }, CHECK_DELAY);
