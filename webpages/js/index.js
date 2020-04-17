@@ -1,6 +1,6 @@
 "use strict";
-let editedTab = false;
-let editedTabId = "";
+var editedTab = false;
+var editedTabId = "";
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -36,7 +36,7 @@ async function callServer(googleUser) {
   const fetchOptions = {
     credentials: "same-origin",
     method: "POST",
-    headers: { Authorization: "Bearer " + token }
+    headers: { Authorization: "Bearer " + token },
   };
 
   // This API call checks to see if a user is in the database. If they aren't, they
@@ -107,11 +107,11 @@ function helpBtn() {
   // When the user clicks the button, open the modal
   modal.style.display = "block";
   // When the user clicks on <span> (x), close the modal
-  span.onclick = function() {
+  span.onclick = function () {
     modal.style.display = "none";
   };
   // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
+  window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
     }
@@ -154,12 +154,12 @@ async function saveTab() {
 
   modal.style.display = "block";
 
-  span.onclick = function() {
+  span.onclick = function () {
     modal.style.display = "none";
   };
 
   let confirmBtn = document.getElementById("confirmSave");
-  confirmBtn.addEventListener("click", async function() {
+  confirmBtn.addEventListener("click", async function () {
     let songName = document.getElementById("songName").value;
     let artistName = document.getElementById("artistName").value;
     let genreMenu = document.getElementById("genreSelect");
@@ -197,7 +197,7 @@ async function saveTab() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token }
+        headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -267,7 +267,7 @@ async function saveTab() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token }
+        headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -326,9 +326,9 @@ async function saveTab() {
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
-let symbolInserted = false;
-let symbolString;
-let symbolFret;
+var symbolInserted = false;
+var symbolString;
+var symbolFret;
 
 // ----------------------------------------------------------------------------------------------- //
 // Function for main fretboard, allows frets to be added to tablature ---------------------------- //
@@ -337,7 +337,7 @@ async function fretBoard() {
   let frets = document.getElementsByClassName("fret");
 
   // Event handler for clicking a fret:
-  let fretClicked = function() {
+  let fretClicked = function () {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
     let selectedStaveMenu = document.getElementById("selectStave");
@@ -557,7 +557,7 @@ async function fretBoard() {
   // Add event listeners for buttons
   let btns = document.getElementsByClassName("optionBtn");
   for (let i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
+    btns[i].addEventListener("click", function () {
       let current = document.getElementsByClassName("activeBtn");
       if (current.length > 0) {
         current[0].classList.remove("activeBtn");
@@ -568,7 +568,7 @@ async function fretBoard() {
 
   // Add event listener for clearing tab option button selection
   let clearBtn = document.getElementById("clearOptions");
-  clearBtn.addEventListener("click", function() {
+  clearBtn.addEventListener("click", function () {
     for (let i = 0; i < btns.length; i++) {
       let current = document.getElementsByClassName("activeBtn");
       if (current.length > 0) {
@@ -897,14 +897,14 @@ async function playAudio() {
 // ----------------------------------------------------------------------------------------------- //
 
 // List of presaved chords to be used in selectChord function:
-const chordList = [
+var chordList = [
   { id: 0, chord: "A", frets: "0--/2--/2--/2--/0--/x--" },
   { id: 1, chord: "C", frets: "0--/1--/0--/2--/3--/x--" },
   { id: 2, chord: "D", frets: "2--/1--/2--/0--/x--/x--" },
   { id: 3, chord: "E", frets: "0--/0--/1--/2--/2--/0--" },
   { id: 4, chord: "G", frets: "3--/0--/0--/0--/2--/3--" },
   { id: 5, chord: "Am", frets: "0--/1--/2--/2--/0--/x--" },
-  { id: 6, chord: "Em", frets: "0--/0--/0--/2--/2--/0--" }
+  { id: 6, chord: "Em", frets: "0--/0--/0--/2--/2--/0--" },
 ];
 
 // ----------------------------------------------------------------------------------------------- //
@@ -1023,9 +1023,9 @@ async function selectMyChord() {
   textArea.value = textAreaLines.join("\n");
 }
 
-let editedChord = false;
-let editedChordId;
-let editedOldName;
+var editedChord = false;
+var editedChordId;
+var editedOldName;
 
 async function editChord() {
   let selectedStaveMenu = document.getElementById("selectStave");
@@ -1085,14 +1085,14 @@ async function editChord() {
   let button = document.createElement("button");
   button.innerHTML = "Delete";
   button.setAttribute("style", "float: right");
-  button.onclick = async function() {
+  button.onclick = async function () {
     if (confirm("Are you sure you want to delete this chord?")) {
       const token = localStorage.getItem("id_token");
 
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token }
+        headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -1168,7 +1168,7 @@ async function chordFretboard() {
   let prevFret;
 
   // Function called by "onclick" event of frets on mini fretboard
-  let chordFretClicked = function() {
+  let chordFretClicked = function () {
     let string = this.getAttribute("data-string");
     let fret = this.getAttribute("data-fret");
     prevFret = this;
@@ -1243,7 +1243,7 @@ async function chordFretboard() {
 
   // Add event listener for "clear" button
   let clearBtn = document.getElementById("clearChord");
-  clearChord.addEventListener("click", function() {
+  clearChord.addEventListener("click", function () {
     // Clear start position input and reset fretboard legend values
     document.getElementById("startPos").value = 0;
     let legendText = document
@@ -1388,7 +1388,7 @@ async function createChord() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token }
+        headers: { Authorization: "Bearer " + token },
       };
 
       let response;
@@ -1505,7 +1505,7 @@ async function viewTabBtn() {
   populateMain2();
 }
 
-let tabInfo;
+var tabInfo;
 async function populateMain2() {
   // Get user's name for nav bar
   const el = document.getElementById("greeting2");
@@ -1599,7 +1599,7 @@ async function showWhichTabsChange() {
 // ----------------------------------------------------------------------------------------------- //
 function searchByName() {
   let search = document.getElementById("searchByName").value;
-  let newTabInfo = tabInfo.filter(function(el) {
+  let newTabInfo = tabInfo.filter(function (el) {
     return el.song_name.includes(search);
   });
   populateTable(newTabInfo);
@@ -1607,7 +1607,7 @@ function searchByName() {
 
 function searchByArtist() {
   let search = document.getElementById("searchByArtist").value;
-  let newTabInfo = tabInfo.filter(function(el) {
+  let newTabInfo = tabInfo.filter(function (el) {
     return el.artist_name.includes(search);
   });
   populateTable(newTabInfo);
@@ -1617,7 +1617,7 @@ function searchByGenre() {
   let searchMenu = document.getElementById("searchGenre");
   let search = searchMenu.options[searchMenu.selectedIndex].value;
   if (search !== "All Genres") {
-    let newTabInfo = tabInfo.filter(function(el) {
+    let newTabInfo = tabInfo.filter(function (el) {
       return el.genre == search;
     });
     populateTable(newTabInfo);
@@ -1634,8 +1634,8 @@ async function addRowHandlers() {
   let rows = table.getElementsByTagName("tr");
   for (let i = 1; i < rows.length; i++) {
     let currentRow = table.rows[i];
-    let createClickHandler = function(row) {
-      return async function() {
+    let createClickHandler = function (row) {
+      return async function () {
         let id = row.id;
 
         // Do the main stuff
@@ -1646,7 +1646,7 @@ async function addRowHandlers() {
         const fetchOptions = {
           credentials: "same-origin",
           method: "GET",
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: "Bearer " + token },
         };
         let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
         console.log("Attempting to fetch /api/getTabContent.");
@@ -1748,14 +1748,14 @@ function populateContent(tabContent) {
   }
 
   if (document.getElementById("editTabBtn") !== null) {
-    document.getElementById("editTabBtn").onclick = function() {
+    document.getElementById("editTabBtn").onclick = function () {
       // Make a call to the 'edit tablature' function
       editTab(rawData);
     };
   }
 
   if (document.getElementById("deleteTabBtn") !== null) {
-    document.getElementById("deleteTabBtn").onclick = async function() {
+    document.getElementById("deleteTabBtn").onclick = async function () {
       if (confirm("Are you sure you want to delete this tablature?")) {
         console.log("Deleting...");
         let _id = rawData[0]._id;
@@ -1764,7 +1764,7 @@ function populateContent(tabContent) {
         const fetchOptions = {
           credentials: "same-origin",
           method: "POST",
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: "Bearer " + token },
         };
 
         let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
@@ -1847,7 +1847,7 @@ async function editTab(data) {
 
   // Override save button to send pre-saved metadata to modal
 
-  document.getElementById("saveTabBtn").addEventListener("click", function() {
+  document.getElementById("saveTabBtn").addEventListener("click", function () {
     document.getElementById("songName").value = songName;
     document.getElementById("artistName").value = artistName;
     document.getElementById("genreSelect").value = genre;
@@ -1894,7 +1894,7 @@ async function getMyChords() {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token }
+    headers: { Authorization: "Bearer " + token },
   };
 
   let url = "/api/getSavedChords";
@@ -1944,7 +1944,7 @@ async function getPage(apiLink) {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token }
+    headers: { Authorization: "Bearer " + token },
   };
   const response = await fetch(apiLink, fetchOptions);
   if (!response.ok) {
@@ -1959,8 +1959,8 @@ async function getPage(apiLink) {
 // ----------------------------------------------------------------------------------------------- //
 // Function to sort array of tabs by 'property' variable ----------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-let sortBy = function(property) {
-  return function(x, y) {
+var sortBy = function (property) {
+  return function (x, y) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1;
   };
 };
@@ -1973,7 +1973,7 @@ async function getTabs(key) {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token }
+    headers: { Authorization: "Bearer " + token },
   };
 
   let url = "/api/getTabsMetadata" + "?key=" + encodeURIComponent(key);
