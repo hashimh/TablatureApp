@@ -7,46 +7,94 @@ var editedTabId = "";
 // -------------------------------------- INITIAL FUNCTIONS -------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
+window.addEventListener("load", async (event) => {
+  console.log("onload");
+  // Get tablature information from the database
+  tabInfo = await getTabs("all");
+  populateTable(tabInfo);
+});
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to populate tab results table -------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function populateTable(tabInfo) {
+  // Initially sorted from A -> Z by song name, sort before inserting into table
+  // tabInfo.sort(sortBy("song_name"));
+
+  // First, create/clear the unordered list, add attributes, append to parent class
+  let contentArea = document.getElementById("view-contents-id");
+  while (contentArea.hasChildNodes()) {
+    contentArea.removeChild(contentArea.firstChild);
+  }
+  let listWrapper = document.createElement("ul");
+  listWrapper.setAttribute("class", "results-list");
+  contentArea.appendChild(listWrapper);
+
+  // Now, create li for each result, append information accordingly
+  for (let i = 0; i < tabInfo.length; i++) {
+    let listElem = document.createElement("li");
+    // Give ID attribute for reference of which tab is stored
+    listElem.setAttribute("id", tabInfo[i]._id, 0);
+    listElem.setAttribute("class", "results-list-elem");
+    // Create p and button for each li
+    let listElemText = document.createElement("p");
+    listElemText.innerHTML =
+      tabInfo[i].song_name + " by " + tabInfo[i].artist_name;
+    let listElemBtn = document.createElement("button");
+    listElemBtn.setAttribute("class", "list-elem-btn");
+    // Append p and button to their li
+    listElem.appendChild(listElemBtn);
+    listElem.appendChild(listElemText);
+    listWrapper.appendChild(listElem);
+  }
+  // List of availabe information from tabInfo:
+  // tabInfo[i]._id
+  // .genre
+  // .artist_name,
+  // .song_name,
+  // .email
+  // addRowHandlers();
+}
 
 // ----------------------------------------------------------------------------------------------- //
 // Store user's login information into localStorage ---------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-function onSignIn(googleUser) {
-  let auth2 = gapi.auth2.getAuthInstance();
-  localStorage.setItem(
-    "id_token",
-    auth2.currentUser.get().getAuthResponse().id_token
-  );
-  localStorage.setItem("googleUser", googleUser.getBasicProfile().getName());
-  localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
-  auth2.disconnect();
+// function onSignIn(googleUser) {
+//   let auth2 = gapi.auth2.getAuthInstance();
+//   localStorage.setItem(
+//     "id_token",
+//     auth2.currentUser.get().getAuthResponse().id_token
+//   );
+//   localStorage.setItem("googleUser", googleUser.getBasicProfile().getName());
+//   localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
+//   auth2.disconnect();
 
-  // Call next initialising function
-  callServer(googleUser);
-}
+//   // Call next initialising function
+//   callServer(googleUser);
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function gets next form from the server ------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function callServer(googleUser) {
-  let apiLink = "/api/login";
-  await getPage(apiLink);
+// async function callServer(googleUser) {
+//   let apiLink = "/api/login";
+//   await getPage(apiLink);
 
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: "same-origin",
-    method: "POST",
-    headers: { Authorization: "Bearer " + token },
-  };
+//   const token = localStorage.getItem("id_token");
+//   const fetchOptions = {
+//     credentials: "same-origin",
+//     method: "POST",
+//     headers: { Authorization: "Bearer " + token },
+//   };
 
-  // This API call checks to see if a user is in the database. If they aren't, they
-  // are added to the db. If yes, then this part is skipped.
-  const response = await fetch("/api/checkUser", fetchOptions);
-  if (!response.ok) {
-    console.log("Fetch response for /api/checkuser has failed.");
-    return;
-  }
-}
+//   // This API call checks to see if a user is in the database. If they aren't, they
+//   // are added to the db. If yes, then this part is skipped.
+//   const response = await fetch("/api/checkUser", fetchOptions);
+//   if (!response.ok) {
+//     console.log("Fetch response for /api/checkuser has failed.");
+//     return;
+//   }
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to sign out of the menu.html form ---------------------------------------------------- //
@@ -59,8 +107,8 @@ async function signOut() {
   window.location.reload();
 
   // Removes ID Token from local storage, ensures Google account logs out properly.
-  localStorage.removeItem("id_token");
-  localStorage.removeItem("googleUser");
+  // localStorage.removeItem("id_token");
+  // localStorage.removeItem("googleUser");
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -84,7 +132,7 @@ async function createTabBtn() {
 async function populateMain() {
   // Get user's name for nav bar
   const el = document.getElementById("greeting");
-  el.textContent = " - Hello " + localStorage.getItem("googleUser");
+  // el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
   fretBoard();
   chordFretboard();
@@ -197,7 +245,7 @@ async function saveTab() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token },
+        // headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -267,7 +315,7 @@ async function saveTab() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token },
+        // headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -1092,7 +1140,7 @@ async function editChord() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token },
+        // headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -1388,7 +1436,7 @@ async function createChord() {
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        headers: { Authorization: "Bearer " + token },
+        // headers: { Authorization: "Bearer " + token },
       };
 
       let response;
@@ -1523,55 +1571,6 @@ async function populateMain2() {
 }
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to populate tab results table -------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-function populateTable(tabInfo) {
-  // Initially sorted from A -> Z by song name, sort before inserting into table
-  tabInfo.sort(sortBy("song_name"));
-
-  // First, reset table
-  let table = document.getElementById("tabTable");
-  table.style.visibility = "visible";
-  while (table.hasChildNodes()) {
-    table.removeChild(table.firstChild);
-  }
-
-  // Now, insert this information into the table
-  for (let i = 0; i < tabInfo.length; i++) {
-    let row = table.insertRow(0);
-    row.setAttribute("onmouseover", "changeBackground(this)", 0);
-    row.setAttribute("onmouseout", "revertBackground(this)", 0);
-    row.setAttribute("id", tabInfo[i]._id, 0);
-    let cellUser = row.insertCell(0);
-    cellUser.innerHTML = tabInfo[i].email;
-    let cellGenre = row.insertCell(0);
-    cellGenre.innerHTML = tabInfo[i].genre;
-    let cellArtist = row.insertCell(0);
-    cellArtist.innerHTML = tabInfo[i].artist_name;
-    let cellSongName = row.insertCell(0);
-    cellSongName.innerHTML = tabInfo[i].song_name;
-  }
-
-  // Create table headers
-  let row = table.insertRow(0);
-
-  let cell4 = row.insertCell(0);
-  cell4.innerHTML = "User";
-  cell4.style.fontWeight = "bold";
-  let cell3 = row.insertCell(0);
-  cell3.innerHTML = "Genre";
-  cell3.style.fontWeight = "bold";
-  let cell2 = row.insertCell(0);
-  cell2.innerHTML = "Artist";
-  cell2.style.fontWeight = "bold";
-  let cell1 = row.insertCell(0);
-  cell1.innerHTML = "Song Name";
-  cell1.style.fontWeight = "bold";
-
-  addRowHandlers();
-}
-
-// ----------------------------------------------------------------------------------------------- //
 // Function to change whose tabs are displayed to user ------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function showWhichTabsChange() {
@@ -1646,7 +1645,7 @@ async function addRowHandlers() {
         const fetchOptions = {
           credentials: "same-origin",
           method: "GET",
-          headers: { Authorization: "Bearer " + token },
+          // headers: { Authorization: "Bearer " + token },
         };
         let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
         console.log("Attempting to fetch /api/getTabContent.");
@@ -1764,7 +1763,7 @@ function populateContent(tabContent) {
         const fetchOptions = {
           credentials: "same-origin",
           method: "POST",
-          headers: { Authorization: "Bearer " + token },
+          // headers: { Authorization: "Bearer " + token },
         };
 
         let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
@@ -1894,7 +1893,7 @@ async function getMyChords() {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token },
+    // headers: { Authorization: "Bearer " + token },
   };
 
   let url = "/api/getSavedChords";
@@ -1944,7 +1943,7 @@ async function getPage(apiLink) {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token },
+    // headers: { Authorization: "Bearer " + token },
   };
   const response = await fetch(apiLink, fetchOptions);
   if (!response.ok) {
@@ -1973,7 +1972,7 @@ async function getTabs(key) {
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    headers: { Authorization: "Bearer " + token },
+    // headers: { Authorization: "Bearer " + token },
   };
 
   let url = "/api/getTabsMetadata" + "?key=" + encodeURIComponent(key);

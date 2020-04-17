@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const GoogleAuth = require("simple-google-openid");
+// const GoogleAuth = require("simple-google-openid");
 
 const webpagesPath = path.join(__dirname, "../webpages");
 
@@ -25,13 +25,12 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
 
-// pls work
-app.use(
-  GoogleAuth(
-    "566769051678-k1mpvtssd5jin7p6bekdtv7g1r23qav4.apps.googleusercontent.com"
-  )
-);
-app.use("/api", GoogleAuth.guardMiddleware());
+// app.use(
+//   GoogleAuth(
+//     "566769051678-k1mpvtssd5jin7p6bekdtv7g1r23qav4.apps.googleusercontent.com"
+//   )
+// );
+// app.use("/api", GoogleAuth.guardMiddleware());
 
 app.get("/api/login", login);
 app.get("/api/logout", logout);
@@ -41,7 +40,7 @@ app.get("/api/getSavedChords", getSavedChords);
 app.get("/api/getTabsMetadata", getTabsMetadata);
 app.get("/api/getTabContent", getTabContent);
 
-app.post("/api/checkUser", checkUser);
+// app.post("/api/checkUser", checkUser);
 app.post("/api/saveChord", saveChord);
 app.post("/api/saveTab", saveTab);
 app.post("/api/updateTab", updateTab);
@@ -53,19 +52,20 @@ app.post("/api/deleteChord", deleteChord);
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
 
+// this will be made redundant
 async function login(req, res) {
   // Sends menu.html once logged in.
   res.sendFile("menu.html", { root: "./webpages" });
 }
 
-async function checkUser(req, res) {
-  let fullName = req.user.displayName;
-  let firstName = fullName.split(" ").slice(0, -1).join(" ");
-  let lastName = fullName.split(" ").slice(-1).join(" ");
+// async function checkUser(req, res) {
+//   let fullName = req.user.displayName;
+//   let firstName = fullName.split(" ").slice(0, -1).join(" ");
+//   let lastName = fullName.split(" ").slice(-1).join(" ");
 
-  const retval = await db.login(req.user.emails[0].value, firstName, lastName);
-  res.json(retval);
-}
+//   const retval = await db.login(req.user.emails[0].value, firstName, lastName);
+//   res.json(retval);
+// }
 
 function logout(req, res) {
   // Sends login page HTML on sign out.

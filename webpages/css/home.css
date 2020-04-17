@@ -227,3 +227,22 @@ select:focus {
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+/* Tablature List CSS, Generated in DOM */
+.results-list {
+  background-color: aqua;
+  margin: 4em;
+  padding: 0;
+}
+.results-list-elem {
+  background-color: yellow;
+  list-style-type: none;
+  width: 100%;
+}
+.results-list-elem * {
+  padding: 0.5em;
+  font-size: 18.5px;
+}
+.list-elem-btn {
+  float: right;
+}
