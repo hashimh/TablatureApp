@@ -1,6 +1,7 @@
 "use strict";
 var editedTab = false;
 var editedTabId = "";
+var tabInfo;
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -1545,30 +1546,30 @@ async function backBtnMain() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to go to viewtab.html form ----------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function viewTabBtn() {
-  // Call server function 'createTabBtn'
-  let apiLink = "/api/viewTabBtn";
-  await getPage(apiLink);
+// async function viewTabBtn() {
+//   // Call server function 'createTabBtn'
+//   let apiLink = "/api/viewTabBtn";
+//   await getPage(apiLink);
 
-  populateMain2();
-}
+//   populateMain2();
+// }
 
-var tabInfo;
-async function populateMain2() {
-  // Get user's name for nav bar
-  const el = document.getElementById("greeting2");
-  el.textContent = " - Hello " + localStorage.getItem("googleUser");
+// var tabInfo;
+// async function populateMain2() {
+//   // Get user's name for nav bar
+//   const el = document.getElementById("greeting2");
+//   el.textContent = " - Hello " + localStorage.getItem("googleUser");
 
-  // Remove potential pre-existing results
-  let div = document.getElementById("selectedContent");
-  while (div.hasChildNodes()) {
-    div.removeChild(div.firstChild);
-  }
+//   // Remove potential pre-existing results
+//   let div = document.getElementById("selectedContent");
+//   while (div.hasChildNodes()) {
+//     div.removeChild(div.firstChild);
+//   }
 
-  // Get tablature information from the database
-  tabInfo = await getTabs("all");
-  populateTable(tabInfo);
-}
+//   // Get tablature information from the database
+//   tabInfo = await getTabs("all");
+//   populateTable(tabInfo);
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to change whose tabs are displayed to user ------------------------------------------- //
