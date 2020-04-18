@@ -232,6 +232,7 @@ let getTabsMetadata = function (cb) {
           },
         }
       )
+      .sort({ $natural: -1 })
       .toArray(cb);
     db.close();
   });
@@ -255,6 +256,7 @@ let getMyTabsMetadata = function (emailIn, cb) {
           },
         }
       )
+      .sort({ $natural: -1 })
       .toArray(cb);
     db.close();
   });
@@ -278,6 +280,7 @@ let getOtherTabsMetadata = function (emailIn, cb) {
           },
         }
       )
+      .sort({ $natural: -1 })
       .toArray(cb);
     db.close();
   });

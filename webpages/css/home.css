@@ -4,6 +4,11 @@ main {
   font-family: Raleway;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background-color: #bcb0ee;
   margin: 0;
@@ -46,13 +51,11 @@ body {
 /* Text Information CSS */
 #logintext {
   border-left: 2px solid black;
-  height: 100vh;
+  height: 100%;
 }
 
 .heading {
   text-align: center;
-  margin-bottom: 4px;
-  margin-top: 2em;
 }
 
 .subheading {
@@ -72,7 +75,7 @@ body {
   padding-right: 2vw;
   text-align: center;
 }
-
+/*
 .createAccountBtn {
   color: black;
   text-align: center;
@@ -93,7 +96,7 @@ body {
 .createAccountBtn input:hover {
   cursor: pointer;
   box-shadow: inset 250px 0 0 0 #bcb0ee;
-}
+} */
 
 .p-footer {
   position: absolute;
@@ -103,6 +106,150 @@ body {
   margin-bottom: 6px;
 }
 
+/* Login / Sign Up Form CSS */
+.login-wrap {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  margin-top: 2em;
+}
+.login-html {
+  width: 100%;
+  height: 100%;
+}
+.login-html .sign-in-htm,
+.login-html .sign-up-htm {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  transition: all 0s ease;
+}
+.login-html .sign-in,
+.login-html .sign-up,
+.login-form .group .check {
+  display: none;
+}
+.login-html .tab {
+  font-size: 22px;
+  margin-right: 15px;
+  padding-bottom: 5px;
+  margin: 0 15px 20px 0;
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+}
+.login-html .sign-in:checked + .tab,
+.login-html .sign-up:checked + .tab {
+  border-color: black;
+  font-weight: bold;
+}
+.login-html .sign-in:not(:checked) + .tab:hover,
+.login-html .sign-up:not(:checked) + .tab:hover {
+  cursor: pointer;
+}
+
+.login-form {
+  min-height: 345px;
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.login-form .group {
+  margin-bottom: 15px;
+}
+.login-form .group .label,
+.login-form .group .input,
+.login-form .group .button {
+  width: 100%;
+  color: black;
+  display: block;
+}
+.login-form .group .input,
+.login-form .group .button {
+  border: none;
+  padding: 15px 20px;
+  background-color: white;
+}
+.login-form .group input[data-type="password"] {
+  -webkit-text-security: circle;
+}
+.login-form .group .button {
+  background-color: #bb9cd9;
+  font-size: 18.5px;
+  transition: all 0.5s linear;
+}
+.login-form .group .button:hover {
+  cursor: pointer;
+  background-color: #a974dd;
+}
+.login-form .group label {
+  float: left;
+  margin-bottom: 12.5px;
+}
+.login-form .group label .icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  position: relative;
+  display: inline-block;
+  background: white;
+  margin-right: 5px;
+  bottom: -2px;
+}
+.login-form .group label:hover {
+  cursor: pointer;
+}
+.login-form .group label .icon:before,
+.login-form .group label .icon:after {
+  content: "";
+  width: 10px;
+  height: 2px;
+  background: black;
+  position: absolute;
+  transition: all 0.1s ease-in-out 0s;
+}
+.login-form .group label .icon:before {
+  left: 2.5px;
+  width: 5px;
+  bottom: 4.5px;
+  transform: scale(0) rotate(0);
+}
+.login-form .group label .icon:after {
+  top: 6.5px;
+  right: 0.5px;
+  transform: scale(0) rotate(0);
+}
+.login-form .group .check:checked + label .icon {
+  background: white;
+}
+.login-form .group .check:checked + label .icon:before {
+  transform: scale(1) rotate(45deg);
+}
+.login-form .group .check:checked + label .icon:after {
+  transform: scale(1) rotate(-45deg);
+}
+.login-html
+  .sign-in:checked
+  + .tab
+  + .sign-up
+  + .tab
+  + .login-form
+  .sign-in-htm {
+  transform: rotate(0);
+}
+.login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
+  transform: rotate(0);
+}
+
+.foot-lnk {
+  text-align: center;
+}
+.foot-lnk a {
+  color: black;
+}
 /* ----------------------------------------------------------------------------- */
 /* View Content CSS */
 .view-navbar {
@@ -112,18 +259,20 @@ body {
   grid-area: content;
   background-color: #bb9cd9;
   padding: 1em;
-  height: auto;
+  height: 90%;
 }
 
 .main-container {
   display: grid;
-  padding: 2em 4em 4em 4em;
+  padding: 0em 4em 0em 4em;
+  height: 100%;
   grid-template-rows: max-content;
   grid-template-areas: "nav" "content";
 }
 
 /* View Navbar CSS */
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   padding: 0.5em;
   border: none;
   font-size: 18.5px;
@@ -212,21 +361,27 @@ select:focus {
 
 /* Tablature List CSS, Generated in DOM */
 .results-list {
-  background-color: aqua;
+  background-color: #bb9cd9;
   margin: 2em 4em 2em 4em;
   padding: 0;
+  overflow-y: auto;
+  max-height: 85%;
 }
 .results-list-elem {
-  background-color: yellow;
+  background-color: #cfcfc4;
   list-style-type: none;
   width: 100%;
+  -webkit-transition: background-color 500ms linear;
+  -ms-transition: background-color 500ms linear;
+  transition: background-color 500ms linear;
 }
+.results-list-elem:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+
 .results-list-elem * {
-  padding: 0.5em;
+  padding: 0.75em;
   font-size: 18.5px;
-}
-.list-elem-btn {
-  float: right;
-  padding: 1em;
-  height: 100%;
+  margin-top: 0;
 }

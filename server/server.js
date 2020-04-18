@@ -166,7 +166,8 @@ async function updateChord(req, res) {
 
 async function saveTab(req, res) {
   const retval = await db.saveTab(
-    req.user.emails[0].value,
+    // req.user.emails[0].value,
+    "testemail@mail.com",
     req.query.song_name,
     req.query.artist_name,
     req.query.genre,

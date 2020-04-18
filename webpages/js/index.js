@@ -40,11 +40,21 @@ function populateTable(tabInfo) {
     // Create p and button for each li
     let listElemText = document.createElement("p");
     listElemText.innerHTML =
-      tabInfo[i].song_name + " by " + tabInfo[i].artist_name;
-    let listElemBtn = document.createElement("button");
-    listElemBtn.setAttribute("class", "list-elem-btn");
+      "<b>" +
+      tabInfo[i].song_name +
+      " by " +
+      tabInfo[i].artist_name +
+      "</b>" +
+      "<i>" +
+      tabInfo[i].genre +
+      "</i>";
+
+    let listElemText2 = document.createElement("p");
+    listElemText2.style.float = "right";
+    listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
+
     // Append p and button to their li
-    listElem.appendChild(listElemBtn);
+    listElem.appendChild(listElemText2);
     listElem.appendChild(listElemText);
     listWrapper.appendChild(listElem);
   }
