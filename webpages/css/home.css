@@ -30,8 +30,16 @@ body {
   grid-template-areas: "left right";
 }
 
-.grid-container > div {
-  font-size: 15px;
+.main-header {
+  grid-area: mainheader;
+}
+.main-container {
+  grid-area: maincont;
+}
+#logintext {
+  display: grid;
+  grid-template-rows: 10fr 90fr;
+  grid-template-areas: "mainheader" "maincont";
 }
 
 /* ----------------------------------------------------------------------------- */
@@ -39,12 +47,12 @@ body {
 #logintext {
   border-left: 2px solid black;
   height: 100vh;
-  padding-top: 2em;
 }
 
 .heading {
   text-align: center;
   margin-bottom: 4px;
+  margin-top: 2em;
 }
 
 .subheading {
@@ -55,7 +63,7 @@ body {
 /* Login Area CSS */
 #loginbox {
   background-color: #cfcfc4;
-  padding-top: 2em;
+  height: 100vh;
 }
 
 .loginInfo {
@@ -63,34 +71,6 @@ body {
   padding-left: 2vw;
   padding-right: 2vw;
   text-align: center;
-}
-
-/* Google Sign In Button Code */
-.g-signin2 > div {
-  margin: 0 auto;
-}
-.abcRioButtonContents * {
-  font-size: 18.5px;
-}
-
-.abcRioButton.abcRioButtonLightBlue {
-  box-shadow: none;
-}
-.abcRioButton.abcRioButtonLightBlue:hover {
-  box-shadow: none;
-}
-.abcRioButtonContentWrapper {
-  background-color: white;
-  color: black;
-  -webkit-transition: all ease 0.8s;
-  -moz-transition: all ease 0.8s;
-  transition: all ease 0.8s;
-  border: none;
-}
-.abcRioButtonContentWrapper:hover {
-  border: none;
-  cursor: pointer;
-  box-shadow: inset 250px 0 0 0 #bcb0ee;
 }
 
 .createAccountBtn {
@@ -131,13 +111,14 @@ body {
 .view-contents {
   grid-area: content;
   background-color: #bb9cd9;
-  margin-top: 2em;
   padding: 1em;
+  height: auto;
 }
 
 .main-container {
   display: grid;
-  padding: 2em 4em 2em 4em;
+  padding: 2em 4em 4em 4em;
+  grid-template-rows: max-content;
   grid-template-areas: "nav" "content";
 }
 
@@ -157,6 +138,7 @@ select:focus {
   background-color: #bb9cd9;
   padding: 1em;
   list-style-type: none;
+  height: 4.5em;
 }
 .view-navbar li {
   float: left;
@@ -231,7 +213,7 @@ select:focus {
 /* Tablature List CSS, Generated in DOM */
 .results-list {
   background-color: aqua;
-  margin: 4em;
+  margin: 2em 4em 2em 4em;
   padding: 0;
 }
 .results-list-elem {
@@ -245,4 +227,6 @@ select:focus {
 }
 .list-elem-btn {
   float: right;
+  padding: 1em;
+  height: 100%;
 }
