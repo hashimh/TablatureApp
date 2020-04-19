@@ -53,6 +53,9 @@ function populateTable(tabInfo) {
     listElemText2.style.float = "right";
     listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
 
+    // Create onclick event for each li element, to open the tablatures
+    listElem.setAttribute("onclick", "openTab(this.id)");
+
     // Append p and button to their li
     listElem.appendChild(listElemText2);
     listElem.appendChild(listElemText);
@@ -65,6 +68,82 @@ function populateTable(tabInfo) {
   // .song_name,
   // .email
   // addRowHandlers();
+}
+
+function closeTab() {
+  let tabcontainer = document.getElementById("tab-container-id");
+  let maincontainer = document.getElementById("main-container-id");
+  maincontainer.style.display = "grid";
+  tabcontainer.style.display = "none";
+
+  // clear previous entries
+  document.getElementById("tab-info-1").innerHTML = "";
+  document.getElementById("tab-info-2").innerHTML = "";
+}
+
+async function openTab(id) {
+  // function will switch to tabcont. and fill in information
+  let tabcontainer = document.getElementById("tab-container-id");
+  let maincontainer = document.getElementById("main-container-id");
+  maincontainer.style.display = "none";
+  tabcontainer.style.display = "grid";
+
+  // fill metadata content
+  console.log(id);
+  const fetchOptions = {
+    credentials: "same-origin",
+    method: "GET",
+  };
+  let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
+  console.log("attempting to fetch /api/getTabContent");
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    console.log("Fetch response for /api/getTabContent has failed.");
+    return;
+  }
+  console.log("Successful /api/getTabContent call.");
+  let res = await response.json();
+
+  // we now have the information, fill up content
+  console.log(res);
+  document.getElementById("tab-info-1").innerHTML =
+    "<b>" + res[0].song_name + " by " + res[0].artist_name + "</b>";
+
+  document.getElementById("tab-info-2").innerHTML =
+    "<i>" + res[0].genre + "</i>";
+
+  let staves = res[0].stave_types.split(",");
+  let stavecontent = res[0].stave_content.split(",");
+  let user = res[0].email;
+  let contentcontainer = document.getElementById("tab-content-id");
+
+  for (let i = 0; i < staves.length; i++) {
+    //create stave inner div
+    let staveDiv = document.createElement("div");
+    staveDiv.setAttribute("class", "contentDiv");
+
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "stave " + (i + 1) + ": " + staves[i];
+    staveDiv.append(h3);
+
+    let textarea = document.createElement("textarea");
+    textarea.setAttribute("rows", "6");
+    textarea.setAttribute("cols", "100");
+    textarea.setAttribute("wrap", "on");
+    textarea.readOnly = "true";
+    textarea.value = "\n\n\n\n\n";
+
+    let textAreaLines = textarea.value.split("\n");
+    let content = stavecontent[i].split("\n");
+
+    for (let j = 0; j < content.length; j++) {
+      textAreaLines[j] += content[j];
+    }
+
+    textarea.value = textAreaLines.join("\n");
+    staveDiv.append(textarea);
+    contentcontainer.append(staveDiv);
+  }
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -1639,42 +1718,42 @@ function searchByGenre() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to make clickable table and get relevant info upon events ---------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function addRowHandlers() {
-  let table = document.getElementById("tabTable");
-  let rows = table.getElementsByTagName("tr");
-  for (let i = 1; i < rows.length; i++) {
-    let currentRow = table.rows[i];
-    let createClickHandler = function (row) {
-      return async function () {
-        let id = row.id;
+// async function addRowHandlers() {
+//   let table = document.getElementById("tabTable");
+//   let rows = table.getElementsByTagName("tr");
+//   for (let i = 1; i < rows.length; i++) {
+//     let currentRow = table.rows[i];
+//     let createClickHandler = function (row) {
+//       return async function () {
+//         let id = row.id;
 
-        // Do the main stuff
-        // use getTabs function, alter 'key' parameter to be sent
-        // to include name, artist and user
+//         // Do the main stuff
+//         // use getTabs function, alter 'key' parameter to be sent
+//         // to include name, artist and user
 
-        const token = localStorage.getItem("id_token");
-        const fetchOptions = {
-          credentials: "same-origin",
-          method: "GET",
-          // headers: { Authorization: "Bearer " + token },
-        };
-        let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
-        console.log("Attempting to fetch /api/getTabContent.");
+//         const token = localStorage.getItem("id_token");
+//         const fetchOptions = {
+//           credentials: "same-origin",
+//           method: "GET",
+//           // headers: { Authorization: "Bearer " + token },
+//         };
+//         let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
+//         console.log("Attempting to fetch /api/getTabContent.");
 
-        const response = await fetch(url, fetchOptions);
-        if (!response.ok) {
-          console.log("Fetch response for /api/getTabContent has failed.");
-          return;
-        }
-        console.log("Successful /api/getTabContent call.");
-        let res = await response.json();
+//         const response = await fetch(url, fetchOptions);
+//         if (!response.ok) {
+//           console.log("Fetch response for /api/getTabContent has failed.");
+//           return;
+//         }
+//         console.log("Successful /api/getTabContent call.");
+//         let res = await response.json();
 
-        populateContent(res);
-      };
-    };
-    currentRow.onclick = createClickHandler(currentRow);
-  }
-}
+//         populateContent(res);
+//       };
+//     };
+//     currentRow.onclick = createClickHandler(currentRow);
+//   }
+// }
 
 // Populate content
 function populateContent(tabContent) {

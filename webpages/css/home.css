@@ -262,6 +262,9 @@ body {
   height: 90%;
 }
 
+/* ------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------ */
 .main-container {
   display: grid;
   padding: 0em 4em 0em 4em;
@@ -269,6 +272,54 @@ body {
   grid-template-rows: max-content;
   grid-template-areas: "nav" "content";
 }
+
+.tab-info-playback {
+  grid-area: infoplayback;
+}
+.tab-info {
+  grid-area: tabinfo;
+}
+.tab-playback {
+  grid-area: tabplayback;
+}
+.tab-content {
+  grid-area: tabcontent;
+}
+.tab-container {
+  display: none;
+  padding: 0em 4em 0em 4em;
+  height: 100%;
+  grid-template-rows: max-content;
+  grid-template-areas: "infoplayback" "tabcontent";
+}
+.tab-info-playback {
+  background-color: #bb9cd9;
+  padding: 1em;
+  display: grid;
+  grid-template-areas: "tabinfo tabinfo tabinfo tabplayback";
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.tab-info-playback p {
+  margin: 0;
+  padding: 0.5em;
+  font-size: 18.5px;
+}
+.tab-content {
+  background-color: #bb9cd9;
+  padding: 1em;
+  height: 90%;
+}
+.tab-playback {
+  border: 2px solid black;
+}
+textarea {
+  resize: none;
+}
+
+/* ------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------ */
 
 /* View Navbar CSS */
 input[type="text"],

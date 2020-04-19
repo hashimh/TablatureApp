@@ -29,7 +29,7 @@
         <div class="login-wrap">
           <div class="login-html">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
-            <label for="tab-1" class="tab">sign in</label>
+            <label for="tab-1" class="tab">log in</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
               for="tab-2"
               class="tab"
@@ -125,7 +125,9 @@
       <div class="main-header">
         <h2 class="heading">A Guitar Tablature Creator</h2>
       </div>
-      <div class="main-container">
+
+      <!-- will be initially on display, will be replaced by tab-container on a div click -->
+      <div class="main-container" id="main-container-id">
         <ul class="view-navbar">
           <li>
             <input type="text" placeholder="Search..." style="width: 300px;" />
@@ -162,6 +164,22 @@
         </ul>
         <div class="view-contents" id="view-contents-id">
           <!-- tab content here, to be loaded by DOM -->
+        </div>
+      </div>
+
+      <!-- only shown when a tab is clicked to view -->
+      <div class="tab-container" id="tab-container-id">
+        <div class="tab-info-playback">
+          <div class="tab-info">
+            <p id="tab-info-1"></p>
+            <p id="tab-info-2"></p>
+          </div>
+          <div class="tab-playback">
+            <p>here will be some playback options</p>
+          </div>
+        </div>
+        <div class="tab-content" id="tab-content-id">
+          <button onclick="closeTab()">close</button>
         </div>
       </div>
     </div>
