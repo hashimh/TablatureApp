@@ -1057,7 +1057,7 @@
 
       <div id = "selectToEdit" class="selectstave">
         <label>Edit Stave:</label>
-        <select id = "selectStave" name = "selectStave">
+        <select id = "selectStave" name = "selectStave" onchange="checkStave();">
           <!-- Options added as staves are created -->
         </select>
         <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
@@ -1079,7 +1079,7 @@
         <select class = "spacing" id = "tabSpacing" name = "selectTabSpacing">
           <option selected value = "2">2</option>
           <option value = "4">4</option>
-          <option value = "6">6</option>
+          <!-- <option value = "6">6</option> -->
         </select>
       </div>
 

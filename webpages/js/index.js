@@ -109,7 +109,7 @@ async function openTab(id) {
   let res = await response.json();
 
   // we now have the information, fill up content
-  console.log(res);
+  console.log(res[0]);
   document.getElementById("tab-info-1").innerHTML =
     "<b>" + res[0].song_name + " by " + res[0].artist_name + "</b>";
 
@@ -117,8 +117,12 @@ async function openTab(id) {
     "<i>" + res[0].genre + "</i>";
 
   let staves = res[0].stave_types.split(",");
+  let substaves = res[0].stave_subtypes.split(",");
   let stavecontent = res[0].stave_content.split(",");
   let user = res[0].email;
+
+  console.log("SPLIT:", staves, substaves, stavecontent);
+
   let contentcontainer = document.getElementById("tab-content-id");
 
   let closeBtn = document.createElement("button");
@@ -136,24 +140,34 @@ async function openTab(id) {
     h3.innerHTML = "stave " + (i + 1) + ": " + staves[i];
     staveDiv.append(h3);
 
-    let textarea = document.createElement("textarea");
-    textarea.setAttribute("rows", "6");
-    textarea.setAttribute("cols", "100");
-    textarea.setAttribute("wrap", "on");
-    textarea.readOnly = "true";
-    textarea.style.fontFamily = "monospace";
-    textarea.value = "\n\n\n\n\n";
+    // for each stave, create textarea and p element
+    for (let j = 0; j < substaves.length; j++) {
+      let label = document.createElement("p");
+      label.innerHTML = substaves[j];
 
-    let textAreaLines = textarea.value.split("\n");
-    let content = stavecontent[i].split("\n");
+      let textarea = document.createElement("textarea");
+      textarea.setAttribute("rows", "6");
+      textarea.setAttribute("cols", "100");
+      textarea.setAttribute("wrap", "on");
+      textarea.readOnly = "true";
+      textarea.style.fontFamily = "monospace";
+      textarea.value = "\n\n\n\n\n";
 
-    for (let j = 0; j < content.length; j++) {
-      textAreaLines[j] += content[j];
+      if (substaves[j].charAt(0) == i + 1) {
+        staveDiv.append(label);
+
+        let textAreaLines = textarea.value.split("\n");
+        let content = stavecontent[j].split("\n");
+
+        for (let k = 0; k < content.length; k++) {
+          textAreaLines[k] += content[k];
+        }
+
+        textarea.value = textAreaLines.join("\n");
+        staveDiv.append(textarea);
+        contentcontainer.append(staveDiv);
+      }
     }
-
-    textarea.value = textAreaLines.join("\n");
-    staveDiv.append(textarea);
-    contentcontainer.append(staveDiv);
   }
 
   // NEXT, CHECK IF CURRENT USER IS USER WHO CREATED THE TAB AND ADD SOME EXTRA OPTIONS FOR THEM
@@ -328,19 +342,39 @@ async function saveTab() {
 
       // Now, save the stave contents into variables
       let types = [];
+      let type;
+      let subtypes = [];
       let staves = [];
       let tabContent = document.getElementById("tabcontent");
-      let allStaves = tabContent.getElementsByTagName("div");
+      let allStaves = tabContent.getElementsByClassName("stave");
 
       for (let i = 0; i < allStaves.length; i++) {
         // get stave type from h3's id, and add to 'type' array
-        let type = allStaves[i].getElementsByTagName("h3")[0].id;
+        type = allStaves[i].getElementsByTagName("h3")[0].id;
         type = type.substring(1);
         types.push(type);
 
         // now, get stave textarea, and add to 'stave' array
-        let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
-        staves.push(textarea);
+        let textAreaContainer = allStaves[i].getElementsByClassName(
+          "stavecontainerclass"
+        )[0];
+        console.log(textAreaContainer);
+        let ps = textAreaContainer.querySelectorAll("p");
+        console.log(ps);
+        let textareas = textAreaContainer.querySelectorAll("textarea");
+        console.log(textareas);
+        for (let j = 0; j < ps.length; j++) {
+          // type = allStaves[i].getElementsByTagName("h3")[0].id;
+          // type = type.substring(1);
+          // types.push(type);
+          console.log(ps[j].innerHTML);
+          console.log(textareas[j].value);
+          subtypes.push(ps[j].innerHTML);
+          staves.push(textareas[j].value);
+        }
+        console.log("types: ", types);
+        console.log("subtypes: ", subtypes);
+        console.log("textareas: ", staves);
       }
 
       // make initial server call requests...
@@ -361,6 +395,8 @@ async function saveTab() {
         encodeURIComponent(songGenre) +
         "&stave_types=" +
         encodeURIComponent([types]) +
+        "&stave_subtypes=" +
+        encodeURIComponent([subtypes]) +
         "&stave_content=" +
         encodeURIComponent([staves]);
 
@@ -480,6 +516,54 @@ async function saveTab() {
 var symbolInserted = false;
 var symbolString;
 var symbolFret;
+var oldOption;
+
+function checkStave() {
+  // get stave that has been selected, if its length is 95 >, alert error, do not change.
+  let selectedStaveMenu = document.getElementById("selectStave");
+  let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
+  let textarea = document.getElementById("stave" + selectedStave);
+  console.log(textarea.value.length);
+  if (textarea.value.length > 565) {
+    alert("this is too full, not gonna change it.");
+    selectedStaveMenu.value = oldOption;
+    console.log(oldOption);
+  } else {
+    oldOption = selectedStaveMenu.value;
+  }
+}
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to continuously check length of textarea, if met, create new one --------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function textareaChange(chars) {
+  console.log(chars, chars.length);
+  let selectedStaveMenu = document.getElementById("selectStave");
+  let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
+  let rawdivid = selectedStave.substr(0, selectedStave.length - 2);
+  let staveid = "stave" + selectedStave;
+  let stavedivid = staveid.substr(0, staveid.length - 2);
+  console.log(rawdivid, staveSectionCount + 1, staveid, stavedivid);
+  if (chars.length > 93) {
+    alert("time for a new textarea");
+    // create a new textarea, append it to the container
+    // change the value of select stave dropdown to new area
+    // to get count, get number of child elements of the container, then add 1, or use global var
+    createTextarea(stavedivid, staveSectionCount + 1);
+
+    let staveDropdown = document.getElementById("selectStave");
+    let staveOption = document.createElement("option");
+    staveOption.value = rawdivid + "_" + (staveSectionCount + 1);
+    staveOption.innerHTML = "Stave " + rawdivid + "." + (staveSectionCount + 1);
+
+    staveDropdown.append(staveOption);
+    staveDropdown.value = rawdivid + "_" + (staveSectionCount + 1);
+    staveSectionCount += 1;
+
+    // update oldOption value
+    oldOption = staveDropdown.value;
+  }
+}
 
 // ----------------------------------------------------------------------------------------------- //
 // Function for main fretboard, allows frets to be added to tablature ---------------------------- //
@@ -505,7 +589,7 @@ async function fretBoard() {
     }
 
     let selectedStave =
-      selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+      selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
     let staveid = "stave" + selectedStave;
     let textArea = document.getElementById(staveid);
     let textAreaLines = textArea.value.split("\n");
@@ -697,6 +781,7 @@ async function fretBoard() {
         }
       }
     }
+    textareaChange(textAreaLines[0]);
     textArea.value = textAreaLines.join("\n");
   };
 
@@ -738,7 +823,9 @@ async function fretBoard() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to insert empty stave into tablature box --------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
+var staveSectionCount;
 function addStave() {
+  staveSectionCount = 0;
   let tempmessage = document.getElementById("tempmessage");
   if (tempmessage != undefined) {
     tempmessage.parentNode.removeChild(tempmessage);
@@ -765,12 +852,51 @@ function addStave() {
   h3.setAttribute("id", id + type);
   div.append(h3);
 
+  // create a div to contain all of a staves textareas:
+  let textareacontainer = document.createElement("div");
+  textareacontainer.setAttribute("id", "div_" + staveid);
+  textareacontainer.setAttribute("name", "stavecontainer");
+  textareacontainer.setAttribute("class", "stavecontainerclass");
+  div.append(textareacontainer);
+
+  createTextarea(staveid, staveSectionCount);
+
+  // Add new stave to dropdown option box //
+  let staveDropdown = document.getElementById("selectStave");
+  let staveOption = document.createElement("option");
+  staveOption.value = id + "_" + staveSectionCount;
+  staveOption.innerHTML = "Stave " + id + "." + staveSectionCount;
+
+  staveDropdown.append(staveOption);
+  staveDropdown.value = id + "_" + staveSectionCount;
+  oldOption = staveDropdown.value;
+
+  // document.getElementById("tuningDropdown1").disabled = true;
+  // str1.disabled = true;
+  // str2.disabled = true;
+  // str3.disabled = true;
+  // str4.disabled = true;
+  // str5.disabled = true;
+  // str6.disabled = true;
+}
+
+// ----------------------------------------------------------------------------------------------- //
+// Function to create a textarea for stave ------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function createTextarea(id, sectionCount) {
   let textarea = document.createElement("textarea");
-  textarea.setAttribute("id", staveid);
+  let label = document.createElement("p");
+
+  let lastChar = id.substr(id.length - 1);
+
+  label.innerHTML = lastChar + "." + sectionCount;
+  label.setAttribute("id", lastChar + "." + sectionCount);
+
+  textarea.setAttribute("id", id + "_" + sectionCount);
   textarea.setAttribute("name", "stave");
   textarea.setAttribute("rows", "6");
   textarea.setAttribute("cols", "100");
-  textarea.setAttribute("wrap", "off");
+  // textarea.setAttribute("wrap", "off");
 
   let textAppend = "";
   // get tuning from select dropdowns
@@ -796,25 +922,9 @@ function addStave() {
     " |--";
 
   textarea.value = textAppend;
-
-  div.append(textarea);
-
-  // Add new stave to dropdown option box //
-  let staveDropdown = document.getElementById("selectStave");
-  let staveOption = document.createElement("option");
-  staveOption.value = id;
-  staveOption.innerHTML = "Stave " + id;
-
-  staveDropdown.append(staveOption);
-  staveDropdown.value = id;
-
-  // document.getElementById("tuningDropdown1").disabled = true;
-  str1.disabled = true;
-  str2.disabled = true;
-  str3.disabled = true;
-  str4.disabled = true;
-  str5.disabled = true;
-  str6.disabled = true;
+  let container = document.getElementById("div_" + id);
+  container.append(label);
+  container.append(textarea);
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -918,8 +1028,7 @@ function insertBlanks() {
     alert("Please create a stave to edit!");
     return;
   }
-  let selectedStave =
-    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value;
+  let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
   let staveid = "stave" + selectedStave;
 
   // Variable for rows in selected text area
@@ -930,6 +1039,7 @@ function insertBlanks() {
   for (let i = 0; i < textAreaLines.length; i++) {
     textAreaLines[i] += insert.repeat(amount);
   }
+  textareaChange(textAreaLines[0]);
   textArea.value = textAreaLines.join("\n");
 }
 
@@ -1079,8 +1189,7 @@ function selectChord() {
     }
   }
 
-  let selectedStave =
-    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("stave" + selectedStave);
 
   let chordLines = frets.split("/");
@@ -1111,6 +1220,7 @@ function selectChord() {
         break;
     }
   }
+  textareaChange(textAreaLines[0]);
   textArea.value = textAreaLines.join("\n");
 }
 
@@ -1139,8 +1249,7 @@ async function selectMyChord() {
   }
 
   // Now, add the chord to the stave box
-  let selectedStave =
-    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
+  let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value; // Outputs int id of stave
   let textArea = document.getElementById("stave" + selectedStave);
 
   let chordLines = myChord.split("/");
@@ -1171,6 +1280,7 @@ async function selectMyChord() {
         break;
     }
   }
+  textareaChange(textAreaLines[0]);
   textArea.value = textAreaLines.join("\n");
 }
 

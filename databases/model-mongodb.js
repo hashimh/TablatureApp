@@ -129,7 +129,7 @@ function updateChord(chName, chFrets, chTuning, chStart, email, chId) {
   });
 }
 
-function saveTab(email, song, artist, genre, types, staves) {
+function saveTab(email, song, artist, genre, types, subtypes, staves) {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     const dbo = db.db("heroku_2k42nnmn");
@@ -140,6 +140,9 @@ function saveTab(email, song, artist, genre, types, staves) {
       console.log("collection 'tabs' created");
     });
 
+    // debugging
+    console.log(types, subtypes, staves);
+
     const tabInfo = [
       {
         email: email,
@@ -147,6 +150,7 @@ function saveTab(email, song, artist, genre, types, staves) {
         artist_name: artist,
         genre: genre,
         stave_types: types,
+        stave_subtypes: subtypes,
         stave_content: staves,
       },
     ];

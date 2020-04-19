@@ -165,13 +165,21 @@ async function updateChord(req, res) {
 }
 
 async function saveTab(req, res) {
+  console.log(
+    req.query.stave_types,
+    req.query.stave_subtypes,
+    req.query.stave_content
+  );
   const retval = await db.saveTab(
+    // debugging
+
     // req.user.emails[0].value,
     "testemail@mail.com",
     req.query.song_name,
     req.query.artist_name,
     req.query.genre,
     req.query.stave_types,
+    req.query.stave_subtypes,
     req.query.stave_content
   );
   res.json(retval);
