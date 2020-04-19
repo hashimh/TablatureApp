@@ -260,6 +260,7 @@ body {
   background-color: #bb9cd9;
   padding: 1em;
   height: 90%;
+  overflow: hidden;
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -416,7 +417,7 @@ select:focus {
   margin: 2em 4em 2em 4em;
   padding: 0;
   overflow-y: auto;
-  max-height: 85%;
+  max-height: 29vw;
 }
 .results-list-elem {
   background-color: #cfcfc4;

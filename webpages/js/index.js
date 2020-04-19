@@ -73,12 +73,16 @@ function populateTable(tabInfo) {
 function closeTab() {
   let tabcontainer = document.getElementById("tab-container-id");
   let maincontainer = document.getElementById("main-container-id");
+  let contentcontainer = document.getElementById("tab-content-id");
   maincontainer.style.display = "grid";
   tabcontainer.style.display = "none";
 
   // clear previous entries
   document.getElementById("tab-info-1").innerHTML = "";
   document.getElementById("tab-info-2").innerHTML = "";
+  while (contentcontainer.hasChildNodes()) {
+    contentcontainer.removeChild(contentcontainer.firstChild);
+  }
 }
 
 async function openTab(id) {
@@ -117,6 +121,12 @@ async function openTab(id) {
   let user = res[0].email;
   let contentcontainer = document.getElementById("tab-content-id");
 
+  let closeBtn = document.createElement("button");
+  closeBtn.setAttribute("onclick", "closeTab();");
+  closeBtn.setAttribute("class", "close-tab-btn");
+  closeBtn.innerHTML = "close";
+  contentcontainer.append(closeBtn);
+
   for (let i = 0; i < staves.length; i++) {
     //create stave inner div
     let staveDiv = document.createElement("div");
@@ -131,6 +141,7 @@ async function openTab(id) {
     textarea.setAttribute("cols", "100");
     textarea.setAttribute("wrap", "on");
     textarea.readOnly = "true";
+    textarea.style.fontFamily = "monospace";
     textarea.value = "\n\n\n\n\n";
 
     let textAreaLines = textarea.value.split("\n");
@@ -144,6 +155,8 @@ async function openTab(id) {
     staveDiv.append(textarea);
     contentcontainer.append(staveDiv);
   }
+
+  // NEXT, CHECK IF CURRENT USER IS USER WHO CREATED THE TAB AND ADD SOME EXTRA OPTIONS FOR THEM
 }
 
 // ----------------------------------------------------------------------------------------------- //
