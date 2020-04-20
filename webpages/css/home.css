@@ -272,6 +272,7 @@ body {
   height: 100%;
   grid-template-rows: max-content;
   grid-template-areas: "nav" "content";
+  animation: fade-in 2s;
 }
 
 .tab-info-playback {
@@ -290,16 +291,22 @@ body {
   display: none;
   padding: 0em 4em 0em 4em;
   height: 100%;
-  grid-template-rows: max-content;
-  grid-template-areas: "infoplayback" "tabcontent";
+  grid-template-columns: max-content;
+  grid-template-columns: 80fr 25.9fr;
+  grid-template-areas: "tabcontent infoplayback";
+  animation: fade-in 2s;
 }
+
 .tab-info-playback {
   background-color: #bb9cd9;
   padding: 1em;
   display: grid;
-  grid-template-areas: "tabinfo tabinfo tabinfo tabplayback";
-  margin-top: 16px;
-  margin-bottom: 16px;
+  grid-template-areas: "tabinfo" "tabinfo" "tabplayback";
+  margin-left: 16px;
+  height: 90%;
+}
+.tab-info-playback * {
+  animation: fade-in 1s;
 }
 .tab-info-playback p {
   margin: 0;
@@ -310,12 +317,28 @@ body {
   background-color: #bb9cd9;
   padding: 1em;
   height: 90%;
+  overflow-y: auto;
+  max-height: 60vw;
 }
-.tab-playback {
+.tab-content * {
+  animation: fade-in 1s;
+}
+/* .tab-playback {
   border: 2px solid black;
-}
+} */
 textarea {
   resize: none;
+}
+
+/* Div Fading CSS */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ------------------------------------------------------------------------------ */
