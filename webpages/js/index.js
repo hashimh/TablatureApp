@@ -46,32 +46,39 @@ function populateTable(tabInfo) {
 
   // Now, create li for each result, append information accordingly
   for (let i = 0; i < tabInfo.length; i++) {
-    let listElem = document.createElement("li");
-    // Give ID attribute for reference of which tab is stored
+    let listElem = document.createElement("ul");
+    // Give id to each list element
     listElem.setAttribute("id", tabInfo[i]._id, 0);
     listElem.setAttribute("class", "results-list-elem");
-    // Create p and button for each li
-    let listElemText = document.createElement("p");
-    listElemText.innerHTML =
-      "<b>" +
-      tabInfo[i].song_name +
-      " by " +
-      tabInfo[i].artist_name +
-      "</b>" +
-      "<i>" +
-      tabInfo[i].genre +
-      "</i>";
+    // create a list element for each section of the UL
+    let listElemText0 = document.createElement("li");
+    listElemText0.innerHTML =
+      "<b>" + tabInfo[i].song_name + " by " + tabInfo[i].artist_name + "</b>";
+    listElemText0.style.paddingRight = "1em";
 
-    let listElemText2 = document.createElement("p");
-    listElemText2.style.float = "right";
+    let listElemText1 = document.createElement("li");
+    listElemText1.innerHTML = "<i>" + tabInfo[i].genre + "</i>";
+
+    let listElemText2 = document.createElement("li");
     listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
+    listElemText2.style.float = "right";
+    listElemText2.style.paddingRight = "1em";
+
+    let listElemSymbol = document.createElement("li");
+    let symbol = document.createElement("i");
+    symbol.setAttribute("class", "fa fa-plus");
+    symbol.setAttribute("aria-hidden", "true");
+    listElemSymbol.appendChild(symbol);
+    listElemSymbol.style.float = "right";
 
     // Create onclick event for each li element, to open the tablatures
     listElem.setAttribute("onclick", "openTab(this.id)");
 
     // Append p and button to their li
+    listElem.appendChild(listElemText0);
+    listElem.appendChild(listElemText1);
+    listElem.appendChild(listElemSymbol);
     listElem.appendChild(listElemText2);
-    listElem.appendChild(listElemText);
     listWrapper.appendChild(listElem);
   }
   // List of availabe information from tabInfo:
@@ -155,8 +162,8 @@ async function openTab(id) {
 
     // for each stave, create textarea and p element
     for (let j = 0; j < substaves.length; j++) {
-      let label = document.createElement("p");
-      label.innerHTML = substaves[j];
+      // let label = document.createElement("p");
+      // label.innerHTML = substaves[j];
 
       let textarea = document.createElement("textarea");
       textarea.setAttribute("rows", "6");
@@ -167,7 +174,7 @@ async function openTab(id) {
       textarea.value = "\n\n\n\n\n";
 
       if (substaves[j].charAt(0) == i + 1) {
-        staveDiv.append(label);
+        // staveDiv.append(label);
 
         let textAreaLines = textarea.value.split("\n");
         let content = stavecontent[j].split("\n");
