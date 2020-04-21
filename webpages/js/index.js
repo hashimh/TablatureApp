@@ -179,6 +179,15 @@ async function openTab(id) {
   // NEXT, CHECK IF CURRENT USER IS USER WHO CREATED THE TAB AND ADD SOME EXTRA OPTIONS FOR THEM
 }
 
+function createTabNew() {
+  let tabcontainer = document.getElementById("tab-container-id");
+  let maincontainer = document.getElementById("main-container-id");
+  let createcontainer = document.getElementById("create-container-id");
+  maincontainer.style.display = "none";
+  tabcontainer.style.display = "none";
+  createcontainer.style.display = "grid";
+}
+
 // ----------------------------------------------------------------------------------------------- //
 // Store user's login information into localStorage ---------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //

@@ -34,6 +34,15 @@ body::-webkit-scrollbar-thumb,
   background-color: gray;
 }
 
+/* generic button css */
+.btn-large {
+  font-size: 18px;
+  padding: 15px 20px;
+  background-color: #bb9cd9;
+  border: none;
+  transition: background-color 0.5s linear;
+}
+
 /* ----------------------------------------------------------------------------- */
 /* Main Grid Layout CSS */
 .item1 {
@@ -45,7 +54,7 @@ body::-webkit-scrollbar-thumb,
 
 .grid-container {
   display: grid;
-  grid-template-columns: 20fr 80fr;
+  grid-template-columns: 16fr 80fr;
   grid-template-areas: "left right";
 }
 
@@ -268,11 +277,6 @@ body::-webkit-scrollbar-thumb,
 }
 
 .login-text button {
-  font-size: 18.5px;
-  padding: 15px 20px;
-  background-color: #bb9cd9;
-  border: none;
-  transition: background-color 0.5s linear;
   width: 100%;
 }
 .login-text button:hover {
@@ -360,12 +364,9 @@ body::-webkit-scrollbar-thumb,
 }
 
 .close-tab-btn button {
-  font-size: 18.5px;
-  padding: 15px 20px;
   width: 100%;
   background-color: #a974dd;
   border: none;
-  transition: background-color 0.5s linear;
 }
 .close-tab-btn button:hover {
   cursor: pointer;
@@ -493,6 +494,7 @@ select:focus {
   padding: 1em;
   list-style-type: none;
   height: 4.5em;
+  margin-top: 0;
 }
 .view-navbar li {
   float: left;
@@ -602,4 +604,307 @@ select:focus {
 
 .results-list-elem b {
   padding-left: 0;
+}
+
+/* CREATE TABLATURE CODE */
+.fretboard {
+  grid-area: fretboard;
+}
+.stave-container {
+  grid-area: staves;
+}
+.chords-options {
+  grid-area: chordopts;
+  background-color: #bb9cd9;
+}
+
+.create-container {
+  display: none;
+  grid-template-rows: 10fr 90fr;
+  grid-row-gap: 16px;
+  grid-template-columns: max-content;
+  grid-template-areas: "fretboard fretboard fretboard fretboard" "staves staves staves chordopts";
+  padding: 0em 4em 4em 4em;
+  margin-top: -6em;
+}
+
+/* fretboard code */
+div.fretboard {
+  background-image: url(wood.jpg);
+  background-size: 100%;
+  background-attachment: scroll;
+  position: relative;
+  overflow: auto;
+}
+
+div.fret {
+  display: table-cell;
+  width: 4.2%;
+  min-width: 40px;
+  margin: 0;
+  padding: 0;
+  /* border: 1em solid black; */
+  border-width: thin;
+  border-right: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+div.fret:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+div.fretFirstRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.fretMidRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.fretLastRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.fretLegendRow {
+  display: table-row;
+  width: 100%;
+  background-color: #bcb0ee;
+}
+
+div.fretUnselectableLegend {
+  display: table-cell;
+  text-align: center;
+}
+
+div.fretStringLegend {
+  background-color: teal;
+  border-right: 5px solid black;
+}
+
+.tuningDropdown {
+  height: 25px;
+}
+
+/* chord options css */
+.chords-options {
+  height: max-content;
+  width: fit-content;
+}
+
+.chords {
+  grid-area: chords;
+  border-bottom: 2px solid black;
+  margin: 1em;
+}
+.option {
+  grid-area: opts;
+  margin: 1em;
+}
+.chord-options {
+  display: grid;
+  grid-template-areas: "chords" "opts";
+}
+
+.chordselection label {
+  display: inline-block;
+  width: 20vh;
+  text-align: left;
+}
+
+.chordselection select {
+  display: inline-block;
+  width: 5vh;
+  text-align: left;
+}
+
+#startPosLbl {
+  display: inline-block;
+  width: 23vh;
+  text-align: left;
+}
+
+#startPos {
+  width: 5vh;
+}
+
+#chNameLbl {
+  display: inline-block;
+  width: 23vh;
+  text-align: left;
+}
+
+#chName {
+  width: 5vh;
+}
+
+/* Chord Creation Fretbox */
+
+div.miniFretboard {
+  margin-top: 15px;
+  background-color: beige;
+  position: relative;
+  overflow: auto;
+  width: fit-content;
+}
+
+div.miniFirstRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniFirstRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniSecondRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniThirdRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniFourthRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniFifthRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.miniSixthRow {
+  display: table-row;
+  width: 100%;
+}
+
+div.fret2 {
+  display: table-cell;
+  width: 4%;
+  min-width: 40px;
+  margin: 0;
+  padding: 0;
+  /* border: 1em solid black; */
+  border-width: thin;
+  /* border-right: 2px solid black;
+  border-bottom: 1px solid black; */
+  border: 1px solid black;
+}
+
+div.fret2:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+div.fret2Selected {
+  background-color: brown;
+  display: table-cell;
+  width: 4.2%;
+  min-width: 60px;
+  margin: 0;
+  padding: 0;
+  /* border: 1em solid black; */
+  border-width: thin;
+  border-right: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+div.fret2Selected:hover {
+  background-color: brown;
+}
+
+div.miniFretLegend {
+  display: table-row;
+  width: 100%;
+  background-color: #bb9cd9;
+}
+
+.option button {
+  background-color: #a974dd;
+  min-width: 40%;
+}
+.option button:hover {
+  cursor: pointer;
+  background-color: #9c5adf;
+}
+
+/* stave css */
+.info {
+  grid-area: tabinfo;
+}
+.staveoptions {
+  grid-area: staveoptions;
+}
+.tabcontent {
+  grid-area: tabcontent;
+}
+.taboptions {
+  grid-area: taboptions;
+}
+
+.stave-container {
+  display: grid;
+  grid-template-rows: min-content;
+  grid-template-areas:
+    "staveoptions   taboptions"
+    "tabcontent   taboptions";
+}
+
+div.staveoptions {
+  background-color: gray;
+}
+
+.staveoptions > label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+}
+
+h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* ------------------------------ Tab Info CSS ------------------------------ */
+div.info {
+  background-color: gray;
+}
+
+div.info > input {
+  width: 50%;
+}
+
+/* ----------------------------- Tab Output CSS ----------------------------- */
+
+textarea {
+  resize: none;
+}
+
+/* ----------------------------- Tab Option CSS ----------------------------- */
+div.taboptions {
+  background-color: gray;
+}
+
+.optionBtn {
+  background-color: gray;
+}
+
+.activeBtn {
+  background-color: teal;
+}
+
+.block label {
+  display: inline-block;
+  width: 18vh;
+  text-align: left;
+}
+
+.optionBtn:hover {
+  background-color: teal;
 }
