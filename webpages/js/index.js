@@ -8,25 +8,11 @@ var tabInfo;
 // -------------------------------------- INITIAL FUNCTIONS -------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-window.addEventListener("load", async (event) => {
-  console.log("onload");
+window.onload = async (event) => {
   // Get tablature information from the database
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
-});
-
-// We need to keep track of faded in elements so we can apply fade out later in CSS
-document.addEventListener("animationstart", function (e) {
-  if (e.animationName === "fade-in") {
-    e.target.classList.add("did-fade-in");
-  }
-});
-
-document.addEventListener("animationend", function (e) {
-  if (e.animationName === "fade-out") {
-    e.target.classList.remove("did-fade-in");
-  }
-});
+};
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to populate tab results table -------------------------------------------------------- //
@@ -113,7 +99,6 @@ async function openTab(id) {
   tabcontainer.style.display = "grid";
 
   // fill metadata content
-  console.log(id);
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
@@ -129,7 +114,6 @@ async function openTab(id) {
   let res = await response.json();
 
   // we now have the information, fill up content
-  console.log(res[0]);
   document.getElementById("tab-info-1").innerHTML =
     "<b>" + res[0].song_name + " by " + res[0].artist_name + "</b>";
 
@@ -141,15 +125,17 @@ async function openTab(id) {
   let stavecontent = res[0].stave_content.split(",");
   let user = res[0].email;
 
-  console.log("SPLIT:", staves, substaves, stavecontent);
-
   let contentcontainer = document.getElementById("tab-content-id");
 
-  let closeBtn = document.createElement("button");
-  closeBtn.setAttribute("onclick", "closeTab();");
-  closeBtn.setAttribute("class", "close-tab-btn");
-  closeBtn.innerHTML = "close";
-  contentcontainer.append(closeBtn);
+  while (contentcontainer.hasChildNodes()) {
+    contentcontainer.removeChild(contentcontainer.firstChild);
+  }
+
+  // let closeBtn = document.createElement("button");
+  // closeBtn.setAttribute("onclick", "closeTab();");
+  // closeBtn.setAttribute("class", "close-tab-btn");
+  // closeBtn.innerHTML = "close";
+  // contentcontainer.append(closeBtn);
 
   for (let i = 0; i < staves.length; i++) {
     //create stave inner div
@@ -378,23 +364,15 @@ async function saveTab() {
         let textAreaContainer = allStaves[i].getElementsByClassName(
           "stavecontainerclass"
         )[0];
-        console.log(textAreaContainer);
         let ps = textAreaContainer.querySelectorAll("p");
-        console.log(ps);
         let textareas = textAreaContainer.querySelectorAll("textarea");
-        console.log(textareas);
         for (let j = 0; j < ps.length; j++) {
           // type = allStaves[i].getElementsByTagName("h3")[0].id;
           // type = type.substring(1);
           // types.push(type);
-          console.log(ps[j].innerHTML);
-          console.log(textareas[j].value);
           subtypes.push(ps[j].innerHTML);
           staves.push(textareas[j].value);
         }
-        console.log("types: ", types);
-        console.log("subtypes: ", subtypes);
-        console.log("textareas: ", staves);
       }
 
       // make initial server call requests...
@@ -543,11 +521,9 @@ function checkStave() {
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
   let textarea = document.getElementById("stave" + selectedStave);
-  console.log(textarea.value.length);
   if (textarea.value.length > 565) {
     alert("this is too full, not gonna change it.");
     selectedStaveMenu.value = oldOption;
-    console.log(oldOption);
   } else {
     oldOption = selectedStaveMenu.value;
   }
@@ -557,13 +533,11 @@ function checkStave() {
 // Function to continuously check length of textarea, if met, create new one --------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function textareaChange(chars) {
-  console.log(chars, chars.length);
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
   let rawdivid = selectedStave.substr(0, selectedStave.length - 2);
   let staveid = "stave" + selectedStave;
   let stavedivid = staveid.substr(0, staveid.length - 2);
-  console.log(rawdivid, staveSectionCount + 1, staveid, stavedivid);
   if (chars.length > 93) {
     alert("time for a new textarea");
     // create a new textarea, append it to the container
@@ -1806,25 +1780,25 @@ async function backBtnMain() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to change whose tabs are displayed to user ------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function showWhichTabsChange() {
-  // let myTabInfo;
-  let menu = document.getElementsByClassName("showWhichTabs")[0];
-  let newVal = menu.options[menu.selectedIndex].value;
+// async function showWhichTabsChange() {
+//   // let myTabInfo;
+//   let menu = document.getElementsByClassName("showWhichTabs")[0];
+//   let newVal = menu.options[menu.selectedIndex].value;
 
-  if (newVal == "allTabs") {
-    // show all aka insert tabInfo into table
-    tabInfo = await getTabs("all");
-    populateTable(tabInfo);
-  } else if (newVal == "myTabs") {
-    // show all of users tabs
-    tabInfo = await getTabs("myTabs");
-    populateTable(tabInfo);
-  } else {
-    // don't show users tabs
-    tabInfo = await getTabs("otherTabs");
-    populateTable(tabInfo);
-  }
-}
+//   if (newVal == "allTabs") {
+//     // show all aka insert tabInfo into table
+//     tabInfo = await getTabs("all");
+//     populateTable(tabInfo);
+//   } else if (newVal == "myTabs") {
+//     // show all of users tabs
+//     tabInfo = await getTabs("myTabs");
+//     populateTable(tabInfo);
+//   } else {
+//     // don't show users tabs
+//     tabInfo = await getTabs("otherTabs");
+//     populateTable(tabInfo);
+//   }
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to search all tabs by name, artist and genre ----------------------------------------- //
@@ -2168,6 +2142,13 @@ async function refreshSavedDropdown() {
   }
 }
 
+function moveText() {
+  document.getElementById("moveable-text").style.top = "0px";
+}
+function moveText2() {
+  document.getElementById("moveable-text").style.top = "-60px";
+}
+
 // ----------------------------------------------------------------------------------------------- //
 // Generic function to change forms -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -2201,7 +2182,6 @@ var sortBy = function (property) {
 // A generic function for the search criteria for viewing tablatures ----------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function getTabs(key) {
-  const token = localStorage.getItem("id_token");
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",

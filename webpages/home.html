@@ -33,19 +33,26 @@
       <div class="loginInfo">
         <div class="login-wrap">
           <div class="login-html">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
+            <input
+              id="tab-1"
+              type="radio"
+              name="tab"
+              class="sign-in"
+              onclick="moveText2()"
+              checked
+            />
             <label for="tab-1" class="tab">log in</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
-              for="tab-2"
-              class="tab"
-              >sign up</label
-            >
+            <input
+              id="tab-2"
+              type="radio"
+              name="tab"
+              class="sign-up"
+              onclick="moveText();"
+            /><label for="tab-2" class="tab">sign up</label>
 
             <div class="login-form">
               <div class="sign-in-htm">
                 <div class="group">
-                  <!-- also might not need group -->
-                  <!-- <label for="user" class="label">username</label> -->
                   <input
                     id="login-user"
                     type="text"
@@ -123,7 +130,15 @@
           </div>
         </div>
       </div>
-      <button onClick="createTabBtn();">Create a new tablature</button>
+      <div class="login-text" id="moveable-text">
+        <p>
+          sign in for full access to the app, including ability to upload
+          tablatures.
+        </p>
+        <button onClick="createTabBtn();">
+          create a tablature
+        </button>
+      </div>
     </div>
 
     <div id="logintext" class="item2">
@@ -168,6 +183,7 @@
           </ul>
         </ul>
         <div class="view-contents" id="view-contents-id">
+          <div class="loader">loading...</div>
           <!-- tab content here, to be loaded by DOM -->
         </div>
       </div>
@@ -182,8 +198,12 @@
           <div class="tab-playback">
             <!-- playback option buttons -->
           </div>
+          <div class="close-tab-btn">
+            <button onclick="closeTab()">go back</button>
+          </div>
         </div>
         <div class="tab-content" id="tab-content-id">
+          <div class="loader">loading...</div>
           <!-- content to be filled by DOM -->
         </div>
       </div>
