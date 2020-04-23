@@ -370,7 +370,7 @@ body::-webkit-scrollbar-thumb,
   animation: fade-in 1s;
 }
 
-textarea {
+.tab-content textarea {
   resize: none;
   background-color: #bb9cd9;
   border: none;

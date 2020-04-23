@@ -186,6 +186,9 @@ function createTabNew() {
   maincontainer.style.display = "none";
   tabcontainer.style.display = "none";
   createcontainer.style.display = "grid";
+
+  fretBoard();
+  chordFretboard();
 }
 
 // ----------------------------------------------------------------------------------------------- //
