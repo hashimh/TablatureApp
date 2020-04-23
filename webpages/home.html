@@ -1002,65 +1002,62 @@
         </div>
         </div>
         <div class="stave-container">
-          <div class = "staveoptions">
+          <div class = "tabcontent" id="tabcontent">
+            <p id="tempmessage">No content... Please create a stave with the button above</p>
+          </div>
+      </div>
+      <div class="stave-options">
+        <div class = "optionscontent">
 
+
+          <div class="staveoptions">
 
             <h4>Stave Options</h4>
-              <div class="createstave">
-
-              <label>Create a Stave: </label>
-              <select id = "selectStaveType" name = "selectStaveType">
-                <option value="Lead Guitar">Lead Guitar</option>
-                <option value="Rhythm Guitar">Rhythm Guitar</option>
-              </select>
-
-              <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStave" onclick = "addStave();">
-
-
-            </div>
+            <label>Create: </label>
+            <select id = "selectStaveType" name = "selectStaveType">
+              <option value="Lead Guitar">Lead Guitar</option>
+              <option value="Rhythm Guitar">Rhythm Guitar</option>
+            </select>
+            <input type = "button" id = "newStave" value = "Create" title = "Add a new stave to the tab." name = "addStave" onclick = "addStave();">
             <div id = "selectToEdit" class="selectstave">
-              <label>Edit Stave:</label>
+              <label>Edit:</label>
               <select id = "selectStave" name = "selectStave" onchange="checkStave();">
                 <!-- Options added as staves are created -->
               </select>
               <input type = "button" id = "deleteStave" value = "Delete Stave" title = "Delete the selected Stave" name="deleteStave" onclick = "deleteStave();">
             </div>
 
-
-          </div>
-
-          <div class = "tabcontent" id="tabcontent">
-            <p id="tempmessage">No content... Please create a stave with the button above</p>
           </div>
 
           <div class="taboptions">
 
-            <h4>Tab Options</h4>
+            <div class="spacing">
+              <div class="block">
+                <h4>Tab Options</h4>
+                <label>Tab Spacing: </label>
+                <select class = "spacing" id = "tabSpacing" name = "selectTabSpacing">
+                  <option selected value = "2">2</option>
+                  <option value = "4">4</option>
+                  <!-- <option value = "6">6</option> -->
+                </select>
+              </div>
 
-            <div class="block">
-              <label>Tab Spacing: </label>
-              <select class = "spacing" id = "tabSpacing" name = "selectTabSpacing">
-                <option selected value = "2">2</option>
-                <option value = "4">4</option>
-                <!-- <option value = "6">6</option> -->
-              </select>
+              <div class="block">
+                <label>Insert Spaces: </label>
+                <select class = "spacing" id = "insertSpace" name="insertSpace">
+                  <option value = "2">2</option>
+                  <option value = "4">4</option>
+                  <option value = "6">6</option>
+                  <option value = "8">8</option>
+                </select>
+                <button type="button" name="insertSpaces" onclick = "insertBlanks()">Insert</button>
+              </div>
+
             </div>
 
-            <div class="block">
-              <label>Insert Spaces: </label>
-              <select class = "spacing" id = "insertSpace" name="insertSpace">
-                <option value = "2">2</option>
-                <option value = "4">4</option>
-                <option value = "6">6</option>
-                <option value = "8">8</option>
-              </select>
-              <button type="button" name="insertSpaces" onclick = "insertBlanks()">Insert</button>
-            </div>
-
-            <input type = "button" id = "clearTab" value = "Delete All Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();">
+            <!-- <input type = "button" id = "clearTab" value = "Delete All Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();"> -->
 
             <div class="block2" id = "optionBtns">
-              <h4 id = "symbolsH4">Tab Symbols</h4>
               <button type="button" class = "optionBtn" name="Hammer On">h</button>
               <button type="button" class = "optionBtn" name="Bend">b</button>
               <button type="button" class = "optionBtn" name="Pull Off">p</button>
@@ -1070,41 +1067,43 @@
               <button type="button" id = "clearOptions" name="clearOptions">Clear</button>
             </div>
 
+          </div>
+
+          <div class="audioplayback">
             <div class="audiOBtns">
               <h4 id = "audioH4">Audio Playback</h4>
               <input type="button" id = "playTabAudio" value="Play Audio" name = "playAudioBtn" onclick = "playAudio()">
             </div>
-
           </div>
+
         </div>
-        <div class="chords-options">
-          <div class="chords">
-            <div class="chordselection">
-              <h4>Select a Chord</h4>
-
-              <div class="presavedChords">
-                <label>Pre-Saved Chords:</label>
-                  <select id = "selectChord" class = "chordDropdown" name = "selectChord">
-                    <option value = "A">A</option>
-                    <option value = "C">C</option>
-                    <option value = "D">D</option>
-                    <option value = "E">E</option>
-                    <option value = "G">G</option>
-                    <option value = "Am">Am</option>
-                    <option value = "Em">Em</option>
-                  </select>
-                <input type = "button" id = "selectChordButton" value = "Select" title = "Select a presaved chord to add to tablature." onclick = "selectChord();">
-              </div>
-
-              <div class="savedchords">
-                <label>My Chords:</label>
-                    <select id = "selectMyChord" class = "chordDropdown" name="selectMyChord">
-                      <!-- to be filled by server -->
-                    </select>
-                  <input type="button" id = "selectSavedChordBtn" value="Select" title = "Select a saved chord to add to tablature" onclick = "selectMyChord();">
-                  <input type="button" id = "editChordBtn" value="Edit" title = "Select a presaved chord to edit below." onclick = "editChord();">
-              </div>
+      </div>
+      <div class="chords-options">
+        <div class="chords">
+          <div class="chordselection">
+            <h4>Select a Chord</h4>
+            <div class="presavedChords">
+              <label>Pre-Saved:</label>
+                <select id = "selectChord" class = "chordDropdown" name = "selectChord">
+                  <option value = "A">A</option>
+                  <option value = "C">C</option>
+                  <option value = "D">D</option>
+                  <option value = "E">E</option>
+                  <option value = "G">G</option>
+                  <option value = "Am">Am</option>
+                  <option value = "Em">Em</option>
+                </select>
+              <input type = "button" id = "selectChordButton" value = "Select" title ="Select a presaved chord to add to tablature." onclick = "selectChord();">
             </div>
+            <div class="savedchords">
+              <label>My Chords:</label>
+                  <select id = "selectMyChord" class = "chordDropdown" name="selectMyChord">
+                    <!-- to be filled by server -->
+                  </select>
+                <input type="button" id = "selectSavedChordBtn" value="Select" title ="Select a saved chord to add to tablature" onclick = "selectMyChord();">
+                <input type="button" id = "editChordBtn" value="Edit" title = "Select apresaved chord to edit below." onclick = "editChord();">
+            </div>
+          </div>
 
             <div class="chordcreation">
 
@@ -1191,7 +1190,9 @@
                 <div class="miniFretLegend" id = "fretMiniLegend">
                   <div class = "fretUnselectableLegend">&nbsp</div>
                   <div class = "fretUnselectableLegend">x</div>
-                  <div class = "fretUnselectableLegend">0</div>
+                  <div class = "fretUnselectableLegend">
+                    <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "17" oninput = "changeStartPos();" onkeydown = "return false;">
+                  </div>
                   <div class = "fretUnselectableLegend">1</div>
                   <div class = "fretUnselectableLegend">2</div>
                   <div class = "fretUnselectableLegend">3</div>
@@ -1200,9 +1201,6 @@
 
               </div>
 
-              <label id = "startPosLbl">Starting Position:</label>
-              <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "17" oninput = "changeStartPos();" onkeydown = "return false;">
-              <br>
               <label id = "chNameLbl">Chord Name:</label>
               <input type="text" name="chordName" id = "chName">
 

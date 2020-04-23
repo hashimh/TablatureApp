@@ -36,8 +36,8 @@ body::-webkit-scrollbar-thumb,
 
 /* generic button css */
 .btn-large {
-  font-size: 18px;
-  padding: 15px 20px;
+  font-size: 1.3vw;
+  padding: 1vw 1.3vw;
   background-color: #bb9cd9;
   border: none;
   transition: background-color 0.5s linear;
@@ -87,9 +87,17 @@ body::-webkit-scrollbar-thumb,
 
 /* ----------------------------------------------------------------------------- */
 /* Login Area CSS */
+.loginInfo {
+  grid-area: login;
+}
+.login-text {
+  grid-area: text;
+}
 #loginbox {
   background-color: #cfcfc4;
   height: 100vh;
+  display: grid;
+  grid-template-areas: "login" "text";
 }
 
 .loginInfo {
@@ -98,28 +106,6 @@ body::-webkit-scrollbar-thumb,
   padding-right: 2vw;
   text-align: center;
 }
-/*
-.createAccountBtn {
-  color: black;
-  text-align: center;
-  text-decoration: none;
-  padding-top: 2em;
-}
-.createAccountBtn input {
-  font-size: 18.5px;
-  padding: 0.5em;
-  width: 250px;
-  height: 48px;
-  background-color: white;
-  -webkit-transition: all ease 0.8s;
-  -moz-transition: all ease 0.8s;
-  transition: all ease 0.8s;
-  border: none;
-}
-.createAccountBtn input:hover {
-  cursor: pointer;
-  box-shadow: inset 250px 0 0 0 #bcb0ee;
-} */
 
 .p-footer {
   position: absolute;
@@ -134,7 +120,7 @@ body::-webkit-scrollbar-thumb,
   width: 100%;
   margin: auto;
   position: relative;
-  margin-top: 2em;
+  margin-top: 2vw;
 }
 .login-html {
   width: 100%;
@@ -157,7 +143,7 @@ body::-webkit-scrollbar-thumb,
   display: none;
 }
 .login-html .tab {
-  font-size: 22px;
+  font-size: 1.5vw;
   margin-right: 15px;
   padding-bottom: 5px;
   margin: 0 15px 20px 0;
@@ -193,7 +179,7 @@ body::-webkit-scrollbar-thumb,
 .login-form .group .input,
 .login-form .group .button {
   border: none;
-  padding: 15px 20px;
+  padding: 1vw 1.3vw;
   background-color: white;
 }
 .login-form .group input[data-type="password"] {
@@ -201,8 +187,8 @@ body::-webkit-scrollbar-thumb,
 }
 .login-form .group .button {
   background-color: #bb9cd9;
-  font-size: 18.5px;
-  transition: all 0.5s linear;
+  font-size: 1.3vw;
+  transition: background-color 0.5s linear;
 }
 .login-form .group .button:hover {
   cursor: pointer;
@@ -269,7 +255,7 @@ body::-webkit-scrollbar-thumb,
 
 .login-text {
   position: relative;
-  top: -60px;
+  top: -40%;
   margin-left: 2vw;
   margin-right: 2vw;
   text-align: center;
@@ -298,7 +284,7 @@ body::-webkit-scrollbar-thumb,
 .view-contents {
   grid-area: content;
   background-color: #bb9cd9;
-  padding: 1em;
+  padding: 1vw;
   height: 90%;
   overflow: hidden;
 }
@@ -308,7 +294,7 @@ body::-webkit-scrollbar-thumb,
 /* ------------------------------------------------------------------------------ */
 .main-container {
   display: grid;
-  padding: 0em 4em 0em 4em;
+  padding: 0em 4vw 0em 4vw;
   height: 100%;
   grid-template-rows: max-content;
   grid-template-areas: "nav" "content";
@@ -332,7 +318,7 @@ body::-webkit-scrollbar-thumb,
 }
 .tab-container {
   display: none;
-  padding: 0em 4em 0em 4em;
+  padding: 0em 4vw 0em 4vw;
   height: 100%;
   grid-template-columns: max-content;
   grid-template-columns: 80fr 25.9fr;
@@ -342,7 +328,7 @@ body::-webkit-scrollbar-thumb,
 
 .tab-info-playback {
   background-color: #bb9cd9;
-  padding: 1em;
+  padding: 1vw;
   display: grid;
   grid-template-rows: 6fr 3fr 1fr;
   grid-template-areas: "tabinfo" "tabplayback" "closebtn";
@@ -359,8 +345,8 @@ body::-webkit-scrollbar-thumb,
 
 .tab-info-playback p {
   margin: 0;
-  padding: 0.5em;
-  font-size: 18.5px;
+  padding: 0.5vw;
+  font-size: 1.3vw;
 }
 
 .close-tab-btn button {
@@ -375,7 +361,7 @@ body::-webkit-scrollbar-thumb,
 
 .tab-content {
   background-color: #bb9cd9;
-  padding: 1em;
+  padding: 1vw;
   height: 90%;
   overflow-y: auto;
   max-height: 42.5vw;
@@ -419,7 +405,7 @@ textarea {
 }
 .loader {
   color: #cfcfc4;
-  font-size: 10px;
+  font-size: 1vw;
   margin: 80px auto;
   position: relative;
   text-indent: -9999em;
@@ -470,9 +456,9 @@ textarea {
 /* View Navbar CSS */
 input[type="text"],
 input[type="password"] {
-  padding: 0.5em;
+  padding: 0.5vw;
   border: none;
-  font-size: 18.5px;
+  font-size: 1.3vw;
 }
 textarea:focus,
 input:focus,
@@ -481,19 +467,19 @@ select:focus {
 }
 
 .search-bar {
-  width: 100px;
+  width: 10vw;
   transition: width 0.4s ease-in-out;
   font-family: Raleway;
 }
 .search-bar:focus {
-  width: 300px;
+  width: 25vw;
 }
 
 .view-navbar {
   background-color: #bb9cd9;
-  padding: 1em;
+  padding: 1vw;
   list-style-type: none;
-  height: 4.5em;
+  height: 4.5vw;
   margin-top: 0;
 }
 .view-navbar li {
@@ -506,12 +492,12 @@ select:focus {
 }
 .sort-by li,
 .select-genre li {
-  font-size: 18.5px;
+  font-size: 1.3vw;
 }
 .sort-by li p,
 .select-genre li p {
   margin: 0;
-  padding: 0.5em;
+  padding: 0.75vw;
 }
 
 .custom-select {
@@ -569,7 +555,7 @@ select:focus {
 /* Tablature List CSS, Generated in DOM */
 .results-list {
   background-color: #bb9cd9;
-  margin: 2em 4em 2em 4em;
+  margin: 2vw 4vw 2vw 4vw;
   padding: 0;
   overflow-y: auto;
   max-height: 29vw;
@@ -585,8 +571,8 @@ select:focus {
   padding-left: 0;
 }
 .results-list ul {
-  padding: 0.75em;
-  margin-bottom: 1em;
+  padding: 0.75vw;
+  margin-bottom: 1vw;
 }
 .results-list-elem li {
   display: inline;
@@ -598,7 +584,7 @@ select:focus {
 }
 
 .results-list-elem * {
-  font-size: 18.5px;
+  font-size: 1.3vw;
   margin-top: 0;
 }
 
@@ -612,20 +598,36 @@ select:focus {
 }
 .stave-container {
   grid-area: staves;
+  background-color: #bb9cd9;
+  border-right: 2px solid #bcb0ee;
+  font-size: 1.25vw;
 }
 .chords-options {
   grid-area: chordopts;
   background-color: #bb9cd9;
+  font-size: 1.25vw;
+}
+.stave-options {
+  grid-area: staveopts;
+  background-color: #bb9cd9;
+  border-right: 2px solid #bcb0ee;
+  font-size: 1.25vw;
+}
+.stave-options select,
+.stave-options input,
+.chords-options select,
+.chords-options input {
+  font-size: 1.25vw;
 }
 
 .create-container {
   display: none;
   grid-template-rows: 10fr 90fr;
   grid-row-gap: 16px;
-  grid-template-columns: max-content;
-  grid-template-areas: "fretboard fretboard fretboard fretboard" "staves staves staves chordopts";
-  padding: 0em 4em 4em 4em;
-  margin-top: -6em;
+  grid-template-columns: 80fr 10fr 10fr;
+  grid-template-areas: "fretboard fretboard fretboard" "staves staveopts chordopts";
+  padding: 0em 4vw 4vw 4vw;
+  margin-top: -6vw;
 }
 
 /* fretboard code */
@@ -690,18 +692,17 @@ div.fretStringLegend {
 
 /* chord options css */
 .chords-options {
-  height: max-content;
-  width: fit-content;
+  width: min-content;
 }
 
 .chords {
   grid-area: chords;
   border-bottom: 2px solid black;
-  margin: 1em;
+  margin: 1vw;
 }
 .option {
   grid-area: opts;
-  margin: 1em;
+  margin: 1vw;
 }
 .chord-options {
   display: grid;
@@ -710,7 +711,6 @@ div.fretStringLegend {
 
 .chordselection label {
   display: inline-block;
-  width: 20vh;
   text-align: left;
 }
 
@@ -732,12 +732,12 @@ div.fretStringLegend {
 
 #chNameLbl {
   display: inline-block;
-  width: 23vh;
+  width: 150px;
   text-align: left;
 }
-
 #chName {
-  width: 5vh;
+  width: 100px;
+  padding: 0.1vw;
 }
 
 /* Chord Creation Fretbox */
@@ -806,7 +806,7 @@ div.fret2Selected {
   background-color: brown;
   display: table-cell;
   width: 4.2%;
-  min-width: 60px;
+  min-width: 40px;
   margin: 0;
   padding: 0;
   /* border: 1em solid black; */
@@ -827,7 +827,7 @@ div.miniFretLegend {
 
 .option button {
   background-color: #a974dd;
-  min-width: 40%;
+  width: 100px;
 }
 .option button:hover {
   cursor: pointer;
@@ -847,39 +847,32 @@ div.miniFretLegend {
 .taboptions {
   grid-area: taboptions;
 }
+.optionscontent {
+  grid-area: optionscontent;
+  margin: 1vw;
+}
+.audioplayback {
+  grid-area: audio;
+}
 
-.stave-container {
+.optionscontent {
   display: grid;
-  grid-template-rows: min-content;
-  grid-template-areas:
-    "staveoptions   taboptions"
-    "tabcontent   taboptions";
+  grid-template-areas: "staveoptions" "taboptions" "audio";
 }
-
-div.staveoptions {
-  background-color: gray;
-}
-
-.staveoptions > label {
-  display: inline-block;
-  width: 100px;
-  text-align: right;
-}
-
-h4 {
+.create-container h4 {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+.spacing {
+  grid-area: spacing;
 }
 
-/* ------------------------------ Tab Info CSS ------------------------------ */
-div.info {
-  background-color: gray;
+.tabcontent {
+  background-color: #bb9cd9;
 }
-
-div.info > input {
-  width: 50%;
+.block2 {
+  text-align: center;
 }
-
 /* ----------------------------- Tab Output CSS ----------------------------- */
 
 textarea {
@@ -887,9 +880,6 @@ textarea {
 }
 
 /* ----------------------------- Tab Option CSS ----------------------------- */
-div.taboptions {
-  background-color: gray;
-}
 
 .optionBtn {
   background-color: gray;
@@ -898,12 +888,12 @@ div.taboptions {
 .activeBtn {
   background-color: teal;
 }
-
+/*
 .block label {
   display: inline-block;
   width: 18vh;
   text-align: left;
-}
+} */
 
 .optionBtn:hover {
   background-color: teal;

@@ -2152,10 +2152,10 @@ async function refreshSavedDropdown() {
 }
 
 function moveText() {
-  document.getElementById("moveable-text").style.top = "0px";
+  document.getElementById("moveable-text").style.top = "-15%";
 }
 function moveText2() {
-  document.getElementById("moveable-text").style.top = "-60px";
+  document.getElementById("moveable-text").style.top = "-40%";
 }
 
 // ----------------------------------------------------------------------------------------------- //
