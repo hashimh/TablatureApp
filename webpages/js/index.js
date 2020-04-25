@@ -2,6 +2,7 @@
 var editedTab = false;
 var editedTabId = "";
 var tabInfo;
+var signedIn = false;
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -9,6 +10,11 @@ var tabInfo;
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 window.onload = async (event) => {
+  // if the user is not logged in, display this on the create button
+  let createBtn = document.getElementById("create-btn");
+  if (signedIn == false) {
+    createBtn.innerHTML += " (guest)";
+  }
   // Get tablature information from the database
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
@@ -40,7 +46,7 @@ function populateTable(tabInfo) {
     let listElemText0 = document.createElement("li");
     listElemText0.innerHTML =
       "<b>" + tabInfo[i].song_name + " by " + tabInfo[i].artist_name + "</b>";
-    listElemText0.style.paddingRight = "1em";
+    listElemText0.style.paddingRight = "1vw";
 
     let listElemText1 = document.createElement("li");
     listElemText1.innerHTML = "<i>" + tabInfo[i].genre + "</i>";
@@ -48,7 +54,7 @@ function populateTable(tabInfo) {
     let listElemText2 = document.createElement("li");
     listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
     listElemText2.style.float = "right";
-    listElemText2.style.paddingRight = "1em";
+    listElemText2.style.paddingRight = "1vw";
 
     let listElemSymbol = document.createElement("li");
     let symbol = document.createElement("i");
@@ -186,6 +192,11 @@ function createTabNew() {
   maincontainer.style.display = "none";
   tabcontainer.style.display = "none";
   createcontainer.style.display = "grid";
+
+  // if the screen width is too fucking small
+  document.getElementById("loginbox").style.display = "none";
+  document.getElementById("logintext").style.borderLeft = "none";
+  document.getElementById("griddiv").style.display = "block";
 
   fretBoard();
   chordFretboard();
@@ -2153,14 +2164,6 @@ async function refreshSavedDropdown() {
     chordDropdown.add(option);
   }
 }
-
-function moveText() {
-  document.getElementById("moveable-text").style.top = "-15%";
-}
-function moveText2() {
-  document.getElementById("moveable-text").style.top = "-40%";
-}
-
 // ----------------------------------------------------------------------------------------------- //
 // Generic function to change forms -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //

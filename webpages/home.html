@@ -30,115 +30,19 @@
 <main>
   <div id="griddiv" class="grid-container">
     <div id="loginbox" class="item1">
-      <div class="loginInfo">
-        <div class="login-wrap">
-          <div class="login-html">
-            <input
-              id="tab-1"
-              type="radio"
-              name="tab"
-              class="sign-in"
-              onclick="moveText2()"
-              checked
-            />
-            <label for="tab-1" class="tab">log in</label>
-            <input
-              id="tab-2"
-              type="radio"
-              name="tab"
-              class="sign-up"
-              onclick="moveText();"
-            /><label for="tab-2" class="tab">sign up</label>
+      <div class="sign-in">
+        <h2>sign in</h2>
+          <form id="signin-form" action="SUBMIT">
+           <input id="signin-user" type="text" class="input" placeholder="username">
+           <input id="signin-pass" type="password" class="input" placeholder="password">
+          </form>
+        <input id="check" type="checkbox" class="check" checked>
+        <label id="check-label" for="check"><span class="icon">keep me signed in</span></label>
+        <input type="submit" class="button btn-large" value="sign in">
 
-            <div class="login-form">
-              <div class="sign-in-htm">
-                <div class="group">
-                  <input
-                    id="login-user"
-                    type="text"
-                    class="input"
-                    placeholder="username"
-                  />
-                </div>
-
-                <div class="group">
-                  <input
-                    id="login-pass"
-                    type="password"
-                    class="input"
-                    data-type="password"
-                    placeholder="password"
-                  />
-                </div>
-
-                <div class="group">
-                  <input id="check" type="checkbox" class="check" checked />
-                  <label for="check"
-                    ><span class="icon"></span>keep me signed in</label
-                  >
-                </div>
-
-                <div class="group">
-                  <input type="submit" class="button btn-large" value="sign in" />
-                </div>
-
-                <div class="foot-lnk">
-                  <a href="#forgot">forgot password?</a>
-                </div>
-              </div>
-
-              <div class="sign-up-htm">
-                <div class="group">
-                  <input
-                    id="signup-username"
-                    type="text"
-                    class="input"
-                    placeholder="username"
-                  />
-                </div>
-                <div class="group">
-                  <input
-                    id="signup-pass"
-                    type="password"
-                    class="input"
-                    data-type="password"
-                    placeholder="password"
-                  />
-                </div>
-                <div class="group">
-                  <input
-                    id="signup-pass2"
-                    type="password"
-                    class="input"
-                    data-type="password"
-                    placeholder="repeat password"
-                  />
-                </div>
-                <div class="group">
-                  <input
-                    id="signup-email"
-                    type="text"
-                    class="input"
-                    placeholder="email address"
-                  />
-                </div>
-                <div class="group">
-                  <input type="submit" class="button" value="sign up" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="login-text" id="moveable-text">
-        <p>
-          sign in for full access to the app, including ability to upload
-          tablatures.
-        </p>
-        <button onClick="createTabBtn();" class="btn-large">
-          create a tablature
-        </button>
-        <button onClick="createTabNew();" class="btn-large">create new</button>
+        <button id="create-btn" onClick="createTabNew();" class="btn-large">create new</button>
       </div>
     </div>
 
