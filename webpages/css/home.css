@@ -64,11 +64,11 @@ body::-webkit-scrollbar-thumb,
 .main-container {
   grid-area: maincont;
 }
-#logintext {
+/* #logintext {
   display: grid;
-  grid-template-rows: 10fr 90fr;
+  grid-template-rows: 10fr 91fr;
   grid-template-areas: "mainheader" "maincont";
-}
+} */
 
 /* ----------------------------------------------------------------------------- */
 /* Text Information CSS */
@@ -177,7 +177,7 @@ body::-webkit-scrollbar-thumb,
   grid-area: content;
   background-color: #bb9cd9;
   padding: 1vw;
-  height: 90%;
+  height: 82%;
   overflow: hidden;
 }
 
@@ -203,7 +203,7 @@ body::-webkit-scrollbar-thumb,
   grid-area: tabplayback;
 }
 .tab-content {
-  grid-area: tabcontent;
+  grid-area: tabcontentview;
 }
 .close-tab-btn {
   grid-area: closebtn;
@@ -214,7 +214,7 @@ body::-webkit-scrollbar-thumb,
   height: 100%;
   grid-template-columns: max-content;
   grid-template-columns: 80fr 25.9fr;
-  grid-template-areas: "tabcontent infoplayback";
+  grid-template-areas: "tabcontentview infoplayback";
   /* animation: fade-in 1s; */
 }
 
@@ -225,7 +225,7 @@ body::-webkit-scrollbar-thumb,
   grid-template-rows: 6fr 3fr 1fr;
   grid-template-areas: "tabinfo" "tabplayback" "closebtn";
   margin-left: 16px;
-  height: 90%;
+  height: 84%;
 }
 
 .tab-info p {
@@ -254,9 +254,8 @@ body::-webkit-scrollbar-thumb,
 .tab-content {
   background-color: #bb9cd9;
   padding: 1vw;
-  height: 90%;
+  height: 84%;
   overflow-y: auto;
-  max-height: 42.5vw;
 }
 .tab-content * {
   animation: fade-in 1s;
@@ -488,12 +487,7 @@ select:focus {
 .fretboard {
   grid-area: fretboard;
 }
-.stave-container {
-  grid-area: staves;
-  background-color: #bb9cd9;
-  border-right: 2px solid #bcb0ee;
-  font-size: 1.25vw;
-}
+
 .chords-options {
   grid-area: chordopts;
   background-color: #bb9cd9;
@@ -514,16 +508,18 @@ select:focus {
 
 .create-container {
   display: none;
-  grid-template-rows: 10fr 90fr;
   grid-row-gap: 16px;
   grid-template-columns: 80fr 10fr 10fr;
-  grid-template-areas: "fretboard fretboard fretboard" "staves staveopts chordopts";
+  grid-template-areas: "fretboard fretboard fretboard" "tabcontent staveopts chordopts";
   padding: 0em 4vw 4vw 4vw;
-  margin-top: -6vw;
+  height: 100%;
 }
 
 /* fretboard code */
 div.fretboard {
+  margin-left: 5%;
+  margin-right: 5%;
+  max-width: 90%;
   background-image: url(wood.jpg);
   background-size: 100%;
   background-attachment: scroll;
@@ -574,12 +570,13 @@ div.fretUnselectableLegend {
 }
 
 div.fretStringLegend {
-  background-color: teal;
+  background-color: #bcb0ee;
   border-right: 5px solid black;
 }
 
 .tuningDropdown {
   height: 25px;
+  width: 100%;
 }
 
 /* chord options css */
@@ -761,6 +758,19 @@ div.miniFretLegend {
 
 .tabcontent {
   background-color: #bb9cd9;
+  overflow-y: auto;
+  border-right: 2px solid #bcb0ee;
+  font-size: 1.25vw;
+  padding: 1vw;
+  max-height: 58vh;
+}
+.tabcontent h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+#tempmessage {
+  text-align: center;
+  top: 50%;
 }
 .block2 {
   text-align: center;
@@ -779,7 +789,7 @@ textarea {
 }
 
 .activeBtn {
-  background-color: teal;
+  background-color: #bcb0ee;
 }
 /*
 .block label {
