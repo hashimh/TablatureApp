@@ -912,7 +912,7 @@
 
           <div class="staveoptions">
 
-            <h4>stave options</h4>
+            <h4 class="nogaph4">stave options</h4>
             <div class="createStave">
               <label>new: </label>
               <input type = "button" id = "newStave" value = "create" title = "Add a new stave to the tab." name = "addStave" onclick = "addStave();">
@@ -960,7 +960,7 @@
 
             <!-- <input type = "button" id = "clearTab" value = "Delete All Staves" title = "Clear all staves" name = "clearTabButton" onclick = "clearAllStaves();"> -->
 
-            <h4>symbols</h4>
+            <h4 class="gaph4">symbols</h4>
             <div class="block2" id = "optionBtns">
               <button type="button" class = "optionBtn" name="Hammer On">h</button>
               <button type="button" class = "optionBtn" name="Bend">b</button>
@@ -974,7 +974,7 @@
           </div>
 
           <div class="chordselect">
-            <h4>insert chords</h4>
+            <h4 class="gaph4">insert chords</h4>
             <div class="presavedChords">
               <label>pre-saved:</label>
               <input type = "button" id = "selectChordButton" value = "select" title ="Select a presaved chord to add to tablature." onclick = "selectChord();">
@@ -990,12 +990,12 @@
             </div>
             <div class="savedchords">
               <label>my chords:</label>
-              <input type="button" id = "editChordBtn" value="edit" title = "Select apresaved chord to edit below." onclick = "editChord();">
               <input type="button" id = "selectSavedChordBtn" value="select" title ="Select a saved chord to add to tablature" onclick = "selectMyChord();">
-                  <select id = "selectMyChord" class = "chordDropdown" name="selectMyChord">
-                    <!-- to be filled by server -->
-                  </select>
+              <select id = "selectMyChord" class = "chordDropdown" name="selectMyChord">
+                <!-- to be filled by server-->
+              </select>
             </div>
+            <input type="button" id = "editChordBtn" value="edit" title = "Select apresaved chord to edit below." onclick = "editChord();">
           </div>
 
           <!-- <div class="audioplayback">

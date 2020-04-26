@@ -545,6 +545,10 @@ select:focus {
 #editChordBtn {
   width: 3vw;
   margin-left: 10px;
+  float: right;
+  font-size: 1.25vw;
+  width: 5.5vw;
+  border: none;
 }
 .createStave,
 .selectstave,
@@ -552,9 +556,20 @@ select:focus {
 .insertblock,
 .presavedChords,
 .savedchords {
-  display: flow-root;
   text-align: end;
   margin-bottom: 10px;
+}
+
+.nogaph4 {
+  border-bottom: 2px solid black;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.gaph4 {
+  border-bottom: 2px solid black;
+  margin-top: 2vw;
+  margin-bottom: 5px;
 }
 
 .create-container {
@@ -793,18 +808,15 @@ div.miniFretLegend {
   grid-area: optionscontent;
   margin: 1vw;
 }
-.audioplayback {
-  grid-area: audio;
+.chordselect {
+  grid-area: chordselect;
 }
 
 .optionscontent {
   display: grid;
-  grid-template-areas: "staveoptions" "taboptions" "audio";
+  grid-template-areas: "staveoptions" "taboptions" "chordselect";
 }
-.create-container h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
+
 .spacing {
   grid-area: spacing;
 }
