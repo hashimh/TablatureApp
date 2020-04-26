@@ -505,7 +505,8 @@ select:focus {
 .spacingblock label,
 .insertblock label,
 .presavedChords label,
-.savedchords label {
+.savedchords label,
+.chordcreationdiv label {
   display: inline-block;
   text-align: right;
   padding-right: 10px;
@@ -516,8 +517,10 @@ select:focus {
 .insertblock input,
 .block2 input,
 .presavedChords input,
-.savedchords input {
+.savedchords input,
+.chordcreationdiv input {
   display: inline-block;
+  padding: 0;
   font-size: 1.25vw;
   width: 5.5vw;
   float: right;
@@ -555,7 +558,8 @@ select:focus {
 .spacingblock,
 .insertblock,
 .presavedChords,
-.savedchords {
+.savedchords,
+.chordcreationdiv {
   text-align: end;
   margin-bottom: 10px;
 }
@@ -570,6 +574,24 @@ select:focus {
   border-bottom: 2px solid black;
   margin-top: 2vw;
   margin-bottom: 5px;
+}
+
+#chName {
+  margin-right: 10px;
+}
+#clearChord {
+  float: right;
+  font-size: 1.25vw;
+  width: 5.5vw;
+  border: none;
+}
+
+.chordcreationdiv {
+  margin-top: 16px;
+}
+
+.option {
+  grid-area: option;
 }
 
 .create-container {
@@ -652,14 +674,14 @@ div.fretStringLegend {
 
 .chords {
   grid-area: chords;
-  border-bottom: 2px solid black;
   margin: 1vw;
 }
 .option {
   grid-area: opts;
   margin: 1vw;
+  margin-top: 16px;
 }
-.chord-options {
+.chords-options {
   display: grid;
   grid-template-areas: "chords" "opts";
 }
@@ -685,20 +707,10 @@ div.fretStringLegend {
   width: 5vh;
 }
 
-#chNameLbl {
-  display: inline-block;
-  width: 150px;
-  text-align: left;
-}
-#chName {
-  width: 100px;
-  padding: 0.1vw;
-}
-
 /* Chord Creation Fretbox */
 
 div.miniFretboard {
-  background-color: gray;
+  background-image: url(wood.jpg);
   position: relative;
   overflow: auto;
   width: fit-content;
@@ -784,7 +796,6 @@ div.miniFretLegend {
 
 .option button {
   background-color: #a974dd;
-  width: 100px;
 }
 .option button:hover {
   cursor: pointer;

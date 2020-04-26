@@ -1009,9 +1009,9 @@
       </div>
       <div class="chords-options">
         <div class="chords">
+          <h4 class="nogaph4">create chord</h4>
             <div class="chordcreation">
 
-              <h4>create chords</h4>
 
 
               <!-- CREATE A TABLE TO CREATE CHORDS -->
@@ -1105,13 +1105,14 @@
 
               </div>
 
-              <label id = "chNameLbl">name: </label>
-              <input type="text" name="chordName" id = "chName">
-
-              <input type="button" id = "createChord" value = "Create New Chord" title = "Create a new chord to save" onclick = "createChord();">
+              <div class="chordcreationdiv">
+                <label id = "chNameLbl">name: </label>
+                <input type="button" id = "createChord" value = "create" title = "Create a new chord to save" onclick = "createChord();">
+                <input type="text" name="chordName" id = "chName">
+              </div>
+              <input type="button" id = "clearChord" value = "Reset" title = "Clear all changes">
 
             </div>
-            <input type="button" id = "clearChord" value = "Reset" title = "Clear all changes">
           </div>
           <div class="option">
             <button class="btn-large" style="float: right">save</button class="btn-large">
