@@ -499,17 +499,68 @@ select:focus {
   border-right: 2px solid #bcb0ee;
   font-size: 1.25vw;
 }
-.stave-options select,
-.stave-options input,
-.chords-options select,
-.chords-options input {
+
+.createStave label,
+.selectstave label,
+.spacingblock label,
+.insertblock label,
+.presavedChords label,
+.savedchords label {
+  display: inline-block;
+  text-align: right;
+  padding-right: 10px;
+}
+.createStave input,
+.selectstave input,
+.spacingblock input,
+.insertblock input,
+.block2 input,
+.presavedChords input,
+.savedchords input {
+  display: inline-block;
   font-size: 1.25vw;
+  width: 5.5vw;
+  float: right;
+  border: none;
+}
+.createStave select,
+.selectstave select,
+.spacingblock select,
+.insertblock select,
+.presavedChords select,
+.savedchords select {
+  display: inline-block;
+  width: 6.5vw;
+  font-size: 1.25vw;
+  float: right;
+  border: none;
+  margin-right: 10px;
+}
+.spacingblock select,
+.insertblock select,
+.presavedChords select,
+.savedchords select {
+  width: 3vw;
+}
+#editChordBtn {
+  width: 3vw;
+  margin-left: 10px;
+}
+.createStave,
+.selectstave,
+.spacingblock,
+.insertblock,
+.presavedChords,
+.savedchords {
+  display: flow-root;
+  text-align: end;
+  margin-bottom: 10px;
 }
 
 .create-container {
   display: none;
   grid-row-gap: 16px;
-  grid-template-columns: 80fr 10fr 10fr;
+  grid-template-columns: 27fr 10fr 10fr;
   grid-template-areas: "fretboard fretboard fretboard" "tabcontent staveopts chordopts";
   padding: 0em 4vw 4vw 4vw;
   height: 100%;
@@ -632,8 +683,7 @@ div.fretStringLegend {
 /* Chord Creation Fretbox */
 
 div.miniFretboard {
-  margin-top: 15px;
-  background-color: beige;
+  background-color: gray;
   position: relative;
   overflow: auto;
   width: fit-content;
@@ -713,6 +763,9 @@ div.miniFretLegend {
   width: 100%;
   background-color: #bb9cd9;
 }
+.tuningLabel {
+  background-color: #bb9cd9;
+}
 
 .option button {
   background-color: #a974dd;
@@ -783,6 +836,13 @@ textarea {
 }
 
 /* ----------------------------- Tab Option CSS ----------------------------- */
+.block2 .optionBtn {
+  font-size: 1.5vw;
+  border: none;
+  padding: 0.5vw;
+  height: 2.5vw;
+  width: 2.5vw;
+}
 
 .optionBtn {
   background-color: gray;
@@ -799,5 +859,8 @@ textarea {
 } */
 
 .optionBtn:hover {
-  background-color: teal;
+  background-color: #8064f1;
+}
+#clearOptions {
+  margin-top: 10px;
 }
