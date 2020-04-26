@@ -1095,7 +1095,7 @@
                   <div class = "fretUnselectableLegend">&nbsp</div>
                   <div class = "fretUnselectableLegend">x</div>
                   <div class = "fretUnselectableLegend">
-                    <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "17" oninput = "changeStartPos();" onkeydown = "return false;">
+                    <input type="number" name="startPosition" id = "startPos" value="0" min = "0" max = "18" oninput = "changeStartPos();" onkeydown = "return false;">
                   </div>
                   <div class = "fretUnselectableLegend">1</div>
                   <div class = "fretUnselectableLegend">2</div>
@@ -1108,12 +1108,17 @@
               <div class="chordcreationdiv">
                 <label id = "chNameLbl">name: </label>
                 <input type="button" id = "createChord" value = "create" title = "Create a new chord to save" onclick = "createChord();">
-                <input type="text" name="chordName" id = "chName">
+                <input type="text" name="chordName" id = "chName" autocomplete="off">
               </div>
               <input type="button" id = "clearChord" value = "Reset" title = "Clear all changes">
 
             </div>
           </div>
+          <div class="audio">
+            <h4 class="nogaph4">audio playback</h4>
+            <p>put audio stuff here</p>
+          </div>
+
           <div class="option">
             <button class="btn-large" style="float: right">save</button class="btn-large">
             <button class="btn-large" onclick="helpBtn()">help</button>

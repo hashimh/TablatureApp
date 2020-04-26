@@ -655,6 +655,7 @@ div.fretLegendRow {
 div.fretUnselectableLegend {
   display: table-cell;
   text-align: center;
+  font-size: 1.25vw;
 }
 
 div.fretStringLegend {
@@ -681,9 +682,15 @@ div.fretStringLegend {
   margin: 1vw;
   margin-top: 16px;
 }
+.audio {
+  grid-area: audio;
+  margin: 1vw;
+}
 .chords-options {
   display: grid;
-  grid-template-areas: "chords" "opts";
+  grid-template-rows: max-content;
+  grid-template-areas: "chords" "audio" "opts";
+  width: auto;
 }
 
 .chordselection label {
@@ -704,7 +711,8 @@ div.fretStringLegend {
 }
 
 #startPos {
-  width: 5vh;
+  width: 2.5vw;
+  font-size: 1.25vw;
 }
 
 /* Chord Creation Fretbox */
@@ -792,6 +800,9 @@ div.miniFretLegend {
 }
 .tuningLabel {
   background-color: #bb9cd9;
+  border-right: 5px solid black;
+  float: right;
+  width: inherit;
 }
 
 .option button {
@@ -838,7 +849,7 @@ div.miniFretLegend {
   border-right: 2px solid #bcb0ee;
   font-size: 1.25vw;
   padding: 1vw;
-  max-height: 58vh;
+  height: 100%;
 }
 .tabcontent h3 {
   margin-top: 0;
