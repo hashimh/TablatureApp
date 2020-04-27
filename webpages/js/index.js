@@ -202,6 +202,45 @@ function createTabNew() {
   chordFretboard();
 }
 
+function goBack() {
+  let createcontainer = document.getElementById("create-container-id");
+  let maincontainer = document.getElementById("main-container-id");
+  // first, display a modal with yes/no question. add event listeners to those buttons within this function.
+  // check if page is empty, if so, go back without modal
+  let tempmessage = document.getElementById("tempmessage");
+  if (tempmessage != undefined) {
+    createcontainer.style.display = "none";
+    document.getElementById("loginbox").style.display = "block";
+    document.getElementById("logintext").style.borderLeft = "2px solid black";
+    document.getElementById("griddiv").style.display = "grid";
+    maincontainer.style.display = "grid";
+  } else {
+    // display are you sure message
+    let backmodal = document.getElementById("back-modal");
+    let backmodalcontent = document.getElementById("back-modal-content-id");
+    backmodal.style.opacity = "1";
+    backmodal.style.zIndex = "10";
+    document.getElementById("back-no").addEventListener("click", function () {
+      // no clicked
+      backmodal.style.opacity = "0";
+      backmodal.style.zIndex = "-1";
+    });
+    document.getElementById("back-yes").addEventListener("click", function () {
+      // yes clicked, go to previous page
+      backmodal.style.opacity = "0";
+      backmodal.style.zIndex = "-1";
+      setTimeout(() => {
+        createcontainer.style.display = "none";
+        document.getElementById("loginbox").style.display = "block";
+        document.getElementById("logintext").style.borderLeft =
+          "2px solid black";
+        document.getElementById("griddiv").style.display = "grid";
+        maincontainer.style.display = "grid";
+      }, 200);
+    });
+  }
+}
+
 // ----------------------------------------------------------------------------------------------- //
 // Store user's login information into localStorage ---------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //

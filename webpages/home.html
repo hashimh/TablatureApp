@@ -1122,11 +1122,23 @@
           <div class="option">
             <button class="btn-large" style="float: right">save</button class="btn-large">
             <button class="btn-large" onclick="helpBtn()">help</button>
+            <button class="btn-large" onclick="goBack()">back</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="modal" id="back-modal">
+    <div class="modal-content back-modal-content" id="back-modal-content-id" >
+      <h4>unsaved content will be lost, are you sure?</h4>
+      <div class="back-buttons">
+        <button id="back-yes">yes</button>
+        <button id="back-no">no</button>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <script>
