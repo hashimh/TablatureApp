@@ -198,6 +198,8 @@ function createTabNew() {
   document.getElementById("logintext").style.borderLeft = "none";
   document.getElementById("griddiv").style.display = "block";
 
+  // clear staves if they exist
+
   fretBoard();
   chordFretboard();
 }
@@ -229,6 +231,7 @@ function goBack() {
       // yes clicked, go to previous page
       backmodal.style.opacity = "0";
       backmodal.style.zIndex = "-1";
+
       setTimeout(() => {
         createcontainer.style.display = "none";
         document.getElementById("loginbox").style.display = "block";
@@ -236,64 +239,66 @@ function goBack() {
           "2px solid black";
         document.getElementById("griddiv").style.display = "grid";
         maincontainer.style.display = "grid";
+        // clear content
+        while (tabcontent.firstChild) {
+          tabcontent.removeChild(tabcontent.firstChild);
+        }
+        // REMOVE STAVES FROM DROPDOWN MENU
+        let staveDropdown = document.getElementById("selectStave");
+        let dropdownLength = staveDropdown.options.length;
+        for (let i = 0; i < dropdownLength; i++) {
+          staveDropdown.remove(i);
+          staveDropdown.remove(staveDropdown.selectedIndex);
+        }
+        // add text back to no stave area
+        let tempmessage = document.createElement("p");
+        tempmessage.innerHTML =
+          "No content... Please create a stave with the button above";
+        tempmessage.setAttribute("id", "tempmessage");
+        tabcontent.append(tempmessage);
       }, 200);
     });
   }
 }
 
-// ----------------------------------------------------------------------------------------------- //
-// Store user's login information into localStorage ---------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// function onSignIn(googleUser) {
-//   let auth2 = gapi.auth2.getAuthInstance();
-//   localStorage.setItem(
-//     "id_token",
-//     auth2.currentUser.get().getAuthResponse().id_token
-//   );
-//   localStorage.setItem("googleUser", googleUser.getBasicProfile().getName());
-//   localStorage.setItem("userEmail", googleUser.getBasicProfile().getEmail());
-//   auth2.disconnect();
+function helpBtn() {
+  let helpmodal = document.getElementById("help-modal");
+  helpmodal.style.opacity = "1";
+  helpmodal.style.zIndex = "10";
+  window.onclick = function (event) {
+    if (event.target == helpmodal) {
+      helpmodal.style.opacity = "0";
+      helpmodal.style.zIndex = "-1";
+    }
+  };
+  let closespan = document.getElementById("help-span");
+  closespan.onclick = function () {
+    helpmodal.style.opacity = "0";
+    helpmodal.style.zIndex = "-1";
+  };
+}
+function closeHelpBtn() {
+  let helpmodal = document.getElementById("help-modal");
+  helpmodal.style.opacity = "0";
+  helpmodal.style.zIndex = "-1";
+}
 
-//   // Call next initialising function
-//   callServer(googleUser);
-// }
+function saveTab() {
+  let saveModal = document.getElementById("save-modal");
+  // first, check if at least 1 stave exists, with at least 1 column of entries
+  let selectedStaveMenu = document.getElementById("selectStave");
+  if (selectedStaveMenu.options.length <= 0) {
+    // add error message display here -------------------------------------------------------
+    return;
+  }
+  saveModal.style.opacity = "1";
+  saveModal.style.zIndex = "10";
 
-// ----------------------------------------------------------------------------------------------- //
-// Function gets next form from the server ------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// async function callServer(googleUser) {
-//   let apiLink = "/api/login";
-//   await getPage(apiLink);
-
-//   const token = localStorage.getItem("id_token");
-//   const fetchOptions = {
-//     credentials: "same-origin",
-//     method: "POST",
-//     headers: { Authorization: "Bearer " + token },
-//   };
-
-//   // This API call checks to see if a user is in the database. If they aren't, they
-//   // are added to the db. If yes, then this part is skipped.
-//   const response = await fetch("/api/checkUser", fetchOptions);
-//   if (!response.ok) {
-//     console.log("Fetch response for /api/checkuser has failed.");
-//     return;
-//   }
-// }
-
-// ----------------------------------------------------------------------------------------------- //
-// Function to sign out of the menu.html form ---------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-async function signOut() {
-  // Call server function 'logout'
-  let apiLink = "/api/logout";
-  await getPage(apiLink);
-
-  window.location.reload();
-
-  // Removes ID Token from local storage, ensures Google account logs out properly.
-  // localStorage.removeItem("id_token");
-  // localStorage.removeItem("googleUser");
+  let closespan = document.getElementById("save-span");
+  closespan.onclick = function () {
+    saveModal.style.opacity = "0";
+    saveModal.style.zIndex = "-1";
+  };
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -312,18 +317,6 @@ async function createTabBtn() {
 }
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to initialise the form --------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-async function populateMain() {
-  // Get user's name for nav bar
-  const el = document.getElementById("greeting");
-  // el.textContent = " - Hello " + localStorage.getItem("googleUser");
-
-  fretBoard();
-  chordFretboard();
-}
-
-// ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ------------------------------------- NAVIGATION BAR CODE ------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -333,23 +326,23 @@ async function populateMain() {
 // Code for the help modal popup ----------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // Get the modal
-function helpBtn() {
-  let modal = document.getElementById("helpModal");
-  // Get the <span> element that closes the modal
-  let span = document.getElementsByClassName("close")[0];
-  // When the user clicks the button, open the modal
-  modal.style.display = "block";
-  // When the user clicks on <span> (x), close the modal
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-}
+// function helpBtn() {
+//   let modal = document.getElementById("helpModal");
+//   // Get the <span> element that closes the modal
+//   let span = document.getElementsByClassName("close")[0];
+//   // When the user clicks the button, open the modal
+//   modal.style.display = "block";
+//   // When the user clicks on <span> (x), close the modal
+//   span.onclick = function () {
+//     modal.style.display = "none";
+//   };
+//   // When the user clicks anywhere outside of the modal, close it
+//   window.onclick = function (event) {
+//     if (event.target == modal) {
+//       modal.style.display = "none";
+//     }
+//   };
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to sign out of the menu.html form ---------------------------------------------------- //
@@ -373,7 +366,7 @@ async function signOut2() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to save a tablature ------------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
-async function saveTab() {
+async function saveTabOld() {
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
   if (selectedStaveMenu.options.length <= 0) {

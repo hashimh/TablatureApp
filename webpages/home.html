@@ -1120,7 +1120,7 @@
           </div>
 
           <div class="option">
-            <button class="btn-large" style="float: right">save</button class="btn-large">
+            <button class="btn-large" style="float: right" onclick="saveTab()">save</button class="btn-large">
             <button class="btn-large" onclick="helpBtn()">help</button>
             <button class="btn-large" onclick="goBack()">back</button>
           </div>
@@ -1136,6 +1136,54 @@
         <button id="back-yes">yes</button>
         <button id="back-no">no</button>
       </div>
+    </div>
+  </div>
+
+  <div class="modal" id="help-modal">
+    <div class="modal-content help-modal-content" id="help-modal-content-id">
+      <span class="close fa fa-times fa-2x" id="help-span"></span>
+      <h4>creating tabs</h4>
+      <p>in order to create a tablature, first choose the type of guitar part in the <i>stave options</i> section and click create. notes can now be inserted using the fretboard, and chords from the chord selection section.</p>
+      <h4>creating chords</h4>
+      <p>custom chords that aren't included in the pre-saved list can be created with the <i>create chord</i> section on the right. choose the starting position of the chord, then select the notes on each string to form the chord shape, name it, and save it. it will be available to you for use now and in future sessions in the 'my chords' list.</p>
+      <h4>tab symbols</h4>
+      <p>the <i>symbols</i> section allows the use of the main symbols used universally in tablature format. these will only be placed if used correctly, i.e. a hammer on must be on the same string, and on a higher fret than its predecessor:</p>
+      <ul>
+        <li>h - hammer on</li>
+        <li>b - bend</li>
+        <li>p - pull off</li>
+        <li>/ - slide up</li>
+        <li>\ - slide down</li>
+        <li>~ - vibrato</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="save-modal">
+    <div class="modal-content save-modal-content" id="save-modal-content-id">
+      <span class="close fa fa-times fa-2x" id="save-span"></span>
+      <h4>upload tablature</h4>
+      <div class="save-block">
+        <p class="save-label">song name</p>
+        <input type="text" class="save-input" id="song-name">
+      </div>
+      <div class="save-block">
+        <p class="save-label">artist</p>
+        <input type="text" class="save-input" id="song-artist">
+      </div>
+      <div class="save-block">
+        <p class="save-label">genre</p>
+        <select name="genre" id="song-genre">
+          <option value="Alternative Rock">alternative rock</option>
+          <option value="Blues">blues</option>
+          <option value="Classical">classical</option>
+          <option value="Country">country</option>
+          <option value="Folk">folk</option>
+          <option value="Funk">funk</option>
+          <option value="Heavy Metal">heavy metal</option>
+        </select>
+      </div>
+      <button class="btn-large">save</button>
     </div>
   </div>
 
