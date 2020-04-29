@@ -359,7 +359,7 @@ select:focus {
 }
 
 .search-bar {
-  width: 10vw;
+  width: 15vw;
   transition: width 0.4s ease-in-out;
   font-family: Raleway;
 }
