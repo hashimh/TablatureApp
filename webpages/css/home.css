@@ -278,11 +278,9 @@ body::-webkit-scrollbar-thumb,
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(100px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -484,6 +482,12 @@ select:focus {
 
 .results-list-elem b {
   padding-left: 0;
+}
+
+#errMsgId {
+  text-align: center;
+  font-size: 2vw;
+  margin-top: 18%;
 }
 
 /* CREATE TABLATURE CODE */
@@ -917,13 +921,13 @@ textarea {
 }
 /* generic modal content style */
 .modal-content {
-  background-color: #bb9cd9;
+  background-color: #bcb0ee;
   padding: 2vw;
   border: 2px solid black;
   /* animation: fade-in-2 0.5s; */
 }
 .back-modal-content {
-  margin: 39vh auto;
+  margin: 35vh auto;
   width: 30%;
 }
 .help-modal-content {

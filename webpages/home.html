@@ -47,13 +47,13 @@
     </div>
 
     <div id="logintext" class="item2">
-      <h2 class="heading">A Guitar Tablature Creator</h2>
+      <h2 class="heading">a guitar tablature creator</h2>
 
       <!-- will be initially on display, will be replaced by tab-container on a div click -->
       <div class="main-container" id="main-container-id">
         <ul class="view-navbar">
           <li>
-            <input type="text" placeholder="Search..." class="search-bar" />
+            <input type="text" placeholder="Search..." class="search-bar" id="searchbar" />
           </li>
 
           <ul class="sort-by" style="float: right;">
@@ -76,10 +76,11 @@
           <ul class="select-genre" style="float: right;">
             <li><p>genre :</p></li>
             <li>
-              <div class="custom-select" style="width: 200px;">
-                <select>
-                  <option value="0">all genres</option>
-                  <option value="1">psychadelic rock</option>
+              <div class="custom-select" style="width: 200px;" id="custom-genre-select">
+                <select id="search-select">
+                  <option>all genres</option>
+                  <option>psychadelic rock</option>
+                  <option>blues</option>
                 </select>
               </div>
             </li>

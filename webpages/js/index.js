@@ -18,6 +18,7 @@ window.onload = async (event) => {
   // Get tablature information from the database
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
+  addFilterListeners();
 };
 
 // ----------------------------------------------------------------------------------------------- //
@@ -34,6 +35,7 @@ function populateTable(tabInfo) {
   }
   let listWrapper = document.createElement("ul");
   listWrapper.setAttribute("class", "results-list");
+  listWrapper.setAttribute("id", "results-list-id");
   contentArea.appendChild(listWrapper);
 
   // Now, create li for each result, append information accordingly
@@ -80,7 +82,112 @@ function populateTable(tabInfo) {
   // .song_name,
   // .email
   // addRowHandlers();
+
+  // if there is no content, output message
+  let resultsList = document.getElementById("results-list-id");
+  if (resultsList.hasChildNodes() == false) {
+    let errMsg = document.createElement("p");
+    errMsg.setAttribute("id", "errMsgId");
+    errMsg.innerHTML = "no results";
+    resultsList.appendChild(errMsg);
+  }
 }
+
+function addFilterListeners() {
+  // add event listeners for filters/search
+  // event listeners for filtering by genre
+  let genreselectdiv = document.getElementById("custom-genre-select");
+  let genreselectdiv2 = genreselectdiv.getElementsByClassName(
+    "select-items"
+  )[0];
+  let genreselectchildren = genreselectdiv2.childNodes;
+  for (let i = 0; i < genreselectchildren.length; i++) {
+    genreselectchildren[i].addEventListener("click", function () {
+      if (genreselectchildren[i].innerHTML !== "all genres") {
+        let newTabInfo = tabInfo.filter(function (el) {
+          return (
+            el.genre == capitaliseEachWord(genreselectchildren[i].innerHTML)
+          );
+        });
+        populateTable(newTabInfo);
+      } else {
+        populateTable(tabInfo);
+      }
+    });
+  }
+
+  // event listeners for searching with searchbar, artist or song name
+  // remove animate css from list elements when this value is > 0
+  let searchbar = document.getElementById("searchbar");
+  searchbar.addEventListener("keyup", function () {
+    // don't allow a space to be typed in first
+
+    // check if search bar is empty
+    if (isEmptyOrSpaces(searchbar.value)) {
+      if (
+        genreselectdiv.getElementsByClassName("select-selected")[0]
+          .innerHTML !== "all genres"
+      ) {
+        let newTabInfo = tabInfo.filter(function (el) {
+          return (
+            el.genre ==
+            capitaliseEachWord(
+              genreselectdiv.getElementsByClassName("select-selected")[0]
+                .innerHTML
+            )
+          );
+        });
+        populateTable(newTabInfo);
+      } else {
+        populateTable(tabInfo);
+      }
+      // search bar is empty, reapply genre
+    } else {
+      // filter by name or artist
+      let newTabInfo = [];
+      let newTabInfo2 = [];
+      newTabInfo = tabInfo.filter(function (el) {
+        return el.song_name
+          .toLowerCase()
+          .includes(searchbar.value.toLowerCase());
+      });
+      newTabInfo2 = tabInfo.filter(function (el) {
+        return el.artist_name
+          .toLowerCase()
+          .includes(searchbar.value.toLowerCase());
+      });
+      let newTabInfoFin = newTabInfo.concat(newTabInfo2);
+      populateTable(newTabInfoFin);
+    }
+  });
+}
+
+// generic functiont to capitalise first letter of each word
+function capitaliseEachWord(str) {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// generic function to check if chars exist in an input
+function isEmptyOrSpaces(str) {
+  return str === null || str.match(/^ *$/) !== null;
+}
+
+// function searchByGenre() {
+//   let searchMenu = document.getElementById("search-select");
+//   let search = searchMenu.options[searchMenu.selectedIndex].value;
+//   if (search !== "all genres") {
+//     let newTabInfo = tabInfo.filter(function (el) {
+//       return el.genre == search;
+//     });
+//     populateTable(newTabInfo);
+//   } else {
+//     populateTable(tabInfo);
+//   }
+// }
 
 function closeTab() {
   let tabcontainer = document.getElementById("tab-container-id");
@@ -291,6 +398,8 @@ function saveTab() {
     // add error message display here -------------------------------------------------------
     return;
   }
+  // then, check if the user is signed in ------------------------------------------
+
   saveModal.style.opacity = "1";
   saveModal.style.zIndex = "10";
 
@@ -1872,19 +1981,6 @@ function searchByArtist() {
     return el.artist_name.includes(search);
   });
   populateTable(newTabInfo);
-}
-
-function searchByGenre() {
-  let searchMenu = document.getElementById("searchGenre");
-  let search = searchMenu.options[searchMenu.selectedIndex].value;
-  if (search !== "All Genres") {
-    let newTabInfo = tabInfo.filter(function (el) {
-      return el.genre == search;
-    });
-    populateTable(newTabInfo);
-  } else {
-    populateTable(tabInfo);
-  }
 }
 
 // ----------------------------------------------------------------------------------------------- //
