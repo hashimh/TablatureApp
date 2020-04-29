@@ -145,6 +145,7 @@ function addFilterListeners() {
     } else {
       // filter by name or artist
       let newTabInfo = [];
+      let newTabInfo2 = [];
       newTabInfo = tabInfo.filter(function (el) {
         return el.song_name
           .concat(" " + el.artist_name)
@@ -152,6 +153,20 @@ function addFilterListeners() {
           .includes(searchbar.value.toLowerCase());
       });
       populateTable(newTabInfo);
+
+      // let searchArray = [];
+      // searchArray.push(el.song_name.toLowerCase().split(" "));
+      // searchArray.push(el.artist_name.toLowerCase().split(" "));
+      // console.log(searchArray)
+
+      // return searchArray.includes(searchbar.value.toLowerCase());
+      // newTabInfo2 = tabInfo.filter(function (el) {
+      //   return el.artist_name
+      //     .toLowerCase()
+      //     .includes(searchbar.value.toLowerCase());
+      // });
+      // let newTabInfoFin = newTabInfo.concat(newTabInfo2);
+      // populateTable(newTabInfoFin);
     }
   });
 }
