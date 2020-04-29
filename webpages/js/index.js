@@ -103,32 +103,64 @@ function addFilterListeners() {
   let genreselectchildren = genreselectdiv2.childNodes;
   for (let i = 0; i < genreselectchildren.length; i++) {
     genreselectchildren[i].addEventListener("click", function () {
+      let tabInfo1;
+      let tabInfo2;
+      let tabInfo3;
       if (genreselectchildren[i].innerHTML !== "all genres") {
-        let newTabInfo = tabInfo.filter(function (el) {
+        tabInfo1 = tabInfo.filter(function (el) {
           return (
             el.genre == capitaliseEachWord(genreselectchildren[i].innerHTML)
           );
         });
-        populateTable(newTabInfo);
+        // populateTable(newTabInfo);
       } else {
-        populateTable(tabInfo);
+        tabInfo1 = tabInfo;
+        // populateTable(tabInfo);
       }
+
+      // check sort by
+      if (
+        sortbydiv.getElementsByClassName("select-selected")[0].innerHTML !==
+        "most recent"
+      ) {
+        tabInfo2 = sortList(
+          tabInfo1,
+          sortbydiv.getElementsByClassName("select-selected")[0].innerHTML
+        );
+      } else {
+        tabInfo2 = tabInfo1;
+      }
+
+      if (searchbar.value.length > 0) {
+        // if search bar already has content
+        tabInfo3 = tabInfo1.filter(function (el) {
+          return el.song_name
+            .concat(" " + el.artist_name)
+            .toLowerCase()
+            .includes(searchbar.value.toLowerCase());
+        });
+      } else {
+        // if search is empty
+        tabInfo3 = tabInfo2;
+      }
+      populateTable(tabInfo3);
     });
   }
 
-  // event listeners for searching with searchbar, artist or song name
-  // remove animate css from list elements when this value is > 0
-  let searchbar = document.getElementById("searchbar");
-  searchbar.addEventListener("keyup", function () {
-    // don't allow a space to be typed in first
-
-    // check if search bar is empty
-    if (isEmptyOrSpaces(searchbar.value)) {
+  // event listener for sort by dropdown
+  let sortbydiv = document.getElementById("sort-by-select");
+  let sortbydiv2 = sortbydiv.getElementsByClassName("select-items")[0];
+  let sortbychildren = sortbydiv2.childNodes;
+  for (let j = 0; j < sortbychildren.length; j++) {
+    sortbychildren[j].addEventListener("click", function () {
+      let tabInfo1;
+      let tabInfo2;
       if (
+        // if a genre has already been filtered
         genreselectdiv.getElementsByClassName("select-selected")[0]
           .innerHTML !== "all genres"
       ) {
-        let newTabInfo = tabInfo.filter(function (el) {
+        tabInfo1 = tabInfo.filter(function (el) {
           return (
             el.genre ==
             capitaliseEachWord(
@@ -137,37 +169,77 @@ function addFilterListeners() {
             )
           );
         });
-        populateTable(newTabInfo);
       } else {
-        populateTable(tabInfo);
+        // if no genre has been filtered
+        tabInfo1 = tabInfo;
       }
-      // search bar is empty, reapply genre
-    } else {
-      // filter by name or artist
-      let newTabInfo = [];
-      let newTabInfo2 = [];
-      newTabInfo = tabInfo.filter(function (el) {
-        return el.song_name
-          .concat(" " + el.artist_name)
-          .toLowerCase()
-          .includes(searchbar.value.toLowerCase());
+
+      if (searchbar.value.length > 0) {
+        // if search bar already has content
+        tabInfo2 = tabInfo1.filter(function (el) {
+          return el.song_name
+            .concat(" " + el.artist_name)
+            .toLowerCase()
+            .includes(searchbar.value.toLowerCase());
+        });
+      } else {
+        // if search is empty
+        tabInfo2 = tabInfo1;
+      }
+      let finalTabInfo = sortList(tabInfo2, sortbychildren[j].innerHTML);
+      populateTable(finalTabInfo);
+    });
+  }
+
+  // event listeners for searching with searchbar, artist or song name
+  // remove animate css from list elements when this value is > 0
+  let searchbar = document.getElementById("searchbar");
+  searchbar.addEventListener("keyup", function () {
+    // don't allow a space to be typed in first
+    let tabInfo1;
+    let tabInfo2;
+
+    // check if a genre has been selected
+    if (
+      genreselectdiv.getElementsByClassName("select-selected")[0].innerHTML !==
+      "all genres"
+    ) {
+      tabInfo1 = tabInfo.filter(function (el) {
+        return (
+          el.genre ==
+          capitaliseEachWord(
+            genreselectdiv.getElementsByClassName("select-selected")[0]
+              .innerHTML
+          )
+        );
       });
-      populateTable(newTabInfo);
-
-      // let searchArray = [];
-      // searchArray.push(el.song_name.toLowerCase().split(" "));
-      // searchArray.push(el.artist_name.toLowerCase().split(" "));
-      // console.log(searchArray)
-
-      // return searchArray.includes(searchbar.value.toLowerCase());
-      // newTabInfo2 = tabInfo.filter(function (el) {
-      //   return el.artist_name
-      //     .toLowerCase()
-      //     .includes(searchbar.value.toLowerCase());
-      // });
-      // let newTabInfoFin = newTabInfo.concat(newTabInfo2);
-      // populateTable(newTabInfoFin);
+      // genre has not been selected, no changes to tabinfo needed
+    } else {
+      tabInfo1 = tabInfo;
     }
+
+    if (
+      sortbydiv.getElementsByClassName("select-selected")[0].innerHTML !==
+      "most recent"
+    ) {
+      tabInfo2 = sortList(
+        tabInfo1,
+        sortbydiv.getElementsByClassName("select-selected")[0].innerHTML
+      );
+    } else {
+      tabInfo2 = tabInfo1;
+    }
+
+    // filter by name or artist
+    let newTabInfo = [];
+    // method 1
+    newTabInfo = tabInfo2.filter(function (el) {
+      return el.song_name
+        .concat(" " + el.artist_name)
+        .toLowerCase()
+        .includes(searchbar.value.toLowerCase());
+    });
+    populateTable(newTabInfo);
   });
 }
 
@@ -183,6 +255,73 @@ function capitaliseEachWord(str) {
 // generic function to check if chars exist in an input
 function isEmptyOrSpaces(str) {
   return str === null || str.match(/^ *$/) !== null;
+}
+
+// generic function to sort tabInfo
+function sortList(tabInfoIn, typeIn) {
+  switch (typeIn) {
+    case "most recent":
+      tabInfoIn.sort(function (a, b) {
+        // code
+        if (a._id > b._id) {
+          return -1;
+        }
+        if (a._id < b._id) {
+          return 1;
+        }
+        return 0;
+      });
+      return tabInfoIn;
+    case "name a-z":
+      tabInfoIn.sort(function (a, b) {
+        if (a.song_name < b.song_name) {
+          return -1;
+        }
+        if (a.song_name > b.song_name) {
+          return 1;
+        }
+        return 0;
+      });
+      return tabInfoIn;
+    case "name z-a":
+      tabInfoIn.sort(function (a, b) {
+        if (a.song_name < b.song_name) {
+          return 1;
+        }
+        if (a.song_name > b.song_name) {
+          return -1;
+        }
+        return 0;
+      });
+      return tabInfoIn;
+    case "artist a-z":
+      tabInfoIn.sort(function (a, b) {
+        if (a.artist_name < b.artist_name) {
+          return -1;
+        }
+        if (a.artist_name > b.artist_name) {
+          return 1;
+        }
+        return 0;
+      });
+      return tabInfoIn;
+    case "artist z-a":
+      tabInfoIn.sort(function (a, b) {
+        if (a.artist_name < b.artist_name) {
+          return 1;
+        }
+        if (a.artist_name > b.artist_name) {
+          return -1;
+        }
+        return 0;
+      });
+      return tabInfoIn;
+  }
+
+  console.log(tabInfoIn, typeIn);
+  for (let i = 0; i < tabInfoIn.length; i++) {
+    console.log(tabInfoIn[i].song_name);
+  }
 }
 
 // function searchByGenre() {
@@ -484,7 +623,7 @@ async function signOut2() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to save a tablature ------------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
-async function saveTabOld() {
+async function saveTabToDb() {
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
   if (selectedStaveMenu.options.length <= 0) {
@@ -492,190 +631,176 @@ async function saveTabOld() {
     return;
   }
 
-  // now, bring up form for user to enter song name, artist, genre, etc.
-  let modal = document.getElementById("saveModal");
-  let span = document.getElementsByClassName("close")[1];
+  let songName = document.getElementById("song-name").value;
+  let artistName = document.getElementById("song-artist").value;
+  let genreMenu = document.getElementById("song-genre");
+  let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
+  if (editedTab == false) {
+    // most of the code will go here...
+    // first, check inputs and assign variables
 
-  modal.style.display = "block";
-
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  let confirmBtn = document.getElementById("confirmSave");
-  confirmBtn.addEventListener("click", async function () {
-    let songName = document.getElementById("songName").value;
-    let artistName = document.getElementById("artistName").value;
-    let genreMenu = document.getElementById("genreSelect");
-    let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
-    if (editedTab == false) {
-      // most of the code will go here...
-      // first, check inputs and assign variables
-
-      if (songName.length <= 0) {
-        alert("Please enter a valid song name.");
-        return;
-      } else if (artistName.length <= 0) {
-        alert("Please enter a valid artist name.");
-      }
-
-      // Now, save the stave contents into variables
-      let types = [];
-      let type;
-      let subtypes = [];
-      let staves = [];
-      let tabContent = document.getElementById("tabcontent");
-      let allStaves = tabContent.getElementsByClassName("stave");
-
-      for (let i = 0; i < allStaves.length; i++) {
-        // get stave type from h3's id, and add to 'type' array
-        type = allStaves[i].getElementsByTagName("h3")[0].id;
-        type = type.substring(1);
-        types.push(type);
-
-        // now, get stave textarea, and add to 'stave' array
-        let textAreaContainer = allStaves[i].getElementsByClassName(
-          "stavecontainerclass"
-        )[0];
-        let ps = textAreaContainer.querySelectorAll("p");
-        let textareas = textAreaContainer.querySelectorAll("textarea");
-        for (let j = 0; j < ps.length; j++) {
-          // type = allStaves[i].getElementsByTagName("h3")[0].id;
-          // type = type.substring(1);
-          // types.push(type);
-          subtypes.push(ps[j].innerHTML);
-          staves.push(textareas[j].value);
-        }
-      }
-
-      // make initial server call requests...
-      const token = localStorage.getItem("id_token");
-      const fetchOptions = {
-        credentials: "same-origin",
-        method: "POST",
-        // headers: { Authorization: "Bearer " + token },
-      };
-
-      let url =
-        "/api/saveTab" +
-        "?song_name=" +
-        encodeURIComponent(songName) +
-        "&artist_name=" +
-        encodeURIComponent(artistName) +
-        "&genre=" +
-        encodeURIComponent(songGenre) +
-        "&stave_types=" +
-        encodeURIComponent([types]) +
-        "&stave_subtypes=" +
-        encodeURIComponent([subtypes]) +
-        "&stave_content=" +
-        encodeURIComponent([staves]);
-
-      console.log("Attempting to fetch /api/saveTab...");
-      const response = await fetch(url, fetchOptions);
-      if (!response.ok) {
-        // handle the error
-        console.log("Fetch response for /api/saveTab has failed.");
-        return;
-      } else {
-        console.log("Successful /api/saveTab call.");
-      }
-      alert("Tab saved in database!");
-      // clear modal entries and close modal
-      songName = "";
-      artistName = "";
-      modal.style.display = "none";
-
-      // clear tab creation area
-      while (tabContent.firstChild) {
-        tabcontent.removeChild(tabcontent.firstChild);
-      }
-      // REMOVE STAVES FROM DROPDOWN MENU
-      let staveDropdown = document.getElementById("selectStave");
-      let dropdownLength = staveDropdown.options.length;
-      for (let i = 0; i < dropdownLength; i++) {
-        staveDropdown.remove(i);
-        staveDropdown.remove(staveDropdown.selectedIndex);
-      }
-      // add text back to no stave area
-      let tempmessage = document.createElement("p");
-      tempmessage.innerHTML =
-        "No content... Please create a stave with the button above";
-      tempmessage.setAttribute("id", "tempmessage");
-      tabcontent.append(tempmessage);
-    } else {
-      // Call new server function -> new database function -> replace old _id file with new one
-      let types = [];
-      let staves = [];
-      let tabContent = document.getElementById("tabcontent");
-      let allStaves = tabContent.getElementsByTagName("div");
-
-      for (let i = 0; i < allStaves.length; i++) {
-        // get stave type from h3's id, and add to 'type' array
-        let type = allStaves[i].getElementsByTagName("h3")[0].id;
-        type = type.substring(1);
-        types.push(type);
-
-        // now, get stave textarea, and add to 'stave' array
-        let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
-        staves.push(textarea);
-      }
-
-      const token = localStorage.getItem("id_token");
-      const fetchOptions = {
-        credentials: "same-origin",
-        method: "POST",
-        // headers: { Authorization: "Bearer " + token },
-      };
-
-      let url =
-        "/api/updateTab" +
-        "?_id=" +
-        encodeURIComponent(editedTabId) +
-        "&song_name=" +
-        encodeURIComponent(songName) +
-        "&artist_name=" +
-        encodeURIComponent(artistName) +
-        "&genre=" +
-        encodeURIComponent(songGenre) +
-        "&stave_types=" +
-        encodeURIComponent([types]) +
-        "&stave_content=" +
-        encodeURIComponent([staves]);
-
-      console.log("Attempting to fetch /api/updateTab...");
-      const response = await fetch(url, fetchOptions);
-      if (!response.ok) {
-        console.log("Fetch response for /api/updateTab has failed.");
-        return;
-      } else {
-        console.log("Successful /api/updateTab call.");
-      }
-      alert("Tab updated in database!");
-      // clear modal entries and close modal
-      songName = "";
-      artistName = "";
-      modal.style.display = "none";
-
-      // clear tab creation area
-      while (tabContent.firstChild) {
-        tabcontent.removeChild(tabcontent.firstChild);
-      }
-      // REMOVE STAVES FROM DROPDOWN MENU
-      let staveDropdown = document.getElementById("selectStave");
-      let dropdownLength = staveDropdown.options.length;
-      for (let i = 0; i < dropdownLength; i++) {
-        staveDropdown.remove(i);
-        staveDropdown.remove(staveDropdown.selectedIndex);
-      }
-      // add text back to no stave area
-      let tempmessage = document.createElement("p");
-      tempmessage.innerHTML =
-        "No content... Please create a stave with the button above";
-      tempmessage.setAttribute("id", "tempmessage");
-      tabcontent.append(tempmessage);
+    // song name and artist name validation
+    if (songName.length <= 0) {
+      alert("Please enter a valid song name.");
+      return;
+    } else if (artistName.length <= 0) {
+      alert("Please enter a valid artist name.");
     }
-  });
+
+    // Now, save the stave contents into variables
+    let types = [];
+    let type;
+    let subtypes = [];
+    let staves = [];
+    let tabContent = document.getElementById("tabcontent");
+    let allStaves = tabContent.getElementsByClassName("stave");
+
+    for (let i = 0; i < allStaves.length; i++) {
+      // get stave type from h3's id, and add to 'type' array
+      type = allStaves[i].getElementsByTagName("h3")[0].id;
+      type = type.substring(1);
+      types.push(type);
+
+      // now, get stave textarea, and add to 'stave' array
+      let textAreaContainer = allStaves[i].getElementsByClassName(
+        "stavecontainerclass"
+      )[0];
+      let ps = textAreaContainer.querySelectorAll("p");
+      let textareas = textAreaContainer.querySelectorAll("textarea");
+      for (let j = 0; j < ps.length; j++) {
+        // type = allStaves[i].getElementsByTagName("h3")[0].id;
+        // type = type.substring(1);
+        // types.push(type);
+        subtypes.push(ps[j].innerHTML);
+        staves.push(textareas[j].value);
+      }
+    }
+
+    // make initial server call requests...
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "POST",
+      // headers: { Authorization: "Bearer " + token },
+    };
+
+    let url =
+      "/api/saveTab" +
+      "?song_name=" +
+      encodeURIComponent(songName) +
+      "&artist_name=" +
+      encodeURIComponent(artistName) +
+      "&genre=" +
+      encodeURIComponent(songGenre) +
+      "&stave_types=" +
+      encodeURIComponent([types]) +
+      "&stave_subtypes=" +
+      encodeURIComponent([subtypes]) +
+      "&stave_content=" +
+      encodeURIComponent([staves]);
+
+    console.log("Attempting to fetch /api/saveTab...");
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      // handle the error
+      console.log("Fetch response for /api/saveTab has failed.");
+      return;
+    } else {
+      console.log("Successful /api/saveTab call.");
+    }
+    alert("Tab saved in database!");
+    // clear modal entries and close modal
+    songName = "";
+    artistName = "";
+
+    // clear tab creation area
+    while (tabContent.firstChild) {
+      tabcontent.removeChild(tabcontent.firstChild);
+    }
+    // REMOVE STAVES FROM DROPDOWN MENU
+    let staveDropdown = document.getElementById("selectStave");
+    let dropdownLength = staveDropdown.options.length;
+    for (let i = 0; i < dropdownLength; i++) {
+      staveDropdown.remove(i);
+      staveDropdown.remove(staveDropdown.selectedIndex);
+    }
+    // add text back to no stave area
+    let tempmessage = document.createElement("p");
+    tempmessage.innerHTML =
+      "No content... Please create a stave with the button above";
+    tempmessage.setAttribute("id", "tempmessage");
+    tabcontent.append(tempmessage);
+  } else {
+    // Call new server function -> new database function -> replace old _id file with new one
+    let types = [];
+    let staves = [];
+    let tabContent = document.getElementById("tabcontent");
+    let allStaves = tabContent.getElementsByTagName("div");
+
+    for (let i = 0; i < allStaves.length; i++) {
+      // get stave type from h3's id, and add to 'type' array
+      let type = allStaves[i].getElementsByTagName("h3")[0].id;
+      type = type.substring(1);
+      types.push(type);
+
+      // now, get stave textarea, and add to 'stave' array
+      let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
+      staves.push(textarea);
+    }
+
+    const token = localStorage.getItem("id_token");
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "POST",
+      // headers: { Authorization: "Bearer " + token },
+    };
+
+    let url =
+      "/api/updateTab" +
+      "?_id=" +
+      encodeURIComponent(editedTabId) +
+      "&song_name=" +
+      encodeURIComponent(songName) +
+      "&artist_name=" +
+      encodeURIComponent(artistName) +
+      "&genre=" +
+      encodeURIComponent(songGenre) +
+      "&stave_types=" +
+      encodeURIComponent([types]) +
+      "&stave_content=" +
+      encodeURIComponent([staves]);
+
+    console.log("Attempting to fetch /api/updateTab...");
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      console.log("Fetch response for /api/updateTab has failed.");
+      return;
+    } else {
+      console.log("Successful /api/updateTab call.");
+    }
+    alert("Tab updated in database!");
+    // clear modal entries and close modal
+    songName = "";
+    artistName = "";
+    modal.style.display = "none";
+
+    // clear tab creation area
+    while (tabContent.firstChild) {
+      tabcontent.removeChild(tabcontent.firstChild);
+    }
+    // REMOVE STAVES FROM DROPDOWN MENU
+    let staveDropdown = document.getElementById("selectStave");
+    let dropdownLength = staveDropdown.options.length;
+    for (let i = 0; i < dropdownLength; i++) {
+      staveDropdown.remove(i);
+      staveDropdown.remove(staveDropdown.selectedIndex);
+    }
+    // add text back to no stave area
+    let tempmessage = document.createElement("p");
+    tempmessage.innerHTML =
+      "No content... Please create a stave with the button above";
+    tempmessage.setAttribute("id", "tempmessage");
+    tabcontent.append(tempmessage);
+  }
 }
 
 // ----------------------------------------------------------------------------------------------- //

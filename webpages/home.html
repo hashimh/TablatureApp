@@ -61,7 +61,7 @@
               <p>sort by :</p>
             </li>
             <li>
-              <div class="custom-select" style="width: 200px;">
+              <div class="custom-select" style="width: 200px;" id="sort-by-select">
                 <select>
                   <option value="0">most recent</option>
                   <option value="1">name a-z</option>
@@ -79,8 +79,9 @@
               <div class="custom-select" style="width: 200px;" id="custom-genre-select">
                 <select id="search-select">
                   <option>all genres</option>
-                  <option>psychadelic rock</option>
+                  <option>alternative rock</option>
                   <option>blues</option>
+                  <option>psychadelic rock</option>
                 </select>
               </div>
             </li>
@@ -1184,7 +1185,7 @@
           <option value="Heavy Metal">heavy metal</option>
         </select>
       </div>
-      <button class="btn-large">save</button>
+      <button class="btn-large" onclick="saveTabToDb()">save</button>
     </div>
   </div>
 
