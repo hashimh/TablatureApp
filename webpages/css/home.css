@@ -453,6 +453,21 @@ select:focus {
   max-height: 29vw;
   animation: fade-in 1s;
 }
+/* results list grid */
+.li-genre {
+  grid-area: ligenre;
+}
+.li-song-artist {
+  grid-area: limeta;
+}
+.li-username {
+  grid-area: liuser;
+}
+.li-symbol {
+  grid-area: lisymbol;
+  justify-self: end;
+}
+
 .results-list-elem {
   background-color: #cfcfc4;
   list-style-type: none;
@@ -461,13 +476,14 @@ select:focus {
   -ms-transition: background-color 500ms linear;
   transition: background-color 500ms linear;
   padding-left: 0;
+  display: grid;
+  grid-template-columns: 50% 20% 25% 5%;
+  grid-template-areas: "limeta ligenre liuser lisymbol";
 }
+
 .results-list ul {
   padding: 0.75vw;
   margin-bottom: 1vw;
-}
-.results-list-elem li {
-  display: inline;
 }
 
 .results-list-elem:hover {

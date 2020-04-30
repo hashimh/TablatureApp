@@ -46,33 +46,43 @@ function populateTable(tabInfo) {
     listElem.setAttribute("class", "results-list-elem");
     // create a list element for each section of the UL
     let listElemText0 = document.createElement("li");
+    listElemText0.setAttribute("class", "li-song-artist");
     listElemText0.innerHTML =
-      "<b>" + tabInfo[i].song_name + " by " + tabInfo[i].artist_name + "</b>";
+      "<b>" +
+      tabInfo[i].song_name +
+      // "</b>" +
+      " - " +
+      // "<b>" +
+      tabInfo[i].artist_name +
+      "</b>";
     listElemText0.style.paddingRight = "1vw";
 
     let listElemText1 = document.createElement("li");
     listElemText1.innerHTML = "<i>" + tabInfo[i].genre + "</i>";
+    listElemText1.setAttribute("class", "li-genre");
 
     let listElemText2 = document.createElement("li");
     listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
-    listElemText2.style.float = "right";
-    listElemText2.style.paddingRight = "1vw";
+    // listElemText2.style.float = "right";
+    // listElemText2.style.paddingRight = "1vw";
+    listElemText2.setAttribute("class", "li-username");
 
     let listElemSymbol = document.createElement("li");
     let symbol = document.createElement("i");
+    listElemSymbol.setAttribute("class", "li-symbol");
     symbol.setAttribute("class", "fa fa-plus");
     symbol.setAttribute("aria-hidden", "true");
     listElemSymbol.appendChild(symbol);
-    listElemSymbol.style.float = "right";
+    // listElemSymbol.style.float = "right";
 
     // Create onclick event for each li element, to open the tablatures
     listElem.setAttribute("onclick", "openTab(this.id)");
 
     // Append p and button to their li
     listElem.appendChild(listElemText0);
-    listElem.appendChild(listElemText1);
     listElem.appendChild(listElemSymbol);
     listElem.appendChild(listElemText2);
+    listElem.appendChild(listElemText1);
     listWrapper.appendChild(listElem);
   }
   // List of availabe information from tabInfo:
@@ -376,7 +386,13 @@ async function openTab(id) {
 
   // we now have the information, fill up content
   document.getElementById("tab-info-1").innerHTML =
-    "<b>" + res[0].song_name + " by " + res[0].artist_name + "</b>";
+    "<b>" +
+    res[0].song_name +
+    "</b>" +
+    " by " +
+    "<b>" +
+    res[0].artist_name +
+    "</b>";
 
   document.getElementById("tab-info-2").innerHTML =
     "<i>" + res[0].genre + "</i>";
