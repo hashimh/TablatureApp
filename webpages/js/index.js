@@ -63,8 +63,6 @@ function populateTable(tabInfo) {
 
     let listElemText2 = document.createElement("li");
     listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
-    // listElemText2.style.float = "right";
-    // listElemText2.style.paddingRight = "1vw";
     listElemText2.setAttribute("class", "li-username");
 
     let listElemSymbol = document.createElement("li");
@@ -73,7 +71,6 @@ function populateTable(tabInfo) {
     symbol.setAttribute("class", "fa fa-plus");
     symbol.setAttribute("aria-hidden", "true");
     listElemSymbol.appendChild(symbol);
-    // listElemSymbol.style.float = "right";
 
     // Create onclick event for each li element, to open the tablatures
     listElem.setAttribute("onclick", "openTab(this.id)");
@@ -85,13 +82,6 @@ function populateTable(tabInfo) {
     listElem.appendChild(listElemText1);
     listWrapper.appendChild(listElem);
   }
-  // List of availabe information from tabInfo:
-  // tabInfo[i]._id
-  // .genre
-  // .artist_name,
-  // .song_name,
-  // .email
-  // addRowHandlers();
 
   // if there is no content, output message
   let resultsList = document.getElementById("results-list-id");
@@ -103,6 +93,9 @@ function populateTable(tabInfo) {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Function for search/filter options ------------------------------------------------------------ //
+// ----------------------------------------------------------------------------------------------- //
 function addFilterListeners() {
   // add event listeners for filters/search
   // event listeners for filtering by genre
@@ -253,7 +246,9 @@ function addFilterListeners() {
   });
 }
 
-// generic functiont to capitalise first letter of each word
+// ----------------------------------------------------------------------------------------------- //
+// Generic functions for search/filter ----------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function capitaliseEachWord(str) {
   return str
     .toLowerCase()
@@ -262,12 +257,13 @@ function capitaliseEachWord(str) {
     .join(" ");
 }
 
-// generic function to check if chars exist in an input
 function isEmptyOrSpaces(str) {
   return str === null || str.match(/^ *$/) !== null;
 }
 
-// generic function to sort tabInfo
+// ----------------------------------------------------------------------------------------------- //
+// Function for sorting tab list ======----------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function sortList(tabInfoIn, typeIn) {
   switch (typeIn) {
     case "most recent":
@@ -327,26 +323,11 @@ function sortList(tabInfoIn, typeIn) {
       });
       return tabInfoIn;
   }
-
-  console.log(tabInfoIn, typeIn);
-  for (let i = 0; i < tabInfoIn.length; i++) {
-    console.log(tabInfoIn[i].song_name);
-  }
 }
 
-// function searchByGenre() {
-//   let searchMenu = document.getElementById("search-select");
-//   let search = searchMenu.options[searchMenu.selectedIndex].value;
-//   if (search !== "all genres") {
-//     let newTabInfo = tabInfo.filter(function (el) {
-//       return el.genre == search;
-//     });
-//     populateTable(newTabInfo);
-//   } else {
-//     populateTable(tabInfo);
-//   }
-// }
-
+// ----------------------------------------------------------------------------------------------- //
+// To close the currently viewing tab ------------------------------------------------------------ //
+// ----------------------------------------------------------------------------------------------- //
 function closeTab() {
   let tabcontainer = document.getElementById("tab-container-id");
   let maincontainer = document.getElementById("main-container-id");
@@ -362,6 +343,9 @@ function closeTab() {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// To open a tab from tab list ------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function openTab(id) {
   // function will switch to tabcont. and fill in information
   let tabcontainer = document.getElementById("tab-container-id");
@@ -408,12 +392,6 @@ async function openTab(id) {
     contentcontainer.removeChild(contentcontainer.firstChild);
   }
 
-  // let closeBtn = document.createElement("button");
-  // closeBtn.setAttribute("onclick", "closeTab();");
-  // closeBtn.setAttribute("class", "close-tab-btn");
-  // closeBtn.innerHTML = "close";
-  // contentcontainer.append(closeBtn);
-
   for (let i = 0; i < staves.length; i++) {
     //create stave inner div
     let staveDiv = document.createElement("div");
@@ -456,6 +434,9 @@ async function openTab(id) {
   // NEXT, CHECK IF CURRENT USER IS USER WHO CREATED THE TAB AND ADD SOME EXTRA OPTIONS FOR THEM
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Initalise form when create tab button clicked ------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function createTabNew() {
   let tabcontainer = document.getElementById("tab-container-id");
   let maincontainer = document.getElementById("main-container-id");
@@ -475,6 +456,9 @@ function createTabNew() {
   chordFretboard();
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Go back out of create tab form ---------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function goBack() {
   let createcontainer = document.getElementById("create-container-id");
   let maincontainer = document.getElementById("main-container-id");
@@ -532,6 +516,9 @@ function goBack() {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Open and close help modal --------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function helpBtn() {
   let helpmodal = document.getElementById("help-modal");
   helpmodal.style.opacity = "1";
@@ -554,6 +541,9 @@ function closeHelpBtn() {
   helpmodal.style.zIndex = "-1";
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Open save tablature modal --------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function saveTab() {
   // clear any error messages
   document.getElementById("exportMsg").innerHTML = "";
@@ -599,45 +589,23 @@ async function createTabBtn() {
 // ----------------------------------------------------------------------------------------------- //
 
 // ----------------------------------------------------------------------------------------------- //
-// Code for the help modal popup ----------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// Get the modal
-// function helpBtn() {
-//   let modal = document.getElementById("helpModal");
-//   // Get the <span> element that closes the modal
-//   let span = document.getElementsByClassName("close")[0];
-//   // When the user clicks the button, open the modal
-//   modal.style.display = "block";
-//   // When the user clicks on <span> (x), close the modal
-//   span.onclick = function () {
-//     modal.style.display = "none";
-//   };
-//   // When the user clicks anywhere outside of the modal, close it
-//   window.onclick = function (event) {
-//     if (event.target == modal) {
-//       modal.style.display = "none";
-//     }
-//   };
-// }
-
-// ----------------------------------------------------------------------------------------------- //
 // Function to sign out of the menu.html form ---------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function signOut2() {
-  if (confirm("All content will be lost, continue with sign out?")) {
-    // Call server function 'logout'
-    let apiLink = "/api/logout";
-    await getPage(apiLink);
+// async function signOut2() {
+//   if (confirm("All content will be lost, continue with sign out?")) {
+//     // Call server function 'logout'
+//     let apiLink = "/api/logout";
+//     await getPage(apiLink);
 
-    window.location.reload();
+//     window.location.reload();
 
-    // Removes ID Token from local storage, ensures Google account logs out properly.
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("googleUser");
-  } else {
-    return;
-  }
-}
+//     // Removes ID Token from local storage, ensures Google account logs out properly.
+//     localStorage.removeItem("id_token");
+//     localStorage.removeItem("googleUser");
+//   } else {
+//     return;
+//   }
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // Function to save a tablature ------------------------------------------------------------------ //
@@ -920,7 +888,6 @@ function textareaChange(chars) {
   let staveid = "stave" + selectedStave;
   let stavedivid = staveid.substr(0, staveid.length - 2);
   if (chars.length > 93) {
-    alert("time for a new textarea");
     // create a new textarea, append it to the container
     // change the value of select stave dropdown to new area
     // to get count, get number of child elements of the container, then add 1, or use global var
@@ -2115,14 +2082,6 @@ async function createChord() {
   }
 }
 
-async function backBtnMain() {
-  if (confirm("Changes will not be saved, are you sure you want to go back?")) {
-    // Call main menu form
-    let apiLink = "/api/login";
-    await getPage(apiLink);
-  }
-}
-
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ------------------------------------- VIEW TABS FUNCTIONS ------------------------------------- //
@@ -2199,46 +2158,6 @@ function searchByArtist() {
   });
   populateTable(newTabInfo);
 }
-
-// ----------------------------------------------------------------------------------------------- //
-// Function to make clickable table and get relevant info upon events ---------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// async function addRowHandlers() {
-//   let table = document.getElementById("tabTable");
-//   let rows = table.getElementsByTagName("tr");
-//   for (let i = 1; i < rows.length; i++) {
-//     let currentRow = table.rows[i];
-//     let createClickHandler = function (row) {
-//       return async function () {
-//         let id = row.id;
-
-//         // Do the main stuff
-//         // use getTabs function, alter 'key' parameter to be sent
-//         // to include name, artist and user
-
-//         const token = localStorage.getItem("id_token");
-//         const fetchOptions = {
-//           credentials: "same-origin",
-//           method: "GET",
-//           // headers: { Authorization: "Bearer " + token },
-//         };
-//         let url = "/api/getTabContent" + "?id=" + encodeURIComponent(id);
-//         console.log("Attempting to fetch /api/getTabContent.");
-
-//         const response = await fetch(url, fetchOptions);
-//         if (!response.ok) {
-//           console.log("Fetch response for /api/getTabContent has failed.");
-//           return;
-//         }
-//         console.log("Successful /api/getTabContent call.");
-//         let res = await response.json();
-
-//         populateContent(res);
-//       };
-//     };
-//     currentRow.onclick = createClickHandler(currentRow);
-//   }
-// }
 
 // Populate content
 function populateContent(tabContent) {
