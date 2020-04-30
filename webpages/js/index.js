@@ -866,6 +866,8 @@ function downloadTab() {
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
+
+  document.getElementById("exportMsg").innerHTML = "tablature downloaded";
 }
 
 // ----------------------------------------------------------------------------------------------- //
