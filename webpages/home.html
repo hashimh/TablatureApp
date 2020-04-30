@@ -1122,9 +1122,9 @@
           </div>
 
           <div class="option">
-            <button class="btn-large" style="float: right" onclick="saveTab()">save</button class="btn-large">
-            <button class="btn-large" onclick="helpBtn()">help</button>
             <button class="btn-large" onclick="goBack()">back</button>
+            <button class="btn-large" onclick="helpBtn()">help</button>
+            <button class="btn-large" style="float: right" onclick="saveTab()">save / export</button class="btn-large">
           </div>
         </div>
       </div>
@@ -1163,29 +1163,43 @@
 
   <div class="modal" id="save-modal">
     <div class="modal-content save-modal-content" id="save-modal-content-id">
-      <span class="close fa fa-times fa-2x" id="save-span"></span>
-      <h4>upload tablature</h4>
-      <div class="save-block">
-        <p class="save-label">song name</p>
-        <input type="text" class="save-input" id="song-name">
+
+      <div class="save">
+        <h4>upload to site</h4>
+        <div class="save-block">
+          <p class="save-label">song name</p>
+          <input type="text" class="save-input" id="song-name">
+        </div>
+        <div class="save-block">
+          <p class="save-label">artist</p>
+          <input type="text" class="save-input" id="song-artist">
+        </div>
+        <div class="save-block">
+          <p class="save-label">genre</p>
+          <select name="genre" id="song-genre">
+            <option value="Alternative Rock">alternative rock</option>
+            <option value="Blues">blues</option>
+            <option value="Classical">classical</option>
+            <option value="Country">country</option>
+            <option value="Folk">folk</option>
+            <option value="Funk">funk</option>
+            <option value="Heavy Metal">heavy metal</option>
+          </select>
+        </div>
+        <button class="btn-large" onclick="saveTabToDb()">save</button>
       </div>
-      <div class="save-block">
-        <p class="save-label">artist</p>
-        <input type="text" class="save-input" id="song-artist">
+
+      <div class="export">
+        <span class="save-close close fa fa-times fa-2x" id="save-span"></span>
+        <!-- export code here -->
+        <h4>export / download</h4>
+        <p>please fill in the boxes on the left before selecting an option below.</p>
+        <div class="export-btns">
+          <button class="btn-large">send via email</button>
+          <button class="btn-large" onclick="downloadTab()">download as .txt</button>
+        </div>
+        <p id="exportMsg"></p>
       </div>
-      <div class="save-block">
-        <p class="save-label">genre</p>
-        <select name="genre" id="song-genre">
-          <option value="Alternative Rock">alternative rock</option>
-          <option value="Blues">blues</option>
-          <option value="Classical">classical</option>
-          <option value="Country">country</option>
-          <option value="Folk">folk</option>
-          <option value="Funk">funk</option>
-          <option value="Heavy Metal">heavy metal</option>
-        </select>
-      </div>
-      <button class="btn-large" onclick="saveTabToDb()">save</button>
     </div>
   </div>
 

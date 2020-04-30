@@ -539,6 +539,9 @@ function closeHelpBtn() {
 }
 
 function saveTab() {
+  // clear any error messages
+  document.getElementById("exportMsg").innerHTML = "";
+
   let saveModal = document.getElementById("save-modal");
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
@@ -801,6 +804,68 @@ async function saveTabToDb() {
     tempmessage.setAttribute("id", "tempmessage");
     tabcontent.append(tempmessage);
   }
+}
+
+function downloadTab() {
+  let songName = document.getElementById("song-name").value;
+  let artistName = document.getElementById("song-artist").value;
+  let genreMenu = document.getElementById("song-genre");
+  let songGenre = genreMenu.options[genreMenu.selectedIndex].value;
+  let errMsg = document.getElementById("exportMsg");
+  let tabContent = document.getElementById("tabcontent");
+  let allStaves = tabContent.getElementsByClassName("stave");
+
+  if (songName.length < 1) {
+    errMsg.innerHTML = "please complete information on the left";
+    return;
+  } else if (artistName.length < 1) {
+    errMsg.innerHTML = "please complete information on the left";
+    return;
+  }
+
+  let content = [];
+  for (let i = 0; i < allStaves.length; i++) {
+    let subcontent = [];
+    let staves = [];
+    let type = allStaves[i].getElementsByTagName("h3")[0].innerHTML;
+    subcontent.push(type + "\n\n");
+
+    let textAreaContainer = allStaves[i].getElementsByClassName(
+      "stavecontainerclass"
+    )[0];
+    let textareas = textAreaContainer.querySelectorAll("textarea");
+    for (let j = 0; j < textareas.length; j++) {
+      staves.push(textareas[j].value + "\n\n");
+    }
+    subcontent.push(staves + "\n");
+    content.push([subcontent]);
+  }
+
+  let contentFin = content.join(",").replace(/,/g, "").split();
+
+  let blob = new Blob(
+    [
+      "song name: " +
+        songName +
+        "\nartist name: " +
+        artistName +
+        "\ngenre: " +
+        songGenre +
+        "\n\n" +
+        [contentFin],
+    ],
+    {
+      type: "text/plain",
+    }
+  );
+  let anchor = document.createElement("a");
+  anchor.download = songName + "_tab.txt";
+  anchor.href = window.URL.createObjectURL(blob);
+  anchor.target = "_blank";
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
 }
 
 // ----------------------------------------------------------------------------------------------- //

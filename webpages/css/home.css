@@ -686,7 +686,11 @@ div.fretStringLegend {
 .option {
   grid-area: opts;
   margin: 1vw;
-  margin-top: 16px;
+  margin-top: 0;
+  display: flex;
+}
+.option button {
+  margin-right: 2px;
 }
 .audio {
   grid-area: audio;
@@ -855,7 +859,7 @@ div.miniFretLegend {
   border-right: 2px solid #bcb0ee;
   font-size: 1.25vw;
   padding: 1vw;
-  height: 100%;
+  max-height: 63vh;
 }
 .tabcontent h3 {
   margin-top: 0;
@@ -978,12 +982,38 @@ textarea {
   cursor: pointer;
 }
 
+.save {
+  grid-area: save;
+  border-right: 1px solid black;
+}
+.export {
+  grid-area: export;
+  border-left: 1px solid black;
+}
+.export-btns {
+  display: grid;
+  justify-content: center;
+  grid-gap: 2vw;
+  margin-top: 2vw;
+}
+.export-btns button {
+  width: 15vw;
+}
 .save-modal-content {
   margin: 20vh auto;
-  width: 30%;
+  width: 50%;
   text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "save export";
+  padding-left: 0;
+  padding-right: 0;
 }
 .save-modal-content p {
   margin-bottom: 10px;
   font-size: 1.4vw;
 }
+.save-close {
+  right: 1vw;
+  top: -1.3vw;
+}}
