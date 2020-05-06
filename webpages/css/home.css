@@ -1,3 +1,5 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 /* ----------------------------------------------------------------------------- */
 /* Main and Body CSS */
 main {
@@ -25,15 +27,15 @@ body {
 }
 
 body::-webkit-scrollbar,
-.tab-content::-webkit-scrollbar {
+.tabcontent::-webkit-scrollbar {
   width: 0.75vw;
 }
 body::-webkit-scrollbar-track,
-.tab-content::-webkit-scrollbar-track {
+.tabcontent::-webkit-scrollbar-track {
   background-color: darkgray;
 }
 body::-webkit-scrollbar-thumb,
-.tab-content::-webkit-scrollbar-thumb {
+.tabcontent::-webkit-scrollbar-thumb {
   background-color: gray;
 }
 
@@ -136,6 +138,32 @@ body::-webkit-scrollbar-thumb,
 #check-label {
   font-size: 1.3vw;
 }
+#check-label:hover {
+  cursor: pointer;
+}
+
+/* custom checkbox code */
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label:before {
+  font-family: FontAwesome;
+  display: inline-block;
+}
+input[type="checkbox"] + label:before {
+  content: "\f096";
+}
+input[type="checkbox"] + label:before {
+  letter-spacing: 7.5px;
+}
+input[type="checkbox"]:checked + label:before {
+  content: "\f046";
+}
+input[type="checkbox"]:checked + label:before {
+  letter-spacing: 5px;
+}
+
 .button {
   width: 80%;
   margin-top: 1vw;
@@ -351,6 +379,7 @@ input[type="password"] {
   padding: 0.5vw;
   border: none;
   font-size: 1.3vw;
+  width: 16vw;
 }
 textarea:focus,
 input:focus,
@@ -479,6 +508,7 @@ select:focus {
   display: grid;
   grid-template-columns: 50% 20% 25% 5%;
   grid-template-areas: "limeta ligenre liuser lisymbol";
+  align-items: center;
 }
 
 .results-list ul {
@@ -521,6 +551,10 @@ select:focus {
   background-color: #bb9cd9;
   border-right: 2px solid #bcb0ee;
   font-size: 1.25vw;
+}
+
+.stavecontainerclass p {
+  margin: 0;
 }
 
 .createStave label,
@@ -631,7 +665,8 @@ div.fretboard {
   margin-left: 5%;
   margin-right: 5%;
   max-width: 90%;
-  background-image: url(wood.jpg);
+  /* background-image: url(wood.jpg); */
+  background-color: #aa715d;
   background-size: 100%;
   background-attachment: scroll;
   position: relative;
@@ -646,8 +681,9 @@ div.fret {
   padding: 0;
   /* border: 1em solid black; */
   border-width: thin;
-  border-right: 2px solid black;
+  border-right: 3px solid black;
   border-bottom: 1px solid black;
+  /* border-top: 0.25px solid black; */
 }
 
 div.fret:hover {
@@ -679,11 +715,12 @@ div.fretUnselectableLegend {
   display: table-cell;
   text-align: center;
   font-size: 1.25vw;
+  font-weight: bold;
 }
 
 div.fretStringLegend {
   background-color: #bcb0ee;
-  border-right: 5px solid black;
+  border-right: 5px solid rgb(80, 80, 80);
 }
 
 .tuningDropdown {
@@ -744,7 +781,8 @@ div.fretStringLegend {
 /* Chord Creation Fretbox */
 
 div.miniFretboard {
-  background-image: url(wood.jpg);
+  /* background-image: url(wood.jpg); */
+  background-color: #aa715d;
   position: relative;
   overflow: auto;
   width: fit-content;
@@ -791,11 +829,9 @@ div.fret2 {
   min-width: 40px;
   margin: 0;
   padding: 0;
-  /* border: 1em solid black; */
-  border-width: thin;
-  /* border-right: 2px solid black;
-  border-bottom: 1px solid black; */
   border: 1px solid black;
+  border-width: thin;
+  /* border-right: 3px solid black; */
 }
 
 div.fret2:hover {
@@ -809,10 +845,10 @@ div.fret2Selected {
   min-width: 40px;
   margin: 0;
   padding: 0;
-  /* border: 1em solid black; */
+  border: 1px solid black;
   border-width: thin;
-  border-right: 2px solid black;
-  border-bottom: 1px solid black;
+  /* border-right: 2px solid black;
+  border-bottom: 1px solid black; */
 }
 
 div.fret2Selected:hover {
@@ -875,7 +911,7 @@ div.miniFretLegend {
   border-right: 2px solid #bcb0ee;
   font-size: 1.25vw;
   padding: 1vw;
-  max-height: 63vh;
+  max-height: 33vw;
 }
 .tabcontent h3 {
   margin-top: 0;
@@ -958,6 +994,7 @@ textarea {
   margin-top: 0;
   text-align: center;
   font-size: 1.5vw;
+  text-decoration: underline;
 }
 .help-modal-content h4 {
   text-align: left;
@@ -1010,7 +1047,7 @@ textarea {
   display: grid;
   justify-content: center;
   grid-gap: 2vw;
-  margin-top: 2vw;
+  margin-top: 5vw;
 }
 .export-btns button {
   width: 15vw;
@@ -1032,4 +1069,9 @@ textarea {
 .save-close {
   right: 1vw;
   top: -1.3vw;
+}
+#song-genre {
+  font-size: 1.3vw;
+  padding: 0.5vw;
+  width: 16vw;
 }

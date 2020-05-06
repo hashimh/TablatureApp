@@ -10,11 +10,6 @@ var signedIn = false;
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 window.onload = async (event) => {
-  // if the user is not logged in, display this on the create button
-  let createBtn = document.getElementById("create-btn");
-  if (signedIn == false) {
-    createBtn.innerHTML += " (guest)";
-  }
   // Get tablature information from the database
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
@@ -570,17 +565,17 @@ function saveTab() {
 // ----------------------------------------------------------------------------------------------- //
 // Function to go to main.html form -------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-async function createTabBtn() {
-  // Call server function 'createTabBtn'
-  let apiLink = "/api/createTabBtn";
-  await getPage(apiLink);
+// async function createTabBtn() {
+//   // Call server function 'createTabBtn'
+//   let apiLink = "/api/createTabBtn";
+//   await getPage(apiLink);
 
-  editedTab = false;
-  editedTabId = "";
-  ``;
+//   editedTab = false;
+//   editedTabId = "";
+//   ``;
 
-  populateMain();
-}
+//   populateMain();
+// }
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -694,7 +689,6 @@ async function saveTabToDb() {
     } else {
       console.log("Successful /api/saveTab call.");
     }
-    alert("Tab saved in database!");
     // clear modal entries and close modal
     songName = "";
     artistName = "";
@@ -716,6 +710,27 @@ async function saveTabToDb() {
       "No content... Please create a stave with the button above";
     tempmessage.setAttribute("id", "tempmessage");
     tabcontent.append(tempmessage);
+
+    let errMsg = document.getElementById("exportMsg");
+    errMsg.innerHTML = "uploading to database...";
+
+    setTimeout(() => {
+      // now, close the save tab modal
+      let saveModal = document.getElementById("save-modal");
+      saveModal.style.opacity = "0";
+      saveModal.style.zIndex = "-1";
+
+      // go back to main page, and refresh content
+      let createcontainer = document.getElementById("create-container-id");
+      let maincontainer = document.getElementById("main-container-id");
+      // trigger page refresh
+      createcontainer.style.display = "none";
+      document.getElementById("loginbox").style.display = "block";
+      document.getElementById("logintext").style.borderLeft = "2px solid black";
+      document.getElementById("griddiv").style.display = "grid";
+      maincontainer.style.display = "grid";
+      location.reload();
+    }, 2000);
   } else {
     // Call new server function -> new database function -> replace old _id file with new one
     let types = [];
@@ -787,9 +802,12 @@ async function saveTabToDb() {
       "No content... Please create a stave with the button above";
     tempmessage.setAttribute("id", "tempmessage");
     tabcontent.append(tempmessage);
+
+    // close the save tab modal
   }
 }
 
+// function to download the tablature as a .txt
 function downloadTab() {
   let songName = document.getElementById("song-name").value;
   let artistName = document.getElementById("song-artist").value;
@@ -805,6 +823,8 @@ function downloadTab() {
   } else if (artistName.length < 1) {
     errMsg.innerHTML = "please complete information on the left";
     return;
+  } else {
+    errMsg.innerHTML = "";
   }
 
   let content = [];
@@ -842,6 +862,7 @@ function downloadTab() {
       type: "text/plain",
     }
   );
+
   let anchor = document.createElement("a");
   anchor.download = songName + "_tab.txt";
   anchor.href = window.URL.createObjectURL(blob);

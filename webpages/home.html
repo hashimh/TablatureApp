@@ -42,7 +42,7 @@
 
       </div>
       <div class="login-text" id="moveable-text">
-        <button id="create-btn" onClick="createTabNew();" class="btn-large">create new</button>
+        <button id="create-btn" onClick="createTabNew();" class="btn-large">create tablature</button>
       </div>
     </div>
 
@@ -76,7 +76,7 @@
           <ul class="select-genre" style="float: right;">
             <li><p>genre :</p></li>
             <li>
-              <div class="custom-select" style="width: 200px;" id="custom-genre-select">
+              <div class="custom-select" style="width: 14vw;" id="custom-genre-select">
                 <select id="search-select">
                   <option>all genres</option>
                   <option>alternative rock</option>
@@ -159,7 +159,7 @@
                 <option>C#3</option>
                 <option>D3</option>
                 <option>D#3</option>
-                <option selected = "selected">E3</option>
+                <option>E3</option>
                 <option>F3</option>
                 <option>F#3</option>
                 <option>G3</option>
@@ -171,7 +171,7 @@
                 <option>C#4</option>
                 <option>D4</option>
                 <option>D#4</option>
-                <option>E4</option>
+                <option selected = "selected">E4</option>
                 <option>F4</option>
                 <option>F#4</option>
                 <option>G4</option>
@@ -281,7 +281,7 @@
             <option>G#2</option>
             <option>A2</option>
             <option>A#2</option>
-            <option selected = "selected">B2</option>
+            <option>B2</option>
             <option>C3</option>
             <option>C#3</option>
             <option>D3</option>
@@ -293,7 +293,7 @@
             <option>G#3</option>
             <option>A3</option>
             <option>A#3</option>
-            <option>B3</option>
+            <option selected = "selected">B3</option>
             <option>C4</option>
             <option>C#4</option>
             <option>D4</option>
@@ -404,7 +404,7 @@
             <option>E2</option>
             <option>F2</option>
             <option>F#2</option>
-            <option selected = "selected">G2</option>
+            <option>G2</option>
             <option>G#2</option>
             <option>A2</option>
             <option>A#2</option>
@@ -416,7 +416,7 @@
             <option>E3</option>
             <option>F3</option>
             <option>F#3</option>
-            <option>G3</option>
+            <option selected = "selected">G3</option>
             <option>G#3</option>
             <option>A3</option>
             <option>A#3</option>
@@ -526,7 +526,7 @@
             <option>B1</option>
             <option>C2</option>
             <option>C#2</option>
-            <option selected = "selected">D2</option>
+            <option>D2</option>
             <option>D#2</option>
             <option>E2</option>
             <option>F2</option>
@@ -538,7 +538,7 @@
             <option>B2</option>
             <option>C3</option>
             <option>C#3</option>
-            <option>D3</option>
+            <option selected = "selected">D3</option>
             <option>D#3</option>
             <option>E3</option>
             <option>F3</option>
@@ -648,7 +648,7 @@
             <option>F#1</option>
             <option>G1</option>
             <option>G#1</option>
-            <option  selected = "selected">A1</option>
+            <option>A1</option>
             <option>A#1</option>
             <option>B1</option>
             <option>C2</option>
@@ -660,7 +660,7 @@
             <option>F#2</option>
             <option>G2</option>
             <option>G#2</option>
-            <option>A2</option>
+            <option selected = "selected">A2</option>
             <option>A#2</option>
             <option>B2</option>
             <option>C3</option>
@@ -770,7 +770,7 @@
             <option>C#1</option>
             <option>D1</option>
             <option>D#1</option>
-            <option  selected = "selected">E1</option>
+            <option>E1</option>
             <option>F1</option>
             <option>F#1</option>
             <option>G1</option>
@@ -782,7 +782,7 @@
             <option>C#2</option>
             <option>D2</option>
             <option>D#2</option>
-            <option>E2</option>
+            <option selected = "selected">E2</option>
             <option>F2</option>
             <option>F#2</option>
             <option>G2</option>
@@ -1124,7 +1124,7 @@
           <div class="option">
             <button class="btn-large" onclick="goBack()">back</button>
             <button class="btn-large" onclick="helpBtn()">help</button>
-            <button class="btn-large" style="float: right" onclick="saveTab()">save / export</button class="btn-large">
+            <button class="btn-large" style="float: right" onclick="saveTab()">save</button class="btn-large">
           </div>
         </div>
       </div>
@@ -1165,7 +1165,7 @@
     <div class="modal-content save-modal-content" id="save-modal-content-id">
 
       <div class="save">
-        <h4>upload to site</h4>
+        <h4>song information</h4>
         <div class="save-block">
           <p class="save-label">song name</p>
           <input type="text" class="save-input" id="song-name">
@@ -1186,17 +1186,16 @@
             <option value="Heavy Metal">heavy metal</option>
           </select>
         </div>
-        <button class="btn-large" onclick="saveTabToDb()">save</button>
       </div>
 
       <div class="export">
         <span class="save-close close fa fa-times fa-2x" id="save-span"></span>
         <!-- export code here -->
-        <h4>export / download</h4>
-        <p>please fill in the boxes on the left before selecting an option below.</p>
+        <h4>upload / download</h4>
         <div class="export-btns">
-          <button class="btn-large">send via email</button>
+          <!-- <button class="btn-large" onclick="emailTab()">send via email</button> -->
           <button class="btn-large" onclick="downloadTab()">download as .txt</button>
+          <button class="btn-large" onclick="saveTabToDb()">upload to site</button>
         </div>
         <p id="exportMsg"></p>
       </div>
