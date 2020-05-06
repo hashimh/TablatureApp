@@ -42,6 +42,7 @@
 
       </div>
       <div class="login-text" id="moveable-text">
+        <button id="create-account-btn" onClick="createAccount();" class="btn-large">create account</button>
         <button id="create-btn" onClick="createTabNew();" class="btn-large">create tablature</button>
       </div>
     </div>
@@ -1127,6 +1128,32 @@
             <button class="btn-large" style="float: right" onclick="saveTab()">save</button class="btn-large">
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="create-account-modal">
+    <div class="modal-content create-account-content" id="create-account-modal-id">
+      <span class="close fa fa-times fa-2x" id="help-span-2"></span>
+      <h4>register an account</h4>
+      <div class="createblock">
+        <label for="usernameIn">username:</label>
+        <input type="text" id="usernameIn" />
+      </div>
+      <div class="createblock">
+        <label for="passwordIn">password:</label>
+        <input type="password" id="passwordIn"/>
+      </div>
+      <div class="createblock">
+        <label for="passwordIn2">re-enter password:</label>
+        <input type="password" id="passwordIn2" />
+      </div>
+      <div class="createblock">
+        <label for="emailIn">email:</label>
+        <input type="email" id="emailIn" />
+      </div>
+      <div class="createblockbtn">
+        <button id="register">register</button>
       </div>
     </div>
   </div>

@@ -321,6 +321,21 @@ function sortList(tabInfoIn, typeIn) {
 }
 
 // ----------------------------------------------------------------------------------------------- //
+// Open register account modal ------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+function createAccount() {
+  let createmodal = document.getElementById("create-account-modal");
+  createmodal.style.opacity = "1";
+  createmodal.style.zIndex = "10";
+
+  let closespan = document.getElementById("help-span-2");
+  closespan.onclick = function () {
+    createmodal.style.opacity = "0";
+    createmodal.style.zIndex = "-1";
+  };
+}
+
+// ----------------------------------------------------------------------------------------------- //
 // To close the currently viewing tab ------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
 function closeTab() {
