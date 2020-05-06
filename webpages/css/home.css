@@ -577,7 +577,6 @@ select:focus {
 .presavedChords input,
 .savedchords input,
 .chordcreationdiv input {
-  display: inline-block;
   padding: 0;
   font-size: 1.25vw;
   width: 5.5vw;
@@ -590,7 +589,6 @@ select:focus {
 .insertblock select,
 .presavedChords select,
 .savedchords select {
-  display: inline-block;
   width: 6.5vw;
   font-size: 1.25vw;
   float: right;
