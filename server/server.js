@@ -56,6 +56,7 @@ app.post("/api/deleteChord", deleteChord);
 async function login(req, res) {
   // Sends menu.html once logged in.
   res.sendFile("menu.html", { root: "./webpages" });
+  console.log("changed");
 }
 
 // async function checkUser(req, res) {
