@@ -17,6 +17,217 @@ window.onload = async (event) => {
 };
 
 // ----------------------------------------------------------------------------------------------- //
+// Create an account validation functions -------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+
+async function usernameInChange() {
+  // ensure that only letters, numbers, _ and - are entered
+  let usernameIn = document.getElementById("usernameIn");
+  let errMsg = document.getElementById("create-err-msg");
+
+  let regex = /^\w+$/;
+  // if username is invalid
+  if (usernameIn.value == "") {
+    usernameIn.style.backgroundColor = "white";
+    errMsg.innerHTML = "";
+    return false;
+  } else if (!regex.test(usernameIn.value)) {
+    errMsg.innerHTML =
+      "please only use letters, numbers and underscores in username";
+    usernameIn.style.backgroundColor = "rgb(255, 105, 97)";
+    return false;
+  } else {
+    errMsg.innerHTML = "checking username availability...";
+
+    // check to see if username already exists
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "GET",
+    };
+
+    let url =
+      "/api/checkusername" +
+      "?username=" +
+      encodeURIComponent(usernameIn.value);
+
+    console.log("attempting to fetch /api/checkusername...");
+    const response = await fetch(url, fetchOptions);
+    let value = await response.json();
+    console.log(value.result);
+    if (!response.ok) {
+      // handle the error
+      console.log("fetch response for /api/checkusername has failed.");
+    } else {
+      console.log("successful /api/checkusername call.");
+      if (value.result == true) {
+        // username already exists
+        usernameIn.style.backgroundColor = "rgb(255, 105, 97)";
+        errMsg.innerHTML = "username already exists";
+        return false;
+      } else {
+        usernameIn.style.backgroundColor = "rgb(119, 221, 119)";
+        errMsg.innerHTML = "";
+        return true;
+      }
+    }
+  }
+}
+
+function noWhitespace(event) {
+  if (event.which == 32) {
+    event.preventDefault();
+    return false;
+  }
+}
+
+function passwordChange1() {
+  // ensure password length is larger than 5
+  let passwordIn = document.getElementById("passwordIn");
+  let passwordIn2 = document.getElementById("passwordIn2");
+
+  let errMsg = document.getElementById("create-err-msg");
+
+  if (passwordIn.value == "") {
+    passwordIn.style.backgroundColor = "white";
+    errMsg.innerHTML = "";
+    return false;
+  } else if (passwordIn.value.length < 5) {
+    passwordIn.style.backgroundColor = "rgb(255, 105, 97)";
+    errMsg.innerHTML = "please create a longer password";
+    return false;
+  } else {
+    passwordIn.style.backgroundColor = "rgb(119, 221, 119)";
+    errMsg.innerHTML = "";
+    passwordChange2();
+    return true;
+  }
+}
+
+function passwordChange2() {
+  // ensure this value is the same as passwordIn1
+  let passwordIn1 = document.getElementById("passwordIn");
+  let passwordIn2 = document.getElementById("passwordIn2");
+  let errMsg = document.getElementById("create-err-msg");
+
+  if (passwordIn2.value == "") {
+    passwordIn2.style.backgroundColor = "white";
+    errMsg.innerHTML = "";
+    return false;
+  } else if (passwordIn2.value !== passwordIn1.value) {
+    passwordIn2.style.backgroundColor = "rgb(255, 105, 97)";
+    errMsg.innerHTML = "passwords do not match";
+    return false;
+  } else {
+    passwordIn2.style.backgroundColor = "rgb(119, 221, 119)";
+    errMsg.innerHTML = "";
+    return true;
+  }
+}
+
+function emailIn() {
+  // validate email
+  let emailIn = document.getElementById("emailIn");
+  let errMsg = document.getElementById("create-err-msg");
+
+  if (emailIn.value == "") {
+    emailIn.style.backgroundColor = "white";
+    errMsg.innerHTML = "";
+    return false;
+  } else if (isEmail(emailIn.value) == true) {
+    // If good change background to green, remove possible error message
+    emailIn.style.backgroundColor = "rgb(119, 221, 119)";
+    errMsg.innerHTML = "";
+    return true;
+  } else {
+    emailIn.style.backgroundColor = "rgb(255, 105, 97)";
+    errMsg.innerHTML = "please enter a valid email address";
+    return false;
+  }
+}
+
+function isEmail(email) {
+  let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if (!regex.test(email)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+async function registerAccount() {
+  // first, ensure the 4 fields are validated. if not, highlight/bounce error message;
+  let errMsg = document.getElementById("create-err-msg");
+  // get 3 values, assign to vars
+  let usernamehtml = document.getElementById("usernameIn");
+  let passwordhtml = document.getElementById("passwordIn");
+  let password2html = document.getElementById("passwordIn2");
+  let emailhtml = document.getElementById("emailIn");
+
+  let usernameValidated;
+  if (usernamehtml.style.backgroundColor == "rgb(119, 221, 119)") {
+    usernameValidated = true;
+  } else {
+    usernameValidated = false;
+  }
+
+  let emailValidated;
+  if (emailhtml.style.backgroundColor == "rgb(119, 221, 119)") {
+    emailValidated = true;
+  } else {
+    emailValidated = false;
+  }
+
+  let pass1validated = passwordChange1();
+  let pass2validated = passwordChange2();
+
+  console.log(
+    usernameValidated,
+    pass1validated,
+    pass2validated,
+    emailValidated
+  );
+
+  if (usernameValidated && pass1validated && pass2validated && emailValidated) {
+    // all valid
+    errMsg.innerHTML = "creating your account...";
+
+    let username = usernamehtml.value;
+    let password = passwordhtml.value;
+    let email = emailhtml.value;
+
+    // parse information to a server function
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "POST",
+    };
+
+    let url =
+      "/api/register" +
+      "?username=" +
+      encodeURIComponent(username) +
+      "&password=" +
+      encodeURIComponent(password) +
+      "&email=" +
+      encodeURIComponent(email);
+
+    console.log("attempting to fetch /api/register...");
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      // handle the error
+      console.log("fetch response for /api/register has failed.");
+      return;
+    } else {
+      console.log("successful /api/register call.");
+      errMsg.innerHTML = "account has been registered";
+
+      // user has been created!
+    }
+  } else {
+    errMsg.innerHTML = "please complete the form correctly";
+  }
+}
+
+// ----------------------------------------------------------------------------------------------- //
 // Function to populate tab results table -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function populateTable(tabInfo) {

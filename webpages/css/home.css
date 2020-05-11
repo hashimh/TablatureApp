@@ -1076,12 +1076,37 @@ textarea {
 }
 
 /* create account modal */
+.create-inputs {
+  grid-area: createins;
+}
+.createblockbtn {
+  grid-area: createout;
+}
+
 .create-account-content {
   margin: 30vh auto;
   width: 40%;
+  display: grid;
+  grid-template-areas: "createins" "createout";
+  height: 27vw;
 }
-.createblockbtn {
+
+#register {
+  grid-area: reg;
+  margin: 0;
+  width: 100%;
+}
+#create-err-msg {
+  grid-area: msg;
+  font-size: 1.3vw;
   text-align: center;
+  margin-bottom: 0;
+}
+
+.createblockbtn {
+  display: grid;
+  grid-template-areas: "msg reg";
+  grid-template-columns: 75fr 25fr;
 }
 
 .createblock label {
@@ -1092,7 +1117,7 @@ textarea {
   padding-right: 1vw;
 }
 .createblock input {
-  width: 20vw;
+  width: 62.82%;
 }
 .createblock {
   padding-bottom: 1vw;

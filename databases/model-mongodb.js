@@ -23,6 +23,41 @@ process.on("unhandledRejection", console.error);
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
 // DATABASE FUNCTIONS
 
+function checkusername(usernameIn, cb) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    const dbo = db.db("heroku_2k42nnmn");
+
+    // try to find username in database
+    dbo.collection("users").find({ username: usernameIn }).toArray(cb);
+    db.close();
+  });
+}
+
+function register(insertUsername, insertPass, insertEmail) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    const dbo = db.db("heroku_2k42nnmn");
+    console.log("ENTERED DATABASE FUNCTION");
+
+    // craete collection "users" if it does not exist
+    dbo.createCollection("users", function (err, res) {
+      if (err) throw err;
+      console.log("collection 'users' created");
+    });
+
+    const userInfo = [
+      { username: insertUsername, password: insertPass, email: insertEmail },
+    ];
+
+    dbo.collection("users").insertMany(userInfo, function (err, res) {
+      if (err) throw err;
+      console.log("inserted user", insertUsername, "into database");
+      db.close();
+    });
+  });
+}
+
 // Funtion to add user to database if not already on it.
 function login(insertEmail, fnameIn, lnameIn) {
   MongoClient.connect(url, function (err, db) {
@@ -301,6 +336,9 @@ let getTabContent = function (id, cb) {
 };
 
 // MODULE EXPORTATION
+module.exports.register = register;
+module.exports.checkusername = checkusername;
+
 module.exports.login = login;
 module.exports.saveChord = saveChord;
 module.exports.saveTab = saveTab;

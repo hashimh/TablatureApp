@@ -3,6 +3,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const bcrypt = require("bcryptjs");
+
 // const GoogleAuth = require("simple-google-openid");
 
 const webpagesPath = path.join(__dirname, "../webpages");
@@ -41,6 +43,9 @@ app.get("/api/getTabsMetadata", getTabsMetadata);
 app.get("/api/getTabContent", getTabContent);
 
 // app.post("/api/checkUser", checkUser);
+app.post("/api/register", register);
+app.get("/api/checkusername", checkusername);
+
 app.post("/api/saveChord", saveChord);
 app.post("/api/saveTab", saveTab);
 app.post("/api/updateTab", updateTab);
@@ -51,6 +56,43 @@ app.post("/api/deleteChord", deleteChord);
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
+
+async function checkusername(req, res) {
+  // console.log(await db.checkusername(req.query.username, callback));
+  await db.checkusername(req.query.username, function (err, data) {
+    console.log(data, data.length);
+    if (err) throw err;
+
+    if (data.length > 0) {
+      console.log("user exists (server), returning true");
+      return res.json({ result: true });
+    } else {
+      console.log("user doesn't exist (server), returning false");
+      return res.json({ result: false });
+    }
+  });
+}
+
+async function register(req, res) {
+  // call mongodb function to register user
+  console.log(req.query.username, req.query.password, req.query.email);
+
+  try {
+    // hash the password
+    const hash = await bcrypt.hash(req.query.password, 10);
+    req.query.password = hash;
+  } catch (error) {
+    throw err;
+  }
+  console.log(req.query.password);
+
+  const retval = await db.register(
+    req.query.username,
+    req.query.password,
+    req.query.email
+  );
+  return res.json(retval);
+}
 
 // this will be made redundant
 async function login(req, res) {

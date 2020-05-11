@@ -1134,26 +1134,30 @@
 
   <div class="modal" id="create-account-modal">
     <div class="modal-content create-account-content" id="create-account-modal-id">
-      <span class="close fa fa-times fa-2x" id="help-span-2"></span>
-      <h4>register an account</h4>
-      <div class="createblock">
-        <label for="usernameIn">username:</label>
-        <input type="text" id="usernameIn" />
+      <div class="create-inputs">
+        <span class="close fa fa-times fa-2x" id="help-span-2"></span>
+        <h4>register an account</h4>
+        <div class="createblock">
+          <label for="usernameIn">username:</label>
+          <input type="text" id="usernameIn" onchange="usernameInChange()" autocomplete="new-password"/>
+        </div>
+        <div class="createblock">
+          <label for="passwordIn">password:</label>
+          <input class="passIn" type="password" id="passwordIn" onchange="passwordChange1()" onkeypress="noWhitespace(event)"/>
+        </div>
+        <div class="createblock">
+          <label for="passwordIn2">re-enter password:</label>
+          <input class="passIn" type="password" id="passwordIn2" onchange="passwordChange2()" onkeypress="noWhitespace(event)" />
+        </div>
+        <div class="createblock">
+          <label for="emailIn">email:</label>
+          <input type="email" id="emailIn" onchange="emailIn()" autocomplete="new-password" />
+        </div>
       </div>
-      <div class="createblock">
-        <label for="passwordIn">password:</label>
-        <input type="password" id="passwordIn"/>
-      </div>
-      <div class="createblock">
-        <label for="passwordIn2">re-enter password:</label>
-        <input type="password" id="passwordIn2" />
-      </div>
-      <div class="createblock">
-        <label for="emailIn">email:</label>
-        <input type="email" id="emailIn" />
-      </div>
+
       <div class="createblockbtn">
-        <button id="register">register</button>
+        <p id="create-err-msg"></p>
+        <button id="register" onclick="registerAccount()">register</button>
       </div>
     </div>
   </div>
