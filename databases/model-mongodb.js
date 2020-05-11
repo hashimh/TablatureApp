@@ -34,6 +34,18 @@ function checkusername(usernameIn, cb) {
   });
 }
 
+function checkemail(emailIn, cb) {
+  console.log(emailIn);
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    const dbo = db.db("heroku_2k42nnmn");
+
+    // try to find the email in database
+    dbo.collection("users").find({ email: emailIn }).toArray(cb);
+    db.close();
+  });
+}
+
 function register(insertUsername, insertPass, insertEmail) {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
@@ -338,6 +350,7 @@ let getTabContent = function (id, cb) {
 // MODULE EXPORTATION
 module.exports.register = register;
 module.exports.checkusername = checkusername;
+module.exports.checkemail = checkemail;
 
 module.exports.login = login;
 module.exports.saveChord = saveChord;

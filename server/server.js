@@ -44,7 +44,9 @@ app.get("/api/getTabContent", getTabContent);
 
 // app.post("/api/checkUser", checkUser);
 app.post("/api/register", register);
+
 app.get("/api/checkusername", checkusername);
+app.get("/api/checkemail", checkemail);
 
 app.post("/api/saveChord", saveChord);
 app.post("/api/saveTab", saveTab);
@@ -58,7 +60,6 @@ app.post("/api/deleteChord", deleteChord);
 // -------------------------------------------------- //
 
 async function checkusername(req, res) {
-  // console.log(await db.checkusername(req.query.username, callback));
   await db.checkusername(req.query.username, function (err, data) {
     console.log(data, data.length);
     if (err) throw err;
@@ -68,6 +69,21 @@ async function checkusername(req, res) {
       return res.json({ result: true });
     } else {
       console.log("user doesn't exist (server), returning false");
+      return res.json({ result: false });
+    }
+  });
+}
+
+async function checkemail(req, res) {
+  await db.checkemail(req.query.email, function (err, data) {
+    console.log(data, data.length);
+    if (err) throw err;
+
+    if (data.length > 0) {
+      console.log("email exists (server), returning true");
+      return res.json({ result: true });
+    } else {
+      console.log("email doesn't exist (server), returning false");
       return res.json({ result: false });
     }
   });

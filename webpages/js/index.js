@@ -124,7 +124,7 @@ function passwordChange2() {
   }
 }
 
-function emailIn() {
+async function emailIn() {
   // validate email
   let emailIn = document.getElementById("emailIn");
   let errMsg = document.getElementById("create-err-msg");
@@ -134,10 +134,36 @@ function emailIn() {
     errMsg.innerHTML = "";
     return false;
   } else if (isEmail(emailIn.value) == true) {
-    // If good change background to green, remove possible error message
-    emailIn.style.backgroundColor = "rgb(119, 221, 119)";
-    errMsg.innerHTML = "";
-    return true;
+    errMsg.innerHTML = "checking email...test.";
+
+    // check if email is already registered
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "GET",
+    };
+
+    let url = "/api/checkemail" + "?email=" + encodeURIComponent(emailIn.value);
+
+    console.log("attempting to fetch /api/checkemail...");
+    const response = await fetch(url, fetchOptions);
+    let value = await response.json();
+    console.log(value.result);
+    if (!response.ok) {
+      // handle the error
+      console.log("fetch response for /api/checkemail has failed.");
+    } else {
+      console.log("successful /api/checkemail call.");
+      if (value.result == true) {
+        // email already exists
+        emailIn.style.backgroundColor = "rgb(255, 105, 97)";
+        errMsg.innerHTML = "email is already registered";
+        return false;
+      } else {
+        emailIn.style.backgroundColor = "rgb(119, 221, 119)";
+        errMsg.innerHTML = "";
+        return true;
+      }
+    }
   } else {
     emailIn.style.backgroundColor = "rgb(255, 105, 97)";
     errMsg.innerHTML = "please enter a valid email address";
