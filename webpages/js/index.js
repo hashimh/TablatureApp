@@ -134,7 +134,7 @@ async function emailIn() {
     errMsg.innerHTML = "";
     return false;
   } else if (isEmail(emailIn.value) == true) {
-    errMsg.innerHTML = "checking email...test.";
+    errMsg.innerHTML = "checking email...";
 
     // check if email is already registered
     const fetchOptions = {
@@ -244,16 +244,30 @@ async function registerAccount() {
       return;
     } else {
       console.log("successful /api/register call.");
-      errMsg.innerHTML = "account has been registered";
+      // user has been created! clear input fields
+      usernamehtml.value = "";
+      passwordhtml.value = "";
+      password2html.value = "";
+      emailhtml.value = "";
 
-      // user has been created!
+      usernamehtml.style.backgroundColor = "white";
+      passwordhtml.style.backgroundColor = "white";
+      password2html.style.backgroundColor = "white";
+      emailhtml.style.backgroundColor = "white";
+
+      let alertmodal = document.getElementById("alert-modal");
+      setTimeout(() => {
+        let createmodal = document.getElementById("create-account-modal");
+        createmodal.style.opacity = "0";
+        createmodal.style.zIndex = "-1";
+      }, 1000);
     }
   } else {
     errMsg.innerHTML = "please complete the form correctly";
   }
 }
 
-// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- // \
 // Function to populate tab results table -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function populateTable(tabInfo) {

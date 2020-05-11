@@ -61,14 +61,11 @@ app.post("/api/deleteChord", deleteChord);
 
 async function checkusername(req, res) {
   await db.checkusername(req.query.username, function (err, data) {
-    console.log(data, data.length);
     if (err) throw err;
 
     if (data.length > 0) {
-      console.log("user exists (server), returning true");
       return res.json({ result: true });
     } else {
-      console.log("user doesn't exist (server), returning false");
       return res.json({ result: false });
     }
   });
@@ -76,14 +73,11 @@ async function checkusername(req, res) {
 
 async function checkemail(req, res) {
   await db.checkemail(req.query.email, function (err, data) {
-    console.log(data, data.length);
     if (err) throw err;
 
     if (data.length > 0) {
-      console.log("email exists (server), returning true");
       return res.json({ result: true });
     } else {
-      console.log("email doesn't exist (server), returning false");
       return res.json({ result: false });
     }
   });
@@ -91,7 +85,6 @@ async function checkemail(req, res) {
 
 async function register(req, res) {
   // call mongodb function to register user
-  console.log(req.query.username, req.query.password, req.query.email);
 
   try {
     // hash the password
@@ -100,7 +93,6 @@ async function register(req, res) {
   } catch (error) {
     throw err;
   }
-  console.log(req.query.password);
 
   const retval = await db.register(
     req.query.username,
@@ -110,12 +102,12 @@ async function register(req, res) {
   return res.json(retval);
 }
 
-// this will be made redundant
-async function login(req, res) {
-  // Sends menu.html once logged in.
-  res.sendFile("menu.html", { root: "./webpages" });
-  console.log("changed");
-}
+// // this will be made redundant
+// async function login(req, res) {
+//   // Sends menu.html once logged in.
+//   res.sendFile("menu.html", { root: "./webpages" });
+//   console.log("changed");
+// }
 
 // async function checkUser(req, res) {
 //   let fullName = req.user.displayName;

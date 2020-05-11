@@ -1122,3 +1122,15 @@ textarea {
 .createblock {
   padding-bottom: 1vw;
 }
+
+/* alert modal */
+.alert-modal-content {
+  margin: 1vw auto;
+  width: 18%;
+  height: max-content;
+}
+.alert-modal-content p {
+  font-size: 1.5vw;
+  text-align: center;
+  margin: 0;
+}
