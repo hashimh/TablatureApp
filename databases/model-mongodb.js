@@ -5,10 +5,6 @@ const mongo = require("mongodb");
 const path = require("path");
 const ObjectId = require("mongodb").ObjectId;
 
-// Local Passport
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcryptjs");
-
 // Create object, specify connection URL
 const MongoClient = require("mongodb").MongoClient;
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/";

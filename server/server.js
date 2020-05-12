@@ -1,15 +1,13 @@
 "use strict";
 
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const path = require("path");
 const bcrypt = require("bcryptjs");
 
-// Local Passport
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-
-// const GoogleAuth = require("simple-google-openid");
+const jwt = require("jsonwebtoken");
 
 const webpagesPath = path.join(__dirname, "../webpages");
 
@@ -31,13 +29,6 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
 
-// app.use(
-//   GoogleAuth(
-//     "566769051678-k1mpvtssd5jin7p6bekdtv7g1r23qav4.apps.googleusercontent.com"
-//   )
-// );
-// app.use("/api", GoogleAuth.guardMiddleware());
-
 app.get("/api/logout", logout);
 app.get("/api/createTabBtn", createTabBtn);
 app.get("/api/viewTabBtn", viewTabBtn);
@@ -54,11 +45,26 @@ app.get("/api/checkusername", checkusername);
 app.get("/api/checkemail", checkemail);
 
 app.post("/api/saveChord", saveChord);
-app.post("/api/saveTab", saveTab);
+app.post("/api/saveTab", authenticateToken, saveTab);
 app.post("/api/updateTab", updateTab);
 app.post("/api/deleteTab", deleteTab);
 app.post("/api/updateChord", updateChord);
 app.post("/api/deleteChord", deleteChord);
+
+// this middleware will be called when a user tries to save a tablature
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
+
+  // user is valid
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    // token exists but not valid
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
@@ -78,9 +84,17 @@ async function login(req, res) {
 
         if (isMatch) {
           console.log("passwords match");
-          res
-            .status(200)
-            .json({ username: data[0].username, email: data[0].email });
+
+          // now add some auth method for user, used in saving tabs
+          const username = data[0].username;
+          const user = { name: username };
+          const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+          res.status(200).json({
+            username: data[0].username,
+            email: data[0].email,
+            accessToken: accessToken,
+          });
         } else {
           console.log("incorrect password");
           res.sendStatus(404);
@@ -249,10 +263,7 @@ async function saveTab(req, res) {
     req.query.stave_content
   );
   const retval = await db.saveTab(
-    // debugging
-
-    // req.user.emails[0].value,
-    "testemail@mail.com",
+    req.user.name,
     req.query.song_name,
     req.query.artist_name,
     req.query.genre,

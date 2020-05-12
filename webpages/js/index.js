@@ -19,6 +19,7 @@ window.onload = async (event) => {
 // ----------------------------------------------------------------------------------------------- //
 // Login function -------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
+var loggedIn = false;
 async function login() {
   let errMsg = document.getElementById("login-err");
   errMsg.innerHTML = "checking credentials...";
@@ -55,7 +56,12 @@ async function login() {
     let data = await response.json();
     console.log(data);
 
+    // replace the sign in area with a new welcome message
+    loggedIn = true;
     errMsg.innerHTML = "hello, " + data.username;
+
+    // set token in localstorage
+    localStorage.setItem("token", data.accessToken);
   }
 }
 
@@ -988,10 +994,11 @@ async function saveTabToDb() {
     }
 
     // make initial server call requests...
+    let token = localStorage.getItem("token");
     const fetchOptions = {
       credentials: "same-origin",
       method: "POST",
-      // headers: { Authorization: "Bearer " + token },
+      headers: { Authorization: "Bearer " + token },
     };
 
     let url =
