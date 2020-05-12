@@ -17,6 +17,49 @@ window.onload = async (event) => {
 };
 
 // ----------------------------------------------------------------------------------------------- //
+// Login function -------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+async function login() {
+  let errMsg = document.getElementById("login-err");
+  errMsg.innerHTML = "checking credentials...";
+
+  let username = document.getElementById("signin-user").value;
+  let password = document.getElementById("signin-pass").value;
+
+  // check the username and password match a user record in the database
+  // will allow empty values to be checked, to output incorrect for no values either
+  const fetchOptions = {
+    credentials: "same-origin",
+    method: "GET",
+  };
+
+  let url =
+    "/api/login" +
+    "?username=" +
+    encodeURIComponent(username) +
+    "&password=" +
+    encodeURIComponent(password);
+
+  console.log("attempting to fetch /api/login...");
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    console.log("Fetch response for /api/login has failed.");
+
+    errMsg.innerHTML = "incorrect username or password";
+
+    return;
+  } else {
+    // successfull api call
+    console.log("Successful /api/login call.");
+    let data = await response.json();
+    console.log(data);
+
+    errMsg.innerHTML = "hello, " + data.username;
+  }
+}
+
+// ----------------------------------------------------------------------------------------------- //
 // Create an account validation functions -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
@@ -38,6 +81,10 @@ async function usernameInChange() {
     return false;
   } else {
     errMsg.innerHTML = "checking username availability...";
+
+    // temporarily gray out the register button, don't allow it to be clicked
+    let registerbutton = document.getElementById("register");
+    registerbutton.disabled = true;
 
     // check to see if username already exists
     const fetchOptions = {
@@ -63,10 +110,12 @@ async function usernameInChange() {
         // username already exists
         usernameIn.style.backgroundColor = "rgb(255, 105, 97)";
         errMsg.innerHTML = "username already exists";
+        registerbutton.disabled = false;
         return false;
       } else {
         usernameIn.style.backgroundColor = "rgb(119, 221, 119)";
         errMsg.innerHTML = "";
+        registerbutton.disabled = false;
         return true;
       }
     }
@@ -135,6 +184,10 @@ async function emailIn() {
     return false;
   } else if (isEmail(emailIn.value) == true) {
     errMsg.innerHTML = "checking email...";
+
+    // // temporarily gray out the register button, don't allow it to be clicked
+    // let registerbutton = document.getElementById("register");
+    // registerbutton.disabled = true;
 
     // check if email is already registered
     const fetchOptions = {
@@ -244,6 +297,7 @@ async function registerAccount() {
       return;
     } else {
       console.log("successful /api/register call.");
+
       // user has been created! clear input fields
       usernamehtml.value = "";
       passwordhtml.value = "";
@@ -254,16 +308,25 @@ async function registerAccount() {
       passwordhtml.style.backgroundColor = "white";
       password2html.style.backgroundColor = "white";
       emailhtml.style.backgroundColor = "white";
-
-      let alertmodal = document.getElementById("alert-modal");
       setTimeout(() => {
         let createmodal = document.getElementById("create-account-modal");
         createmodal.style.opacity = "0";
         createmodal.style.zIndex = "-1";
-      }, 1000);
+
+        // blink the created account modal, and pre-fill the login fields?
+        let alertmodal = document.getElementById("alert-modal");
+        alertmodal.style.opacity = "1";
+        alertmodal.style.zIndex = "10";
+        setTimeout(() => {
+          alertmodal.style.opacity = "0";
+          alertmodal.style.zIndex = "-1";
+        }, 1500);
+      }, 2000);
+
+      // pre fill login fields?
     }
   } else {
-    errMsg.innerHTML = "please complete the form correctly";
+    errMsg.innerHTML = "please fill in form correctly, or wait for validation";
   }
 }
 

@@ -5,6 +5,10 @@ const app = express();
 const path = require("path");
 const bcrypt = require("bcryptjs");
 
+// Local Passport
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
 // const GoogleAuth = require("simple-google-openid");
 
 const webpagesPath = path.join(__dirname, "../webpages");
@@ -34,7 +38,6 @@ app.listen(PORT, () => {
 // );
 // app.use("/api", GoogleAuth.guardMiddleware());
 
-app.get("/api/login", login);
 app.get("/api/logout", logout);
 app.get("/api/createTabBtn", createTabBtn);
 app.get("/api/viewTabBtn", viewTabBtn);
@@ -43,6 +46,8 @@ app.get("/api/getTabsMetadata", getTabsMetadata);
 app.get("/api/getTabContent", getTabContent);
 
 // app.post("/api/checkUser", checkUser);
+
+app.get("/api/login", login);
 app.post("/api/register", register);
 
 app.get("/api/checkusername", checkusername);
@@ -58,6 +63,35 @@ app.post("/api/deleteChord", deleteChord);
 // -------------------------------------------------- //
 // ---------------- SERVER FUNCTIONS ---------------- //
 // -------------------------------------------------- //
+async function login(req, res) {
+  console.log(req.query.username, req.query.password);
+
+  await db.login(req.query.username, function (err, data) {
+    if (err) throw err;
+
+    console.log(data);
+
+    if (data.length > 0) {
+      // found user in the database, now compare passwords
+      bcrypt.compare(req.query.password, data[0].password, (err, isMatch) => {
+        if (err) throw err;
+
+        if (isMatch) {
+          console.log("passwords match");
+          res
+            .status(200)
+            .json({ username: data[0].username, email: data[0].email });
+        } else {
+          console.log("incorrect password");
+          res.sendStatus(404);
+        }
+      });
+    } else {
+      console.log("user doesnt exist");
+      res.sendStatus(404);
+    }
+  });
+}
 
 async function checkusername(req, res) {
   await db.checkusername(req.query.username, function (err, data) {
@@ -101,13 +135,6 @@ async function register(req, res) {
   );
   return res.json(retval);
 }
-
-// // this will be made redundant
-// async function login(req, res) {
-//   // Sends menu.html once logged in.
-//   res.sendFile("menu.html", { root: "./webpages" });
-//   console.log("changed");
-// }
 
 // async function checkUser(req, res) {
 //   let fullName = req.user.displayName;

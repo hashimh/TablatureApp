@@ -92,6 +92,15 @@ body::-webkit-scrollbar-thumb,
 
 /* ----------------------------------------------------------------------------- */
 /* Login Area CSS */
+
+.black-placeholder::-webkit-input-placeholder {
+  color: rgb(56, 56, 56);
+}
+
+#login-err {
+  margin: 1vw;
+}
+
 .loginInfo {
   grid-area: login;
 }
@@ -184,10 +193,14 @@ input[type="checkbox"]:checked + label:before {
   border-top: 2px solid black;
 }
 
+#create-account-btn {
+  margin-top: 4vw;
+}
 .login-text button {
   margin-top: 2vw;
   width: 100%;
 }
+
 .login-text button:hover {
   cursor: pointer;
   background-color: #a974dd;

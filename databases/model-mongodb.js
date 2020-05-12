@@ -5,6 +5,10 @@ const mongo = require("mongodb");
 const path = require("path");
 const ObjectId = require("mongodb").ObjectId;
 
+// Local Passport
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+
 // Create object, specify connection URL
 const MongoClient = require("mongodb").MongoClient;
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
@@ -22,6 +26,15 @@ process.on("unhandledRejection", console.error);
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
 // DATABASE FUNCTIONS
+function login(username, cb) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    const dbo = db.db("heroku_2k42nnmn");
+
+    dbo.collection("users").find({ username: username }).toArray(cb);
+    db.close();
+  });
+}
 
 function checkusername(usernameIn, cb) {
   MongoClient.connect(url, function (err, db) {
@@ -71,40 +84,40 @@ function register(insertUsername, insertPass, insertEmail) {
 }
 
 // Funtion to add user to database if not already on it.
-function login(insertEmail, fnameIn, lnameIn) {
-  MongoClient.connect(url, function (err, db) {
-    if (err) throw err;
-    const dbo = db.db("heroku_2k42nnmn");
+// function login(insertEmail, fnameIn, lnameIn) {
+//   MongoClient.connect(url, function (err, db) {
+//     if (err) throw err;
+//     const dbo = db.db("heroku_2k42nnmn");
 
-    // First, check the user doesn't exist in database
-    dbo
-      .collection("users")
-      .find({ email: insertEmail })
-      .toArray(function (err, res) {
-        if (err) throw err;
+//     // First, check the user doesn't exist in database
+//     dbo
+//       .collection("users")
+//       .find({ email: insertEmail })
+//       .toArray(function (err, res) {
+//         if (err) throw err;
 
-        if (res.length < 1) {
-          // Create collection "users" if it doesn't exist:
-          dbo.createCollection("users", function (err, res) {
-            if (err) throw err;
-            console.log("collection 'users' created");
-          });
+//         if (res.length < 1) {
+//           // Create collection "users" if it doesn't exist:
+//           dbo.createCollection("users", function (err, res) {
+//             if (err) throw err;
+//             console.log("collection 'users' created");
+//           });
 
-          const userInfo = [
-            { email: insertEmail, fname: fnameIn, lname: lnameIn },
-          ];
+//           const userInfo = [
+//             { email: insertEmail, fname: fnameIn, lname: lnameIn },
+//           ];
 
-          dbo.collection("users").insertMany(userInfo, function (err, res) {
-            if (err) throw err;
-            console.log("inserted user into database: ", fnameIn);
-            db.close();
-          });
-        } else {
-          console.log("already exists: ", fnameIn);
-        }
-      });
-  });
-}
+//           dbo.collection("users").insertMany(userInfo, function (err, res) {
+//             if (err) throw err;
+//             console.log("inserted user into database: ", fnameIn);
+//             db.close();
+//           });
+//         } else {
+//           console.log("already exists: ", fnameIn);
+//         }
+//       });
+//   });
+// }
 
 function saveChord(chName, chFrets, chTuning, startPos, email) {
   MongoClient.connect(url, function (err, db) {
