@@ -148,36 +148,11 @@ async function register(req, res) {
   return res.json(retval);
 }
 
-// async function checkUser(req, res) {
-//   let fullName = req.user.displayName;
-//   let firstName = fullName.split(" ").slice(0, -1).join(" ");
-//   let lastName = fullName.split(" ").slice(-1).join(" ");
-
-//   const retval = await db.login(req.user.emails[0].value, firstName, lastName);
-//   res.json(retval);
-// }
-
-function logout(req, res) {
-  // Sends login page HTML on sign out.
-  res.sendFile("home.html", { root: "../webpages" });
-}
-
-async function createTabBtn(req, res) {
-  // Sends main.html on button click.
-  res.sendFile("main.html", { root: "./webpages" });
-}
-
-async function viewTabBtn(req, res) {
-  // Sends viewtabs.html on button click.
-  res.sendFile("viewtabs.html", { root: "./webpages" });
-}
-
 async function getSavedChords(req, res) {
   // Calls database function to get user's presaved chords
   await db.getSavedChords(req.user.name, function (err, data) {
     if (err) {
       throw err;
-      return res(err);
     } else {
       return res.json(data);
     }
@@ -190,7 +165,6 @@ async function getTabsMetadata(req, res) {
     await db.getTabsMetadata(function (err, data) {
       if (err) {
         throw err;
-        return res(err);
       } else {
         return res.json(data);
       }
