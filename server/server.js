@@ -29,9 +29,9 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
 
-app.get("/api/logout", logout);
-app.get("/api/createTabBtn", createTabBtn);
-app.get("/api/viewTabBtn", viewTabBtn);
+// app.get("/api/logout", logout);
+// app.get("/api/createTabBtn", createTabBtn);
+// app.get("/api/viewTabBtn", viewTabBtn);
 app.get("/api/getSavedChords", authenticateToken, getSavedChords);
 app.get("/api/getTabsMetadata", getTabsMetadata);
 app.get("/api/getTabContent", getTabContent);

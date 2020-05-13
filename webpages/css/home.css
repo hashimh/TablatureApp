@@ -1172,7 +1172,7 @@ textarea {
   padding-right: 1vw;
 }
 .createblock input {
-  width: 62.82%;
+  width: 60%;
 }
 .createblock {
   padding-bottom: 1vw;
@@ -1188,4 +1188,32 @@ textarea {
   font-size: 1.5vw;
   text-align: center;
   margin: 0;
+}
+
+/* username and email loading spinners */
+#usernameWrap {
+  position: relative;
+  /* display: inline-block; */
+}
+.loadingspinner {
+  position: absolute;
+  /* display: inline-block; */
+  width: 2.5vw;
+  height: 2.5vw;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #9c5adf;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  margin-left: 0.3vw;
+}
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }

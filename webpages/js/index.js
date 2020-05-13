@@ -6,18 +6,16 @@ var signedIn = false;
 var rememberMe = true;
 
 // ----------------------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// -------------------------------------- INITIAL FUNCTIONS -------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
+// Initialising the page on load ----------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 window.onload = async (event) => {
-  // // if a token already exists, user is signed in already, remove sign in form
+  // check if user info is saved in session, if not, show login box
   if (localStorage.length > 0) {
     isSignedIn();
   } else {
     document.getElementById("loginboxsignin").style.visibility = "visible";
   }
-  // Get tablature information from the database
+  // get tablature content, and fill in with event listeners
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
   addFilterListeners();
@@ -77,6 +75,9 @@ async function login() {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Sign out function ----------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function signOut() {
   if (localStorage.length > 0) {
     localStorage.clear();
@@ -114,7 +115,6 @@ function isSignedIn() {
 // ----------------------------------------------------------------------------------------------- //
 // Create an account validation functions -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-
 async function usernameInChange() {
   // ensure that only letters, numbers, _ and - are entered
   let usernameIn = document.getElementById("usernameIn");
@@ -133,6 +133,13 @@ async function usernameInChange() {
     return false;
   } else {
     errMsg.innerHTML = "checking username availability...";
+
+    // add a spinning loading span to the end of the input, clear background colour
+    usernameIn.style.backgroundColor = "white";
+    let wrapper = document.getElementById("usernameWrap");
+    let spinner = document.createElement("span");
+    spinner.classList.add("loadingspinner");
+    wrapper.appendChild(spinner);
 
     // temporarily gray out the register button, don't allow it to be clicked
     let registerbutton = document.getElementById("register");
@@ -161,11 +168,15 @@ async function usernameInChange() {
       if (value.result == true) {
         // username already exists
         usernameIn.style.backgroundColor = "rgb(255, 105, 97)";
+        spinner.classList.remove("loadingspinner");
+        wrapper.removeChild(spinner);
         errMsg.innerHTML = "username already exists";
         registerbutton.disabled = false;
         return false;
       } else {
         usernameIn.style.backgroundColor = "rgb(119, 221, 119)";
+        spinner.classList.remove("loadingspinner");
+        wrapper.removeChild(spinner);
         errMsg.innerHTML = "";
         registerbutton.disabled = false;
         return true;
@@ -237,9 +248,16 @@ async function emailIn() {
   } else if (isEmail(emailIn.value) == true) {
     errMsg.innerHTML = "checking email...";
 
-    // // temporarily gray out the register button, don't allow it to be clicked
-    // let registerbutton = document.getElementById("register");
-    // registerbutton.disabled = true;
+    // add a spinning loading span to the end of the input, clear background colour
+    emailIn.style.backgroundColor = "white";
+    let wrapper = document.getElementById("emailWrap");
+    let spinner = document.createElement("span");
+    spinner.classList.add("loadingspinner");
+    wrapper.appendChild(spinner);
+
+    // temporarily gray out the register button, don't allow it to be clicked
+    let registerbutton = document.getElementById("register");
+    registerbutton.disabled = true;
 
     // check if email is already registered
     const fetchOptions = {
@@ -261,11 +279,17 @@ async function emailIn() {
       if (value.result == true) {
         // email already exists
         emailIn.style.backgroundColor = "rgb(255, 105, 97)";
+        spinner.classList.remove("loadingspinner");
+        wrapper.removeChild(spinner);
         errMsg.innerHTML = "email is already registered";
+        registerbutton.disabled = false;
         return false;
       } else {
         emailIn.style.backgroundColor = "rgb(119, 221, 119)";
+        spinner.classList.remove("loadingspinner");
+        wrapper.removeChild(spinner);
         errMsg.innerHTML = "";
+        registerbutton.disabled = false;
         return true;
       }
     }
@@ -285,6 +309,9 @@ function isEmail(email) {
   }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+// Register account button clicked --------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 async function registerAccount() {
   // first, ensure the 4 fields are validated. if not, highlight/bounce error message;
   let errMsg = document.getElementById("create-err-msg");
@@ -351,16 +378,11 @@ async function registerAccount() {
       console.log("successful /api/register call.");
 
       // user has been created! clear input fields
-      usernamehtml.value = "";
-      passwordhtml.value = "";
-      password2html.value = "";
-      emailhtml.value = "";
 
-      usernamehtml.style.backgroundColor = "white";
-      passwordhtml.style.backgroundColor = "white";
-      password2html.style.backgroundColor = "white";
-      emailhtml.style.backgroundColor = "white";
       setTimeout(() => {
+        // put the username and password into the login forms
+        document.getElementById("signin-user").value = username;
+        document.getElementById("signin-pass").value = password;
         let createmodal = document.getElementById("create-account-modal");
         createmodal.style.opacity = "0";
         createmodal.style.zIndex = "-1";
@@ -369,13 +391,22 @@ async function registerAccount() {
         let alertmodal = document.getElementById("alert-modal");
         alertmodal.style.opacity = "1";
         alertmodal.style.zIndex = "10";
+
         setTimeout(() => {
           alertmodal.style.opacity = "0";
           alertmodal.style.zIndex = "-1";
+
+          usernamehtml.value = "";
+          passwordhtml.value = "";
+          password2html.value = "";
+          emailhtml.value = "";
+
+          usernamehtml.style.backgroundColor = "white";
+          passwordhtml.style.backgroundColor = "white";
+          password2html.style.backgroundColor = "white";
+          emailhtml.style.backgroundColor = "white";
         }, 1500);
       }, 2000);
-
-      // pre fill login fields?
     }
   } else {
     errMsg.innerHTML = "please fill in form correctly, or wait for validation";
