@@ -3,6 +3,7 @@ var editedTab = false;
 var editedTabId = "";
 var tabInfo;
 var signedIn = false;
+var rememberMe = true;
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -10,6 +11,12 @@ var signedIn = false;
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 window.onload = async (event) => {
+  // // if a token already exists, user is signed in already, remove sign in form
+  if (localStorage.length > 0) {
+    isSignedIn();
+  } else {
+    document.getElementById("loginboxsignin").style.visibility = "visible";
+  }
   // Get tablature information from the database
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
@@ -19,7 +26,6 @@ window.onload = async (event) => {
 // ----------------------------------------------------------------------------------------------- //
 // Login function -------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-var loggedIn = false;
 async function login() {
   let errMsg = document.getElementById("login-err");
   errMsg.innerHTML = "checking credentials...";
@@ -54,14 +60,54 @@ async function login() {
     // successfull api call
     console.log("Successful /api/login call.");
     let data = await response.json();
-    console.log(data);
 
+    // sort out remember me button
+    let isChecked = document.getElementById("check").checked;
+    if (isChecked == false) {
+      // don't remember user, use session storage
+      sessionStorage.setItem("token", data.accessToken);
+      sessionStorage.setItem("user", data.username);
+    } else {
+      // remember user, use local storage
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("user", data.username);
+    }
     // replace the sign in area with a new welcome message
-    loggedIn = true;
-    errMsg.innerHTML = "hello, " + data.username;
+    isSignedIn();
+  }
+}
 
-    // set token in localstorage
-    localStorage.setItem("token", data.accessToken);
+function signOut() {
+  if (localStorage.length > 0) {
+    localStorage.clear();
+  }
+  // replace the signedin div with signin div
+  let signInDiv = document.getElementById("loginboxsignin");
+  let signedInDiv = document.getElementById("loginboxsignedin");
+  let welcome = document.getElementById("welcome");
+  signedInDiv.style.display = "none";
+  signInDiv.style.display = "block";
+  signInDiv.style.visibility = "visible";
+}
+
+// function to change content of left hand side, if the user is logged in
+function isSignedIn() {
+  let signInDiv = document.getElementById("loginboxsignin");
+  let signedInDiv = document.getElementById("loginboxsignedin");
+  let welcome = document.getElementById("welcome");
+  signInDiv.style.display = "none";
+  signedInDiv.style.display = "block";
+
+  // clear the inputs in the loginbox
+  document.getElementById("signin-user").value = "";
+  document.getElementById("signin-pass").value = "";
+  document.getElementById("login-err").innerHTML = "&nbsp;";
+
+  // if local storage empty, use session storage, else use local storage
+  if (sessionStorage.length < 1) {
+    welcome.innerHTML = "hello, " + localStorage.getItem("user");
+  } else {
+    welcome.innerHTML = "hello, " + sessionStorage.getItem("user");
   }
 }
 
@@ -994,7 +1040,14 @@ async function saveTabToDb() {
     }
 
     // make initial server call requests...
-    let token = localStorage.getItem("token");
+
+    let token;
+    if (sessionStorage.length < 1) {
+      token = localStorage.getItem("token");
+    } else {
+      token = sessionStorage.getItem("token");
+    }
+
     const fetchOptions = {
       credentials: "same-origin",
       method: "POST",
@@ -1085,7 +1138,12 @@ async function saveTabToDb() {
       staves.push(textarea);
     }
 
-    const token = localStorage.getItem("id_token");
+    let token;
+    if (sessionStorage.length < 1) {
+      token = localStorage.getItem("token");
+    } else {
+      token = sessionStorage.getItem("token");
+    }
     const fetchOptions = {
       credentials: "same-origin",
       method: "POST",
@@ -2047,12 +2105,9 @@ async function editChord() {
   button.setAttribute("style", "float: right");
   button.onclick = async function () {
     if (confirm("Are you sure you want to delete this chord?")) {
-      const token = localStorage.getItem("id_token");
-
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        // headers: { Authorization: "Bearer " + token },
       };
 
       let url =
@@ -2344,11 +2399,16 @@ async function createChord() {
       tuning.push(str1, str2, str3, str4, str5, str6);
 
       // save chord to database!!!
-      const token = localStorage.getItem("id_token");
+      let token;
+      if (sessionStorage.length < 1) {
+        token = localStorage.getItem("token");
+      } else {
+        token = sessionStorage.getItem("token");
+      }
       const fetchOptions = {
         credentials: "same-origin",
         method: "POST",
-        // headers: { Authorization: "Bearer " + token },
+        headers: { Authorization: "Bearer " + token },
       };
 
       let response;
@@ -2516,125 +2576,125 @@ function searchByArtist() {
   populateTable(newTabInfo);
 }
 
-// Populate content
-function populateContent(tabContent) {
-  let mainDiv = document.getElementById("selectedContent");
-  mainDiv.style.visibility = "visible";
-  // First, empty contents of mainDiv
-  while (mainDiv.hasChildNodes()) {
-    mainDiv.removeChild(mainDiv.firstChild);
-  }
-  // for loop through number of staves
-  // if tablature is users, show modal
-  let rawData = tabContent;
+// // Populate content
+// function populateContent(tabContent) {
+//   let mainDiv = document.getElementById("selectedContent");
+//   mainDiv.style.visibility = "visible";
+//   // First, empty contents of mainDiv
+//   while (mainDiv.hasChildNodes()) {
+//     mainDiv.removeChild(mainDiv.firstChild);
+//   }
+//   // for loop through number of staves
+//   // if tablature is users, show modal
+//   let rawData = tabContent;
 
-  let staves = tabContent[0].stave_types.split(",");
-  let rawContent = tabContent[0].stave_content.split(",");
-  let user = tabContent[0].email;
+//   let staves = tabContent[0].stave_types.split(",");
+//   let rawContent = tabContent[0].stave_content.split(",");
+//   let user = tabContent[0].email;
 
-  for (let i = 0; i < staves.length; i++) {
-    // first, create inner stave div
-    let staveDiv = document.createElement("div");
-    staveDiv.setAttribute("class", "contentDiv");
+//   for (let i = 0; i < staves.length; i++) {
+//     // first, create inner stave div
+//     let staveDiv = document.createElement("div");
+//     staveDiv.setAttribute("class", "contentDiv");
 
-    let h3 = document.createElement("h3");
-    h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
-    staveDiv.append(h3);
+//     let h3 = document.createElement("h3");
+//     h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
+//     staveDiv.append(h3);
 
-    let textarea = document.createElement("textarea");
-    textarea.setAttribute("rows", "6");
-    textarea.setAttribute("cols", "100");
-    textarea.setAttribute("wrap", "off");
-    textarea.value = "\n\n\n\n\n";
+//     let textarea = document.createElement("textarea");
+//     textarea.setAttribute("rows", "6");
+//     textarea.setAttribute("cols", "100");
+//     textarea.setAttribute("wrap", "off");
+//     textarea.value = "\n\n\n\n\n";
 
-    let textAreaLines = textarea.value.split("\n");
-    let content = rawContent[i].split("\n");
+//     let textAreaLines = textarea.value.split("\n");
+//     let content = rawContent[i].split("\n");
 
-    for (let j = 0; j < content.length; j++) {
-      textAreaLines[j] += content[j];
-    }
+//     for (let j = 0; j < content.length; j++) {
+//       textAreaLines[j] += content[j];
+//     }
 
-    textarea.value = textAreaLines.join("\n");
-    staveDiv.append(textarea);
-    mainDiv.append(staveDiv);
-  }
+//     textarea.value = textAreaLines.join("\n");
+//     staveDiv.append(textarea);
+//     mainDiv.append(staveDiv);
+//   }
 
-  // Create a div for text boxes, containing song name, artist and email
-  let infoDiv = document.createElement("div");
-  infoDiv.setAttribute("class", "infoDiv");
+//   // Create a div for text boxes, containing song name, artist and email
+//   let infoDiv = document.createElement("div");
+//   infoDiv.setAttribute("class", "infoDiv");
 
-  let nameLabel = document.createElement("label");
-  nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
-  nameLabel.setAttribute("style", "display: block");
-  infoDiv.append(nameLabel);
+//   let nameLabel = document.createElement("label");
+//   nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
+//   nameLabel.setAttribute("style", "display: block");
+//   infoDiv.append(nameLabel);
 
-  let artistLabel = document.createElement("label");
-  artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
-  artistLabel.setAttribute("style", "display: block");
-  infoDiv.append(artistLabel);
+//   let artistLabel = document.createElement("label");
+//   artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
+//   artistLabel.setAttribute("style", "display: block");
+//   infoDiv.append(artistLabel);
 
-  let genreLabel = document.createElement("label");
-  genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
-  genreLabel.setAttribute("style", "display: block");
-  infoDiv.append(genreLabel);
+//   let genreLabel = document.createElement("label");
+//   genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
+//   genreLabel.setAttribute("style", "display: block");
+//   infoDiv.append(genreLabel);
 
-  mainDiv.append(infoDiv);
+//   mainDiv.append(infoDiv);
 
-  if (user == localStorage.getItem("userEmail")) {
-    let editBtn = document.createElement("button");
-    editBtn.setAttribute("id", "editTabBtn");
-    editBtn.setAttribute("value", "Edit");
-    editBtn.setAttribute("title", "Select to edit current tablature");
-    editBtn.innerHTML = "Edit Tablature";
+//   if (user == localStorage.getItem("userEmail")) {
+//     let editBtn = document.createElement("button");
+//     editBtn.setAttribute("id", "editTabBtn");
+//     editBtn.setAttribute("value", "Edit");
+//     editBtn.setAttribute("title", "Select to edit current tablature");
+//     editBtn.innerHTML = "Edit Tablature";
 
-    let deleteBtn = document.createElement("button");
-    deleteBtn.setAttribute("id", "deleteTabBtn");
-    deleteBtn.setAttribute("value", "Delete Tab");
-    deleteBtn.setAttribute("title", "Select to delete current tablature");
-    deleteBtn.innerHTML = "Delete Tablature";
+//     let deleteBtn = document.createElement("button");
+//     deleteBtn.setAttribute("id", "deleteTabBtn");
+//     deleteBtn.setAttribute("value", "Delete Tab");
+//     deleteBtn.setAttribute("title", "Select to delete current tablature");
+//     deleteBtn.innerHTML = "Delete Tablature";
 
-    mainDiv.append(editBtn);
-    mainDiv.append(deleteBtn);
-  }
+//     mainDiv.append(editBtn);
+//     mainDiv.append(deleteBtn);
+//   }
 
-  if (document.getElementById("editTabBtn") !== null) {
-    document.getElementById("editTabBtn").onclick = function () {
-      // Make a call to the 'edit tablature' function
-      editTab(rawData);
-    };
-  }
+//   if (document.getElementById("editTabBtn") !== null) {
+//     document.getElementById("editTabBtn").onclick = function () {
+//       // Make a call to the 'edit tablature' function
+//       editTab(rawData);
+//     };
+//   }
 
-  if (document.getElementById("deleteTabBtn") !== null) {
-    document.getElementById("deleteTabBtn").onclick = async function () {
-      if (confirm("Are you sure you want to delete this tablature?")) {
-        console.log("Deleting...");
-        let _id = rawData[0]._id;
-        // Send request to server to delete, then reload page
-        const token = localStorage.getItem("id_token");
-        const fetchOptions = {
-          credentials: "same-origin",
-          method: "POST",
-          // headers: { Authorization: "Bearer " + token },
-        };
+//   if (document.getElementById("deleteTabBtn") !== null) {
+//     document.getElementById("deleteTabBtn").onclick = async function () {
+//       if (confirm("Are you sure you want to delete this tablature?")) {
+//         console.log("Deleting...");
+//         let _id = rawData[0]._id;
+//         // Send request to server to delete, then reload page
+//         const token = localStorage.getItem("id_token");
+//         const fetchOptions = {
+//           credentials: "same-origin",
+//           method: "POST",
+//           // headers: { Authorization: "Bearer " + token },
+//         };
 
-        let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
+//         let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
 
-        console.log("Attempting to fetch /api/deleteTab.");
-        const response = await fetch(url, fetchOptions);
-        if (!response.ok) {
-          console.log("Fetch request for /api/deleteTab has failed.");
-          return;
-        } else {
-          console.log("Successful /api/deleteTab call.");
-        }
-        alert("Tablature deleted.");
-        populateMain2();
-      } else {
-        return;
-      }
-    };
-  }
-}
+//         console.log("Attempting to fetch /api/deleteTab.");
+//         const response = await fetch(url, fetchOptions);
+//         if (!response.ok) {
+//           console.log("Fetch request for /api/deleteTab has failed.");
+//           return;
+//         } else {
+//           console.log("Successful /api/deleteTab call.");
+//         }
+//         alert("Tablature deleted.");
+//         populateMain2();
+//       } else {
+//         return;
+//       }
+//     };
+//   }
+// }
 
 async function editTab(data) {
   // Take user to 'create tablature' page, with data
@@ -2740,11 +2800,16 @@ async function backBtnView() {
 // ----------------------------------------------------------------------------------------------- //
 async function getMyChords() {
   // First, get chord names from server
-  const token = localStorage.getItem("id_token");
+  let token;
+  if (sessionStorage.length < 1) {
+    token = localStorage.getItem("token");
+  } else {
+    token = sessionStorage.getItem("token");
+  }
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
-    // headers: { Authorization: "Bearer " + token },
+    headers: { Authorization: "Bearer " + token },
   };
 
   let url = "/api/getSavedChords";
@@ -2784,25 +2849,6 @@ async function refreshSavedDropdown() {
     option.text = chords[i].chord_name;
     chordDropdown.add(option);
   }
-}
-// ----------------------------------------------------------------------------------------------- //
-// Generic function to change forms -------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-async function getPage(apiLink) {
-  const token = localStorage.getItem("id_token");
-  const fetchOptions = {
-    credentials: "same-origin",
-    method: "GET",
-    // headers: { Authorization: "Bearer " + token },
-  };
-  const response = await fetch(apiLink, fetchOptions);
-  if (!response.ok) {
-    console.log("Fetch response for " + apiLink + "has failed.");
-    return;
-  }
-  console.log("Fetch response for " + apiLink + " successful.");
-  let innerhtml = await response.text();
-  document.documentElement.innerHTML = innerhtml;
 }
 
 // ----------------------------------------------------------------------------------------------- //

@@ -32,11 +32,9 @@ app.listen(PORT, () => {
 app.get("/api/logout", logout);
 app.get("/api/createTabBtn", createTabBtn);
 app.get("/api/viewTabBtn", viewTabBtn);
-app.get("/api/getSavedChords", getSavedChords);
+app.get("/api/getSavedChords", authenticateToken, getSavedChords);
 app.get("/api/getTabsMetadata", getTabsMetadata);
 app.get("/api/getTabContent", getTabContent);
-
-// app.post("/api/checkUser", checkUser);
 
 app.get("/api/login", login);
 app.post("/api/register", register);
@@ -44,11 +42,11 @@ app.post("/api/register", register);
 app.get("/api/checkusername", checkusername);
 app.get("/api/checkemail", checkemail);
 
-app.post("/api/saveChord", saveChord);
+app.post("/api/saveChord", authenticateToken, saveChord);
 app.post("/api/saveTab", authenticateToken, saveTab);
 app.post("/api/updateTab", updateTab);
 app.post("/api/deleteTab", deleteTab);
-app.post("/api/updateChord", updateChord);
+app.post("/api/updateChord", authenticateToken, updateChord);
 app.post("/api/deleteChord", deleteChord);
 
 // this middleware will be called when a user tries to save a tablature
@@ -176,7 +174,7 @@ async function viewTabBtn(req, res) {
 
 async function getSavedChords(req, res) {
   // Calls database function to get user's presaved chords
-  await db.getSavedChords(req.user.emails[0].value, function (err, data) {
+  await db.getSavedChords(req.user.name, function (err, data) {
     if (err) {
       throw err;
       return res(err);
@@ -239,7 +237,7 @@ async function saveChord(req, res) {
     req.query.chord_frets,
     req.query.chord_tuning,
     req.query.start_pos,
-    req.user.emails[0].value
+    req.user.name
   );
   res.json(retval);
 }
@@ -250,7 +248,7 @@ async function updateChord(req, res) {
     req.query.chord_frets,
     req.query.chord_tuning,
     req.query.start_pos,
-    req.user.emails[0].value,
+    req.user.name,
     req.query.editedId
   );
   res.json(retval);
@@ -297,19 +295,19 @@ async function deleteChord(req, res) {
   res.json(retval);
 }
 
-(function () {
-  const CHECK_DELAY = 2000;
-  let lastTime = Date.now();
+// (function () {
+//   const CHECK_DELAY = 2000;
+//   let lastTime = Date.now();
 
-  setInterval(() => {
-    const currentTime = Date.now();
-    if (currentTime > lastTime + CHECK_DELAY * 2) {
-      // ignore small delays
-      gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
-    }
-    lastTime = currentTime;
-  }, CHECK_DELAY);
-})();
+//   setInterval(() => {
+//     const currentTime = Date.now();
+//     if (currentTime > lastTime + CHECK_DELAY * 2) {
+//       // ignore small delays
+//       gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
+//     }
+//     lastTime = currentTime;
+//   }, CHECK_DELAY);
+// })();
 
 function error(res, msg) {
   // Function to send errors.

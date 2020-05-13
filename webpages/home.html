@@ -30,7 +30,7 @@
 <main>
   <div id="griddiv" class="grid-container">
     <div id="loginbox" class="item1">
-      <div class="sign-in">
+      <div class="sign-in" id="loginboxsignin">
         <h2>sign in</h2>
           <form id="signin-form" action="SUBMIT">
            <input id="signin-user" type="text" class="input" placeholder="username">
@@ -42,9 +42,23 @@
         <p id="login-err">&nbsp;</p>
 
       </div>
+
+      <!-- this div is hidden until the user is signed in -->
+      <div class="signed-in" id="loginboxsignedin">
+        <h2 id="welcome"></h2>
+        <p>you can now create and upload a tablature to the site. click on the "create tablature" button below to get started.</p>
+        <input type="submit" class="button btn-large" value="sign out" onclick="signOut()">
+      </div>
+
+
       <div class="login-text" id="moveable-text">
         <button id="create-account-btn" onClick="createAccount();" class="btn-large">create account</button>
+        <p>create an account to upload tablatures to the site. you can still save your tab as a file without one.</p>
         <button id="create-btn" onClick="createTabNew();" class="btn-large">create tablature</button>
+      </div>
+
+      <div class="login-footer">
+        <p>created as a dissertation project by Hashim Hussain</p>
       </div>
     </div>
 

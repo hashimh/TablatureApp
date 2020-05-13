@@ -100,18 +100,58 @@ body::-webkit-scrollbar-thumb,
 #login-err {
   margin: 1vw;
 }
+#login-err:hover {
+  cursor: default;
+}
 
 .loginInfo {
   grid-area: login;
 }
 .login-text {
   grid-area: text;
+  font-size: 1.2vw;
 }
+.login-footer {
+  text-align: center;
+  border-top: 2px solid black;
+  font-size: 1.2vw;
+}
+.login-footer > * {
+  width: 80%;
+  margin: auto;
+  margin-top: 25px;
+}
+
 #loginbox {
   background-color: #cfcfc4;
   height: 100vh;
   /* display: grid;
   grid-template-areas: "login" "text"; */
+}
+#loginboxsignin {
+  border-bottom: 2px solid black;
+  height: 42vh;
+  display: block;
+  visibility: hidden;
+}
+
+/* user signed in css */
+#loginboxsignedin {
+  height: 42vh;
+  display: none;
+  border-bottom: 2px solid black;
+}
+.signed-in {
+  width: 100%;
+  margin-left: auto;
+  position: relative;
+  margin-top: 0;
+  text-align: center;
+}
+.signed-in p {
+  width: 80%;
+  font-size: 1.2vw;
+  margin: auto;
 }
 
 .loginInfo {
@@ -174,7 +214,7 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .button {
-  width: 80%;
+  width: 76%;
   margin-top: 1vw;
   font-size: 1.3vw;
   transition: background-color 0.5s linear;
@@ -185,16 +225,18 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .login-text {
-  margin-top: 2vw;
   position: relative;
   margin-left: 2vw;
   margin-right: 2vw;
   text-align: center;
-  border-top: 2px solid black;
+}
+#create-btn {
+  margin-top: 0;
+  margin-bottom: 2vw;
 }
 
 #create-account-btn {
-  margin-top: 4vw;
+  margin-top: 2vw;
 }
 .login-text button {
   margin-top: 2vw;
