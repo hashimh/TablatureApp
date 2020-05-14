@@ -185,7 +185,16 @@ function updateChord(chName, chFrets, chTuning, chStart, email, chId) {
   });
 }
 
-function saveTab(email, song, artist, genre, types, subtypes, staves) {
+function saveTab(
+  username,
+  email,
+  song,
+  artist,
+  genre,
+  types,
+  subtypes,
+  staves
+) {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     const dbo = db.db("heroku_2k42nnmn");
@@ -201,6 +210,7 @@ function saveTab(email, song, artist, genre, types, subtypes, staves) {
 
     const tabInfo = [
       {
+        username: username,
         email: email,
         song_name: song,
         artist_name: artist,
@@ -289,6 +299,7 @@ let getTabsMetadata = function (cb) {
             artist_name: 1,
             genre: 1,
             email: 1,
+            username: 1,
           },
         }
       )
@@ -298,14 +309,14 @@ let getTabsMetadata = function (cb) {
   });
 };
 
-let getMyTabsMetadata = function (emailIn, cb) {
+let getMyTabsMetadata = function (username, cb) {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     const dbo = db.db("heroku_2k42nnmn");
     dbo
       .collection("tabs")
       .find(
-        { email: emailIn },
+        { username: username },
         {
           projection: {
             _id: 1,
@@ -313,6 +324,7 @@ let getMyTabsMetadata = function (emailIn, cb) {
             artist_name: 1,
             genre: 1,
             email: 1,
+            username: 1,
           },
         }
       )

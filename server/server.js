@@ -41,6 +41,7 @@ app.post("/api/register", register);
 
 app.get("/api/checkusername", checkusername);
 app.get("/api/checkemail", checkemail);
+app.get("/api/getMyTabsMetadata", authenticateToken, getMyTabsMetadata);
 
 app.post("/api/saveChord", authenticateToken, saveChord);
 app.post("/api/saveTab", authenticateToken, saveTab);
@@ -85,7 +86,8 @@ async function login(req, res) {
 
           // now add some auth method for user, used in saving tabs
           const username = data[0].username;
-          const user = { name: username };
+          const email = data[0].email;
+          const user = { name: username, email: email };
           const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
           res.status(200).json({
@@ -154,6 +156,18 @@ async function getSavedChords(req, res) {
     if (err) {
       throw err;
     } else {
+      return res.json(data);
+    }
+  });
+}
+
+async function getMyTabsMetadata(req, res) {
+  // gets tab metadata of current user
+  await db.getMyTabsMetadata(req.user.name, function (err, data) {
+    if (err) {
+      throw err;
+    } else {
+      console.log(data);
       return res.json(data);
     }
   });
@@ -236,6 +250,7 @@ async function saveTab(req, res) {
   );
   const retval = await db.saveTab(
     req.user.name,
+    req.user.email,
     req.query.song_name,
     req.query.artist_name,
     req.query.genre,

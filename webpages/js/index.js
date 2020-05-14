@@ -18,7 +18,7 @@ window.onload = async (event) => {
   // get tablature content, and fill in with event listeners
   tabInfo = await getTabs("all");
   populateTable(tabInfo);
-  addFilterListeners();
+  addFilterListeners(tabInfo);
 };
 
 // ----------------------------------------------------------------------------------------------- //
@@ -413,7 +413,62 @@ async function registerAccount() {
   }
 }
 
-// ----------------------------------------------------------------------------------------------- // \
+// ----------------------------------------------------------------------------------------------- //
+// Function to view my tablatures or all tablatures ---------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+async function switchView() {
+  let viewBtn = document.getElementById("switch-view");
+  let viewValue = viewBtn.value;
+  if (viewValue == "show my tabs") {
+    viewBtn.value = "show all tabs";
+
+    // add loading to content area until things loaded
+    // remove all children of content
+    let contentArea = document.getElementById("view-contents-id");
+    while (contentArea.hasChildNodes()) {
+      contentArea.removeChild(contentArea.firstChild);
+    }
+    let loader = document.createElement("div");
+    loader.setAttribute("class", "loader");
+    contentArea.appendChild(loader);
+
+    // get users jwt
+    let token;
+    if (sessionStorage.length < 1) {
+      token = localStorage.getItem("token");
+    } else {
+      token = sessionStorage.getItem("token");
+    }
+
+    const fetchOptions = {
+      credentials: "same-origin",
+      method: "GET",
+      headers: { Authorization: "Bearer " + token },
+    };
+
+    let url = "/api/getMyTabsMetadata";
+    console.log("attemping to fetch /api/getMyTabsMetadata");
+
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      console.log("failed response for /api/getMyTabMetadata");
+      return;
+    } else {
+      console.log("succesful /api/getMyTabsMetadata call");
+      let data = await response.json();
+      populateTable(data);
+      addFilterListeners(data);
+
+      // we want to append "edit" and "delete" buttons onto the options
+    }
+  } else {
+    viewBtn.value = "show my tabs";
+    populateTable(tabInfo);
+    addFilterListeners(tabInfo);
+  }
+}
+
+// ----------------------------------------------------------------------------------------------- //
 // Function to populate tab results table -------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function populateTable(tabInfo) {
@@ -454,7 +509,7 @@ function populateTable(tabInfo) {
     listElemText1.setAttribute("class", "li-genre");
 
     let listElemText2 = document.createElement("li");
-    listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].email + "</i>";
+    listElemText2.innerHTML = "<i>" + "user: " + tabInfo[i].username + "</i>";
     listElemText2.setAttribute("class", "li-username");
 
     let listElemSymbol = document.createElement("li");
@@ -488,7 +543,8 @@ function populateTable(tabInfo) {
 // ----------------------------------------------------------------------------------------------- //
 // Function for search/filter options ------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
-function addFilterListeners() {
+function addFilterListeners(whatTabInfo) {
+  let useTabInfo = whatTabInfo;
   // add event listeners for filters/search
   // event listeners for filtering by genre
   let genreselectdiv = document.getElementById("custom-genre-select");
@@ -509,7 +565,7 @@ function addFilterListeners() {
         });
         // populateTable(newTabInfo);
       } else {
-        tabInfo1 = tabInfo;
+        tabInfo1 = useTabInfo;
         // populateTable(tabInfo);
       }
 
@@ -555,7 +611,7 @@ function addFilterListeners() {
         genreselectdiv.getElementsByClassName("select-selected")[0]
           .innerHTML !== "all genres"
       ) {
-        tabInfo1 = tabInfo.filter(function (el) {
+        tabInfo1 = whatTabInfo.filter(function (el) {
           return (
             el.genre ==
             capitaliseEachWord(
@@ -566,7 +622,7 @@ function addFilterListeners() {
         });
       } else {
         // if no genre has been filtered
-        tabInfo1 = tabInfo;
+        tabInfo1 = whatTabInfo;
       }
 
       if (searchbar.value.length > 0) {
@@ -599,7 +655,7 @@ function addFilterListeners() {
       genreselectdiv.getElementsByClassName("select-selected")[0].innerHTML !==
       "all genres"
     ) {
-      tabInfo1 = tabInfo.filter(function (el) {
+      tabInfo1 = whatTabInfo.filter(function (el) {
         return (
           el.genre ==
           capitaliseEachWord(
@@ -610,7 +666,7 @@ function addFilterListeners() {
       });
       // genre has not been selected, no changes to tabinfo needed
     } else {
-      tabInfo1 = tabInfo;
+      tabInfo1 = whatTabInfo;
     }
 
     if (
