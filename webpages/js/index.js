@@ -459,7 +459,14 @@ async function switchView() {
       populateTable(data);
       addFilterListeners(data);
 
-      // we want to append "edit" and "delete" buttons onto the options
+      // we want to let user know they can now edit their tab on their "view" page
+      // let contentDiv = document.getElementById("view-contents-id");
+
+      // let message = document.createElement("p");
+      // message.setAttribute("class", "editmessage");
+      // message.innerHTML =
+      //   "note: you can edit or delete your tablatures by clicking on them, then onto the respective buttons";
+      // contentDiv.insertBefore(message, contentDiv.firstChild);
     }
   } else {
     viewBtn.value = "show my tabs";
@@ -515,7 +522,15 @@ function populateTable(tabInfo) {
     let listElemSymbol = document.createElement("li");
     let symbol = document.createElement("i");
     listElemSymbol.setAttribute("class", "li-symbol");
-    symbol.setAttribute("class", "fa fa-plus");
+
+    // if tablature is by the current user, display a different symbol
+    let curUser = localStorage.getItem("user");
+    if (tabInfo[i].username == curUser) {
+      symbol.setAttribute("class", "fa fa-pencil");
+    } else {
+      symbol.setAttribute("class", "fa fa-plus");
+    }
+
     symbol.setAttribute("aria-hidden", "true");
     listElemSymbol.appendChild(symbol);
 
@@ -558,15 +573,13 @@ function addFilterListeners(whatTabInfo) {
       let tabInfo2;
       let tabInfo3;
       if (genreselectchildren[i].innerHTML !== "all genres") {
-        tabInfo1 = tabInfo.filter(function (el) {
+        tabInfo1 = useTabInfo.filter(function (el) {
           return (
             el.genre == capitaliseEachWord(genreselectchildren[i].innerHTML)
           );
         });
-        // populateTable(newTabInfo);
       } else {
         tabInfo1 = useTabInfo;
-        // populateTable(tabInfo);
       }
 
       // check sort by
@@ -810,11 +823,23 @@ function closeTab() {
 // To open a tab from tab list ------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function openTab(id) {
+  // remove possible buttons on display to avoid duplication
+  let buttonDiv = document.getElementsByClassName("close-tab-btn")[0];
+  while (buttonDiv.hasChildNodes()) {
+    buttonDiv.removeChild(buttonDiv.firstChild);
+  }
+
   // function will switch to tabcont. and fill in information
   let tabcontainer = document.getElementById("tab-container-id");
   let maincontainer = document.getElementById("main-container-id");
   maincontainer.style.display = "none";
   tabcontainer.style.display = "grid";
+
+  // redisplay loader if it doesn't exist
+  let loaderContainer = document.getElementById("tab-content-id");
+  let loader = document.createElement("div");
+  loader.setAttribute("class", "loader");
+  loaderContainer.appendChild(loader);
 
   // fill metadata content
   const fetchOptions = {
@@ -847,13 +872,14 @@ async function openTab(id) {
   let staves = res[0].stave_types.split(",");
   let substaves = res[0].stave_subtypes.split(",");
   let stavecontent = res[0].stave_content.split(",");
-  let user = res[0].email;
+  let user = res[0].username;
 
   let contentcontainer = document.getElementById("tab-content-id");
 
   while (contentcontainer.hasChildNodes()) {
     contentcontainer.removeChild(contentcontainer.firstChild);
   }
+  // re-add loader
 
   for (let i = 0; i < staves.length; i++) {
     //create stave inner div
@@ -894,7 +920,26 @@ async function openTab(id) {
     }
   }
 
+  let appendDiv = document.getElementsByClassName("close-tab-btn")[0];
+
   // NEXT, CHECK IF CURRENT USER IS USER WHO CREATED THE TAB AND ADD SOME EXTRA OPTIONS FOR THEM
+  if (localStorage.getItem("user") == user) {
+    let editBtn = document.createElement("button");
+    editBtn.setAttribute("class", "btn-large");
+    editBtn.innerHTML = "edit tab";
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.setAttribute("class", "btn-large");
+    deleteBtn.innerHTML = "delete tab";
+
+    appendDiv.appendChild(editBtn);
+    appendDiv.appendChild(deleteBtn);
+  }
+  let backBtn = document.createElement("button");
+  backBtn.setAttribute("class", "btn-large");
+  backBtn.innerHTML = "go back";
+  backBtn.onclick = closeTab;
+  appendDiv.appendChild(backBtn);
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -2662,126 +2707,6 @@ function searchByArtist() {
   });
   populateTable(newTabInfo);
 }
-
-// // Populate content
-// function populateContent(tabContent) {
-//   let mainDiv = document.getElementById("selectedContent");
-//   mainDiv.style.visibility = "visible";
-//   // First, empty contents of mainDiv
-//   while (mainDiv.hasChildNodes()) {
-//     mainDiv.removeChild(mainDiv.firstChild);
-//   }
-//   // for loop through number of staves
-//   // if tablature is users, show modal
-//   let rawData = tabContent;
-
-//   let staves = tabContent[0].stave_types.split(",");
-//   let rawContent = tabContent[0].stave_content.split(",");
-//   let user = tabContent[0].email;
-
-//   for (let i = 0; i < staves.length; i++) {
-//     // first, create inner stave div
-//     let staveDiv = document.createElement("div");
-//     staveDiv.setAttribute("class", "contentDiv");
-
-//     let h3 = document.createElement("h3");
-//     h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
-//     staveDiv.append(h3);
-
-//     let textarea = document.createElement("textarea");
-//     textarea.setAttribute("rows", "6");
-//     textarea.setAttribute("cols", "100");
-//     textarea.setAttribute("wrap", "off");
-//     textarea.value = "\n\n\n\n\n";
-
-//     let textAreaLines = textarea.value.split("\n");
-//     let content = rawContent[i].split("\n");
-
-//     for (let j = 0; j < content.length; j++) {
-//       textAreaLines[j] += content[j];
-//     }
-
-//     textarea.value = textAreaLines.join("\n");
-//     staveDiv.append(textarea);
-//     mainDiv.append(staveDiv);
-//   }
-
-//   // Create a div for text boxes, containing song name, artist and email
-//   let infoDiv = document.createElement("div");
-//   infoDiv.setAttribute("class", "infoDiv");
-
-//   let nameLabel = document.createElement("label");
-//   nameLabel.innerHTML = "Song Name: " + tabContent[0].song_name;
-//   nameLabel.setAttribute("style", "display: block");
-//   infoDiv.append(nameLabel);
-
-//   let artistLabel = document.createElement("label");
-//   artistLabel.innerHTML = "Artist Name: " + tabContent[0].artist_name;
-//   artistLabel.setAttribute("style", "display: block");
-//   infoDiv.append(artistLabel);
-
-//   let genreLabel = document.createElement("label");
-//   genreLabel.innerHTML = "Genre: " + tabContent[0].genre;
-//   genreLabel.setAttribute("style", "display: block");
-//   infoDiv.append(genreLabel);
-
-//   mainDiv.append(infoDiv);
-
-//   if (user == localStorage.getItem("userEmail")) {
-//     let editBtn = document.createElement("button");
-//     editBtn.setAttribute("id", "editTabBtn");
-//     editBtn.setAttribute("value", "Edit");
-//     editBtn.setAttribute("title", "Select to edit current tablature");
-//     editBtn.innerHTML = "Edit Tablature";
-
-//     let deleteBtn = document.createElement("button");
-//     deleteBtn.setAttribute("id", "deleteTabBtn");
-//     deleteBtn.setAttribute("value", "Delete Tab");
-//     deleteBtn.setAttribute("title", "Select to delete current tablature");
-//     deleteBtn.innerHTML = "Delete Tablature";
-
-//     mainDiv.append(editBtn);
-//     mainDiv.append(deleteBtn);
-//   }
-
-//   if (document.getElementById("editTabBtn") !== null) {
-//     document.getElementById("editTabBtn").onclick = function () {
-//       // Make a call to the 'edit tablature' function
-//       editTab(rawData);
-//     };
-//   }
-
-//   if (document.getElementById("deleteTabBtn") !== null) {
-//     document.getElementById("deleteTabBtn").onclick = async function () {
-//       if (confirm("Are you sure you want to delete this tablature?")) {
-//         console.log("Deleting...");
-//         let _id = rawData[0]._id;
-//         // Send request to server to delete, then reload page
-//         const token = localStorage.getItem("id_token");
-//         const fetchOptions = {
-//           credentials: "same-origin",
-//           method: "POST",
-//           // headers: { Authorization: "Bearer " + token },
-//         };
-
-//         let url = "/api/deleteTab" + "?_id=" + encodeURIComponent(_id);
-
-//         console.log("Attempting to fetch /api/deleteTab.");
-//         const response = await fetch(url, fetchOptions);
-//         if (!response.ok) {
-//           console.log("Fetch request for /api/deleteTab has failed.");
-//           return;
-//         } else {
-//           console.log("Successful /api/deleteTab call.");
-//         }
-//         alert("Tablature deleted.");
-//         populateMain2();
-//       } else {
-//         return;
-//       }
-//     };
-//   }
-// }
 
 async function editTab(data) {
   // Take user to 'create tablature' page, with data

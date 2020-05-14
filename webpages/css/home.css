@@ -293,6 +293,7 @@ input[type="checkbox"]:checked + label:before {
 }
 .close-tab-btn {
   grid-area: closebtn;
+  align-self: end;
 }
 .tab-container {
   display: none;
@@ -308,7 +309,7 @@ input[type="checkbox"]:checked + label:before {
   background-color: #bb9cd9;
   padding: 1vw;
   display: grid;
-  grid-template-rows: 6fr 3fr 1fr;
+  grid-template-rows: 6fr 3fr 3fr;
   grid-template-areas: "tabinfo" "tabplayback" "closebtn";
   margin-left: 16px;
   height: 84%;
@@ -551,6 +552,19 @@ select:focus {
 .li-symbol {
   grid-area: lisymbol;
   justify-self: end;
+}
+
+.editmessage {
+  text-align: center;
+  font-size: 1.4vw;
+  background-color: #cfcfc4;
+  width: 65vw;
+  margin: 1vw auto;
+  padding: 1vw;
+  font-weight: boldz;
+}
+.editmessage:hover {
+  cursor: default;
 }
 
 .results-list-elem {
