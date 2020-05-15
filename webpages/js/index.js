@@ -1,3 +1,15 @@
+// index.js structure:
+// 1. global variable declarations, initialisation functions
+// 2. generic functions
+// 3. home form js
+// 4. view tab form js
+// 5. create tab js
+
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ---------------------------- GLOBAL VAR DECLARATIONS, INIT FUNCTIONS -------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 "use strict";
 var editedTab = false;
 var editedTabId = "";
@@ -5,11 +17,8 @@ var tabInfo;
 var signedIn = false;
 var rememberMe = true;
 
-// ----------------------------------------------------------------------------------------------- //
-// Initialising the page on load ----------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
+// on load, check user is saved, and populate list content
 window.onload = async (event) => {
-  // check if user info is saved in session, if not, show login box
   if (localStorage.length > 0) {
     isSignedIn();
   } else {
@@ -22,17 +31,20 @@ window.onload = async (event) => {
 };
 
 // ----------------------------------------------------------------------------------------------- //
-// Login function -------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// -------------------------------------- HOME SECTION CODE -------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
+
+// ----------------------------------------------------------------------------------------------- //
+// Sign in function ------------------------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //
 async function login() {
   let errMsg = document.getElementById("login-err");
-  errMsg.innerHTML = "checking credentials...";
-
   let username = document.getElementById("signin-user").value;
   let password = document.getElementById("signin-pass").value;
+  errMsg.innerHTML = "checking credentials...";
 
-  // check the username and password match a user record in the database
-  // will allow empty values to be checked, to output incorrect for no values either
   const fetchOptions = {
     credentials: "same-origin",
     method: "GET",
@@ -48,29 +60,24 @@ async function login() {
   console.log("attempting to fetch /api/login...");
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
-    // handle the error
     console.log("Fetch response for /api/login has failed.");
 
     errMsg.innerHTML = "incorrect username or password";
 
     return;
   } else {
-    // successfull api call
     console.log("Successful /api/login call.");
     let data = await response.json();
 
     // sort out remember me button
     let isChecked = document.getElementById("check").checked;
     if (isChecked == false) {
-      // don't remember user, use session storage
       sessionStorage.setItem("token", data.accessToken);
       sessionStorage.setItem("user", data.username);
     } else {
-      // remember user, use local storage
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", data.username);
     }
-    // replace the sign in area with a new welcome message
     isSignedIn();
   }
 }
@@ -90,8 +97,9 @@ function signOut() {
   signInDiv.style.display = "block";
   signInDiv.style.visibility = "visible";
 }
-
-// function to change content of left hand side, if the user is logged in
+// ----------------------------------------------------------------------------------------------- //
+// Function to change content of left hand side -------------------------------------------------- //
+// ----------------------------------------------------------------------------------------------- //
 function isSignedIn() {
   let signInDiv = document.getElementById("loginboxsignin");
   let signedInDiv = document.getElementById("loginboxsignedin");
@@ -184,7 +192,6 @@ async function usernameInChange() {
     }
   }
 }
-
 function noWhitespace(event) {
   if (event.which == 32) {
     event.preventDefault();
