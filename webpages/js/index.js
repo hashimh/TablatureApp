@@ -2886,54 +2886,6 @@ async function createChord() {
 
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-// ------------------------------------- VIEW TABS FUNCTIONS ------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// Code for the 'viewtabs.html' form
-
-// ----------------------------------------------------------------------------------------------- //
-// Function to search all tabs by name, artist and genre ----------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-function searchByName() {
-  let search = document.getElementById("searchByName").value;
-  let newTabInfo = tabInfo.filter(function (el) {
-    return el.song_name.includes(search);
-  });
-  populateTable(newTabInfo);
-}
-
-function searchByArtist() {
-  let search = document.getElementById("searchByArtist").value;
-  let newTabInfo = tabInfo.filter(function (el) {
-    return el.artist_name.includes(search);
-  });
-  populateTable(newTabInfo);
-}
-
-// Function to reset search criteria
-function resetSearch() {
-  document.getElementById("showMeDropdown").selectedIndex = 0;
-  document.getElementById("searchGenre").selectedIndex = 0;
-  document.getElementById("searchByName").value = "";
-  document.getElementById("searchByArtist").value = "";
-  populateMain2();
-}
-
-// Functions to change background colour of row on mouseover
-function changeBackground(row) {
-  row.style.backgroundColor = "teal";
-}
-function revertBackground(row) {
-  row.style.backgroundColor = "white";
-}
-
-async function backBtnView() {
-  let apiLink = "/api/login";
-  await getPage(apiLink);
-}
-
-// ----------------------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
 // -------------------------------------- GENERIC FUNCTIONS -------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
@@ -2993,15 +2945,6 @@ async function refreshSavedDropdown() {
     chordDropdown.add(option);
   }
 }
-
-// ----------------------------------------------------------------------------------------------- //
-// Function to sort array of tabs by 'property' variable ----------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-var sortBy = function (property) {
-  return function (x, y) {
-    return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1;
-  };
-};
 
 // ----------------------------------------------------------------------------------------------- //
 // A generic function for the search criteria for viewing tablatures ----------------------------- //
