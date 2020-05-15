@@ -823,6 +823,8 @@ function closeTab() {
 // To open a tab from tab list ------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 async function openTab(id) {
+  editedTab = false;
+  editedTabId = "";
   // remove possible buttons on display to avoid duplication
   let buttonDiv = document.getElementsByClassName("close-tab-btn")[0];
   while (buttonDiv.hasChildNodes()) {
@@ -934,12 +936,212 @@ async function openTab(id) {
 
     appendDiv.appendChild(editBtn);
     appendDiv.appendChild(deleteBtn);
+
+    // add event listeners for these two buttons
+    let curId = res[0]._id;
+    deleteBtn.addEventListener("click", function () {
+      deleteTab(curId);
+    });
+
+    editBtn.addEventListener("click", function () {
+      editTab(res);
+    });
   }
   let backBtn = document.createElement("button");
   backBtn.setAttribute("class", "btn-large");
   backBtn.innerHTML = "go back";
   backBtn.onclick = closeTab;
   appendDiv.appendChild(backBtn);
+}
+
+async function deleteTab(id) {
+  console.log("deleting", id);
+  // display are you sure modal
+  let confrimModal = document.getElementById("confirm-modal");
+  confrimModal.style.opacity = "1";
+  confrimModal.style.zIndex = "10";
+
+  document.getElementById("confirm-no").addEventListener("click", function () {
+    // no clicked
+    confrimModal.style.opacity = "0";
+    confrimModal.style.zIndex = "-1";
+  });
+  document
+    .getElementById("confirm-yes")
+    .addEventListener("click", async function () {
+      // yes clicked, add message, remove buttons
+      document.getElementById("confirm-title").innerHTML = "deleting...";
+      document.getElementById("confirm-title").style.marginTop = "1vw";
+      document.getElementById("confirm-yes").remove();
+      document.getElementById("confirm-no").remove();
+
+      // make server call to delete tab
+      let token;
+      if (sessionStorage.length < 1) {
+        token = localStorage.getItem("token");
+      } else {
+        token = sessionStorage.getItem("token");
+      }
+
+      const fetchOptions = {
+        credentials: "same-origin",
+        method: "POST",
+        headers: { Authorization: "Bearer " + token },
+      };
+
+      let url = "/api/deleteTab" + "?id=" + encodeURIComponent(id);
+
+      console.log("attempting to fetch /api/deleteTab...");
+      const response = await fetch(url, fetchOptions);
+      if (!response.ok) {
+        console.log("fetch response for /api/deleteTab has failed.");
+        document.getElementById("confirm-title").innerHTML =
+          "deletion has failed";
+        // return;
+      } else {
+        console.log("succesful /api/deleteTab call.");
+      }
+
+      // wait for 2 seconds for title to be read, then go back to prev page.
+      document.getElementById("confirm-title").innerHTML = "deleting tab...";
+      setTimeout(() => {
+        confrimModal.style.opacity = "0";
+        confrimModal.style.zIndex = "-1";
+
+        closeTab();
+        location.reload();
+      }, 2000);
+    });
+}
+
+async function editTab(data) {
+  console.log(data);
+
+  // first, close the current container and display the create tab container
+  let tabcontainer = document.getElementById("tab-container-id");
+  let createcontainer = document.getElementById("create-container-id");
+  tabcontainer.style.display = "none";
+  createcontainer.style.display = "grid";
+
+  document.getElementById("loginbox").style.display = "none";
+  document.getElementById("logintext").style.borderLeft = "none";
+  document.getElementById("griddiv").style.display = "block";
+
+  // fill in content
+  let staves = data[0].stave_types.split(",");
+  let substaves = data[0].stave_subtypes.split(",");
+  let rawContent = data[0].stave_content.split(",");
+
+  let staveDropdown = document.getElementById("selectStave");
+  let tabContent = document.getElementById("tabcontent");
+
+  // clear tab creation area
+  while (tabContent.firstChild) {
+    tabcontent.removeChild(tabcontent.firstChild);
+  }
+
+  // substave loop
+
+  // we need a new loop here split by subdiv first digit which will contain code below
+
+  // now, we want to split substave array into an array of arrays of each number
+  let substaveObj = {};
+  substaves.forEach(
+    (e, i) => (
+      (i = parseInt(e, 10)),
+      substaveObj[i] ? substaveObj[i].push(e) : (substaveObj[i] = [e])
+    )
+  );
+  substaveObj;
+  console.log(substaveObj);
+  console.log("raw content", rawContent);
+  let currentContent;
+
+  for (let x = 0; x < Object.values(substaveObj).length; x++) {
+    // LOOP THROUGH SUBSTAVE OBJECT ARRAY
+    // edit this to be compatible with new tab style
+
+    // - For each stave group in data
+    //      - run createStave
+    //      - fill in with information
+    //      - OR... Just fill it out now
+
+    let div = document.createElement("div");
+    div.setAttribute("id", x + 1);
+    div.setAttribute("class", "stave");
+
+    let h3 = document.createElement("h3");
+    h3.innerHTML = "Stave " + (x + 1) + ": " + staves[x];
+    h3.setAttribute("id", x + 1 + staves[x]);
+    div.append(h3);
+
+    let subdiv = document.createElement("div");
+    subdiv.setAttribute("id", "div_stave" + (x + 1));
+    subdiv.setAttribute("name", "stavecontainer");
+    subdiv.setAttribute("class", "stavecontainerclass");
+
+    for (let y = 0; y < Object.values(substaveObj)[x].length; y++) {
+      console.log("run number x", x, "run number y", y);
+      let alteredId = Object.values(substaveObj)[x][y].replace(".", "_");
+      // LOOP THROUGH EACH ARRAY OF OBJECT
+      let staveOption = document.createElement("option");
+      staveOption.value = alteredId;
+      staveOption.innerHTML = "Stave " + Object.values(substaveObj)[x][y];
+      staveDropdown.append(staveOption);
+
+      // create p and textarea
+
+      console.log(Object.values(substaveObj)[x][y]);
+
+      let textArea = document.createElement("textarea");
+      let label = document.createElement("p");
+      label.setAttribute("id", Object.values(substaveObj)[x][y]);
+      label.innerHTML = Object.values(substaveObj)[x][y];
+
+      textArea.setAttribute("id", "stave" + alteredId);
+      textArea.setAttribute("name", "stave");
+      textArea.setAttribute("rows", "6");
+      textArea.setAttribute("cols", "100");
+      textArea.setAttribute("wrap", "off");
+      textArea.value = "\n\n\n\n\n";
+
+      // run through raw content. remove first element, set as current textarea value
+      currentContent = rawContent[0];
+      rawContent.shift();
+
+      let textAreaLines = textArea.value.split("\n");
+      let content = currentContent.split("\n");
+
+      for (let z = 0; z < content.length; z++) {
+        textAreaLines[z] = content[z];
+      }
+      textArea.value = textAreaLines.join("\n");
+
+      subdiv.append(label);
+      subdiv.append(textArea);
+    }
+    div.append(subdiv);
+    tabContent.append(div);
+  }
+
+  // select last option of stave dropdown
+  staveDropdown.selectedIndex = staveDropdown.options.length - 1;
+
+  fretBoard();
+  chordFretboard();
+
+  let songName = data[0].song_name;
+  let artistName = data[0].artist_name;
+  let genre = data[0].genre;
+
+  editedTab = true;
+  editedTabId = data[0]._id;
+
+  // when save button is clicked, append data above into entries, change save innerhtml to update
+  document.getElementById("song-name").value = songName;
+  document.getElementById("song-artist").value = artistName;
+  document.getElementById("song-genre").value = genre;
+  document.getElementById("upload-btn").innerHTML = "update tablature";
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -1218,6 +1420,7 @@ async function saveTabToDb() {
     while (tabContent.firstChild) {
       tabcontent.removeChild(tabcontent.firstChild);
     }
+
     // REMOVE STAVES FROM DROPDOWN MENU
     let staveDropdown = document.getElementById("selectStave");
     let dropdownLength = staveDropdown.options.length;
@@ -1225,6 +1428,7 @@ async function saveTabToDb() {
       staveDropdown.remove(i);
       staveDropdown.remove(staveDropdown.selectedIndex);
     }
+
     // add text back to no stave area
     let tempmessage = document.createElement("p");
     tempmessage.innerHTML =
@@ -1244,30 +1448,50 @@ async function saveTabToDb() {
       // go back to main page, and refresh content
       let createcontainer = document.getElementById("create-container-id");
       let maincontainer = document.getElementById("main-container-id");
+      while (contentcontainer.hasChildNodes()) {
+        contentcontainer.removeChild(contentcontainer.firstChild);
+      }
+
       // trigger page refresh
       createcontainer.style.display = "none";
       document.getElementById("loginbox").style.display = "block";
       document.getElementById("logintext").style.borderLeft = "2px solid black";
       document.getElementById("griddiv").style.display = "grid";
-      maincontainer.style.display = "grid";
+
       location.reload();
     }, 2000);
   } else {
     // Call new server function -> new database function -> replace old _id file with new one
     let types = [];
+    let type;
+    let subtypes = [];
     let staves = [];
     let tabContent = document.getElementById("tabcontent");
-    let allStaves = tabContent.getElementsByTagName("div");
+    let allStaves = tabContent.getElementsByClassName("stave");
+
+    console.log(allStaves);
 
     for (let i = 0; i < allStaves.length; i++) {
+      console.log(allStaves[i]);
+
       // get stave type from h3's id, and add to 'type' array
-      let type = allStaves[i].getElementsByTagName("h3")[0].id;
+      type = allStaves[i].getElementsByTagName("h3")[0].id;
       type = type.substring(1);
       types.push(type);
 
       // now, get stave textarea, and add to 'stave' array
-      let textarea = allStaves[i].getElementsByTagName("textarea")[0].value;
-      staves.push(textarea);
+      let textAreaContainer = allStaves[i].getElementsByClassName(
+        "stavecontainerclass"
+      )[0];
+      let ps = textAreaContainer.querySelectorAll("p");
+      let textareas = textAreaContainer.querySelectorAll("textarea");
+      for (let j = 0; j < ps.length; j++) {
+        // type = allStaves[i].getElementsByTagName("h3")[0].id;
+        // type = type.substring(1);
+        // types.push(type);
+        subtypes.push(ps[j].innerHTML);
+        staves.push(textareas[j].value);
+      }
     }
 
     let token;
@@ -1279,7 +1503,7 @@ async function saveTabToDb() {
     const fetchOptions = {
       credentials: "same-origin",
       method: "POST",
-      // headers: { Authorization: "Bearer " + token },
+      headers: { Authorization: "Bearer " + token },
     };
 
     let url =
@@ -1294,6 +1518,8 @@ async function saveTabToDb() {
       encodeURIComponent(songGenre) +
       "&stave_types=" +
       encodeURIComponent([types]) +
+      "&stave_subtypes=" +
+      encodeURIComponent([subtypes]) +
       "&stave_content=" +
       encodeURIComponent([staves]);
 
@@ -1305,16 +1531,15 @@ async function saveTabToDb() {
     } else {
       console.log("Successful /api/updateTab call.");
     }
-    alert("Tab updated in database!");
     // clear modal entries and close modal
     songName = "";
     artistName = "";
-    modal.style.display = "none";
 
     // clear tab creation area
     while (tabContent.firstChild) {
       tabcontent.removeChild(tabcontent.firstChild);
     }
+
     // REMOVE STAVES FROM DROPDOWN MENU
     let staveDropdown = document.getElementById("selectStave");
     let dropdownLength = staveDropdown.options.length;
@@ -1322,6 +1547,7 @@ async function saveTabToDb() {
       staveDropdown.remove(i);
       staveDropdown.remove(staveDropdown.selectedIndex);
     }
+
     // add text back to no stave area
     let tempmessage = document.createElement("p");
     tempmessage.innerHTML =
@@ -1329,7 +1555,34 @@ async function saveTabToDb() {
     tempmessage.setAttribute("id", "tempmessage");
     tabcontent.append(tempmessage);
 
-    // close the save tab modal
+    let errMsg = document.getElementById("exportMsg");
+    errMsg.innerHTML = "updating tablature...";
+
+    setTimeout(() => {
+      // now, close the save tab modal
+      let saveModal = document.getElementById("save-modal");
+      saveModal.style.opacity = "0";
+      saveModal.style.zIndex = "-1";
+
+      // go back to view page, and refresh content
+      let createcontainer = document.getElementById("create-container-id");
+      let contentcontainer = document.getElementById("tab-content-id");
+
+      document.getElementById("tab-info-1").innerHTML = "";
+      document.getElementById("tab-info-2").innerHTML = "";
+      while (contentcontainer.hasChildNodes()) {
+        contentcontainer.removeChild(contentcontainer.firstChild);
+      }
+
+      // trigger page refresh
+      createcontainer.style.display = "none";
+      document.getElementById("loginbox").style.display = "block";
+      document.getElementById("logintext").style.borderLeft = "2px solid black";
+      document.getElementById("griddiv").style.display = "grid";
+
+      openTab(editedTabId);
+      // location.reload();
+    }, 2000);
   }
 }
 
@@ -2707,8 +2960,8 @@ function searchByArtist() {
   });
   populateTable(newTabInfo);
 }
-
-async function editTab(data) {
+// ------------------------------------------ DELETE -----------------------======================
+async function editTabOld(data) {
   // Take user to 'create tablature' page, with data
   let apiLink = "/api/createTabBtn";
   await getPage(apiLink);

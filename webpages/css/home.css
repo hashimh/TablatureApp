@@ -1231,3 +1231,16 @@ textarea {
     -webkit-transform: rotate(360deg);
   }
 }
+
+/* confirm modal */
+.confirm-modal-content {
+  margin: 18vw auto;
+  width: 20%;
+  height: max-content;
+}
+.confirm-modal-content h4 {
+  text-decoration: none;
+}
+.confirm-buttons {
+  display: flex;
+}

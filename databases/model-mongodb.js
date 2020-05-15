@@ -229,7 +229,17 @@ function saveTab(
   });
 }
 
-function updateTab(id, email, song, artist, genre, types, staves) {
+function updateTab(
+  id,
+  username,
+  email,
+  song,
+  artist,
+  genre,
+  types,
+  subtypes,
+  staves
+) {
   let o_id = new ObjectId(id);
   console.log(o_id);
   MongoClient.connect(url, function (err, db) {
@@ -244,6 +254,7 @@ function updateTab(id, email, song, artist, genre, types, staves) {
           artist_name: artist,
           genre: genre,
           stave_types: types,
+          stave_subtypes: subtypes,
           stave_content: staves,
         },
       },
@@ -259,8 +270,9 @@ function deleteTab(id) {
     if (err) throw err;
     const dbo = db.db("heroku_2k42nnmn");
 
-    dbo.collection("tabs").remove({ _id: o_id });
+    dbo.collection("tabs").deleteOne({ _id: o_id });
     db.close();
+    return "deleted";
   });
 }
 

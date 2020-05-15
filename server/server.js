@@ -45,8 +45,8 @@ app.get("/api/getMyTabsMetadata", authenticateToken, getMyTabsMetadata);
 
 app.post("/api/saveChord", authenticateToken, saveChord);
 app.post("/api/saveTab", authenticateToken, saveTab);
-app.post("/api/updateTab", updateTab);
-app.post("/api/deleteTab", deleteTab);
+app.post("/api/updateTab", authenticateToken, updateTab);
+app.post("/api/deleteTab", authenticateToken, deleteTab);
 app.post("/api/updateChord", authenticateToken, updateChord);
 app.post("/api/deleteChord", deleteChord);
 
@@ -264,18 +264,20 @@ async function saveTab(req, res) {
 async function updateTab(req, res) {
   const retval = await db.updateTab(
     req.query._id,
-    req.user.emails[0].value,
+    req.user.name,
+    req.user.email,
     req.query.song_name,
     req.query.artist_name,
     req.query.genre,
     req.query.stave_types,
+    req.query.stave_subtypes,
     req.query.stave_content
   );
   res.json(retval);
 }
 
 async function deleteTab(req, res) {
-  const retval = await db.deleteTab(req.query._id);
+  const retval = await db.deleteTab(req.query.id);
   res.json(retval);
 }
 

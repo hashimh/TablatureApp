@@ -1215,11 +1215,11 @@
         <h4>song information</h4>
         <div class="save-block">
           <p class="save-label">song name</p>
-          <input type="text" class="save-input" id="song-name">
+          <input type="text" class="save-input" id="song-name" autocomplete="new-password">
         </div>
         <div class="save-block">
           <p class="save-label">artist</p>
-          <input type="text" class="save-input" id="song-artist">
+          <input type="text" class="save-input" id="song-artist" autocomplete="new-password">
         </div>
         <div class="save-block">
           <p class="save-label">genre</p>
@@ -1242,9 +1242,19 @@
         <div class="export-btns">
           <!-- <button class="btn-large" onclick="emailTab()">send via email</button> -->
           <button class="btn-large" onclick="downloadTab()">download as .txt</button>
-          <button class="btn-large" onclick="saveTabToDb()">upload to site</button>
+          <button id="upload-btn" class="btn-large" onclick="saveTabToDb()">upload to site</button>
         </div>
         <p id="exportMsg"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="confirm-modal">
+    <div class="modal-content confirm-modal-content" id="comfirm-modal-content-id" >
+      <h4 id="confirm-title">are you sure you want to delete this tab?</h4>
+      <div class="confirm-buttons">
+        <button id="confirm-yes">yes</button>
+        <button id="confirm-no">no</button>
       </div>
     </div>
   </div>
