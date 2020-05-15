@@ -2892,57 +2892,6 @@ async function createChord() {
 // Code for the 'viewtabs.html' form
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to go to viewtab.html form ----------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// async function viewTabBtn() {
-//   // Call server function 'createTabBtn'
-//   let apiLink = "/api/viewTabBtn";
-//   await getPage(apiLink);
-
-//   populateMain2();
-// }
-
-// var tabInfo;
-// async function populateMain2() {
-//   // Get user's name for nav bar
-//   const el = document.getElementById("greeting2");
-//   el.textContent = " - Hello " + localStorage.getItem("googleUser");
-
-//   // Remove potential pre-existing results
-//   let div = document.getElementById("selectedContent");
-//   while (div.hasChildNodes()) {
-//     div.removeChild(div.firstChild);
-//   }
-
-//   // Get tablature information from the database
-//   tabInfo = await getTabs("all");
-//   populateTable(tabInfo);
-// }
-
-// ----------------------------------------------------------------------------------------------- //
-// Function to change whose tabs are displayed to user ------------------------------------------- //
-// ----------------------------------------------------------------------------------------------- //
-// async function showWhichTabsChange() {
-//   // let myTabInfo;
-//   let menu = document.getElementsByClassName("showWhichTabs")[0];
-//   let newVal = menu.options[menu.selectedIndex].value;
-
-//   if (newVal == "allTabs") {
-//     // show all aka insert tabInfo into table
-//     tabInfo = await getTabs("all");
-//     populateTable(tabInfo);
-//   } else if (newVal == "myTabs") {
-//     // show all of users tabs
-//     tabInfo = await getTabs("myTabs");
-//     populateTable(tabInfo);
-//   } else {
-//     // don't show users tabs
-//     tabInfo = await getTabs("otherTabs");
-//     populateTable(tabInfo);
-//   }
-// }
-
-// ----------------------------------------------------------------------------------------------- //
 // Function to search all tabs by name, artist and genre ----------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function searchByName() {
@@ -2959,77 +2908,6 @@ function searchByArtist() {
     return el.artist_name.includes(search);
   });
   populateTable(newTabInfo);
-}
-// ------------------------------------------ DELETE -----------------------======================
-async function editTabOld(data) {
-  // Take user to 'create tablature' page, with data
-  let apiLink = "/api/createTabBtn";
-  await getPage(apiLink);
-
-  // Now, fill in the page with all information
-  // - Add staves to dropdown menu
-  let staves = data[0].stave_types.split(",");
-  let staveDropdown = document.getElementById("selectStave");
-  let rawContent = data[0].stave_content.split(",");
-  let tabContent = document.getElementById("tabcontent");
-
-  for (let i = 0; i < staves.length; i++) {
-    let staveOption = document.createElement("option");
-    staveOption.value = i + 1;
-    staveOption.innerHTML = "Stave " + (i + 1);
-    staveDropdown.append(staveOption);
-
-    // - For each stave group in data
-    //      - run createStave
-    //      - fill in with information
-    //      - OR... Just fill it out now
-
-    let div = document.createElement("div");
-    div.setAttribute("id", i + 1);
-    div.setAttribute("class", "stave");
-    tabContent.append(div);
-
-    let h3 = document.createElement("h3");
-    h3.innerHTML = "Stave " + (i + 1) + ": " + staves[i];
-    h3.setAttribute("id", i + 1 + staves[i]);
-    div.append(h3);
-
-    let textArea = document.createElement("textarea");
-    textArea.setAttribute("id", "stave" + (i + 1));
-    textArea.setAttribute("name", "stave");
-    textArea.setAttribute("rows", "6");
-    textArea.setAttribute("cols", "100");
-    textArea.setAttribute("wrap", "off");
-    textArea.value = "\n\n\n\n\n";
-
-    let textAreaLines = textArea.value.split("\n");
-    let content = rawContent[i].split("\n");
-
-    for (let j = 0; j < content.length; j++) {
-      textAreaLines[j] = content[j];
-    }
-
-    textArea.value = textAreaLines.join("\n");
-    div.append(textArea);
-    tabContent.append(div);
-  }
-  fretBoard();
-  chordFretboard();
-
-  let songName = data[0].song_name;
-  let artistName = data[0].artist_name;
-  let genre = data[0].genre;
-
-  // Override save button to send pre-saved metadata to modal
-
-  document.getElementById("saveTabBtn").addEventListener("click", function () {
-    document.getElementById("songName").value = songName;
-    document.getElementById("artistName").value = artistName;
-    document.getElementById("genreSelect").value = genre;
-  });
-
-  editedTab = true;
-  editedTabId = data[0]._id;
 }
 
 // Function to reset search criteria
