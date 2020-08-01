@@ -89,10 +89,15 @@ async function signOut() {
   if (localStorage.length > 0) {
     localStorage.clear();
   }
+
+  // if tab list view was on "my tabs", switch back to all tabs
+  if (document.getElementById("switch-view").value == "show all tabs") {
+    switchView();
+  }
+
   // replace the signedin div with signin div
   let signInDiv = document.getElementById("loginboxsignin");
   let signedInDiv = document.getElementById("loginboxsignedin");
-  let welcome = document.getElementById("welcome");
   signedInDiv.style.display = "none";
   signInDiv.style.display = "block";
   signInDiv.style.visibility = "visible";
