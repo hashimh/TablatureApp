@@ -1244,3 +1244,18 @@ textarea {
 .confirm-buttons {
   display: flex;
 }
+
+/* continue to create tab modal */
+.createtab-modal-content {
+  margin: 18vw auto;
+  width: 30%;
+  height: max-content;
+  text-align: center;
+}
+.createtab-modal-content buttons {
+  display: flex;
+}
+.createtab-modal-content p {
+  margin-top: 0;
+  font-size: 1.4vw;
+}

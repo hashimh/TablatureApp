@@ -20,6 +20,7 @@ var rememberMe = true;
 // on load, check user is saved, and populate list content
 window.onload = async (event) => {
   if (localStorage.length > 0) {
+    signedIn = true;
     isSignedIn();
   } else {
     document.getElementById("loginboxsignin").style.visibility = "visible";
@@ -78,6 +79,7 @@ async function login() {
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", data.username);
     }
+    signedIn = true;
     isSignedIn();
   }
 }
@@ -101,6 +103,8 @@ async function signOut() {
   signedInDiv.style.display = "none";
   signInDiv.style.display = "block";
   signInDiv.style.visibility = "visible";
+
+  signedIn = false;
 }
 // ----------------------------------------------------------------------------------------------- //
 // Function to change content of left hand side -------------------------------------------------- //
@@ -1197,22 +1201,55 @@ async function editTab(data) {
 // Initalise form when create tab button clicked ------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function createTabNew() {
-  let tabcontainer = document.getElementById("tab-container-id");
-  let maincontainer = document.getElementById("main-container-id");
-  let createcontainer = document.getElementById("create-container-id");
-  maincontainer.style.display = "none";
-  tabcontainer.style.display = "none";
-  createcontainer.style.display = "grid";
+  // if the user is not signed in, yes/no continue box
+  if (document.getElementById("loginboxsignin").style.display !== "none") {
+    let validateModal = document.getElementById("createtab-modal");
+    validateModal.style.opacity = "1";
+    validateModal.style.zIndex = "10";
+    document.getElementById("cont-yes").addEventListener("click", function () {
+      validateModal.style.opacity = "0";
+      validateModal.style.zIndex = "-1";
 
-  // if the screen width is too fucking small
-  document.getElementById("loginbox").style.display = "none";
-  document.getElementById("logintext").style.borderLeft = "none";
-  document.getElementById("griddiv").style.display = "block";
+      let tabcontainer = document.getElementById("tab-container-id");
+      let maincontainer = document.getElementById("main-container-id");
+      let createcontainer = document.getElementById("create-container-id");
+      maincontainer.style.display = "none";
+      tabcontainer.style.display = "none";
+      createcontainer.style.display = "grid";
 
-  // clear staves if they exist
+      // if the screen width is too fucking small
+      document.getElementById("loginbox").style.display = "none";
+      document.getElementById("logintext").style.borderLeft = "none";
+      document.getElementById("griddiv").style.display = "block";
 
-  fretBoard();
-  chordFretboard();
+      // clear staves if they exist
+
+      fretBoard();
+      chordFretboard();
+    });
+    document.getElementById("cont-no").addEventListener("click", function () {
+      validateModal.style.opacity = "0";
+      validateModal.style.zIndex = "-1";
+      return;
+    });
+  } else {
+    let tabcontainer = document.getElementById("tab-container-id");
+    let maincontainer = document.getElementById("main-container-id");
+    let createcontainer = document.getElementById("create-container-id");
+    maincontainer.style.display = "none";
+    tabcontainer.style.display = "none";
+    createcontainer.style.display = "grid";
+
+    // if the screen width is too fucking small
+    document.getElementById("loginbox").style.display = "none";
+    document.getElementById("logintext").style.borderLeft = "none";
+    document.getElementById("griddiv").style.display = "block";
+
+    // clear staves if they exist
+
+    fretBoard();
+    chordFretboard();
+  }
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -1314,10 +1351,14 @@ function saveTab() {
     // add error message display here -------------------------------------------------------
     return;
   }
-  // then, check if the user is signed in ------------------------------------------
 
   saveModal.style.opacity = "1";
   saveModal.style.zIndex = "10";
+
+  // then, check if the user is signed in ------------------------------------------
+  if (signedIn == false) {
+    document.getElementById("upload-btn").setAttribute("disabled", true);
+  }
 
   let closespan = document.getElementById("save-span");
   closespan.onclick = function () {
