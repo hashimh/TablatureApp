@@ -85,7 +85,7 @@ async function login() {
 // ----------------------------------------------------------------------------------------------- //
 // Sign out function ----------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-function signOut() {
+async function signOut() {
   if (localStorage.length > 0) {
     localStorage.clear();
   }
@@ -426,6 +426,37 @@ async function registerAccount() {
 async function switchView() {
   let viewBtn = document.getElementById("switch-view");
   let viewValue = viewBtn.value;
+
+  // reset search bar
+  let searchbar = document.getElementById("searchbar");
+  searchbar.value = "";
+
+  // reset genre
+  let genreselectdiv = document.getElementById("custom-genre-select");
+  let genreselectdiv2 = genreselectdiv.getElementsByClassName(
+    "select-items"
+  )[0];
+  let genreselectchildren = genreselectdiv2.childNodes;
+  for (let i = 0; i < genreselectchildren.length; i++) {
+    genreselectchildren[i].removeAttribute("class");
+    genreselectchildren[0].setAttribute("class", "same-as-selected");
+  }
+  document.getElementsByClassName("select-selected")[1].innerHTML =
+    "all genres";
+  document.getElementById("search-select").selectedIndex = 0;
+
+  // reset sort
+  let sortbydiv = document.getElementById("sort-by-select");
+  let sortbydiv2 = sortbydiv.getElementsByClassName("select-items")[0];
+  let sortbychildren = sortbydiv2.childNodes;
+  for (let j = 0; j < sortbychildren.length; j++) {
+    sortbychildren[i].removeAttribute("class");
+    sortbychildren[0].setAttribute("class", "same-as-selected");
+  }
+  document.getElementsByClassName("select-selected")[0].innerHTML =
+    "most recent";
+  document.getElementById("sort-by-select").selectedIndex = 0;
+
   if (viewValue == "show my tabs") {
     viewBtn.value = "show all tabs";
 
@@ -477,6 +508,18 @@ async function switchView() {
     }
   } else {
     viewBtn.value = "show my tabs";
+
+    // add loading to content area until things loaded
+    // remove all children of content
+    let contentArea = document.getElementById("view-contents-id");
+    while (contentArea.hasChildNodes()) {
+      contentArea.removeChild(contentArea.firstChild);
+    }
+    let loader = document.createElement("div");
+    loader.setAttribute("class", "loader");
+    contentArea.appendChild(loader);
+
+    tabInfo = await getTabs("all");
     populateTable(tabInfo);
     addFilterListeners(tabInfo);
   }
@@ -530,13 +573,7 @@ function populateTable(tabInfo) {
     let symbol = document.createElement("i");
     listElemSymbol.setAttribute("class", "li-symbol");
 
-    // if tablature is by the current user, display a different symbol
-    let curUser = localStorage.getItem("user");
-    if (tabInfo[i].username == curUser) {
-      symbol.setAttribute("class", "fa fa-pencil");
-    } else {
-      symbol.setAttribute("class", "fa fa-plus");
-    }
+    symbol.setAttribute("class", "fa fa-plus");
 
     symbol.setAttribute("aria-hidden", "true");
     listElemSymbol.appendChild(symbol);
