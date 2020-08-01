@@ -2084,6 +2084,14 @@ function addStave() {
   h3.setAttribute("id", id + type);
   div.append(h3);
 
+  let delSpan = document.createElement("button");
+  delSpan.innerHTML = "delete";
+  div.append(delSpan);
+
+  delSpan.addEventListener("click", function () {
+    deleteStave2(id);
+  });
+
   // create a div to contain all of a staves textareas:
   let textareacontainer = document.createElement("div");
   textareacontainer.setAttribute("id", "div_" + staveid);
@@ -2162,38 +2170,18 @@ function createTextarea(id, sectionCount) {
 // ----------------------------------------------------------------------------------------------- //
 // Function to delete the selected stave --------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
-function deleteStave() {
+function deleteStave2(id) {
+  console.log(id);
+  let tabcontent = document.getElementById("tabcontent");
+  let deleteme = document.getElementById(id);
+  tabcontent.removeChild(deleteme);
+
+  // Remove Stave from dropdown menu
+  let staveDropdown = document.getElementById("selectStave");
+  staveDropdown.remove(staveDropdown.selectedIndex);
+
   let selectedStaveMenu = document.getElementById("selectStave");
-
-  // If no staves yet created, output error message
   if (selectedStaveMenu.options.length <= 0) {
-    alert("No Stave selected");
-    return;
-  }
-  let selectedStave =
-    selectedStaveMenu.options[selectedStaveMenu.selectedIndex].value; // Outputs Int
-  // Function to delete an individual stave
-  // Search for child with id of selected, and remove child
-  if (confirm("Are you sure you want to delete Stave " + selectedStave + "?")) {
-    // Selects are removes Stave 'div' element
-    let textarea = document.getElementById(selectedStave);
-    textarea.parentNode.removeChild(textarea);
-
-    // Remove Stave from dropdown menu
-    let staveDropdown = document.getElementById("selectStave");
-    staveDropdown.remove(staveDropdown.selectedIndex);
-  }
-
-  if (selectedStaveMenu.options.length <= 0) {
-    // enable tuning dropdown lists if no staves are left.
-    document.getElementById("tuningDropdown1").disabled = false;
-    document.getElementById("tuningDropdown2").disabled = false;
-    document.getElementById("tuningDropdown3").disabled = false;
-    document.getElementById("tuningDropdown4").disabled = false;
-    document.getElementById("tuningDropdown5").disabled = false;
-    document.getElementById("tuningDropdown6").disabled = false;
-
-    let tabcontent = document.getElementById("tabcontent");
     let tempmessage = document.createElement("p");
     tempmessage.innerHTML =
       "No content... Please create a stave with the button above";
