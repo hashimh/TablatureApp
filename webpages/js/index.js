@@ -2267,9 +2267,33 @@ function updateTuning(el) {
   }
 }
 
+function updateBpm(val) {
+  document.getElementById("bpm-text").value = val;
+}
+
+function stopAudio() {
+  let playIcon = document.getElementById("play-btn");
+  let stopIcon = document.getElementById("stop-btn");
+  playIcon.style.color = "black";
+  playing = false;
+  stopIcon.style.color = "#a974dd";
+  setTimeout(() => {
+    stopIcon.style.color = "black";
+  }, 500);
+}
+
+let playing = true;
 // AUDIO FUNCTIONS FOR TABLATURE
 async function playAudio() {
-  let cancel = false;
+  playing = true;
+  // calculate sleep time based on input bpm
+  let bpm = parseInt(document.getElementById("bpm-text").value);
+  let sleepTime = 60000 / bpm / 2;
+
+  // while playing, change colour of icon and prevent clicking
+  let playIcon = document.getElementById("play-btn");
+  playIcon.style.color = "#a974dd";
+  playIcon.setAttribute("click", "");
   // this function will play the audio of all staves created
   // first, a 'do for each' for each stave
   //      then, a do for each for each of the 6 lines, changing
@@ -2311,7 +2335,11 @@ async function playAudio() {
                     CSS.escape(data_fret) +
                     "]"
                 )[0];
-                await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
+                if (playing == true) {
+                  await new Audio(
+                    "js/audio/" + div.dataset.note + ".mp3"
+                  ).play();
+                }
               } else {
                 data_fret = textAreaLines[j][k];
                 console.log(data_fret);
@@ -2322,14 +2350,18 @@ async function playAudio() {
                     CSS.escape(data_fret) +
                     "]"
                 )[0];
-                await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
+                if (playing == true) {
+                  await new Audio(
+                    "js/audio/" + div.dataset.note + ".mp3"
+                  ).play();
+                }
                 k = k - 1;
               }
             }
           }
           // empty gap for blank rows
           // 300 -> 100bpm
-          sleep(300);
+          sleep(sleepTime);
         }
       } else {
         // Stave type is not lead - rhythm
@@ -2346,15 +2378,21 @@ async function playAudio() {
                   CSS.escape(data_fret) +
                   "]"
               )[0];
-              await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
+              if (playing == true) {
+                await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
+              }
             }
           }
           // 300 -> 100bpm
-          sleep(300);
+          sleep(sleepTime);
         }
       }
     }
   }
+  playIcon.style.color = "black";
+  playIcon.setAttribute("click", function () {
+    playAudio();
+  });
 }
 
 // ----------------------------------------------------------------------------------------------- //

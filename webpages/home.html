@@ -1135,10 +1135,13 @@
           <div class="audio">
             <h4 class="nogaph4">audio playback</h4>
             <div class="audio-btns">
-              <i class="fa fa-play fa-2x" aria-hidden="true" style="margin-right: 2vw;" onclick="playAudio()"></i>
-              <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
-              <i id="audio-stop" class="fa fa-stop fa-2x" aria-hidden="true" style="margin-left: 2vw;"></i>
-            </div>
+              <i id="play-btn" class="fa fa-play fa-2x" aria-hidden="true" onclick="playAudio()" style="margin-right: 1vw;"></i>
+              <i id="stop-btn" class="fa fa-stop fa-2x" aria-hidden="true" style="margin-left: 1vw;" onclick="stopAudio()"></i>
+
+              <label style="margin-left: 1vw">bpm:</label>
+              <input id="bpm-text" type="text" id="bpmText" value="100" readonly>
+              <input class = "slider" id = "myRange" type="range" name="bpmInput" min="40" max="240" oninput="updateBpm(this.value)" value=100>
+            </div>+
 
           </div>
 
