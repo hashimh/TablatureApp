@@ -1785,6 +1785,7 @@ function textareaChange(chars) {
 
     let staveDropdown = document.getElementById("selectStave");
     let staveOption = document.createElement("option");
+    staveOption.setAttribute("data-stave", rawdivid);
     staveOption.value = rawdivid + "_" + (staveSectionCount + 1);
     staveOption.innerHTML = "Stave " + rawdivid + "." + (staveSectionCount + 1);
 
@@ -2116,6 +2117,7 @@ function addStave() {
   // Add new stave to dropdown option box //
   let staveDropdown = document.getElementById("selectStave");
   let staveOption = document.createElement("option");
+  staveOption.setAttribute("data-stave", id);
   staveOption.value = id + "_" + staveSectionCount;
   staveOption.innerHTML = "Stave " + id + "." + staveSectionCount;
 
@@ -2188,26 +2190,24 @@ function deleteStave2(id) {
   let deleteme = document.getElementById(id);
   tabcontent.removeChild(deleteme);
 
-  // debugging
-  let staves = document.getElementsByClassName("stave");
-  console.log(staves, staves.length);
-
   // Remove Stave from dropdown menu - use id
   // delete all dropdown options with
   let staveDropdown = document.getElementById("selectStave");
+  console.log(staveDropdown);
   for (let i = 0; i < staveDropdown.length; i++) {
-    if (staveDropdown[i].value.indexOf(strId) == 0) {
+    if (staveDropdown[i].dataset.stave == id) {
       staveDropdown.remove(i);
+      i--;
     }
+  }
 
-    let selectedStaveMenu = document.getElementById("selectStave");
-    if (selectedStaveMenu.options.length <= 0) {
-      let tempmessage = document.createElement("p");
-      tempmessage.innerHTML =
-        "No content... Please create a stave with the button above";
-      tempmessage.setAttribute("id", "tempmessage");
-      tabcontent.append(tempmessage);
-    }
+  let selectedStaveMenu = document.getElementById("selectStave");
+  if (selectedStaveMenu.options.length <= 0) {
+    let tempmessage = document.createElement("p");
+    tempmessage.innerHTML =
+      "No content... Please create a stave with the button above";
+    tempmessage.setAttribute("id", "tempmessage");
+    tabcontent.append(tempmessage);
   }
 }
 
