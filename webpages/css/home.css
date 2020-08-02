@@ -817,6 +817,13 @@ div.fretStringLegend {
   grid-area: audio;
   margin: 1vw;
 }
+
+.audio-btns {
+  text-align: center;
+}
+.audio-btns i:hover {
+  cursor: pointer;
+}
 .chords-options {
   display: grid;
   grid-template-rows: max-content;

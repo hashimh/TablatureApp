@@ -2212,50 +2212,6 @@ function deleteStave2(id) {
 }
 
 // ----------------------------------------------------------------------------------------------- //
-// Function to clear the form of all staves ------------------------------------------------------ //
-// ----------------------------------------------------------------------------------------------- //
-function clearAllStaves() {
-  let tabcontent = document.getElementById("tabcontent");
-  let allStaves = tabcontent.childNodes;
-
-  let selectedStaveMenu = document.getElementById("selectStave");
-  // If no staves yet created, output error message
-  if (selectedStaveMenu.options.length <= 0) {
-    alert("No staves created");
-    return;
-  } else {
-    if (confirm("Are you sure you want to reset all staves?")) {
-      while (tabcontent.firstChild) {
-        tabcontent.removeChild(tabcontent.firstChild);
-      }
-      // REMOVE STAVES FROM DROPDOWN MENU
-      let staveDropdown = document.getElementById("selectStave");
-      let dropdownLength = staveDropdown.options.length;
-      for (let i = 0; i < dropdownLength; i++) {
-        staveDropdown.remove(i);
-        staveDropdown.remove(staveDropdown.selectedIndex);
-      }
-      // add text back to no stave area
-      let tempmessage = document.createElement("p");
-      tempmessage.innerHTML =
-        "No content... Please create a stave with the button above";
-      tempmessage.setAttribute("id", "tempmessage");
-      tabcontent.append(tempmessage);
-    } else {
-      // Do nothing
-      return;
-    }
-  }
-
-  document.getElementById("tuningDropdown1").disabled = false;
-  document.getElementById("tuningDropdown2").disabled = false;
-  document.getElementById("tuningDropdown3").disabled = false;
-  document.getElementById("tuningDropdown4").disabled = false;
-  document.getElementById("tuningDropdown5").disabled = false;
-  document.getElementById("tuningDropdown6").disabled = false;
-}
-
-// ----------------------------------------------------------------------------------------------- //
 // Function to insert blank spaces into selected tablature --------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function insertBlanks() {
@@ -2313,12 +2269,19 @@ function updateTuning(el) {
 
 // AUDIO FUNCTIONS FOR TABLATURE
 async function playAudio() {
+  let cancel = false;
   // this function will play the audio of all staves created
   // first, a 'do for each' for each stave
   //      then, a do for each for each of the 6 lines, changing
   //      start position to first number (after E4  |--)
   //
   //      read each line simultaneously, and play appropriate notes for the tablature
+
+  // add stop button event listener
+  // document
+  //   .getElementById("audio-stop")
+  //   .addEventListener("click", function () {});
+
   let tabcontent = document.getElementById("tabcontent");
   let allStaves = tabcontent.childNodes;
   let textAreas = document.getElementsByTagName("textarea");
@@ -2365,7 +2328,8 @@ async function playAudio() {
             }
           }
           // empty gap for blank rows
-          sleep(200);
+          // 300 -> 100bpm
+          sleep(300);
         }
       } else {
         // Stave type is not lead - rhythm
@@ -2385,7 +2349,8 @@ async function playAudio() {
               await new Audio("js/audio/" + div.dataset.note + ".mp3").play();
             }
           }
-          sleep(200);
+          // 300 -> 100bpm
+          sleep(300);
         }
       }
     }
