@@ -1305,3 +1305,15 @@ textarea {
   margin-top: 0;
   font-size: 1.4vw;
 }
+
+/* alert message modal */
+.alert-msg-modal-content {
+  background-color: #ff6961;
+  margin: 1vw auto;
+  width: 20%;
+  text-align: center;
+}
+.alert-msg-modal-content p {
+  font-size: 1.4vw;
+  margin: 0;
+}

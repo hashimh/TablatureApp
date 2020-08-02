@@ -1348,7 +1348,16 @@ function saveTab() {
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
   if (selectedStaveMenu.options.length <= 0) {
-    // add error message display here -------------------------------------------------------
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Nothing to save...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   }
 
@@ -1414,7 +1423,16 @@ async function saveTabToDb() {
   // first, check if at least 1 stave exists, with at least 1 column of entries
   let selectedStaveMenu = document.getElementById("selectStave");
   if (selectedStaveMenu.options.length <= 0) {
-    alert("Nothing to save!");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Nothing to save...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   }
 
@@ -1428,10 +1446,29 @@ async function saveTabToDb() {
 
     // song name and artist name validation
     if (songName.length <= 0) {
-      alert("Please enter a valid song name.");
+      let errAlert = document.getElementById("alert-msg-modal");
+      document.getElementById("alert-message").innerHTML =
+        "Alert: Enter a song name...";
+      errAlert.style.opacity = "1";
+      errAlert.style.zIndex = "10";
+      setTimeout(() => {
+        document.getElementById("alert-message").innerHTML = "";
+        errAlert.style.opacity = "0";
+        errAlert.style.zIndex = "-1";
+      }, 1500);
       return;
     } else if (artistName.length <= 0) {
-      alert("Please enter a valid artist name.");
+      let errAlert = document.getElementById("alert-msg-modal");
+      document.getElementById("alert-message").innerHTML =
+        "Alert: Enter artist name...";
+      errAlert.style.opacity = "1";
+      errAlert.style.zIndex = "10";
+      setTimeout(() => {
+        document.getElementById("alert-message").innerHTML = "";
+        errAlert.style.opacity = "0";
+        errAlert.style.zIndex = "-1";
+      }, 1500);
+      return;
     }
 
     // Now, save the stave contents into variables
@@ -1755,13 +1792,13 @@ var symbolString;
 var symbolFret;
 var oldOption;
 
+// ------------------------------------------------------------------------------------------------
 function checkStave() {
   // get stave that has been selected, if its length is 95 >, alert error, do not change.
   let selectedStaveMenu = document.getElementById("selectStave");
   let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
   let textarea = document.getElementById("stave" + selectedStave);
   if (textarea.value.length > 565) {
-    alert("this is too full, not gonna change it.");
     selectedStaveMenu.value = oldOption;
   } else {
     oldOption = selectedStaveMenu.value;
@@ -1850,7 +1887,16 @@ async function fretBoard() {
       if (symbolInserted == true && symbolString > -1 && symbolFret > -1) {
         // handle rules with symbols to ensure they are used correctly
         if (string != symbolString) {
-          alert("invalid fret");
+          let errAlert = document.getElementById("alert-msg-modal");
+          document.getElementById("alert-message").innerHTML =
+            "Alert: This will break the symbols rules...";
+          errAlert.style.opacity = "1";
+          errAlert.style.zIndex = "10";
+          setTimeout(() => {
+            document.getElementById("alert-message").innerHTML = "";
+            errAlert.style.opacity = "0";
+            errAlert.style.zIndex = "-1";
+          }, 1500);
           return;
         } else {
           symbolInserted = false;
@@ -2222,7 +2268,16 @@ function insertBlanks() {
   // Check stave exists
   let selectedStaveMenu = document.getElementById("selectStave");
   if (selectedStaveMenu.options.length <= 0) {
-    alert("Please create a stave to edit!");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: No staves created...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   }
   let selectedStave = selectedStaveMenu[selectedStaveMenu.selectedIndex].value;
@@ -2282,7 +2337,7 @@ function stopAudio() {
   }, 500);
 }
 
-let playing = true;
+let playing;
 // AUDIO FUNCTIONS FOR TABLATURE
 async function playAudio() {
   playing = true;
@@ -2422,7 +2477,18 @@ function selectChord() {
     selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
   if (selectedStaveMenu.options.length <= 0) {
-    alert("No stave created!");
+    // ------------------------------------------------------------------------------------------- //
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: No stave selected...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
+
     return;
   }
 
@@ -2478,7 +2544,16 @@ async function selectMyChord() {
     selectedChordMenu.options[selectedChordMenu.selectedIndex].value;
 
   if (selectedStaveMenu.options.length <= 0) {
-    alert("No stave created!");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: No stave selected...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   }
 
@@ -2636,7 +2711,16 @@ async function editChord() {
       editedChordId = "";
       editedOldName = "";
 
-      alert("Chord deleted.");
+      let errAlert = document.getElementById("alert-msg-modal");
+      document.getElementById("alert-message").innerHTML =
+        "Note: Chord created...";
+      errAlert.style.opacity = "1";
+      errAlert.style.zIndex = "10";
+      setTimeout(() => {
+        document.getElementById("alert-message").innerHTML = "";
+        errAlert.style.opacity = "0";
+        errAlert.style.zIndex = "-1";
+      }, 1500);
     }
   };
   let btnDiv = document.getElementsByClassName("chordcreation")[0];
@@ -2799,28 +2883,91 @@ async function createChord() {
     .getElementsByClassName("fret2Selected")[0];
 
   if (stringRow0Selected == undefined) {
-    alert("please select a fret for string 0");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else if (stringRow1Selected == undefined) {
-    alert("please select a fret for string 1");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else if (stringRow2Selected == undefined) {
-    alert("please select a fret for string 2");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else if (stringRow3Selected == undefined) {
-    alert("please select a fret for string 3");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else if (stringRow4Selected == undefined) {
-    alert("please select a fret for string 4");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else if (stringRow5Selected == undefined) {
-    alert("please select a fret for string 5");
+    let errAlert = document.getElementById("alert-msg-modal");
+    document.getElementById("alert-message").innerHTML =
+      "Alert: Missing entries for chord creation...";
+    errAlert.style.opacity = "1";
+    errAlert.style.zIndex = "10";
+    setTimeout(() => {
+      document.getElementById("alert-message").innerHTML = "";
+      errAlert.style.opacity = "0";
+      errAlert.style.zIndex = "-1";
+    }, 1500);
     return;
   } else {
     // if all strings contain a selected fret
     let chName = document.getElementById("chName").value;
     if (chName.length < 1) {
-      alert("please enter a valid chord name");
+      let errAlert = document.getElementById("alert-msg-modal");
+      document.getElementById("alert-message").innerHTML =
+        "Alert: Please enter a chord name...";
+      errAlert.style.opacity = "1";
+      errAlert.style.zIndex = "10";
+      setTimeout(() => {
+        document.getElementById("alert-message").innerHTML = "";
+        errAlert.style.opacity = "0";
+        errAlert.style.zIndex = "-1";
+      }, 1500);
       return;
     } else {
       // if all strings contain selected fret AND has a valid name
