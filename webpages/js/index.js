@@ -2070,7 +2070,19 @@ function addStave() {
   let staveType = document.getElementById("selectStaveType");
   let type = staveType.options[staveType.selectedIndex].value;
 
-  const id = staves.length + 1;
+  // get previous stave id
+  console.log(staves, staves.length);
+  let id = 0;
+  if (tabcontent.getElementsByTagName("div").length < 1) {
+    id = staves.length + 1;
+  } else {
+    // get previous stave id
+    let prevStave = staves[staves.length - 1];
+    console.log(prevStave);
+    id = parseInt(prevStave.id) + 1;
+  }
+
+  // const id = staves.length + 1;
   const staveid = "stave" + id;
 
   // Append a new stave - h3, textarea //
@@ -2171,22 +2183,31 @@ function createTextarea(id, sectionCount) {
 // Function to delete the selected stave --------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 function deleteStave2(id) {
-  console.log(id);
+  let strId = id.toString();
   let tabcontent = document.getElementById("tabcontent");
   let deleteme = document.getElementById(id);
   tabcontent.removeChild(deleteme);
 
-  // Remove Stave from dropdown menu
-  let staveDropdown = document.getElementById("selectStave");
-  staveDropdown.remove(staveDropdown.selectedIndex);
+  // debugging
+  let staves = document.getElementsByClassName("stave");
+  console.log(staves, staves.length);
 
-  let selectedStaveMenu = document.getElementById("selectStave");
-  if (selectedStaveMenu.options.length <= 0) {
-    let tempmessage = document.createElement("p");
-    tempmessage.innerHTML =
-      "No content... Please create a stave with the button above";
-    tempmessage.setAttribute("id", "tempmessage");
-    tabcontent.append(tempmessage);
+  // Remove Stave from dropdown menu - use id
+  // delete all dropdown options with
+  let staveDropdown = document.getElementById("selectStave");
+  for (let i = 0; i < staveDropdown.length; i++) {
+    if (staveDropdown[i].value.indexOf(strId) == 0) {
+      staveDropdown.remove(i);
+    }
+
+    let selectedStaveMenu = document.getElementById("selectStave");
+    if (selectedStaveMenu.options.length <= 0) {
+      let tempmessage = document.createElement("p");
+      tempmessage.innerHTML =
+        "No content... Please create a stave with the button above";
+      tempmessage.setAttribute("id", "tempmessage");
+      tabcontent.append(tempmessage);
+    }
   }
 }
 
