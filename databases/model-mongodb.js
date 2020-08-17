@@ -10,7 +10,7 @@ const MongoClient = require("mongodb").MongoClient;
 const url = process.env.MONGO_URI;
 MongoClient.connect(url, function (err, db) {
   if (err) throw err;
-  const dbo = db.db("tabdb");
+  const dbo = db.db("tab-app-db");
   console.log("Connected to database");
 });
 process.on("unhandledRejection", console.error);
