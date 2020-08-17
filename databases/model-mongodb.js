@@ -7,15 +7,12 @@ const ObjectId = require("mongodb").ObjectId;
 
 // Create object, specify connection URL
 const MongoClient = require("mongodb").MongoClient;
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
-
-// Initialise Tabify database in MongoDB
+const url = process.env.MONGO_URI;
 MongoClient.connect(url, function (err, db) {
   if (err) throw err;
-  const dbo = db.db("heroku_2k42nnmn");
+  const dbo = db.db("tabdb");
   console.log("Connected to database");
 });
-
 process.on("unhandledRejection", console.error);
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------- //
