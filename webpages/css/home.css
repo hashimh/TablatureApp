@@ -1343,9 +1343,6 @@ textarea {
 /* MEDIA QUERY FOR SMALL LAPTOP SCREENS */
 @media screen and (max-height: 768px) {
   /* Laptop */
-  body {
-    background-color: #ff6961;
-  }
 
   /* LEFT HAND SIDE CODE */
 
