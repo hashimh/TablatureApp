@@ -240,9 +240,16 @@ input[type="checkbox"]:checked + label:before {
   text-align: center;
   height: 41vh;
 }
+.left-txt {
+  font-size: 1vw;
+}
+
+#about-btn {
+  margin-top: 3.5vh;
+}
+
 #create-btn {
   margin-top: 3.5vh;
-  margin-bottom: 2vw;
 }
 
 #create-account-btn {
