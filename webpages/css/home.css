@@ -746,7 +746,7 @@ select:focus {
   grid-row-gap: 16px;
   grid-template-columns: 27fr 10fr 10fr;
   grid-template-areas: "fretboard fretboard fretboard" "tabcontent staveopts chordopts";
-  padding: 0em 4vw 4vw 4vw;
+  padding: 3vw;
   height: 100%;
 }
 
@@ -754,7 +754,7 @@ select:focus {
 div.fretboard {
   margin-left: 5%;
   margin-right: 5%;
-  max-width: 90%;
+  max-width: 84%;
   /* background-image: url(wood.jpg); */
   background-color: #aa715d;
   background-size: 100%;
@@ -1338,4 +1338,73 @@ textarea {
 .alert-msg-modal-content p {
   font-size: 1.4vw;
   margin: 0;
+}
+
+/* MEDIA QUERY FOR SMALL LAPTOP SCREENS */
+@media screen and (max-height: 768px) {
+  /* Laptop */
+  body {
+    background-color: #ff6961;
+  }
+
+  /* LEFT HAND SIDE CODE */
+
+  .sign-in input[type="text"],
+  .sign-in input[type="password"] {
+    font-size: 2vh;
+    padding: 1.5vh;
+    width: 80%;
+    margin-bottom: 2vh;
+  }
+
+  .button,
+  .btn-large {
+    font-size: 2vh;
+    padding: 1.5vh;
+  }
+
+  .login-text {
+    height: 43vh;
+  }
+
+  #login-err {
+    font-size: 2vh;
+    margin: 1vh 1vh 0 1vh;
+  }
+  .left-txt {
+    font-size: 2vh;
+  }
+
+  /* CREATE TAB CODE */
+
+  .create-container {
+    padding: 2vw;
+  }
+  div.fretboard {
+    max-width: 90%;
+  }
+  .tabcontent,
+  .stave-options,
+  .chords-options {
+    max-height: 60vh;
+    font-size: 2vh;
+  }
+  .createStave select,
+  .selectstave select,
+  .spacingblock select,
+  .insertblock select,
+  .presavedChords select,
+  .savedchords select {
+    font-size: 2vh;
+  }
+  .block2 .optionBtn {
+    font-size: 2vh;
+    padding: 1vh;
+  }
+  .gaph4 {
+    margin-top: 2vh;
+  }
+  .chords {
+    margin: 2.2vh 2vh 0 2vh;
+  }
 }
