@@ -39,6 +39,7 @@
         <input id="check" type="checkbox" class="check" checked>
         <label id="check-label" for="check"><span class="icon">keep me signed in</span></label>
         <input type="submit" class="button btn-large" value="sign in" onclick="login()">
+        <button id="create-account-btn" onClick="createAccount();" class="btn-large">create account</button>
         <p id="login-err">&nbsp;</p>
 
       </div>
@@ -53,13 +54,12 @@
 
 
       <div class="login-text" id="moveable-text">
-        <button id="create-account-btn" onClick="createAccount();" class="btn-large">create account</button>
-        <p>create an account to upload tablatures to the site. you can still save your tab as a file without one.</p>
         <button id="create-btn" onClick="createTabNew();" class="btn-large">create tablature</button>
       </div>
 
       <div class="login-footer">
-        <p>some text, maybe an about button</p>
+        <p>create an account to upload to the site</p>
+        <button onclick="testSignIn()">test</button>
       </div>
     </div>
 

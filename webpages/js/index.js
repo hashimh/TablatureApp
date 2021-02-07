@@ -37,6 +37,15 @@ window.onload = async (event) => {
 // ----------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------- //
 
+function testSignIn() {
+  let signInDiv = document.getElementById("loginboxsignin");
+  let signedInDiv = document.getElementById("loginboxsignedin");
+  let welcome = document.getElementById("welcome");
+  signInDiv.style.display = "none";
+  signedInDiv.style.display = "block";
+}
+
+
 // ----------------------------------------------------------------------------------------------- //
 // Sign in function ------------------------------------------------------------------------------ //
 // ----------------------------------------------------------------------------------------------- //

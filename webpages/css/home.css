@@ -47,6 +47,10 @@ body::-webkit-scrollbar-thumb,
   border: none;
   transition: background-color 0.5s linear;
 }
+.btn-large:hover {
+  cursor: pointer;
+  background-color: #a974dd;
+}
 
 /* ----------------------------------------------------------------------------- */
 /* Main Grid Layout CSS */
@@ -130,14 +134,14 @@ body::-webkit-scrollbar-thumb,
 }
 #loginboxsignin {
   border-bottom: 2px solid black;
-  height: 34vh;
+  height: 44vh;
   display: block;
   visibility: hidden;
 }
 
 /* user signed in css */
 #loginboxsignedin {
-  height: 34vh;
+  height: 42.1vh;
   display: none;
   border-bottom: 2px solid black;
 }
@@ -231,17 +235,19 @@ input[type="checkbox"]:checked + label:before {
 
 .login-text {
   position: relative;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin-left: 1.55vw;
+  margin-right: 1.55vw;
   text-align: center;
+  height: 41vh;
 }
 #create-btn {
-  margin-top: 0;
+  margin-top: 3.5vh;
   margin-bottom: 2vw;
 }
 
 #create-account-btn {
-  margin-top: 2vw;
+  margin-top: 3vh;
+  width: 80%;
 }
 .login-text button {
   margin-top: 2vw;
