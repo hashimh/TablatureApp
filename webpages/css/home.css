@@ -170,6 +170,11 @@ body::-webkit-scrollbar-thumb,
 }
 
 /* Login / Sign Up Form CSS */
+
+#signin-user {
+  margin-top: 3.5vh;
+}
+
 .sign-in {
   width: 100%;
   margin-left: auto;
@@ -179,13 +184,13 @@ body::-webkit-scrollbar-thumb,
 }
 .sign-in input[type="text"],
 .sign-in input[type="password"] {
-  font-size: 1.3vw;
-  padding: 1vw;
+  font-size: 1vw;
+  padding: 0.75vw;
   width: 80%;
   margin-bottom: 1vw;
 }
 #check-label {
-  font-size: 1.3vw;
+  font-size: 1vw;
 }
 #check-label:hover {
   cursor: pointer;
@@ -214,8 +219,8 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .button {
-  width: 76%;
-  margin-top: 1vw;
+  width: 80%;
+  margin-top: 2vh;
   font-size: 1.3vw;
   transition: background-color 0.5s linear;
 }
@@ -270,6 +275,10 @@ input[type="checkbox"]:checked + label:before {
 /* ------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------ */
 /* ------------------------------------------------------------------------------ */
+#main-container-id {
+  margin-top: 3.5vh;
+}
+
 .main-container {
   display: grid;
   padding: 0em 4vw 0em 4vw;
