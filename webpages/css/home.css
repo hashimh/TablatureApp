@@ -137,7 +137,7 @@ body::-webkit-scrollbar-thumb,
 
 /* user signed in css */
 #loginboxsignedin {
-  height: 31vh;
+  height: 34vh;
   display: none;
   border-bottom: 2px solid black;
 }
