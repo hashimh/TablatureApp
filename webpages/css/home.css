@@ -130,14 +130,14 @@ body::-webkit-scrollbar-thumb,
 }
 #loginboxsignin {
   border-bottom: 2px solid black;
-  height: 44vh;
+  height: 34vh;
   display: block;
   visibility: hidden;
 }
 
 /* user signed in css */
 #loginboxsignedin {
-  height: 42vh;
+  height: 31vh;
   display: none;
   border-bottom: 2px solid black;
 }
