@@ -319,7 +319,7 @@ input[type="checkbox"]:checked + label:before {
 }
 .tab-container {
   display: none;
-  padding: 0em 4vw 0em 4vw;
+  padding: 2em 4vw 0em 4vw;
   height: 100%;
   grid-template-columns: max-content;
   grid-template-columns: 80fr 25.9fr;
